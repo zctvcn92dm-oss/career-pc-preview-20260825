@@ -1,0 +1,25 @@
+.assessment-page-head{align-items:flex-start}
+.assessment-global-actions{display:flex;align-items:center;gap:9px}
+.assessment-global-actions button{height:36px;border:1px solid #bfe8d4;border-radius:7px;background:#fff;color:var(--deep);padding:0 15px;cursor:pointer}
+.assessment-global-actions button.primary{border-color:var(--green);background:var(--green);color:#fff}
+.assessment-global-actions button:last-child{margin-left:6px;border-color:transparent;background:var(--green);color:#fff}
+.assessment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.assessment-card{min-height:314px;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dce9e5;border-radius:14px;background:#fff;box-shadow:var(--shadow)}
+.assessment-card>header{min-height:70px;padding:16px 20px 12px;border-top:3px solid #2bcdb1;background:linear-gradient(90deg,#effbf7,#fff)}
+.assessment-card>header h2{margin:0;font-size:18px;line-height:1.25}
+.assessment-card>header p{margin:5px 0 0;color:#1cb99f;font-size:12px}
+.assessment-card-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:18px;padding:17px 20px 12px}
+.assessment-copy h3{margin:0 0 8px;font-size:14px}
+.assessment-copy p{margin:0;color:#53645f;font-size:12px;line-height:1.75}
+.assessment-chart{position:relative;width:128px;margin:0;align-self:center;text-align:center;color:#93a09c}
+.assessment-chart svg{display:block;width:116px;height:94px;margin:0 auto}
+.assessment-chart svg+span,.assessment-bar-chart+span{position:absolute;left:50%;top:39px;transform:translate(-50%,-50%);display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:#fff;color:#566ee8;font-size:15px;font-weight:700}
+.assessment-chart small{display:block;margin-top:3px;font-size:9px;font-weight:400}
+.assessment-bar-chart{height:92px;padding:13px 12px;display:flex;flex-direction:column;justify-content:center;gap:7px;border-radius:10px;background:#f3fbf9}
+.assessment-bar-chart i{display:block;height:6px;border-radius:5px;background:linear-gradient(90deg,#7368ec,#24d1b2)}
+.assessment-card>footer{display:flex;justify-content:flex-end;gap:10px;padding:0 20px 17px}
+.assessment-card>footer button{height:36px;min-width:104px;border:1px solid #24cdb2;border-radius:18px;background:#fff;color:#16b69d;cursor:pointer}
+.assessment-card>footer button.primary{background:#24cdb2;color:#fff}
+.assessment-feedback{padding:72px 30px;text-align:center;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow)}
+.assessment-feedback .icon-box{margin:auto}.assessment-feedback h2{margin:14px 0 5px}.assessment-feedback p{margin:0 0 18px;color:var(--muted)}
+@media(max-width:1366px){.assessment-grid{gap:13px}.assessment-card{min-height:330px}.assessment-card>header{padding-left:16px;padding-right:16px}.assessment-card-body{grid-template-columns:minmax(0,1fr) 108px;gap:10px;padding-left:16px;padding-right:16px}.assessment-chart{width:108px}.assessment-chart svg{width:104px}.assessment-copy p{font-size:11px;line-height:1.65}.assessment-card>footer{padding-left:16px;padding-right:16px}.assessment-global-actions button{padding:0 10px}}

@@ -1,0 +1,2 @@
+/* 新版云就业学生端视觉基线：60px顶部栏、220px侧栏、#43c782主色、白色卡片与轻阴影。 */
+:root{--employment-green:#43c782;--legacy-green:#3cbf79}.topbar{height:60px}.sidebar{width:220px}.student-hero{background:linear-gradient(110deg,#3fc479,#8ce7b6)}

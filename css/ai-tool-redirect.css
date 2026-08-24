@@ -1,0 +1,89 @@
+.ai-tool-handoff {
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+  background: #fff;
+  border: 1px solid #e2ebe7;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(42, 84, 66, .06);
+}
+
+.ai-tool-handoff-card {
+  width: min(720px, 100%);
+  text-align: center;
+}
+
+.ai-tool-handoff-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #20ad6d;
+  background: #eaf8f1;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.ai-tool-handoff-card h2 {
+  margin: 0;
+  color: #14251e;
+  font-size: 24px;
+}
+
+.ai-tool-handoff-card > p {
+  margin: 12px auto 24px;
+  color: #6f817a;
+  line-height: 1.8;
+}
+
+.ai-tool-handoff-meta {
+  margin: 0;
+  padding: 0 24px;
+  text-align: left;
+  border: 1px solid #e5ece9;
+  border-radius: 12px;
+  background: #fbfdfc;
+}
+
+.ai-tool-handoff-meta div {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid #edf2ef;
+}
+
+.ai-tool-handoff-meta div:last-child { border-bottom: 0; }
+.ai-tool-handoff-meta dt { color: #86958f; }
+.ai-tool-handoff-meta dd { margin: 0; color: #263a32; overflow-wrap: anywhere; }
+
+.ai-tool-handoff-note {
+  margin-top: 18px;
+  padding: 13px 16px;
+  color: #8a6a3e;
+  background: #fff9ef;
+  border: 1px solid #f5e4c8;
+  border-radius: 10px;
+  text-align: left;
+  line-height: 1.65;
+}
+
+.ai-tool-handoff-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ai-tool-handoff-actions button {
+  min-width: 116px;
+  height: 40px;
+}
+
+@media (max-width: 1366px) {
+  .ai-tool-handoff { min-height: 360px; padding: 34px 20px; }
+  .ai-tool-handoff-card { width: min(660px, 100%); }
+}
