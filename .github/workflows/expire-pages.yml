@@ -1,0 +1,25 @@
+name: Expire temporary preview
+
+on:
+  schedule:
+    - cron: '5 17 * * *'
+  workflow_dispatch:
+
+permissions:
+  pages: write
+
+jobs:
+  expire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disable Pages after expiry
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          EXPIRES_AT: '2026-08-26T17:00:00Z'
+        run: |
+          if [ "$(date -u +%s)" -ge "$(date -u -d "$EXPIRES_AT" +%s)" ]; then
+            gh api --method DELETE "repos/$REPOSITORY/pages" || true
+          else
+            echo "Preview remains active until $EXPIRES_AT"
+          fi
