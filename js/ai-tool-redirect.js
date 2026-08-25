@@ -3,25 +3,33 @@
     resume: {
       title: 'AI简历',
       icon: '简',
+      tokenKind: 'business',
       path: '/resume/edit/pchome',
       credentials: '学校 school_token、登录信息中的 bfr_token',
       targetLabel: 'AI工具站点 /resume/edit/pchome',
-      description: '复用原PC简历创建、编辑、模板和记录功能。'
+      description: '复用原PC简历创建、编辑、模板和记录功能。',
+      verifiedFeatures: ['简历指导', '我的简历', 'AI创建简历', '上传简历文件', '微信扫码诊断', '简历模板', '优秀简历', '收藏模板']
     },
     interview: {
       title: 'AI面试',
       icon: '面',
+      tokenKind: 'login',
+      productionBase: 'https://ysyaipc.bysjy.com.cn',
+      testBase: 'https://tsyaipc.bysjy.com.cn',
       credentials: '普通登录 token（不使用 bfr_token）',
       targetLabel: '学生AI面试PC站点',
-      description: '进入现有学生AI面试流程，不访问后台管理统计页面。'
+      description: '进入现有学生AI面试流程，不访问后台管理统计页面。',
+      verifiedFeatures: ['社招模拟面试', '公职模拟面试', '面试记录', '我的']
     },
     etiquette: {
       title: '职业礼仪',
       icon: '礼',
+      tokenKind: 'business',
       path: '/lab/game/CTR_3003',
       credentials: '学校 school_token、登录信息中的 bfr_token',
       targetLabel: 'AI工具站点 /lab/game/CTR_3003',
-      description: '复用原职业礼仪PC业务页面。'
+      description: '复用原职业礼仪PC业务页面。',
+      verifiedFeatures: ['微信扫码上传', '选择服装', '岗位名称', '着装场景', '拍照并解析']
     }
   };
 
@@ -55,7 +63,7 @@
 
   function officialTargetLabel(id) {
     if (id === 'interview') {
-      return isTestEnvironment() ? 'https://tsyaipc.bysjy.com.cn' : 'https://ysyaipc.bysjy.com.cn';
+      return isTestEnvironment() ? toolConfigs.interview.testBase : toolConfigs.interview.productionBase;
     }
     return toolConfigs[id].targetLabel;
   }
@@ -165,7 +173,7 @@
 
       const loginInfo = await readLoginInfo(portal);
       let targetUrl = '';
-      if (id === 'interview') {
+      if (config.tokenKind === 'login') {
         const loginToken = (typeof portal.getAiInterviewToken === 'function')
           ? await portal.getAiInterviewToken()
           : (await readLoginToken(portal, loginInfo)) || ensuredLoginToken;
@@ -173,7 +181,7 @@
           setHandoff(id, 'missing-token', '登录凭证缺失', '未取得普通登录Token，已停止跳转。');
           return;
         }
-        const interviewBase = isTestEnvironment() ? 'https://tsyaipc.bysjy.com.cn' : 'https://ysyaipc.bysjy.com.cn';
+        const interviewBase = isTestEnvironment() ? config.testBase : config.productionBase;
         const target = new URL(interviewBase);
         target.searchParams.set('token', loginToken);
         targetUrl = target.toString();
