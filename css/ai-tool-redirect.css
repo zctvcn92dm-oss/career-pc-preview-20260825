@@ -4,17 +4,6 @@
 @media(max-width:1500px){.resume-demo-layout{grid-template-columns:190px minmax(0,1fr)}.resume-template-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.resume-demo-main{padding-left:20px;padding-right:20px}.resume-template-card h3{font-size:13px}.interview-demo-shell{height:680px}.interview-demo-title{width:390px}.interview-demo-person{height:61%}}
 @media(max-width:1366px){.resume-demo-layout{grid-template-columns:190px minmax(0,1fr)}.resume-template-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.resume-demo-nav{padding-left:14px;padding-right:14px}.resume-demo-main{padding-left:16px;padding-right:16px}.resume-category-tabs{gap:12px}.resume-category-tabs button{font-size:12px}.interview-demo-shell{height:680px}.interview-demo-cards{left:5%;right:5%;bottom:72px;gap:18px}.interview-business-card{min-height:245px;padding:38px 24px 26px}.interview-demo-title{width:360px}.interview-demo-person{height:61%}}
 
-/* Official AI interview screenshot first screen: preserve the supplied page exactly. */
-.interview-screenshot-page{height:auto!important;min-height:0!important;background:#020a31;overflow:visible}
-.interview-screenshot-canvas{position:relative;width:100%;height:auto;background:#020a31}
-.interview-screenshot-frame{position:relative;width:100%;aspect-ratio:1370/679;overflow:hidden}
-.interview-screenshot-frame>img{display:block;width:100%;height:auto;aspect-ratio:1370/679}
-.interview-hotspot{position:absolute;border:0;background:transparent;cursor:pointer;padding:0}
-.interview-hotspot.social{left:5.8%;bottom:10%;width:27.5%;height:35%}
-.interview-hotspot.public{left:36.2%;bottom:10%;width:27.5%;height:35%}
-.interview-hotspot.history{right:5.8%;bottom:10%;width:27.5%;height:35%}
-.interview-hotspot.mine{right:1%;bottom:5%;width:10%;height:16%}
-.interview-hotspot.home{left:50%;bottom:0;width:10%;height:8%}
 /* Official AI interview first screen: no secondary page chrome or student footer. */
 .interview-workspace{padding:0!important;max-width:none!important;background:#020a31;overflow:hidden}
 .interview-official-page{position:relative;width:100%;height:calc(100vh - 60px);min-height:680px;overflow:hidden;background:#020a31;color:#fff}
