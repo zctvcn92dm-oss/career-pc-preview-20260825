@@ -55,6 +55,8 @@
 
 .gx-hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#fdfefb 0%,#f4f8ea 100%)}
 .gx-hero-art{position:absolute;inset:auto 0 0 0;width:100%;height:100%}
+.gx-student-photo{position:absolute;left:43.5%;bottom:19.6%;transform:translateX(-50%);height:62%;width:auto;z-index:2;pointer-events:none;-webkit-user-select:none;user-select:none;display:block;margin:0}
+.gx-student-photo img{display:block;height:100%;width:auto;filter:drop-shadow(0 6px 12px rgba(118,138,100,.16))}
 .gx-platform-cap{font-size:9px;fill:#93a67f;letter-spacing:1px}
 .gx-note{position:absolute;right:8%;top:2%;width:78px;height:40px;background:#fbeec2;border-radius:3px;transform:rotate(9deg);box-shadow:0 3px 8px rgba(150,140,90,.16);display:grid;grid-template-columns:1fr 1fr;place-items:center;padding:6px}
 .gx-note i{width:9px;height:9px;border-radius:50%;background:#a8c97f}
