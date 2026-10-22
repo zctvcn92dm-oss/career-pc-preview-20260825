@@ -28,7 +28,7 @@
   background-attachment:fixed;
   overflow-x:hidden;
 }
-.gx-page button{font:inherit;cursor:pointer}
+.gx-page button{font-family:inherit;cursor:pointer}   /* 不能用 font:inherit，会覆盖 .gx-item 的 font-size */
 
 /* ---------- 左栏：线圈笔记本 ---------- */
 .gx-rail{position:relative;padding-left:22px;display:flex;flex-direction:column;align-self:start;height:calc(100vh - 61px)}
@@ -68,7 +68,7 @@
   box-shadow:0 1px 4px rgba(140,138,116,.10),inset 0 0 0 1px rgba(231,228,215,.85);
 }
 .gx-brand-clover{width:26px;height:26px;flex:none}
-.gx-brand b{font-size:26px;font-weight:700;letter-spacing:1.6px;color:#2C3628}
+.gx-brand b{font-size:24px;font-weight:700;letter-spacing:1.4px;color:#2C3628}
 
 .gx-groups{display:flex;flex-direction:column;gap:26px}
 .gx-group{display:grid;grid-template-columns:34px minmax(0,1fr);gap:16px;align-items:stretch}
@@ -84,10 +84,10 @@
 .gx-item{
   position:relative;
   display:flex;align-items:center;justify-content:flex-start;
-  height:40px;padding:0 30px 0 57px;
+  height:40px;padding:0 30px 0 clamp(52px,3.23vw,62px);
   border:1px solid var(--gx-pill-line);border-radius:14px;
   background:var(--gx-pill);color:#39422F;
-  font-size:18px;letter-spacing:.2px;
+  font-size:clamp(14px,0.84vw,16px);letter-spacing:.2px;
   transition:background .15s,border-color .15s,color .15s;
 }
 .gx-item:hover{background:#F7F6EF;border-color:#DFDED2}
@@ -161,7 +161,7 @@
 }
 .gx-fcol{display:flex;flex-direction:column}
 .gx-field{margin:0;height:44px;display:flex;align-items:center}
-.gx-field b{font-size:16px;font-weight:700;color:#2F382B;letter-spacing:.3px}
+.gx-field b{font-size:15px;font-weight:700;color:#2F382B;letter-spacing:.3px}
 .gx-hero{
   overflow:hidden;border-radius:0 10px 10px 0;
   background-image:url("../assets/archive-hero-scene.png");
@@ -231,19 +231,19 @@
 .gx-hint p{margin:0;line-height:1.9}
 
 /* ---------- 响应式 ---------- */
-@media(max-width:1560px){
-  .gx-page{padding:22px 30px 28px 0;grid-template-columns:clamp(268px,20.8vw,330px) minmax(0,1fr);gap:16px}
+@media(max-width:1720px){
+  .gx-page{padding:22px 30px 28px 0;grid-template-columns:clamp(280px,20.8vw,330px) minmax(0,1fr);gap:16px}
   .gx-rail{padding-left:48px}
   .gx-spiral{left:24px}
   .gx-brand b{font-size:22px}
-  .gx-item{font-size:15px;height:38px;padding:0 18px 0 24px}
+  .gx-item{font-size:clamp(12px,0.92vw,14px);height:38px;padding:0 18px 0 clamp(20px,1.62vw,26px)}
   .gx-group{grid-template-columns:30px minmax(0,1fr);gap:12px}
   .gx-rail-page{padding-left:26px}
   .gx-sheet{height:auto;min-height:calc(100vh - 61px)}
   .gx-bottom{min-height:520px}
   .gx-ai-text p{font-size:12px;line-height:1.6}
   .gx-fields{grid-template-columns:300px minmax(0,1fr);padding-left:34px}
-  .gx-field b{font-size:15px}
+  .gx-field b{font-size:14px}
   .gx-field{height:42px}
   .gx-time{padding-left:44px;padding-right:40px}
   .gx-tabs{gap:14px}
@@ -256,9 +256,14 @@
   .gx-bottom{grid-template-columns:1fr;gap:20px;padding-bottom:16px}
   .gx-fields{grid-template-columns:1fr;padding-left:30px}
   .gx-basic{grid-template-columns:1fr 38%}
-  .gx-item{font-size:13px;padding:0 10px 0 14px;letter-spacing:0}
-  .gx-group{grid-template-columns:28px minmax(0,1fr);gap:10px}
-  .gx-stage{font-size:13px;letter-spacing:3px}
+  /* 1280 及以下：阶段标签改横排小标题，把整行宽度让给导航项（避免长标签被截断） */
+  .gx-group{grid-template-columns:1fr;gap:5px}
+  .gx-stage{
+    writing-mode:horizontal-tb;text-orientation:mixed;
+    justify-content:flex-start;height:auto;padding:3px 12px;width:max-content;
+    font-size:12px;letter-spacing:2px;border-radius:6px;
+  }
+  .gx-item{font-size:13px;padding:0 12px 0 16px;letter-spacing:0}
   .gx-bottom{min-height:0}
   .gx-radar{padding-left:0}
 }
@@ -266,7 +271,7 @@
 /* 首个小标题不带上边距，让「总结：」落在设计稿位置 */
 .gx-ai-text h4:first-of-type{margin-top:0}
 /* 窄屏回退：雷达回到文档流 */
-@media(max-width:1560px){
+@media(max-width:1720px){
   .gx-radar{position:static;width:auto;display:flex;justify-content:center;padding:14px 0 0}
   .gx-radar-svg{width:100%;max-width:330px}
   .gx-ai-text{margin-top:14px}
