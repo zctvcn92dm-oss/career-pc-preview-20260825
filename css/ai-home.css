@@ -45,3 +45,14 @@
 .student-hero .hero-archive-copy small{font-size:9px;opacity:.82}
 .student-hero .hero-archive-copy i{margin-top:3px}
 @media(max-width:1366px){.student-hero{height:104px;min-height:104px;padding:0 18px;grid-template-columns:minmax(270px,30fr) minmax(370px,45fr) minmax(205px,25fr)}.student-hero .hero-identity,.student-hero .hero-state-summary,.student-hero .hero-progress{height:68px}.student-hero .hero-identity{gap:11px;padding-right:20px}.student-hero .hero-avatar{width:42px;height:42px;flex-basis:42px}.student-hero .hero-identity h1{font-size:18px}.student-hero .hero-state-summary{padding:0 30px}.student-hero .hero-state-summary b{font-size:20px}.student-hero .hero-progress{padding-left:26px;gap:10px}.student-hero .progress-ring{width:52px;height:52px;flex-basis:52px}.student-hero .hero-tags span{padding:2px 6px;font-size:9px}}
+
+/* ===== 纸质档案主题覆盖层（2026-10-22）===== */
+.home-portrait-panel,.home-plan-panel,.home-next-panel,.recent-archive-panel{background:var(--white,#fffdf5);border:1px solid var(--paper-edge,#eae3cf);border-radius:16px;box-shadow:var(--shadow)}
+.home-plan-panel,.recent-archive-panel{position:relative}
+.home-plan-panel:before,.recent-archive-panel:before{content:"📎";position:absolute;top:-12px;right:26px;font-size:19px;transform:rotate(28deg);filter:grayscale(.15) opacity(.85);pointer-events:none}
+.change-card{background:#fdf6cf;border:1px solid #f0e3a8;border-radius:11px;position:relative}
+.change-card:before{content:"📎";position:absolute;top:-13px;left:14px;font-size:15px;transform:rotate(-24deg);filter:grayscale(.2) opacity(.85)}
+.change-mark{background:#fbf3e2;color:#c98a2e}
+.panel-eyebrow{letter-spacing:.4px}
+.compact-head h2,.panel-head h2{color:var(--ink,#22382c)}
+.portrait-summary .radar-button{cursor:pointer}

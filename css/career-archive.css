@@ -11,3 +11,18 @@
 .archive-merged-main .official-portrait-main{padding:0}
 .archive-merged-main .official-grade-main{padding:0}
 .archive-merged-main .radar-wrap{min-height:340px}
+
+/* ===== 纸质档案主题覆盖层（2026-10-22）===== */
+.career-archive-shell{background:var(--white,#fffdf5);border-color:var(--paper-edge,#eae3cf)}
+.official-student-card{background:var(--white,#fffdf5);border-color:var(--paper-edge,#eae3cf);box-shadow:var(--shadow)}
+.official-card-cover{background:linear-gradient(105deg,#3ea87b 0%,#93d9b1 100%)}
+.official-student-card dt{border-left-color:#4db98a;color:var(--ink,#22382c)}
+.official-keywords span{border-color:#4db98a;color:#2f8f63!important;background:#f2faf5}
+.archive-grade-tabs button{background:#e9e4d3;color:#4a594d}
+.archive-grade-tabs button.active{background:linear-gradient(135deg,#4db98a,#5fc494);color:#fff;box-shadow:0 8px 20px rgba(77,185,138,.22)}
+.archive-detail-title{color:#3ba173}
+.archive-record-meta span{background:#4da5d8}
+.archive-grade-timeline article>i{background:#4db98a}
+.official-stage{background:#e6f6ec;color:#2f8f63}
+.dimension-switch button.active{border-color:#4db98a;background:#f2faf5;color:#2f8f63}
+.radar-area{fill:rgba(77,185,138,.22);stroke:#3ba173}
