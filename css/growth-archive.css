@@ -1,4 +1,4 @@
-/* ===== 成长档案 · 设计稿还原（2026-10-22 重构） ===== */
+/* ===== 成长档案 · 设计稿还原（2026-10-23 插画区改用原图） ===== */
 .gx-page{
   --gx-green:#8ec25e; --gx-green-deep:#5f9b3a; --gx-ink:#3a4238; --gx-muted:#8d9a8d;
   --gx-line:#eef2e4; --gx-shadow:0 8px 22px rgba(120,132,96,.10);
@@ -53,12 +53,11 @@
 .gx-field b{font-size:16.5px;font-weight:700;color:#333b33;flex:none;letter-spacing:.3px}
 .gx-field span{font-size:14px;color:#8d9a8d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.gx-hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#fdfefb 0%,#f4f8ea 100%)}
-.gx-hero-art{position:absolute;inset:auto 0 0 0;width:100%;height:100%}
-.gx-student-photo{position:absolute;left:43.5%;bottom:19.6%;transform:translateX(-50%);height:62%;width:auto;z-index:2;pointer-events:none;-webkit-user-select:none;user-select:none;display:block;margin:0}
-.gx-student-photo img{display:block;height:100%;width:auto;filter:drop-shadow(0 6px 12px rgba(118,138,100,.16))}
-.gx-platform-cap{font-size:9px;fill:#93a67f;letter-spacing:1px}
-.gx-note{position:absolute;right:8%;top:2%;width:78px;height:40px;background:#fbeec2;border-radius:3px;transform:rotate(9deg);box-shadow:0 3px 8px rgba(150,140,90,.16);display:grid;grid-template-columns:1fr 1fr;place-items:center;padding:6px}
+/* 右侧插画（设计稿原始素材整图） */
+.gx-hero{position:relative;overflow:hidden;background:#e8f0e2}
+.gx-hero-picture{position:absolute;inset:0;display:block;margin:0}
+.gx-hero-picture img{display:block;width:100%;height:100%;object-fit:cover;object-position:56% 100%;-webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.35) 6%,#000 16%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.35) 6%,#000 16%)}
+.gx-note{position:absolute;right:7%;top:3%;width:78px;height:40px;background:#fbeec2;border-radius:3px;transform:rotate(9deg);box-shadow:0 3px 8px rgba(150,140,90,.16);display:grid;grid-template-columns:1fr 1fr;place-items:center;padding:6px;z-index:2}
 .gx-note i{width:9px;height:9px;border-radius:50%;background:#a8c97f}
 .gx-note i:nth-child(1){transform:translate(2px,2px)}
 .gx-note i:nth-child(2){transform:translate(-2px,2px)}

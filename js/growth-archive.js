@@ -72,36 +72,13 @@
     return '<span class="' + cls + '"></span>';
   }
 
-  /* 右侧插画：绿色自然背景 + 学生真人照片（设计稿同构版面） */
+  /* 右侧插画：设计稿原始素材（学生手持成长档案 + 台座文案） */
   function gxHeroArt() {
     return '<div class="gx-hero">' +
-      '<svg class="gx-hero-art" viewBox="0 0 460 400" preserveAspectRatio="none" aria-hidden="true">' +
-      /* 云 / 飞鸟 */
-      '<ellipse cx="118" cy="74" rx="54" ry="16" fill="#ffffff" opacity=".9"/>' +
-      '<ellipse cx="148" cy="62" rx="30" ry="12" fill="#ffffff" opacity=".75"/>' +
-      '<path d="M252 92q9-9 18 0M280 102q8-8 16 0M306 84q7-7 14 0" fill="none" stroke="#a9c48c" stroke-width="2.2" stroke-linecap="round"/>' +
-      /* 远山 */
-      '<path d="M-20 336c62-96 150-108 236-44v128H-20z" fill="#dfeecb"/>' +
-      '<path d="M110 420c34-112 148-172 272-162 54 44 92 100 98 162z" fill="#c6e0ac"/>' +
-      '<path d="M240 420c30-78 94-110 168-102 32 34 50 66 54 102z" fill="#b3d497" opacity=".78"/>' +
-      '<path d="M-20 386c90-26 190-14 260 16l-4 18H-20z" fill="#cfe4b8" opacity=".85"/>' +
-      /* 左侧草丛 */
-      '<path d="M28 420q-10-46 4-68M48 420q-6-40 8-58M70 420q-4-32 8-48" fill="none" stroke="#a9c78a" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<g fill="#ffffff"><circle cx="40" cy="378" r="4.6"/><circle cx="62" cy="392" r="4"/></g>' +
-      '<g fill="#f5efae"><circle cx="40" cy="378" r="1.8"/><circle cx="62" cy="392" r="1.6"/></g>' +
-      /* 右侧花枝 */
-      '<path d="M330 420c4-56 12-94 22-120" fill="none" stroke="#8fb26e" stroke-width="2.6"/>' +
-      '<path d="M352 302c-4-26 6-44 22-52 2 24-8 42-22 52z" fill="#bcd79a"/>' +
-      '<path d="M336 340c-14-16-14-34-2-48 12 16 13 33 2 48z" fill="#cbe0ab"/>' +
-      '<path d="M300 420q-8-44 4-64M318 420q-4-38 8-54M356 420q0-30 10-44" fill="none" stroke="#a9c78a" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<g fill="#ffffff"><circle cx="344" cy="386" r="5.4"/><circle cx="366" cy="374" r="4.6"/><circle cx="382" cy="392" r="4.2"/><circle cx="324" cy="402" r="4.6"/></g>' +
-      '<g fill="#f5efae"><circle cx="344" cy="386" r="2.1"/><circle cx="366" cy="374" r="1.8"/><circle cx="382" cy="392" r="1.6"/><circle cx="324" cy="402" r="1.8"/></g>' +
-      /* 台座 */
-      '<path d="M96 320v24c0 15 47 27 104 27s104-12 104-27v-24z" fill="#f9fbf4" stroke="#e2ecd6" stroke-width="1.4"/>' +
-      '<ellipse cx="200" cy="320" rx="104" ry="27" fill="#eef5e5" stroke="#e2ecd6" stroke-width="1.4"/>' +
-      '<text class="gx-platform-cap" x="200" y="345" text-anchor="middle">记录青春的模样</text>' +
-      '</svg>' +
-      '<picture class="gx-student-photo"><source srcset="assets/growth-archive-student.webp" type="image/webp"><img src="assets/growth-archive-student.png" alt="学生照片"></picture>' +
+      '<picture class="gx-hero-picture">' +
+      '<source srcset="assets/growth-archive-hero.webp" type="image/webp">' +
+      '<img src="assets/growth-archive-hero.jpg" alt="学生手持成长档案插画">' +
+      '</picture>' +
       '<span class="gx-note"><i></i><i></i><i></i><i></i></span>' +
       '</div>';
   }
