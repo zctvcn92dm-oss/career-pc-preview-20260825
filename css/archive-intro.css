@@ -1,0 +1,82 @@
+/* 成长档案：进入详情页前的「打开档案」开场动画 */
+.gx-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  /* 底色按动画首帧边缘配色铺一层渐变：上深青 → 下浅青白 → 尾帧米白，
+     任何屏幕比例下视频留边都与画面衔接，不会出现黑边 */
+  background: linear-gradient(180deg, #2E5E60 0%, #3C6E70 20%, #7FA6A2 46%,
+      #CFE0DE 72%, #EDEDE4 90%, #F5F4EC 100%);
+  opacity: 1;
+  transition: opacity .45s ease;
+}
+.gx-intro.is-out { opacity: 0; pointer-events: none; }
+
+.gx-intro-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  background: transparent;
+  display: block;
+}
+/* 超宽屏（≥2:1）改用 contain，避免 cover 把档案上下裁掉 */
+@media (min-aspect-ratio: 2 / 1) {
+  .gx-intro-video { object-fit: contain; }
+}
+
+.gx-intro-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(28, 62, 62, .38);
+  color: #EDF4F1;
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 1;
+  transition: opacity .3s ease;
+}
+.gx-intro-loading.is-hidden { opacity: 0; }
+.gx-intro-loading i {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(237, 244, 241, .35);
+  border-top-color: #EDF4F1;
+  animation: gx-intro-spin .8s linear infinite;
+}
+@keyframes gx-intro-spin { to { transform: rotate(360deg); } }
+
+.gx-intro-skip {
+  position: absolute;
+  right: 30px;
+  bottom: 26px;
+  z-index: 3;
+  padding: 7px 18px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(28, 62, 62, .3);
+  color: #F0F5F2;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 1px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background .2s ease, border-color .2s ease;
+}
+.gx-intro-skip:hover { background: rgba(28, 62, 62, .52); border-color: rgba(255, 255, 255, .72); }
+
+/* 动画播放期间锁滚动，避免详情页在下方被拖动 */
+body.gx-intro-lock { overflow: hidden; }
