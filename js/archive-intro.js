@@ -37,10 +37,13 @@
     var el = document.createElement('div');
     el.className = 'gx-intro';
     el.innerHTML =
-      '<video class="gx-intro-video" playsinline preload="auto" src="' + INTRO_SRC + '"></video>' +
+      '<video class="gx-intro-video" muted playsinline preload="auto" src="' + INTRO_SRC + '"></video>' +
       '<div class="gx-intro-loading"><i></i>正在打开成长档案</div>' +
       '<button class="gx-intro-skip" type="button">跳过 ›</button>';
-    document.body.appendChild(el);
+    // 挂到标准菜单壳的内容区（.workspace）内，动画只在框架里播放，
+    // 侧栏与顶栏作为壳的一部分始终盖在动画之上、保持可见
+    var host = document.querySelector('.workspace') || document.body;
+    host.appendChild(el);
     document.body.classList.add('gx-intro-lock');
 
     var video = el.querySelector('.gx-intro-video');
@@ -48,16 +51,10 @@
     var skip = el.querySelector('.gx-intro-skip');
 
     function start() {
-      // 有用户手势时优先带声播放；被浏览器策略拦下则退回静音播放
-      video.muted = false;
+      // 开场动画无需声音，始终静音播放（同时满足浏览器自动播放策略）
+      video.muted = true;
       var p = video.play();
-      if (p && p.catch) {
-        p.catch(function () {
-          video.muted = true;
-          var p2 = video.play();
-          if (p2 && p2.catch) p2.catch(function () { gxFinishIntro(); });
-        });
-      }
+      if (p && p.catch) p.catch(function () { gxFinishIntro('playfail'); });
     }
 
     video.addEventListener('canplay', function () {

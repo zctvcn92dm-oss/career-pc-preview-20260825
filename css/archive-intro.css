@@ -1,8 +1,15 @@
-/* 成长档案：进入详情页前的「打开档案」开场动画 */
+/* 成长档案：进入详情页前的「打开档案」开场动画
+   内嵌在标准菜单壳的内容区（.workspace）内：动画层挂到 .workspace 下并
+   position:absolute，侧栏(fixed,z20)与顶栏(sticky,z15)仍在动画之上保持可见，
+   动画只在内容框架内播放，与档案详情页统一。 */
+.workspace { position: relative; }
 .gx-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 10;
   overflow: hidden;
   /* 底色按动画首帧边缘配色铺一层渐变：上深青 → 下浅青白 → 尾帧米白，
      任何屏幕比例下视频留边都与画面衔接，不会出现黑边 */
