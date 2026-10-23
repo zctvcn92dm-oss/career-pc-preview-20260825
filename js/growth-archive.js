@@ -264,24 +264,27 @@
 
   /* ---------- 8. 返回按钮 ---------- */
   var gxBackTarget = 'home';                 // 进入档案页前的上一个页面
-  var BACK_NAMES = { home: '首页', archive: '成长档案', path: '生涯路径图', mail: '未来信箱',
+  var BACK_NAMES = { home: '首页', archive: '成长档案', ability: '能力画像', path: '生涯路径图', mail: '未来信箱',
     assessment: '职业测评', course: '线上课', video: '微视频', major: '专业认知',
     week: '生涯体验周', activity: '生涯活动', 'career-consult': '生涯咨询',
     plan: 'AI生涯规划', resume: 'AI简历', interview: 'AI面试', etiquette: '职业礼仪',
     contest: '职业规划大赛', assistant: '生涯助理', profile: '个人中心' };
 
   function gxBackTo() {
-    page = gxBackTarget && gxBackTarget !== 'archive' ? gxBackTarget : 'home';
+    page = gxBackTarget && gxBackTarget !== 'archive' && gxBackTarget !== 'ability' ? gxBackTarget : 'home';
     render();
     try { window.scrollTo(0, 0); } catch (e) { /* 忽略 */ }
   }
 
-  function gxBackButton() {
+  function gxTopBar() {
     var label = BACK_NAMES[gxBackTarget] || '首页';
-    return '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
+    return '<div class="gx-topbar">' +
+      '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
+      '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
       'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '<span>返回' + label + '</span></button>';
+      '<span>返回' + label + '</span></button>' +
+      '</div>';
   }
 
   function gxBackKey(e) {
@@ -294,6 +297,10 @@
   function gxBindBack() {
     var btn = document.querySelector('.gx-back');
     if (btn) btn.onclick = gxBackTo;
+    var reopen = document.querySelector('.gx-reopen');
+    if (reopen) reopen.onclick = function () {
+      if (window.gxReplayIntro) window.gxReplayIntro();
+    };
     document.removeEventListener('keydown', gxBackKey);
     if (btn) document.addEventListener('keydown', gxBackKey);
   }
@@ -302,7 +309,7 @@
   function gxArchivePage() {
     var isValid = activeSideTag === '基本信息';
     return '<div class="gx-page">' +
-      gxBackButton() +
+      gxTopBar() +
       gxRail() +
       '<main class="gx-sheet">' +
       (isValid
@@ -322,8 +329,8 @@
   var gxOriginalRender = render;
   render = function () {
     // 只要不在档案页，就把当前页记为「返回目标」
-    if (page !== 'archive') gxBackTarget = page;
-    if (page === 'archive' && gxEligible()) {
+    if (page !== 'archive' && page !== 'ability') gxBackTarget = page;
+    if ((page === 'archive' || page === 'ability') && gxEligible()) {
       app.innerHTML = gxArchivePage();
       bind();
       gxBindBack();

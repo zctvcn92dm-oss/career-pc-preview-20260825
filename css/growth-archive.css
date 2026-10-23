@@ -300,9 +300,13 @@
 /* 「总结：」与正文之间留更大呼吸（对齐设计稿） */
 .gx-ai-text p:first-of-type{margin-top:23px}
 
-/* ===== 返回按钮（档案页以「新开页面」方式展示时的返回入口） ===== */
-.gx-back{
+/* ===== 顶部工具条：返回 + 重新打开档案（点击再播「打开档案」开场动画） ===== */
+.gx-topbar{
   position:fixed;right:34px;top:22px;z-index:60;
+  display:flex;gap:12px;align-items:center;
+}
+.gx-back{
+  position:static;
   display:inline-flex;align-items:center;gap:7px;
   height:40px;padding:0 20px 0 15px;
   border:1px solid #DCDAC2;border-radius:999px;
@@ -312,6 +316,23 @@
   box-shadow:0 4px 12px rgba(120,116,84,.16),inset 0 1px 0 rgba(255,255,255,.85);
   transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
 }
+.gx-reopen{
+  display:inline-flex;align-items:center;gap:6px;
+  height:40px;padding:0 18px;
+  border:1px solid #CFE0C2;border-radius:999px;
+  background:linear-gradient(180deg,#F4F8EC 0%,#E9F0DC 100%);
+  color:#4E8F5F;font-size:14px;font-weight:700;letter-spacing:.3px;
+  font-family:inherit;cursor:pointer;
+  box-shadow:0 4px 12px rgba(120,116,84,.14),inset 0 1px 0 rgba(255,255,255,.85);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.gx-reopen:hover{
+  transform:translateY(-1px);
+  background:linear-gradient(180deg,#FFFFFF 0%,#F1F6E6 100%);
+  border-color:#BBD7A6;color:#43855A;
+  box-shadow:0 7px 16px rgba(120,116,84,.2),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.gx-reopen:active{transform:translateY(0)}
 .gx-back svg{width:17px;height:17px;flex:none}
 .gx-back:hover{
   transform:translateY(-1px);

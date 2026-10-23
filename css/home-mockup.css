@@ -13,7 +13,7 @@
   --hm-ink-2: #48523F;
   --hm-muted: #7C8674;
   --hm-muted-2: #8B9379;
-  --hm-card: #F8F5EA;
+  --hm-card: #F4F0E4;
   --hm-line: #E9E6D6;
   --hm-rail-w: clamp(268px, 17.92vw, 344px);
   --hm-top-h: clamp(64px, 3.96vw, 76px);
@@ -21,30 +21,29 @@
   --hm-pad-l: clamp(6px, 0.63vw, 12px);
 }
 
-/* 侧栏：浅绿活页纸 + 左侧金属环 + 右缘翻边阴影 */
+/* 侧栏：浅绿活页纸 + 左侧米黄封面条 + 横向金属活页环
+   设计稿实测：封面条 0–29（#AAA381）/ 纸面 x150 (214,228,202) / 环孔 cx≈50 */
 .sidebar {
   width: var(--hm-rail-w);
-  background: linear-gradient(180deg, #DCE2C9 0%, #D8DEC5 34%, #DBE1C9 70%, #DFE5CD 100%);
+  background:
+    linear-gradient(90deg, #A79F7C 0 27px, #B3AB87 27px 29px, rgba(179, 171, 135, 0) 29.5px),
+    linear-gradient(180deg, #DAE6CE 0%, #D6E4CA 42%, #D3E2C6 78%, #D5E3C8 100%);
 }
-.sidebar:before {
+/* 活页环：设计稿里每个导航项左侧各一枚横向金属钉 + 打孔（组标题处没有），
+   所以不铺满侧栏，而是挂在 .nav-item 上，保证与行严格对齐 */
+.nav-item:after {
   content: "";
   position: absolute;
-  left: 2px;
-  top: calc(var(--hm-top-h) + 22px);
-  bottom: 8px;
-  width: 26px;
-  z-index: 2;
+  left: -44px;
+  top: 50%;
+  width: 60px;
+  height: 16px;
+  transform: translateY(-50%);
+  background: url("../assets/sidebar-ring.svg") no-repeat 0 0 / 60px 16px;
   pointer-events: none;
-  background-image: radial-gradient(ellipse 13px 17px at 13px 50%,
-    transparent 0 6.5px,
-    #9C9A88 6.8px 7.6px,
-    #D9D6C6 7.8px 8.8px,
-    #FBF9EE 9px 10.6px,
-    #8E8B7A 10.8px 11.8px,
-    transparent 12.2px);
-  background-size: 26px 62px;
-  background-repeat: repeat-y;
+  z-index: 3;
 }
+.nav-item.active:after { left: -30px; }
 .sidebar:after {
   width: 44px;
   background: linear-gradient(90deg, rgba(120, 112, 78, 0) 0%, rgba(120, 112, 78, .06) 55%, rgba(120, 112, 78, .13) 100%);
@@ -119,62 +118,73 @@ main {
 }
 footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0; }
 
-/* ---------- 2. 侧栏导航：纸片式 ---------- */
+/* ---------- 2. 侧栏导航：设计稿是「纸上裸排」，只有激活项有一张奶油标签 ---------- */
 .sidebar nav {
   height: calc(100vh - var(--hm-top-h));
-  padding: 36px 0 12px;
+  padding: 24px 0 10px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
 }
 .sidebar nav::-webkit-scrollbar { width: 0; height: 0; }
 .nav-group {
-  padding: 8px 18px 3px 62px;
-  color: #8B9479;
+  padding: 15px 0 10px 69px;
+  color: #8B9379;
   font-size: 12.5px;
+  line-height: 1;
   letter-spacing: .6px;
   font-weight: 400;
 }
 .nav-item {
   position: relative;
-  width: calc(100% - 42px);
-  margin: 0 12px 2px 30px;
-  height: 44px;
+  width: auto;
+  margin: 0 82px 0 44px;
+  height: 49px;
   min-height: 0;
   box-sizing: border-box;
-  padding: 0 22px;
-  gap: 15px;
+  padding: 0 0 0 30px;
+  gap: 14px;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(95deg, #EAEEDC 0%, #E3E8D2 100%);
-  filter: drop-shadow(0 1px 1.5px rgba(118, 112, 76, .13));
-  color: #3D4536;
+  background: none;
+  filter: none;
+  clip-path: none;
+  color: #333D2E;
   font-size: 15px;
   box-shadow: none;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
-  transition: transform .16s ease, background .16s ease;
+  transition: background .16s ease;
 }
-.nav-item svg { width: 17px; height: 17px; flex: none; stroke-width: 1.7; color: #6F8A62; }
-.nav-item:hover { transform: translateX(3px); background: linear-gradient(95deg, #F1F4E5 0%, #EBEFDE 100%); }
+.nav-item svg { width: 19px; height: 19px; flex: none; stroke-width: 1.7; color: #5E9E6E; }
+/* 图标配色：设计稿侧栏图标是彩色的，四色循环 */
+.nav-item:nth-of-type(4n + 2) svg { color: #5A93C4; }
+.nav-item:nth-of-type(4n + 3) svg { color: #8666C9; }
+.nav-item:nth-of-type(4n + 4) svg { color: #C89A4A; }
+.nav-item:hover { background: rgba(255, 255, 255, .34); }
+/* 激活项：一张从封面条里伸出的奶油标签，右端圆角，左上有金色小胶带 */
 .nav-item.active {
-  background: #FCFAEE;
-  color: var(--hm-green-deep);
+  margin-left: 30px;
+  padding-left: 44px;
+  margin-right: 82px;
+  background: linear-gradient(180deg, #FBFAEF 0%, #F5F3E2 62%, #F1EFDD 100%);
+  color: #2F7D53;
   font-weight: 700;
-  transform: translateX(-4px) rotate(-.5deg);
-  box-shadow: 0 6px 16px rgba(96, 92, 64, .18);
-  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%);
+  border-radius: 0 11px 11px 0;
+  box-shadow: 0 3px 9px rgba(108, 104, 70, .18), inset 0 1px 0 rgba(255, 255, 255, .9);
 }
 .nav-item.active:before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 3px;
-  bottom: 3px;
-  width: 5px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #F5D780, #E3B44A);
+  left: 6px;
+  top: -5px;
+  width: 27px;
+  height: 12px;
+  border-radius: 1px;
+  background: linear-gradient(100deg, #F6DE9A, #E3B94F);
+  transform: rotate(-19deg);
+  box-shadow: 0 1px 2px rgba(150, 128, 60, .3);
+  z-index: 4;
 }
-.nav-item.active svg { color: var(--hm-green-deep); }
+.nav-item.active svg { color: #2F8C57; stroke-width: 1.9; }
 
 /* ---------- 3. Hero：绿色渐变档案卡 ---------- */
 .student-hero {
@@ -314,47 +324,50 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
   pointer-events: none;
 }
 
-/* ---------- 4. 统计卡 ---------- */
+/* ---------- 4. 统计卡（设计稿实测 y263–405，高 142） ---------- */
 .stats-grid {
   grid-template-columns: repeat(6, 1fr);
-  gap: 15px;
-  margin: 17px 0 0;
+  gap: 19px;
+  margin: 18px 0 0;
 }
 .stat-card {
-  height: clamp(98px, 6.04vw, 116px);
-  border: 1px solid #E6E4D4;
-  border-radius: 14px;
-  background: #F0EFE4;
-  box-shadow: 0 4px 12px rgba(120, 115, 80, .07);
+  height: clamp(120px, 7.4vw, 142px);
+  padding: 12px 0 10px;
+  justify-content: flex-start;
+  border: 1px solid #E7E3D1;
+  border-radius: 16px;
+  background: #F1EEE1;
+  box-shadow: 0 3px 10px rgba(120, 115, 80, .06);
 }
 .stat-card .icon-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
+  width: clamp(34px, 2.0vw, 40px);
+  height: clamp(34px, 2.0vw, 40px);
+  border-radius: 13px;
 }
 .stat-card .icon-box svg { width: 20px; height: 20px; }
 .stat-card b {
   margin-top: 10px;
-  font-size: 26px;
+  font-size: 50px;
   font-weight: 700;
   color: var(--hm-ink);
   line-height: 1;
+  letter-spacing: -1px;
 }
-.stat-card small { margin-top: 7px; font-size: 12.5px; color: var(--hm-muted); }
+.stat-card small { margin-top: 4px; font-size: 12.5px; color: var(--hm-muted); line-height: 1.2; }
 
 /* ---------- 5. 两栏：我的生涯画像 / 当前生涯规划 ---------- */
 .portrait-plan-primary {
-  /* 设计稿实测：左卡 554 / 右卡 900 / 间距 22 */
+  /* 设计稿实测：左卡 554 / 右卡 900 / 间距 22；卡 y432–929（高 497） */
   grid-template-columns: minmax(0, 554fr) minmax(0, 900fr);
   gap: 22px;
-  margin-top: 54px;
+  margin-top: 27px;
   align-items: stretch;
 }
 .home-portrait-panel,
 .home-plan-panel {
   position: relative;
   background: var(--hm-card);
-  border: 1px solid #EDE9DA;
+  border: 1px solid #E5E0CD;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(120, 115, 80, .07);
   overflow: hidden;
@@ -367,7 +380,7 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
   height: auto;
 }
 .home-portrait-panel {
-  padding: 22px 28px 16px;
+  padding: 18px 20px 14px;
   display: flex;
   flex-direction: column;
 }
@@ -390,8 +403,8 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
   letter-spacing: .3px;
 }
 .compact-head h2 {
-  margin: 7px 0 0;
-  font-size: 23px;
+  margin: 6px 0 0;
+  font-size: 22px;
   font-weight: 700;
   color: var(--hm-ink);
   letter-spacing: .4px;
@@ -433,7 +446,7 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
   gap: 10px;
   padding: 14px 16px;
   border-radius: 14px;
-  background: #EAEEE1;
+  background: #EDEEE0;
 }
 .portrait-facts > div { padding: 0; border-radius: 0; background: none; }
 .portrait-facts small { display: block; font-size: 13px; color: #7E8873; line-height: 1.3; }
@@ -474,7 +487,7 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
 
 /* 规划卡 */
 .home-plan-panel {
-  padding: 24px 28px 18px;
+  padding: 18px 22px 16px;
   display: flex;
   flex-direction: column;
 }
@@ -526,8 +539,8 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
 /* 便签：半透明贴纸 + 回形针 */
 .plan-change-inline {
   position: absolute;
-  top: 118px;
-  right: 26px;
+  top: 108px;
+  right: 20px;
   width: clamp(220px, 17.4vw, 334px);
   z-index: 2;
   display: grid;
@@ -637,16 +650,16 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
 
 /* ---------- 6. 近期成长记录 ---------- */
 .recent-archive-panel {
-  margin-top: 21px;
+  margin-top: 18px;
   background: var(--hm-card);
-  border: 1px solid #EDE9DA;
+  border: 1px solid #E5E0CD;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(120, 115, 80, .07);
   overflow: hidden;
 }
 .recent-archive-panel .panel-head {
   height: auto;
-  padding: 12px 26px 10px;
+  padding: 12px 20px 10px;
   align-items: flex-start;
   border-bottom: 1px solid #EEEAE1;
 }
@@ -677,7 +690,7 @@ footer { color: #A9AE9C; font-size: 11px; text-align: center; padding: 18px 0 0;
   grid-template-columns: 110px 92px minmax(0, 1fr) auto auto;
   gap: 20px;
   align-items: center;
-  padding: 11px 26px;
+  padding: 11px 20px;
   border-bottom: 1px solid #F0EDE1;
   cursor: pointer;
 }

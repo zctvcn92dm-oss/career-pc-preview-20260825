@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="16" viewBox="0 0 60 16">
+  <defs>
+    <linearGradient id="gxBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/>
+      <stop offset=".24" stop-color="#EDE9D8"/>
+      <stop offset=".5" stop-color="#A8A48C"/>
+      <stop offset=".62" stop-color="#94907A"/>
+      <stop offset=".82" stop-color="#E8E4D2"/>
+      <stop offset="1" stop-color="#B4B098"/>
+    </linearGradient>
+    <radialGradient id="gxRing" cx="34%" cy="30%" r="78%">
+      <stop offset="0" stop-color="#9A9678"/>
+      <stop offset=".48" stop-color="#726F55"/>
+      <stop offset="1" stop-color="#514F3B"/>
+    </radialGradient>
+    <radialGradient id="gxHole" cx="42%" cy="36%" r="72%">
+      <stop offset="0" stop-color="#43452F"/>
+      <stop offset="1" stop-color="#26281B"/>
+    </radialGradient>
+  </defs>
+  <!-- 横向金属钉：从封面条外缘伸出，穿过纸面打孔后回弯 -->
+  <rect x="-8" y="4.6" width="54" height="6.8" rx="3.4" fill="url(#gxBar)"/>
+  <rect x="-8" y="4.6" width="54" height="2" rx="1" fill="#FFFFFF" opacity=".5"/>
+  <!-- 打孔 -->
+  <circle cx="48" cy="8" r="7.6" fill="url(#gxRing)"/>
+  <circle cx="48" cy="8" r="4.2" fill="url(#gxHole)"/>
+  <!-- 钉子压住打孔右缘 -->
+  <path d="M48 .4a7.6 7.6 0 0 1 0 15.2" fill="none" stroke="url(#gxBar)" stroke-width="3.4" stroke-linecap="round"/>
+</svg>

@@ -91,6 +91,9 @@
     layer = gxBuildLayer();
   }
 
+  /* 供详情页「点击档案重新打开」调用：在已渲染的详情页之上再播一次开场动画 */
+  window.gxReplayIntro = gxPlayIntro;
+
   /* URL 带 intro=0 / intro=off 时强制跳过开场动画（调试、截图、客户演示详情页时用） */
   function gxIntroDisabled() {
     var v = (new URLSearchParams(location.search).get('intro') || '').toLowerCase();
