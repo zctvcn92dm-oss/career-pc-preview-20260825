@@ -354,3 +354,38 @@
   white-space: nowrap;
 }
 @media (max-width: 1560px) { .gx-field span { font-size: 14px; } }
+
+/* ============================================================
+   内嵌模式：置于标准内容面板内，与「生涯路径图」等页面统一
+   （侧栏 + 顶栏由外壳提供，档案只在内容面板里铺开）
+   ============================================================ */
+.gx-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gx-embed-panel {
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #F8F7EE 0%, #F4F3EA 100%);
+}
+/* 两栏等高伸展：左栏线圈本与右侧纸张同高，页面随内容自然滚动（与路径图等页一致） */
+.gx-page--embedded {
+  min-height: 0;
+  height: auto;
+  align-items: stretch;
+  grid-template-columns: clamp(262px, 17vw, 330px) minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px 22px 22px 14px;
+  background: transparent;
+}
+.gx-page--embedded .gx-rail {
+  height: 100%;
+  max-height: none;
+}
+.gx-page--embedded .gx-sheet {
+  height: 100%;
+  margin-top: 0;
+}
+

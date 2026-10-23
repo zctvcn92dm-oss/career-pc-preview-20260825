@@ -276,15 +276,22 @@
     try { window.scrollTo(0, 0); } catch (e) { /* 忽略 */ }
   }
 
-  function gxTopBar() {
+  /* 页头：与「生涯路径图」等标准页面统一（标题 + 说明 + 右侧操作） */
+  function gxPageHead() {
     var label = BACK_NAMES[gxBackTarget] || '首页';
-    return '<div class="gx-topbar">' +
+    var isAbility = page === 'ability';
+    return '<div class="page-head gx-head">' +
+      '<div><h1>' + (isAbility ? '能力画像' : '成长档案') + '</h1>' +
+      '<p>' + (isAbility
+        ? '按能力维度汇总测评、课程、实践等成长证据，呈现你的能力发展画像'
+        : '统一归集测评、课程、活动、竞赛等成长记录，并按学年形成成长时间线') + '</p></div>' +
+      '<div class="gx-head-actions">' +
       '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
       '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
       'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
       '<span>返回' + label + '</span></button>' +
-      '</div>';
+      '</div></div>';
   }
 
   function gxBackKey(e) {
@@ -306,12 +313,10 @@
   }
 
   /* ---------- 9. 页面装配 ---------- */
-  function gxArchivePage() {
+  /* 右栏纸张：基本资料 + AI 总结 + 学年时间线 / 其他标签的模块卡 */
+  function gxSheet() {
     var isValid = activeSideTag === '基本信息';
-    return '<div class="gx-page">' +
-      gxTopBar() +
-      gxRail() +
-      '<main class="gx-sheet">' +
+    return '<main class="gx-sheet">' +
       (isValid
         ? gxBasicCard() +
         '<section class="gx-card gx-bottom">' + gxAiPane() + gxTimePane() +
@@ -319,7 +324,15 @@
         : gxModuleCard() +
         '<section class="gx-card gx-bottom"><div class="gx-hint"><h4>' + activeSideTag + '模块</h4>' +
         '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p></div></section>') +
-      '</main></div>';
+      '</main>';
+  }
+
+  /* 内嵌在标准菜单壳内（侧栏 + 顶栏 + 页头 + 内容面板），与生涯路径图等页面统一 */
+  function gxArchivePage() {
+    return gxPageHead() +
+      '<section class="content-panel gx-embed-panel">' +
+      '<div class="gx-page gx-page--embedded">' + gxRail() + gxSheet() + '</div>' +
+      '</section>';
   }
 
   function gxEligible() {
@@ -331,7 +344,8 @@
     // 只要不在档案页，就把当前页记为「返回目标」
     if (page !== 'archive' && page !== 'ability') gxBackTarget = page;
     if ((page === 'archive' || page === 'ability') && gxEligible()) {
-      app.innerHTML = gxArchivePage();
+      // 走标准菜单壳：保留左侧导航与顶栏，档案内容内嵌在内容面板中
+      app.innerHTML = shell(gxArchivePage());
       bind();
       gxBindBack();
       syncUrl();
