@@ -2,7 +2,7 @@
    规则：page 从「非 archive」变为「archive」时播放一次；档案页内部切换
    左侧标签 / 学年页签（page 始终为 archive）不重复播放。 */
 (function () {
-  var INTRO_SRC = 'assets/archive-open-intro.mp4?v=20261023-archive-intro-v2';
+  var INTRO_SRC = 'assets/archive-open-intro.mp4?v=20261023-archive-intro-v3';
   var FADE_MS = 450;
   var MAX_MS = 9000;          // 保险丝：超时强制进入，避免卡在动画层
 
