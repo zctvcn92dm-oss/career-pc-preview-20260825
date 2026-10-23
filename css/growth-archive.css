@@ -299,3 +299,37 @@
 
 /* 「总结：」与正文之间留更大呼吸（对齐设计稿） */
 .gx-ai-text p:first-of-type{margin-top:23px}
+
+/* ===== 返回按钮（档案页以「新开页面」方式展示时的返回入口） ===== */
+.gx-back{
+  position:fixed;right:34px;top:22px;z-index:60;
+  display:inline-flex;align-items:center;gap:7px;
+  height:40px;padding:0 20px 0 15px;
+  border:1px solid #DCDAC2;border-radius:999px;
+  background:linear-gradient(180deg,#FDFCF3 0%,#F6F4E7 100%);
+  color:#4E9A6A;font-size:14px;font-weight:700;letter-spacing:.3px;
+  font-family:inherit;cursor:pointer;
+  box-shadow:0 4px 12px rgba(120,116,84,.16),inset 0 1px 0 rgba(255,255,255,.85);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.gx-back svg{width:17px;height:17px;flex:none}
+.gx-back:hover{
+  transform:translateY(-1px);
+  background:linear-gradient(180deg,#FFFFFF 0%,#FAF8EC 100%);
+  border-color:#CBD9BF;color:#43855A;
+  box-shadow:0 7px 16px rgba(120,116,84,.2),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.gx-back:active{transform:translateY(0)}
+
+/* 基本资料：标签 + 值（此前只渲染了标签，值丢失） */
+.gx-field span {
+  font-size: 15px;
+  font-weight: 400;
+  color: #39422F;
+  letter-spacing: .2px;
+  margin-left: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 1560px) { .gx-field span { font-size: 14px; } }

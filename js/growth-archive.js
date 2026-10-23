@@ -59,6 +59,9 @@
       { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' }
     ],
     '第四年': [
+      { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
+      { created_at: '2024年10月08日 15:22:47', business_type: '大学生创新大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生创新大赛】，项目名称：基于AIGC的校园文创设计平台，获校级三等奖' },
+      { created_at: '2024年09月25日 20:06:13', business_type: '线上咨询', ability_dimension: '自我认知能力', description: '完成【线上生涯咨询】，咨询主题：就业与考研的权衡选择' },
       { created_at: '2024年09月22日 00:46:58', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中建西部建设湖南有限公司】宣讲会' },
       { created_at: '2024年09月18日 16:39:02', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【长沙理工大学2025届毕业生秋季综合双选会（第一场）暨第八届校友企业专场招聘会】双选会' },
       { created_at: '2024年09月18日 15:39:57', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【安克创新科技股份有限公司深圳分公司】宣讲会' },
@@ -165,7 +168,7 @@
     var right = [['学校/学院', b.school], ['性别', b.gender], ['身份证号', b.idCard], ['手机号码', b.phone], ['电子邮件', b.email], ['学制', b.duration], ['校园卡编号', b.campusCard]];
     var col = function (rows) {
       return '<div class="gx-fcol">' + rows.map(function (r) {
-        return '<p class="gx-field" title="' + (r[1] || '') + '"><b>' + r[0] + '：</b></p>';
+        return '<p class="gx-field"><b>' + r[0] + '：</b><span>' + (r[1] || '—') + '</span></p>';
       }).join('') + '</div>';
     };
     var punch = '';
@@ -259,10 +262,47 @@
       '</section>';
   }
 
-  /* ---------- 8. 页面装配 ---------- */
+  /* ---------- 8. 返回按钮 ---------- */
+  var gxBackTarget = 'home';                 // 进入档案页前的上一个页面
+  var BACK_NAMES = { home: '首页', archive: '成长档案', path: '生涯路径图', mail: '未来信箱',
+    assessment: '职业测评', course: '线上课', video: '微视频', major: '专业认知',
+    week: '生涯体验周', activity: '生涯活动', 'career-consult': '生涯咨询',
+    plan: 'AI生涯规划', resume: 'AI简历', interview: 'AI面试', etiquette: '职业礼仪',
+    contest: '职业规划大赛', assistant: '生涯助理', profile: '个人中心' };
+
+  function gxBackTo() {
+    page = gxBackTarget && gxBackTarget !== 'archive' ? gxBackTarget : 'home';
+    render();
+    try { window.scrollTo(0, 0); } catch (e) { /* 忽略 */ }
+  }
+
+  function gxBackButton() {
+    var label = BACK_NAMES[gxBackTarget] || '首页';
+    return '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
+      'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<span>返回' + label + '</span></button>';
+  }
+
+  function gxBackKey(e) {
+    // 开场动画播放期间不抢 Esc（那时 Esc 是「跳过动画」）
+    if (e.key !== 'Escape') return;
+    if (document.querySelector('.gx-intro')) return;
+    gxBackTo();
+  }
+
+  function gxBindBack() {
+    var btn = document.querySelector('.gx-back');
+    if (btn) btn.onclick = gxBackTo;
+    document.removeEventListener('keydown', gxBackKey);
+    if (btn) document.addEventListener('keydown', gxBackKey);
+  }
+
+  /* ---------- 9. 页面装配 ---------- */
   function gxArchivePage() {
     var isValid = activeSideTag === '基本信息';
     return '<div class="gx-page">' +
+      gxBackButton() +
       gxRail() +
       '<main class="gx-sheet">' +
       (isValid
@@ -281,12 +321,16 @@
 
   var gxOriginalRender = render;
   render = function () {
+    // 只要不在档案页，就把当前页记为「返回目标」
+    if (page !== 'archive') gxBackTarget = page;
     if (page === 'archive' && gxEligible()) {
       app.innerHTML = gxArchivePage();
       bind();
+      gxBindBack();
       syncUrl();
       return;
     }
+    document.removeEventListener('keydown', gxBackKey);
     gxOriginalRender();
   };
   render();
