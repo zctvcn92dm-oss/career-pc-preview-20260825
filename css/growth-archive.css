@@ -162,7 +162,7 @@
 }
 .gx-fcol{display:flex;flex-direction:column}
 .gx-field{margin:0;height:44px;display:flex;align-items:center}
-.gx-field b{font-size:15px;font-weight:700;color:#2F382B;letter-spacing:.3px}
+.gx-field b{font-size:15px;font-weight:700;color:#2F382B;letter-spacing:.3px;white-space:nowrap;flex:0 0 auto}
 .gx-hero{
   overflow:hidden;border-radius:0 10px 10px 0;
   background-image:url("../assets/archive-hero-scene.png");
@@ -243,7 +243,9 @@
   .gx-sheet{height:auto;min-height:calc(100vh - 61px)}
   .gx-bottom{min-height:520px}
   .gx-ai-text p{font-size:12px;line-height:1.6}
-  .gx-fields{grid-template-columns:300px minmax(0,1fr);padding-left:34px}
+  .gx-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-left:34px}
+  /* 窄屏收窄插画区，把宽度让给字段区，避免长值被省略号截断 */
+  .gx-basic{grid-template-columns:minmax(0,1fr) 42%}
   .gx-field b{font-size:14px}
   .gx-field{height:42px}
   .gx-time{padding-left:44px;padding-right:40px}
@@ -255,7 +257,7 @@
   .gx-spiral{left:20px}
   .gx-sheet{min-height:0;margin-top:8px}
   .gx-bottom{grid-template-columns:1fr;gap:20px;padding-bottom:16px}
-  .gx-fields{grid-template-columns:1fr;padding-left:30px}
+  .gx-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-left:30px}
   .gx-basic{grid-template-columns:1fr 38%}
   /* 1280 及以下：阶段标签改横排小标题，把整行宽度让给导航项（避免长标签被截断） */
   .gx-group{grid-template-columns:1fr;gap:5px}
@@ -349,6 +351,8 @@
   color: #39422F;
   letter-spacing: .2px;
   margin-left: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
