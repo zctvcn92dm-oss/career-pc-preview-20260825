@@ -162,15 +162,52 @@
     '职业性格测评': [
       { title: '竞选者 ENFP型', type: '职业性格测评', traits: '外向、直觉、情感、知觉', time: '2025-09-13 00:14', status: '已生成',
         report: {
-          result: 'ENFP', duration: '34分08秒', tags: '热情洋溢、富有创造力、善于社交',
+          result: 'ENFP', duration: '3分4秒', tags: '热情洋溢、富有创造力、善于社交',
           dims: [
-            { left: '外向(E)', lv: 60, right: '内向(I)', rv: 60 },
-            { left: '实感(S)', lv: 56, right: '直觉(N)', rv: 65 },
-            { left: '理性(T)', lv: 60, right: '情感(F)', rv: 60 },
-            { left: '判断(J)', lv: 45, right: '知觉(P)', rv: 65 }
+            { l: '外向(E)', lv: 62, r: '内向(I)', rv: 38 },
+            { l: '实感(S)', lv: 40, r: '直觉(N)', rv: 60 },
+            { l: '理性(T)', lv: 38, r: '情感(F)', rv: 62 },
+            { l: '判断(J)', lv: 40, r: '知觉(P)', rv: 60 }
           ],
-          summary: '总体来看，你是一个充满活力和创造精神的人，喜欢探索新的可能性，并且善于理解他人的情感。',
-          styleText: 'ENFP 的行为风格是开放的、富有同理心的，善于理解和激发他人的潜力。'
+          summary: '总体来看，你是一个充满活力和创新精神的人，喜欢探索新的可能性，并且善于理解他人的情感。',
+          styleIntro: 'ENFP 的行为风格是开放的、富有同情心的，善于理解和欣赏他人的潜力。',
+          letters: [
+            { k: 'E', t: '代表外向', tone: 'a', d: '你喜欢从外部世界和他人互动中获取能量，喜欢社交活动，乐于与人交往。' },
+            { k: 'N', t: '代表直觉', tone: 'b', d: '你倾向于关注未来和可能，善于发现新事物和探索新的想法。' },
+            { k: 'F', t: '代表感性', tone: 'a', d: '你重视人际关系，善于理解他人的情感和需求。' },
+            { k: 'P', t: '代表知觉', tone: 'b', d: '你倾向于灵活和开放，不喜欢被固定的计划或规则束缚。' }
+          ],
+          population: [
+            { v: '2%', t: '占总人口' }, { v: '1.5%', t: '占男性' }, { v: '2.5%', t: '占女性' }
+          ],
+          ultimate: '追求有意义的生活和领导力的工作环境。',
+          adv: [
+            { t: '富有创意和想象力', d: 'ENFP类型的人通常具有强大的创造力和想象力，他们能够提出独特的想法和解决方案，这使他们在需要创新思维的工作环境中特别有价值。他们的这种特质有助于打破常规，激发团队的活力，推动项目向前发展。' },
+            { t: '善于人际交往', d: 'ENFP擅长建立和维护人际关系，他们能迅速理解他人的情感需求并提供支持。这使他们在客户服务、销售、人力资源等注重人际互动的领域表现出色。他们可以成为团队中的润滑剂，促进成员之间的良好沟通和合作。' },
+            { t: '热情洋溢，鼓舞人心', d: 'ENFP的个性充满热情，他们能够感染周围的人，激励同事共同追求目标。这种正能量对于需要鼓舞士气的团队来说至关重要，能够推动团队克服困难，达成共识。' }
+          ],
+          dis: [
+            { t: '容易分心', d: '尽管ENFP们想法活跃，但他们也可能因为过于关注各种可能性而难以集中精力完成任务，这种倾向可能会导致项目延期或者质量不达标的问题。' },
+            { t: '情绪化决策', d: '由于ENFP倾向于从情感角度出发考虑问题，有时可能会受情绪的影响，做出冲动的决定。这在面对重大决策时可能带来风险。' },
+            { t: '避免冲突', d: 'ENFP们通常不喜欢直接对抗。为了避免引发冲突，他们可能会选择回避冲突，这可能导致一些问题得不到及时解决。' }
+          ],
+          improve: [
+            { t: '培养专注力', d: '学习时间管理和优先级设定技巧，提高工作效率。通过设定明确的目标和截止日期来减少分心的机会。' },
+            { t: '增强决策能力', d: '在决策前收集更多的信息和数据，学会平衡理性和感性因素，以便全面地考虑各种可能性。' },
+            { t: '提升抗压能力', d: '练习冷静应对批评和反对意见的能力，积极参与团队讨论，敢于表达自己的观点。' }
+          ],
+          org: [
+            { t: '鼓励开放创新的文化', d: '在一个鼓励创新和开放的环境中，ENFP们可以更好地发挥其独特的优势，贡献新的见解和方案。' },
+            { t: '灵活多变的团队结构', d: '具有高灵活性的工作环境能够使ENFP们更容易找到适合自己的角色，从而最大化个人潜能和团队效能。' }
+          ],
+          major: { name: '软件技术', note: '您的专业为信息与计算，结合您的ENFP性格特点，您擅长利用技术解决实际问题，并且具有创新思维。' },
+          industry: { name: '信息技术', match: 82 },
+          jobs: [
+            { title: '产品经理', salary: '5K-7K/月', industry: '其他企业（含民营企业等） 信息传输、软件和信息技术服务业', type: '校招', edu: '大专及以上', company: '长沙变化网络科技有限公司', date: '2026-10-23' },
+            { title: 'UI设计师', salary: '3K-7K/月', industry: '其他企业（含民营企业等） 信息传输、软件和信息技术服务业', type: '校招', edu: '本科及以上', company: '长沙云动信息科技有限公司', date: '2027-04-06' },
+            { title: '产品设计-管培生', salary: '7K-8K/月', industry: '其他企业（含民营企业等） 信息传输、软件和信息技术服务业', type: '校招', edu: '不限', company: '长沙星野品牌管理有限公司', date: '2027-06-15' }
+          ],
+          foot: { tip: '提示：本内容由AI生成，不能完全保障真实，仅供参考', teacher: '生涯指导老师 云就业小管家', date: '2025-09-13 00:15:33' }
         } },
       { title: '提倡者 INFJ型', type: '职业性格测评', traits: '内向、直觉、情感、判断', time: '2025-08-07 10:42', status: '已生成',
         report: {
@@ -704,6 +741,105 @@
       '</div>';
   }
 
+  /* 完整版职业性格测评报告（对齐设计稿竖版长报告） */
+  function gxFullReport(rep) {
+    var dims = rep.dims.map(function (d) {
+      return '<div class="gx-rpt-dim">' +
+        '<span class="gx-rpt-dim-lab">' + d.l + '</span>' +
+        '<div class="gx-rpt-dim-bar">' +
+        '<i class="g" style="width:' + d.lv + '%"><b>' + d.lv + '%</b></i>' +
+        '<i class="p" style="width:' + d.rv + '%"><b>' + d.rv + '%</b></i>' +
+        '</div>' +
+        '<span class="gx-rpt-dim-lab gx-rpt-dim-lab--r">' + d.r + '</span>' +
+        '</div>';
+    }).join('');
+
+    var letters = rep.letters.map(function (x) {
+      return '<div class="gx-rpt-letter tone-' + x.tone + '">' +
+        '<h4>' + x.k + ' ' + x.t + '</h4><p>' + x.d + '</p></div>';
+    }).join('');
+
+    var pop = rep.population.map(function (p) {
+      return '<div class="gx-rpt-pop-item"><div class="gx-rpt-pop-ring">' + p.v + '</div><span>' + p.t + '</span></div>';
+    }).join('');
+
+    function items(arr, start) {
+      return arr.map(function (x, i) {
+        var n = ('0' + (i + 1)).slice(-2);
+        return '<div class="gx-rpt-item"><span class="n">' + n + '</span><h4>' + x.t + '</h4><p>' + x.d + '</p></div>';
+      }).join('');
+    }
+
+    var jobs = rep.jobs.map(function (j) {
+      return '<article class="gx-rpt-job">' +
+        '<div class="gx-rpt-job-top"><b>' + j.title + '</b><em>' + j.salary + '</em></div>' +
+        '<p class="gx-rpt-job-meta">' + j.industry + '</p>' +
+        '<div class="gx-rpt-job-tags"><span>' + j.type + '</span><span>' + j.edu + '</span></div>' +
+        '<div class="gx-rpt-job-foot"><span>' + j.company + '</span><span>' + j.date + '</span></div>' +
+        '</article>';
+    }).join('');
+
+    return '<div class="gx-rpt">' +
+      '<div class="gx-rpt-hero">' +
+      '<h1 class="gx-rpt-title">职业性格测评报告</h1>' +
+      '<div class="gx-rpt-person">' +
+      '<span class="gx-rpt-avatar" aria-hidden="true">' + gxAvatar() + '</span>' +
+      '<div class="gx-rpt-person-info">' +
+      '<b>杨强 · 测试学生</b>' +
+      '<p>测评时长：' + rep.duration + '</p>' +
+      '<p>测评结果：' + rep.result + '</p>' +
+      '<p>你的特点：' + rep.tags + '</p>' +
+      '</div></div></div>' +
+
+      '<section class="gx-rpt-sec">' +
+      '<h2 class="gx-rpt-h2">报告总结</h2>' +
+      '<p class="gx-rpt-sub">各维度数据对比</p>' +
+      '<div class="gx-rpt-dims">' + dims + '</div>' +
+      '<p class="gx-rpt-p">' + rep.summary + '</p>' +
+      '</section>' +
+
+      '<section class="gx-rpt-sec">' +
+      '<h2 class="gx-rpt-h2">行为风格分析及建议</h2>' +
+      '<p class="gx-rpt-p">' + rep.styleIntro + '</p>' +
+      '<div class="gx-rpt-badge">' + rep.result + '</div>' +
+      '<div class="gx-rpt-letters">' + letters + '</div>' +
+      '<p class="gx-rpt-sub">人口比例</p>' +
+      '<div class="gx-rpt-pop">' + pop + '</div>' +
+      '<p class="gx-rpt-sub">终极追求</p>' +
+      '<p class="gx-rpt-p">' + rep.ultimate + '</p>' +
+      '</section>' +
+
+      '<section class="gx-rpt-sec">' +
+      '<h2 class="gx-rpt-h2">工作分析及建议</h2>' +
+      '<p class="gx-rpt-sub">工作中的优势</p>' +
+      '<div class="gx-rpt-items">' + items(rep.adv) + '</div>' +
+      '<p class="gx-rpt-sub">工作中的劣势</p>' +
+      '<div class="gx-rpt-items">' + items(rep.dis) + '</div>' +
+      '<p class="gx-rpt-sub">最能发挥你优势的岗位特点</p>' +
+      '<div class="gx-rpt-items">' + items(rep.improve) + '</div>' +
+      '<p class="gx-rpt-sub">最能发挥你优势的组织特征</p>' +
+      '<div class="gx-rpt-items">' + items(rep.org) + '</div>' +
+      '</section>' +
+
+      '<section class="gx-rpt-sec">' +
+      '<h2 class="gx-rpt-h2">岗位推荐</h2>' +
+      '<div class="gx-rpt-major"><b>' + rep.major.name + '</b></div>' +
+      '<p class="gx-rpt-sub">专业分析</p>' +
+      '<p class="gx-rpt-p">' + rep.major.note + '</p>' +
+      '<div class="gx-rpt-industry"><span>推荐行业</span><span>匹配度</span></div>' +
+      '<div class="gx-rpt-industry-row"><span class="tag">' + rep.industry.name + '</span><span class="gauge">' + rep.industry.match + '%</span></div>' +
+      '<div class="gx-rpt-jobs-head"><b>为您推荐的岗位</b><span>更多</span></div>' +
+      '<div class="gx-rpt-jobs">' + jobs + '</div>' +
+      '</section>' +
+
+      '<div class="gx-rpt-foot">' +
+      '<p>' + rep.foot.tip + '</p>' +
+      '<p>' + rep.foot.teacher + '</p>' +
+      '<p>分析日期 ' + rep.foot.date + '</p>' +
+      '</div>' +
+      '</div>';
+  }
+
   function gxAssessReport() {
     var recs = ca.assessmentRecords[activeAssessTab] || [];
     var rec = recs[activeAssessIndex] || recs[0];
@@ -712,6 +848,11 @@
       return '<section class="gx-card gx-assess-report gx-assess-report--empty">' +
         '<div class="gx-assess-report-head"><h3 class="gx-assess-report-title">' + activeAssessTab + '报告</h3></div>' +
         '<div class="gx-records-empty"><p>该测评暂未生成详细报告，完成测评后将在此展示。</p></div>' +
+        '</section>';
+    }
+    if (rep.letters) {
+      return '<section class="gx-card gx-assess-report gx-assess-report--full">' +
+        '<div class="gx-assess-report-body gx-rpt-body">' + gxFullReport(rep) + '</div>' +
         '</section>';
     }
     var dimRows = rep.dims.map(function (d) {
@@ -788,7 +929,7 @@
   function gxArchivePage() {
     return gxPageHead() +
       '<section class="content-panel gx-embed-panel">' +
-      '<div class="gx-page gx-page--embedded' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + '">' + gxRail() + gxSheet() + '</div>' +
+      '<div class="gx-page gx-page--embedded' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '') + '">' + gxRail() + gxSheet() + '</div>' +
       '</section>';
   }
 

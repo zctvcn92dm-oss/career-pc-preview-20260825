@@ -419,6 +419,17 @@
 .gx-page--embedded.gx-page--interview .gx-sheet {
   min-height: 0;
 }
+/* 职业测评页：同面试页，给整页确定高度，报告卡内部滚动而非撑高整页 */
+.gx-page--embedded.gx-page--assess {
+  height: calc(100vh - 75px);
+  min-height: 600px;
+  grid-template-rows: minmax(0, 1fr);
+}
+.gx-page--embedded.gx-page--assess .gx-rail,
+.gx-page--embedded.gx-page--assess .gx-sheet {
+  min-height: 0;
+  height: 100%;
+}
 
 /* 顶部左：AI 总结及建议（纯文字版） */
 .gx-ai-card-body { padding: 4px 20px 22px; flex: 1; min-height: 0; overflow-y: auto; }
@@ -620,6 +631,86 @@
 .gx-assess-style p { margin: 0; font-size: 12.5px; line-height: 1.72; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 .gx-assess-footer { margin-top: 14px; text-align: center; font-size: 12px; color: #8A937E; letter-spacing: 2px; }
 .gx-assess-report--empty .gx-records-empty { min-height: 160px; }
+
+/* ===== 完整版职业性格测评报告（竖版长报告） ===== */
+.gx-assess-report--full { padding: 0; background: #fff; }
+.gx-assess-report--full .gx-rpt-body { padding: 0; }
+
+.gx-rpt { display: block; color: #2F382B; font-size: 13px; }
+
+.gx-rpt-hero { padding: 18px 18px 16px; background: linear-gradient(135deg, #5C7240 0%, #41552F 100%); color: #fff; }
+.gx-rpt-title { margin: 0 0 14px; font-size: 19px; font-weight: 800; letter-spacing: .6px; }
+.gx-rpt-person { display: flex; align-items: center; gap: 13px; }
+.gx-rpt-avatar { width: 46px; height: 46px; flex: none; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.55); }
+.gx-rpt-avatar svg { width: 100%; height: 100%; display: block; }
+.gx-rpt-person-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.gx-rpt-person-info b { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.gx-rpt-person-info p { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.82); }
+
+.gx-rpt-sec { padding: 16px 18px; border-bottom: 1px solid #EDEFE4; }
+.gx-rpt-h2 { margin: 0 0 10px; font-size: 15.5px; font-weight: 800; color: #41552F; position: relative; padding-left: 11px; }
+.gx-rpt-h2::before { content: ''; position: absolute; left: 0; top: 3px; bottom: 3px; width: 4px; border-radius: 2px; background: #7E9B53; }
+.gx-rpt-sub { margin: 14px 0 8px; font-size: 13px; font-weight: 700; color: #5C7240; }
+.gx-rpt-p { margin: 0; font-size: 13px; line-height: 1.8; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
+
+/* 维度对比条（左右两色拼接） */
+.gx-rpt-dims { display: flex; flex-direction: column; gap: 13px; margin: 2px 0 12px; }
+.gx-rpt-dim { display: grid; grid-template-columns: 76px minmax(0, 1fr) 76px; align-items: center; gap: 10px; }
+.gx-rpt-dim-lab { font-size: 12px; color: #3C453A; white-space: nowrap; }
+.gx-rpt-dim-lab--r { text-align: right; color: #7E8A6A; }
+.gx-rpt-dim-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: #EEF0E6; }
+.gx-rpt-dim-bar i { position: relative; flex: none; height: 100%; display: block; }
+.gx-rpt-dim-bar i.g { background: linear-gradient(90deg, #8FB36A, #6E9445); }
+.gx-rpt-dim-bar i.p { background: linear-gradient(90deg, #B79FD8, #8E7AB5); }
+.gx-rpt-dim-bar i b { position: absolute; top: 50%; transform: translateY(-50%); font-size: 9.5px; font-style: normal; font-weight: 800; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.2); }
+.gx-rpt-dim-bar i.g b { right: 5px; }
+.gx-rpt-dim-bar i.p b { left: 5px; }
+
+/* 行为风格字母卡 */
+.gx-rpt-badge { display: grid; place-items: center; width: 58px; height: 58px; margin: 4px 0 12px; border-radius: 14px; background: linear-gradient(135deg, #7E9B53, #5C7240); color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 5px 12px rgba(92,114,64,.28); }
+.gx-rpt-letters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.gx-rpt-letter { padding: 10px 11px; border-radius: 10px; border: 1px solid #E6EBD8; background: #FBFCF6; }
+.gx-rpt-letter.tone-a { background: #F1F6E8; border-color: #DCE7C8; }
+.gx-rpt-letter.tone-b { background: #F4F0F9; border-color: #E6DCF1; }
+.gx-rpt-letter h4 { margin: 0 0 5px; font-size: 13px; font-weight: 800; color: #41552F; }
+.gx-rpt-letter p { margin: 0; font-size: 11.5px; line-height: 1.66; color: #5A6450; }
+
+/* 人口比例环 */
+.gx-rpt-pop { display: flex; gap: 14px; margin: 6px 0 2px; }
+.gx-rpt-pop-item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.gx-rpt-pop-ring { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 800; color: #41552F; background: #EDF3E2; border: 5px solid #7E9B53; }
+.gx-rpt-pop-item span { font-size: 11.5px; color: #5A6450; text-align: center; }
+
+/* 工作分析条目 */
+.gx-rpt-items { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 2px; }
+.gx-rpt-item { display: flex; gap: 10px; padding: 10px 12px; background: #FBFCF6; border: 1px solid #EDEFE4; border-radius: 10px; }
+.gx-rpt-item .n { flex: none; width: 22px; height: 22px; border-radius: 7px; background: #E7EFD6; color: #5C7240; font-size: 12px; font-weight: 800; display: grid; place-items: center; }
+.gx-rpt-item h4 { margin: 1px 0 4px; font-size: 13px; font-weight: 700; color: #2F382B; }
+.gx-rpt-item p { margin: 0; font-size: 11.5px; line-height: 1.62; color: #5A6450; }
+
+/* 专业 / 行业 / 岗位 */
+.gx-rpt-major { margin: 6px 0 10px; }
+.gx-rpt-major b { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EDF3E2; color: #41552F; font-size: 14px; font-weight: 800; }
+.gx-rpt-industry { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #5C7240; margin: 4px 0 6px; }
+.gx-rpt-industry-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #FBFCF6; border: 1px solid #EDEFE4; border-radius: 10px; margin-bottom: 14px; }
+.gx-rpt-industry-row .tag { font-size: 13px; font-weight: 700; color: #2F382B; }
+.gx-rpt-industry-row .gauge { font-size: 18px; font-weight: 800; color: #7E9B53; }
+.gx-rpt-jobs-head { display: flex; align-items: center; justify-content: space-between; margin: 4px 0 10px; }
+.gx-rpt-jobs-head b { font-size: 14px; font-weight: 800; color: #41552F; }
+.gx-rpt-jobs-head span { font-size: 12px; color: #8A937E; }
+.gx-rpt-jobs { display: flex; flex-direction: column; gap: 10px; }
+.gx-rpt-job { padding: 11px 12px; border: 1px solid #E6EBD8; border-radius: 10px; background: #fff; }
+.gx-rpt-job-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.gx-rpt-job-top b { font-size: 13.5px; font-weight: 800; color: #2F382B; }
+.gx-rpt-job-top em { font-style: normal; font-size: 12.5px; font-weight: 700; color: #C0392B; }
+.gx-rpt-job-meta { margin: 5px 0 7px; font-size: 11.5px; color: #5A6450; line-height: 1.5; }
+.gx-rpt-job-tags { display: flex; gap: 6px; margin-bottom: 7px; }
+.gx-rpt-job-tags span { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #EDF3E2; color: #5C7240; }
+.gx-rpt-job-foot { display: flex; justify-content: space-between; font-size: 11px; color: #8A937E; }
+
+/* 报告页脚 */
+.gx-rpt-foot { padding: 14px 18px 18px; text-align: center; border-top: 1px dashed #DEE5CE; }
+.gx-rpt-foot p { margin: 0 0 3px; font-size: 11px; color: #8A937E; line-height: 1.5; }
 
 @media (max-width: 1280px) {
   .gx-sheet-assess { grid-template-rows: none; height: auto; }
