@@ -785,7 +785,7 @@
       '<div class="gx-rpt-person">' +
       '<span class="gx-rpt-avatar" aria-hidden="true">' + gxAvatar() + '</span>' +
       '<div class="gx-rpt-person-info">' +
-      '<b>杨强 · 测试学生</b>' +
+      '<b>林晓宇 · 测试学生</b>' +
       '<p>测评时长：' + rep.duration + '</p>' +
       '<p>测评结果：' + rep.result + '</p>' +
       '<p>你的特点：' + rep.tags + '</p>' +
