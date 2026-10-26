@@ -74,6 +74,61 @@
     ]
   };
 
+  /* ---------- 1b. AI 模拟面试数据 ---------- */
+  var activeInterviewJob = 'j1';
+  var activeTrendMode = 'total';
+  var activeRecordFilter = 'all';
+  var activeReportId = '';
+
+  function gxAscend(final, n) {
+    var arr = [], base = Math.round(final * 0.74), i;
+    for (i = 0; i < n; i++) {
+      var t = i / (n - 1);
+      var v = base + (final - base) * t + (1 - t) * (final * 0.05) * Math.sin(i * 1.7 + 1);
+      arr.push(Math.max(40, Math.round(v)));
+    }
+    arr[n - 1] = final;
+    return arr;
+  }
+  ca.interviewDims = ['透明沟通', '抗压能力', '行为礼貌', '逻辑思维', '专业素养', '倾听理解'];
+  ca.interviewJobs = [
+    { id: 'j1', name: '目标岗位1', score: 82 },
+    { id: 'j2', name: '目标岗位2', score: 85 },
+    { id: 'j3', name: '班主任老师', score: 88 },
+    { id: 'j4', name: '辅导员老师', score: 88 }
+  ];
+  ca.interviewSessions = ['第1次', '第2次', '第3次', '第4次', '第5次'];
+  ca.interviewTrend = {};
+  ca.interviewJobs.forEach(function (j) {
+    var total = gxAscend(j.score, 5);
+    var dims = {};
+    ca.interviewDims.forEach(function (d, di) {
+      var f = Math.max(50, Math.min(98, Math.round(j.score + (di - 2.5) * 2.6)));
+      dims[d] = gxAscend(f, 5);
+    });
+    ca.interviewTrend[j.id] = { total: total, dims: dims };
+  });
+  ca.interviewRecords = [
+    { id: 'r1', job: '目标岗位1', score: 82, status: 'pass',
+      report: { score: 89.5,
+        dims: { '透明沟通': 90, '抗压能力': 84, '行为礼貌': 92, '逻辑思维': 86, '专业素养': 88, '倾听理解': 91 },
+        comment: '林晓宇同学在本场模拟面试中整体表现优秀。开场自我介绍条理清晰，能围绕岗位胜任力展开论述；在「抗压能力」情境题中面对连续追问保持了稳定的情绪与表达节奏，思路未被带偏。建议在「逻辑思维」维度进一步强化论证层次感，多用 STAR 等结构化框架组织案例，并适当放慢语速，给面试官更充分的倾听空间。' } },
+    { id: 'r2', job: '目标岗位2', score: 85, status: 'comment',
+      report: { score: 87.2,
+        dims: { '透明沟通': 88, '抗压能力': 82, '行为礼貌': 90, '逻辑思维': 84, '专业素养': 86, '倾听理解': 89 },
+        comment: '本场面试在「专业素养」维度表现突出，对岗位所需的工具与方法论掌握扎实，能结合课程项目举例。相对薄弱的是「抗压能力」——被要求限时作答时语速加快、出现重复表述。建议通过限时演练提升临场稳定性，并在回答前用 2 秒深呼吸稳定节奏。' } },
+    { id: 'r3', job: '班主任老师', score: 88, status: 'pass',
+      report: { score: 90.4,
+        dims: { '透明沟通': 91, '抗压能力': 87, '行为礼貌': 93, '逻辑思维': 89, '专业素养': 90, '倾听理解': 92 },
+        comment: '面对教师岗的情境模拟，沟通与礼貌维度尤为亮眼，能自然使用称呼与过渡语，体现育人岗位的亲和力。逻辑维度整体良好，个别追问下偶有发散。后续可在复盘环节主动总结「我刚才的回答要点」，强化收束能力。' } },
+    { id: 'r4', job: '辅导员老师', score: 88, status: 'fail',
+      report: { score: '83.0',
+        dims: { '透明沟通': 85, '抗压能力': 78, '行为礼貌': 88, '逻辑思维': 80, '专业素养': 84, '倾听理解': 86 },
+        comment: '本场在「抗压能力」与「逻辑思维」两个维度上未达通过线。被问及突发事件处置时，先入为主给出结论、缺少分步推演，倾听环节也未能完整复述面试官的问题要点。建议先复述问题、再分层作答，并针对危机场景做专项话术训练。' } }
+  ];
+  ca.interviewStatusText = { pass: '已通过', fail: '未通过', comment: '已点评' };
+  if (!activeReportId && ca.interviewRecords[0]) activeReportId = ca.interviewRecords[0].id;
+
   /* ---------- 2. 装饰图形 ---------- */
   function gxClover(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 32 32" aria-hidden="true">' +
@@ -184,8 +239,9 @@
   }
 
   /* ---------- 5. AI 总结及建议 ---------- */
-  function gxRadar() {
-    var ds = ca.radar5, cx = 210, cy = 170, rx = 145, ry = 132, n = ds.length;
+  function gxRadar(ds) {
+    if (!ds) ds = ca.radar5;
+    var cx = 210, cy = 170, rx = 145, ry = 132, n = ds.length;
     function pt(k, i) {
       var a = -Math.PI / 2 + i * 2 * Math.PI / n;
       return [cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k];
@@ -204,8 +260,8 @@
     }).join('');
     var labels = ds.map(function (d, i) {
       var p = pt(1.13, i), anchor = 'middle';
-      if (i === 1 || i === 2) anchor = 'start';
-      if (i === 3 || i === 4) anchor = 'end';
+      if (p[0] > cx + 4) anchor = 'start';
+      else if (p[0] < cx - 4) anchor = 'end';
       return '<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4).toFixed(1) + '" text-anchor="' + anchor + '">' + d.name + '</text>';
     }).join('');
     return '<svg class="gx-radar-svg" viewBox="0 0 420 330" role="img" aria-label="能力画像雷达图">' +
@@ -213,13 +269,18 @@
       '<polygon class="gx-area" points="' + poly + '"/>' + dots +
       '<g class="gx-labels">' + labels + '</g></svg>';
   }
-  function gxAiPane() {
-    return '<div class="gx-ai">' +
+  function gxAiPane(stacked) {
+    return '<div class="gx-ai' + (stacked ? ' gx-ai--stack' : '') + '">' +
       '<h3 class="gx-ai-title">AI总结及建议</h3>' +
       '<div class="gx-radar">' + gxRadar() + '</div>' +
       '<div class="gx-ai-text"><h4>总结：</h4><p>' + ca.aiSummary.total + '</p>' +
       '<h4>建议：</h4><p>' + ca.aiSummary.advice + '</p></div>' +
       '</div>';
+  }
+
+  function gxRadar6(dims) {
+    var ds = ca.interviewDims.map(function (n) { return { name: n, value: dims[n] || 0 }; });
+    return gxRadar(ds);
   }
 
   /* ---------- 6. 学年时间线 ---------- */
@@ -312,9 +373,134 @@
     if (btn) document.addEventListener('keydown', gxBackKey);
   }
 
+  /* ---------- 8b. AI 模拟面试详情（2×2 网格） ---------- */
+  function gxLineChart(series, labels) {
+    var W = 480, H = 236, padL = 34, padR = 12, padT = 12, padB = 26;
+    var plotW = W - padL - padR, plotH = H - padT - padB, max = 100, min = 0;
+    function x(i) { return padL + (labels.length === 1 ? plotW / 2 : plotW * i / (labels.length - 1)); }
+    function y(v) { return padT + plotH * (1 - (v - min) / (max - min)); }
+    var grid = [0, 25, 50, 75, 100].map(function (g) {
+      var yy = y(g);
+      return '<line x1="' + padL + '" y1="' + yy.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + yy.toFixed(1) + '" class="gx-grid-line"/>' +
+        '<text x="' + (padL - 5) + '" y="' + (yy + 3).toFixed(1) + '" text-anchor="end" class="gx-grid-text">' + g + '</text>';
+    }).join('');
+    var xlabels = labels.map(function (lb, i) {
+      return '<text x="' + x(i).toFixed(1) + '" y="' + (H - 7) + '" text-anchor="middle" class="gx-axis-text">' + lb + '</text>';
+    }).join('');
+    var paths = series.map(function (s) {
+      var d = s.values.map(function (v, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+      var dots = s.values.map(function (v, i) { return '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="2.6" fill="' + s.color + '"/>'; }).join('');
+      return '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' + dots;
+    }).join('');
+    return '<svg class="gx-linechart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="成绩趋势折线图">' +
+      '<g class="gx-grid">' + grid + '</g>' + paths + '<g class="gx-axis">' + xlabels + '</g></svg>';
+  }
+
+  function gxInterviewTrend() {
+    var job = ca.interviewJobs.filter(function (j) { return j.id === activeInterviewJob; })[0] || ca.interviewJobs[0];
+    var t = ca.interviewTrend[job.id];
+    var labels = ca.interviewSessions;
+    var palette = ['#7E9A68', '#C98B5E', '#6E9B9F', '#B0769B', '#8A86C4', '#C9B25E'];
+    var series, legend = '';
+    if (activeTrendMode === 'total') {
+      series = [{ name: '总分', color: '#7E9A68', values: t.total }];
+    } else {
+      series = ca.interviewDims.map(function (d, i) {
+        return { name: d, color: palette[i % palette.length], values: t.dims[d] };
+      });
+      legend = '<div class="gx-trend-legend">' + series.map(function (s) {
+        return '<span class="gx-legend-item"><i style="background:' + s.color + '"></i>' + s.name + '</span>';
+      }).join('') + '</div>';
+    }
+    var jobTabs = ca.interviewJobs.map(function (j) {
+      return '<button class="' + (j.id === activeInterviewJob ? 'active' : '') + '" data-interview-job="' + j.id + '">' + j.name + '<em>' + j.score + '</em></button>';
+    }).join('');
+    var modeBtns = [
+      { k: 'total', n: '总分趋势' }, { k: 'dim', n: '维度对比' }
+    ].map(function (m) {
+      return '<button class="' + (activeTrendMode === m.k ? 'active' : '') + '" data-trend-mode="' + m.k + '">' + m.n + '</button>';
+    }).join('');
+    return '<section class="gx-card gx-trend">' +
+      '<div class="gx-card-head"><div class="gx-card-titles"><h3>成绩趋势</h3><p>基于你目标岗位的能力成长曲线</p></div>' +
+      '<div class="gx-trend-modes">' + modeBtns + '</div></div>' +
+      '<div class="gx-trend-jobs">' + jobTabs + '</div>' +
+      legend +
+      '<div class="gx-trend-chart">' + gxLineChart(series, labels) + '</div>' +
+      '</section>';
+  }
+
+  function gxInterviewRecords() {
+    var list = ca.interviewRecords.filter(function (r) {
+      return activeRecordFilter === 'all' || r.status === activeRecordFilter;
+    });
+    var filters = [
+      { k: 'all', n: '全部' }, { k: 'pass', n: '已通过' }, { k: 'fail', n: '未通过' }, { k: 'comment', n: '已点评' }
+    ].map(function (f) {
+      return '<button class="' + (activeRecordFilter === f.k ? 'active' : '') + '" data-record-filter="' + f.k + '">' + f.n + '</button>';
+    }).join('');
+    var items = list.length ? list.map(function (r) {
+      var cls = 'gx-rec-item' + (r.id === activeReportId ? ' active' : '');
+      return '<article class="' + cls + '" data-report-id="' + r.id + '">' +
+        '<div class="gx-rec-top"><b>' + r.job + '</b><span class="gx-rec-score">' + r.score + ' 分</span></div>' +
+        '<div class="gx-rec-foot"><em class="gx-rec-status gx-rec-status--' + r.status + '">' + ca.interviewStatusText[r.status] + '</em>' +
+        '<button class="gx-rec-view" data-report-id="' + r.id + '" type="button">查看报告 ›</button></div>' +
+        '</article>';
+    }).join('') : '<div class="gx-records-empty"><p>暂无符合条件的面试记录</p></div>';
+    return '<section class="gx-card gx-recs-card">' +
+      '<div class="gx-card-head"><h3>面试记录</h3></div>' +
+      '<p class="gx-recs-desc">基于你目标岗位的多次模拟面试，系统已为你生成结构化成长记录</p>' +
+      '<div class="gx-recs-filters">' + filters + '</div>' +
+      '<div class="gx-recs-list">' + items + '</div>' +
+      '</section>';
+  }
+
+  function gxInterviewReport() {
+    var rec = ca.interviewRecords.filter(function (r) { return r.id === activeReportId; })[0] || ca.interviewRecords[0];
+    if (!rec) return '<section class="gx-card gx-report"><div class="gx-records-empty"><p>暂无面试报告</p></div></section>';
+    return '<section class="gx-card gx-report">' +
+      '<h3 class="gx-report-title">AI面试报告</h3>' +
+      '<div class="gx-report-body">' +
+      '<div class="gx-report-left">' +
+      '<div class="gx-report-score"><span class="gx-report-score-label">面试表现</span><b class="gx-report-score-num">' + rec.report.score + '</b></div>' +
+      '<div class="gx-report-radar">' + gxRadar6(rec.report.dims) + '</div>' +
+      '</div>' +
+      '<div class="gx-report-right"><h4>AI综合点评</h4><p>' + rec.report.comment + '</p></div>' +
+      '</div>' +
+      '</section>';
+  }
+
+  function gxInterviewSheet() {
+    return '<main class="gx-sheet gx-sheet-interview">' +
+      '<section class="gx-card gx-ai-card">' + gxAiPane(true) + '</section>' +
+      gxInterviewTrend() +
+      gxInterviewRecords() +
+      gxInterviewReport() +
+      '</main>';
+  }
+
+  function gxBindInterview() {
+    document.querySelectorAll('[data-interview-job]').forEach(function (b) {
+      b.onclick = function () { activeInterviewJob = b.getAttribute('data-interview-job'); render(); };
+    });
+    document.querySelectorAll('[data-trend-mode]').forEach(function (b) {
+      b.onclick = function () { activeTrendMode = b.getAttribute('data-trend-mode'); render(); };
+    });
+    document.querySelectorAll('[data-record-filter]').forEach(function (b) {
+      b.onclick = function () { activeRecordFilter = b.getAttribute('data-record-filter'); render(); };
+    });
+    document.querySelectorAll('[data-report-id]').forEach(function (b) {
+      b.onclick = function (e) {
+        e.stopPropagation();
+        activeReportId = b.getAttribute('data-report-id');
+        render();
+      };
+    });
+  }
+
   /* ---------- 9. 页面装配 ---------- */
   /* 右栏纸张：基本资料 + AI 总结 + 学年时间线 / 其他标签的模块卡 */
   function gxSheet() {
+    if (activeSideTag === 'AI面试') return gxInterviewSheet();
     var isValid = activeSideTag === '基本信息';
     return '<main class="gx-sheet">' +
       (isValid
@@ -348,6 +534,7 @@
       app.innerHTML = shell(gxArchivePage());
       bind();
       gxBindBack();
+      gxBindInterview();
       syncUrl();
       return;
     }

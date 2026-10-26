@@ -393,3 +393,106 @@
   margin-top: 0;
 }
 
+/* ============================================================
+   AI 模拟面试详情页（「AI面试」标签下，2×2 网格）
+   ============================================================ */
+.gx-sheet-interview {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  height: calc(100vh - 75px);
+  gap: 12px;
+}
+.gx-sheet-interview > .gx-card {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部左：AI 总结及建议（堆叠版） */
+.gx-ai-card { overflow-y: auto; }
+.gx-ai--stack { display: block; padding: 18px 20px 22px; }
+.gx-ai--stack .gx-ai-title { font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .4px; margin: 0 0 4px; }
+.gx-ai--stack .gx-radar { position: static; width: auto; display: flex; justify-content: center; margin: 4px 0 10px; pointer-events: none; }
+.gx-ai--stack .gx-radar-svg { width: 100%; max-width: 300px; height: auto; }
+.gx-ai--stack .gx-ai-text { margin-top: 0; min-width: 0; }
+.gx-ai--stack .gx-ai-text h4 { margin: 8px 0 4px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
+.gx-ai--stack .gx-ai-text h4:first-of-type { margin-top: 0; }
+.gx-ai--stack .gx-ai-text p { margin: 0; font-size: 12.5px; line-height: 1.66; color: #3C453A; text-align: justify; }
+.gx-ai--stack .gx-ai-text p:first-of-type { margin-top: 8px; }
+
+/* 卡片通用头 */
+.gx-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 10px; flex: none; }
+.gx-card-titles h3 { margin: 0; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; }
+.gx-card-titles p { margin: 3px 0 0; font-size: 12px; color: var(--gx-muted); }
+
+/* 成绩趋势卡 */
+.gx-trend-modes { display: inline-flex; border: 1px solid #E5E4D9; border-radius: 14px; overflow: hidden; flex: none; }
+.gx-trend-modes button { height: 30px; padding: 0 14px; border: 0; background: #F7F6F0; font-size: 13px; color: #5A6450; font-family: inherit; cursor: pointer; }
+.gx-trend-modes button + button { border-left: 1px solid #E5E4D9; }
+.gx-trend-modes button.active { background: linear-gradient(96deg, #8AA96D, #96B37B); color: #fff; font-weight: 600; }
+.gx-trend-jobs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 18px 8px; flex: none; }
+.gx-trend-jobs button {
+  height: 36px; border: 1px solid #E5E4D9; border-radius: 10px; background: #F7F6F0;
+  font-size: 13px; color: #444E3A; font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.gx-trend-jobs button em { font-style: normal; font-size: 12px; color: #7E9A68; font-weight: 700; }
+.gx-trend-jobs button.active { border-color: #8AA96D; background: linear-gradient(96deg, #EEF3E2, #E7EFD6); color: #3E5A2C; font-weight: 600; }
+.gx-trend-jobs button.active em { color: #5C7E3C; }
+.gx-trend-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 2px 18px 6px; flex: none; }
+.gx-legend-item { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: #5C6653; }
+.gx-legend-item i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.gx-trend-chart { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 2px 14px 12px; }
+.gx-linechart { width: 100%; height: 100%; max-height: 230px; }
+.gx-grid-line { stroke: #E9EBDF; stroke-width: 1; }
+.gx-grid-text { font-size: 10px; fill: #A9B09A; }
+.gx-axis-text { font-size: 10.5px; fill: #7C8674; }
+
+/* 面试记录卡 */
+.gx-recs-desc { margin: 0; padding: 0 18px 10px; font-size: 12px; color: var(--gx-muted); line-height: 1.6; flex: none; }
+.gx-recs-filters { display: flex; gap: 8px; padding: 0 18px 10px; flex: none; }
+.gx-recs-filters button {
+  height: 30px; padding: 0 14px; border: 1px solid #E5E4D9; border-radius: 15px; background: #F7F6F0;
+  font-size: 13px; color: #5A6450; font-family: inherit; cursor: pointer;
+}
+.gx-recs-filters button.active { background: linear-gradient(96deg, #8AA96D, #96B37B); border-color: #8AA96D; color: #fff; font-weight: 600; }
+.gx-recs-list { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 2px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+.gx-rec-item {
+  border: 1px solid var(--gx-card-line); border-radius: 12px; background: #FBFAF4;
+  padding: 12px 14px; cursor: pointer; transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.gx-rec-item:hover { border-color: #DCE4C6; }
+.gx-rec-item.active { border-color: #8AA96D; background: #F2F6EA; box-shadow: 0 2px 8px rgba(110, 132, 88, .18); }
+.gx-rec-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.gx-rec-top b { font-size: 14px; font-weight: 700; color: #2F382B; }
+.gx-rec-score { font-size: 13px; color: #7E9A68; font-weight: 700; white-space: nowrap; }
+.gx-rec-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 10px; }
+.gx-rec-status { font-style: normal; font-size: 11.5px; line-height: 20px; padding: 0 9px; border-radius: 5px; }
+.gx-rec-status--pass { background: #DCEBD0; color: #3F6A2C; }
+.gx-rec-status--fail { background: #F2D9D4; color: #A23E33; }
+.gx-rec-status--comment { background: #DDE7F0; color: #34608A; }
+.gx-rec-view { border: 0; background: transparent; color: #5C7E3C; font-size: 12.5px; font-weight: 600; padding: 0; font-family: inherit; cursor: pointer; }
+.gx-rec-view:hover { text-decoration: underline; }
+
+/* AI 面试报告卡 */
+.gx-report-title { margin: 0; padding: 16px 18px 6px; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; flex: none; }
+.gx-report-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: 8px; padding: 4px 18px 16px; overflow-y: auto; }
+.gx-report-left { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.gx-report-score { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 2px 0 4px; }
+.gx-report-score-label { font-size: 12px; color: var(--gx-muted); }
+.gx-report-score-num { font-size: 34px; font-weight: 800; color: #5C7E3C; line-height: 1; letter-spacing: .5px; }
+.gx-report-radar { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; width: 100%; }
+.gx-report-radar .gx-radar-svg { width: 100%; max-width: 240px; height: auto; }
+.gx-report-right { min-width: 0; }
+.gx-report-right h4 { margin: 2px 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
+.gx-report-right p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; }
+
+/* 窄屏：2×2 退化为单列，随页面自然滚动 */
+@media (max-width: 1280px) {
+  .gx-sheet-interview { grid-template-columns: 1fr; grid-template-rows: none; height: auto; }
+  .gx-trend-chart { max-height: 220px; }
+  .gx-report-body { grid-template-columns: minmax(0, 200px) minmax(0, 1fr); }
+}
+
