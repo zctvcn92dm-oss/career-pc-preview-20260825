@@ -1,0 +1,368 @@
+/* =========================================================
+   学生端首页 · 青绿(teal) SaaS 风格换肤（2026-10-26）
+   作用域：仅首页 body.home-view，覆盖 home-mockup.css 的「绿+奶油活页本」风格
+   设计目标：白底 + 青绿主色，干净卡片化布局
+   ========================================================= */
+
+/* ---------- 主题变量（仅首页生效） ---------- */
+body.home-view {
+  --teal: #15b79a;
+  --teal-bright: #23c8ad;
+  --teal-deep: #0f9a82;
+  --teal-soft: #e6f7f2;
+  --teal-soft-2: #f1f8f6;
+  --ink: #1f2a37;
+  --ink-2: #33414f;
+  --muted: #6b7785;
+  --muted-2: #8a96a3;
+  --line: #e6eaec;
+  --card: #ffffff;
+  --bg: #eef1f3;
+  background: var(--bg);
+}
+
+/* ---------- 壳层 ---------- */
+body.home-view .workspace { background: var(--bg); }
+body.home-view .sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--line);
+}
+body.home-view .sidebar:after { display: none; }
+body.home-view .topbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: none;
+}
+body.home-view main { background: transparent; }
+body.home-view footer { color: #9aa6b0; }
+
+/* 品牌方标：青绿渐变「就」字方块 */
+body.home-view .brand > span {
+  background: linear-gradient(140deg, var(--teal-bright), var(--teal));
+  box-shadow: 0 3px 9px rgba(20, 160, 140, .3);
+}
+body.home-view .brand b { color: var(--ink); }
+
+/* 顶栏频道 */
+body.home-view .channels button { color: var(--muted); }
+body.home-view .channels .active { color: var(--teal-deep); font-weight: 700; }
+body.home-view .channels .active:after { background: var(--teal-bright); }
+body.home-view .user-tools > button { color: var(--muted); }
+body.home-view .user-tools > i {
+  background: linear-gradient(140deg, var(--teal-bright), var(--teal));
+  color: #fff;
+}
+body.home-view .user-tools b { color: var(--ink); }
+body.home-view .user-tools small { color: var(--muted-2); }
+
+/* ---------- 侧栏导航 ---------- */
+body.home-view .sidebar nav { padding: 22px 14px 10px; }
+body.home-view .nav-group { padding: 16px 0 9px 18px; color: #9aa6b0; font-size: 12px; letter-spacing: .6px; }
+body.home-view .nav-item {
+  position: relative;
+  width: auto;
+  margin: 2px 0;
+  height: 44px;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0 14px 0 18px;
+  gap: 13px;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  color: #3a4654;
+  font-size: 14.5px;
+  font-weight: 500;
+  box-shadow: none;
+  transition: background .16s ease, color .16s ease;
+}
+body.home-view .nav-item:after { display: none; }
+body.home-view .nav-item svg { width: 19px; height: 19px; flex: none; stroke-width: 1.7; color: #7c8794; }
+body.home-view .nav-item:hover { background: #f1f4f5; }
+body.home-view .nav-item.active {
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 0 var(--teal);
+}
+body.home-view .nav-item.active:before { display: none; }
+body.home-view .nav-item.active svg { color: var(--teal); stroke-width: 1.9; }
+
+/* ---------- Hero：青绿渐变档案卡 ---------- */
+body.home-view .student-hero {
+  display: grid;
+  grid-template-columns: 38.1% minmax(0, 1fr) auto;
+  align-items: center;
+  height: clamp(120px, 7.5vw, 144px);
+  min-height: 0;
+  padding: 0 clamp(24px, 10.31vw, 198px) 0 48px;
+  border-radius: 18px;
+  background: linear-gradient(102deg, var(--teal) 0%, var(--teal-bright) 52%, #3fd6b6 100%);
+  box-shadow: 0 14px 30px rgba(20, 160, 140, .18);
+  overflow: hidden;
+  color: #fff;
+}
+body.home-view .student-hero:after { display: none; }
+/* hero 内部白色文字 / 竖分隔线 / 白色进度环 由 home-mockup 提供，无需重设 */
+
+/* ---------- 统计卡 ---------- */
+body.home-view .stats-grid {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 19px;
+  margin: 18px 0 0;
+}
+body.home-view .stat-card {
+  height: clamp(120px, 7.4vw, 142px);
+  padding: 14px 0 12px;
+  justify-content: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 3px 10px rgba(31, 42, 55, .05);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+body.home-view .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(31, 42, 55, .08); }
+body.home-view .stat-card .icon-box {
+  width: clamp(34px, 2.0vw, 40px);
+  height: clamp(34px, 2.0vw, 40px);
+  border-radius: 13px;
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+body.home-view .stat-card .icon-box svg { width: 20px; height: 20px; }
+/* 彩色图标盒（按数据里的色调） */
+body.home-view .stat-card .icon-box.purple { background: #f1ecfb; color: #8a66d8; }
+body.home-view .stat-card .icon-box.green { background: #e7f5ee; color: #2faf7d; }
+body.home-view .stat-card .icon-box.blue { background: #e8f1fb; color: #3f8ce0; }
+body.home-view .stat-card .icon-box.orange { background: #fdecdf; color: #e08a3c; }
+body.home-view .stat-card .icon-box.violet { background: #f1ecfb; color: #8a66d8; }
+body.home-view .stat-card .icon-box.red { background: #fbe9ea; color: #e0585c; }
+body.home-view .stat-card b {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+body.home-view .stat-card small { margin-top: 4px; font-size: 12.5px; color: var(--muted); line-height: 1.2; }
+
+/* ---------- 两栏：画像 / 规划 ---------- */
+body.home-view .portrait-plan-primary {
+  grid-template-columns: minmax(0, 554fr) minmax(0, 900fr);
+  gap: 22px;
+  margin-top: 27px;
+  align-items: stretch;
+}
+body.home-view .home-portrait-panel,
+body.home-view .home-plan-panel {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(31, 42, 55, .05);
+  overflow: hidden;
+}
+body.home-view .portrait-plan-primary .home-portrait-panel,
+body.home-view .portrait-plan-primary .home-plan-panel {
+  min-height: clamp(400px, 25.9vw, 497px);
+  height: auto;
+}
+body.home-view .home-portrait-panel { padding: 18px 20px 14px; display: flex; flex-direction: column; }
+body.home-view .home-portrait-panel .portrait-summary { flex: 1; }
+
+/* 卡片标题区 */
+body.home-view .compact-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid #eef1f2;
+}
+body.home-view .panel-eyebrow { display: block; font-size: 13px; font-weight: 700; color: var(--teal-deep); letter-spacing: .3px; }
+body.home-view .compact-head h2 { margin: 6px 0 0; font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: .4px; line-height: 1.2; }
+body.home-view .soft-badge { flex: none; padding: 6px 13px; border-radius: 8px; background: var(--teal-soft); color: var(--teal-deep); font-size: 12px; white-space: nowrap; }
+
+/* 雷达图：青绿 */
+body.home-view .home-radar-labels .dimension-label { font-size: 11.5px; fill: #6b7785; }
+body.home-view .radar-grid polygon,
+body.home-view .radar-grid line { fill: none; stroke: #e3e9ec; stroke-width: 1.1; }
+body.home-view .radar-grid polygon:first-child { fill: rgba(35, 200, 173, .08); }
+body.home-view .radar-value { fill: rgba(35, 200, 173, .28); stroke: var(--teal); stroke-width: 1.8; }
+body.home-view .home-portrait-radar circle { fill: var(--teal); stroke: #fff; stroke-width: 1.6; }
+
+/* 画像卡右列 */
+body.home-view .portrait-summary { display: grid; grid-template-columns: minmax(0, 1.46fr) minmax(0, 1fr); gap: 10px; align-items: center; padding: 8px 0 0; }
+body.home-view .radar-button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+body.home-view .home-radar-wrap { width: 100%; min-height: 0; padding: 0; display: block; }
+body.home-view .home-portrait-radar { display: block; width: 100%; max-width: none; height: auto; margin: 0; }
+body.home-view .portrait-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--teal-soft-2);
+  border: 1px solid #e7f1ee;
+}
+body.home-view .portrait-facts > div { padding: 0; border-radius: 0; background: none; }
+body.home-view .portrait-facts small { display: block; font-size: 13px; color: #7a8694; line-height: 1.3; }
+body.home-view .keyword-list { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 0; }
+body.home-view .portrait-plan-primary .keyword-list span {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  line-height: 1.35;
+}
+body.home-view .portrait-facts dl { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+body.home-view .portrait-facts dl > div { padding: 11px 16px; border-radius: 12px; background: #ffffff; border: 1px solid #eef1f2; }
+body.home-view .portrait-facts dt { font-size: 12px; color: #8a96a3; line-height: 1.3; }
+body.home-view .portrait-facts dd { margin: 5px 0 0; font-size: 17px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+body.home-view .text-action { display: block; margin: 2px auto 0; padding: 5px 0; border: 0; background: none; color: var(--teal-deep); font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+body.home-view .text-action:hover { text-decoration: underline; }
+
+/* 规划卡 */
+body.home-view .home-plan-panel { padding: 18px 22px 16px; display: flex; flex-direction: column; }
+body.home-view .home-plan-panel .plan-related-services { flex: none; }
+body.home-view .plan-badges { display: flex; gap: 8px; flex: none; }
+body.home-view .plan-badges span { padding: 6px 13px; border-radius: 8px; background: var(--teal-soft); color: var(--teal-deep); font-size: 12px; }
+body.home-view .plan-main-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(220px, 17.4vw, 334px); gap: 26px; padding: 14px 0 0; align-items: start; }
+body.home-view .compact-plan-focus { padding: 16px 20px 17px; border-radius: 12px; background: var(--teal-soft-2); border: 1px solid #e7f1ee; }
+body.home-view .compact-plan-focus small { display: block; font-size: 12.5px; color: var(--muted); }
+body.home-view .compact-plan-focus h3 { margin: 10px 0 0; font-size: 19px; font-weight: 700; color: var(--ink); letter-spacing: .2px; line-height: 1.45; }
+body.home-view .plan-stage-path { display: flex; align-items: center; gap: 16px; margin-top: 12px; padding: 12px 20px; border-radius: 12px; background: #ffffff; border: 1px solid #eef1f2; }
+body.home-view .plan-stage-path span { display: flex; align-items: baseline; gap: 8px; }
+body.home-view .plan-stage-path small { font-size: 12.5px; color: var(--muted); }
+body.home-view .plan-stage-path b { font-size: 15.5px; font-weight: 700; color: var(--ink); }
+body.home-view .plan-stage-path i { font-style: normal; color: #9fb0aa; font-size: 15px; }
+
+/* 规划卡内的「成长变化」高亮：青绿描边卡片（去掉便签/回形针） */
+body.home-view .plan-change-inline {
+  position: absolute;
+  top: 108px;
+  right: 20px;
+  width: clamp(220px, 17.4vw, 334px);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 9px;
+  padding: 14px 16px 13px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--teal);
+  box-shadow: 0 6px 14px rgba(20, 160, 140, .12);
+}
+body.home-view .plan-change-inline:after { display: none; }
+body.home-view .plan-change-inline .todo-icon { width: 26px; height: 26px; border-radius: 50%; background: var(--teal-soft); color: var(--teal); display: grid; place-items: center; }
+body.home-view .plan-change-inline .todo-icon svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.6; }
+body.home-view .plan-change-inline small { display: block; font-size: 11.5px; font-weight: 700; color: var(--teal-deep); line-height: 1.3; }
+body.home-view .plan-change-inline b { display: block; margin-top: 5px; font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+body.home-view .plan-change-inline p { margin: 5px 0 0; font-size: 11px; line-height: 1.62; color: #7a8694; }
+body.home-view .plan-change-inline em { display: block; margin-top: 5px; font-size: 10.5px; font-style: normal; line-height: 1.6; color: #8a96a3; }
+body.home-view .plan-change-inline button { display: none; }
+
+/* 关联现有服务 + 底部操作 */
+body.home-view .plan-related-services { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+body.home-view .plan-related-services button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid #eef1f2;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+body.home-view .plan-related-services button:hover { border-color: var(--teal-bright); background: var(--teal-soft-2); }
+body.home-view .plan-related-services small { display: block; font-size: 11.5px; color: var(--muted); }
+body.home-view .plan-related-services b { display: block; margin-top: 6px; font-size: 14.5px; font-weight: 700; color: var(--ink); }
+body.home-view .plan-related-services i { font-style: normal; color: #c2ccd2; font-size: 17px; }
+
+body.home-view .plan-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 20px; padding-top: 0; }
+body.home-view .plan-footer > small { font-size: 12px; color: var(--muted-2); }
+body.home-view .plan-actions { display: flex; gap: 12px; }
+body.home-view .plan-actions button {
+  height: 38px;
+  padding: 0 24px;
+  border-radius: 9px;
+  border: 1px solid #cfe7e0;
+  background: #ffffff;
+  color: var(--teal-deep);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+body.home-view .plan-actions button.primary {
+  border-color: transparent;
+  background: linear-gradient(100deg, var(--teal-bright), var(--teal));
+  color: #fff;
+  box-shadow: 0 5px 12px rgba(20, 160, 140, .26);
+}
+
+/* ---------- 近期成长记录 ---------- */
+body.home-view .recent-archive-panel { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 6px 18px rgba(31, 42, 55, .05); overflow: hidden; }
+body.home-view .recent-archive-panel .panel-head { height: auto; padding: 12px 20px 10px; align-items: flex-start; border-bottom: 1px solid #eef1f2; }
+body.home-view .recent-archive-panel .panel-head h2 { margin: 0; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: .3px; }
+body.home-view .recent-archive-panel .panel-head p { margin: 4px 0 0; font-size: 11.5px; color: var(--muted-2); }
+body.home-view .recent-archive-panel .panel-head > button { padding: 6px 0; border: 0; background: none; color: var(--teal-deep); font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+body.home-view .archive-record-row {
+  display: grid;
+  grid-template-columns: 110px 92px minmax(0, 1fr) auto auto;
+  gap: 20px;
+  align-items: center;
+  padding: 11px 20px;
+  border-bottom: 1px solid #f0f2f3;
+  cursor: pointer;
+}
+body.home-view .archive-record-row:last-child { border-bottom: 0; }
+body.home-view .archive-record-row time { font-size: 13px; color: #6b7785; }
+body.home-view .record-source { justify-self: start; padding: 4px 11px; border-radius: 7px; background: var(--teal-soft); color: var(--teal-deep); font-size: 12px; }
+body.home-view .archive-record-row h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); }
+body.home-view .archive-record-row p { margin: 4px 0 0; font-size: 11px; color: var(--muted); }
+body.home-view .archive-record-row em { padding: 5px 12px; border-radius: 7px; background: #f1f3f4; color: #8a96a3; font-size: 11.5px; font-style: normal; white-space: nowrap; }
+body.home-view .archive-record-row button { border: 0; background: none; color: var(--teal-deep); font-family: inherit; font-size: 13px; cursor: pointer; white-space: nowrap; }
+
+/* ---------- 响应式（作用域同首页，确保小屏不破版） ---------- */
+@media (max-width: 1560px) {
+  body.home-view .student-hero { padding: 0 34px; }
+  body.home-view .student-hero .hero-state-summary b { font-size: 23px; }
+  body.home-view .nav-item { font-size: 14px; height: 42px; padding: 0 12px 0 16px; }
+  body.home-view .nav-group { padding-left: 16px; font-size: 12px; }
+  body.home-view .compact-head h2 { font-size: 21px; }
+  body.home-view .portrait-plan-primary { margin-top: 30px; gap: 18px; }
+  body.home-view .plan-main-grid { grid-template-columns: minmax(0, 1fr) clamp(200px, 19vw, 290px); }
+  body.home-view .stat-card b { font-size: 30px; }
+}
+@media (max-width: 1366px) {
+  body.home-view .brand { padding-left: 20px; }
+  body.home-view .brand > span { width: 38px; height: 38px; font-size: 16px; border-radius: 10px; }
+  body.home-view .brand b { font-size: 14.5px; }
+  body.home-view .topbar { padding: 0 24px 0 16px; }
+  body.home-view .channels { gap: 16px; }
+  body.home-view .channels button { font-size: 13.5px; }
+  body.home-view .user-tools { gap: 16px; }
+  body.home-view .student-hero { padding: 0 26px; border-radius: 15px; }
+  body.home-view .student-hero .hero-avatar { width: 48px; height: 48px; flex-basis: 48px; font-size: 18px; }
+  body.home-view .student-hero .hero-identity h1 { font-size: 19px; }
+  body.home-view .student-hero .hero-state-summary b { font-size: 21px; }
+  body.home-view .student-hero .progress-ring { width: 50px; height: 50px; flex-basis: 50px; }
+  body.home-view .nav-item { font-size: 13.5px; height: 40px; }
+  body.home-view .nav-group { padding-left: 16px; }
+  body.home-view .stat-card b { font-size: 22px; }
+  body.home-view .stat-card small { font-size: 11.5px; }
+  body.home-view .portrait-plan-primary { grid-template-columns: 1fr; gap: 16px; }
+  body.home-view .home-portrait-panel, body.home-view .home-plan-panel { padding: 20px 20px 16px; }
+  body.home-view .compact-head h2 { font-size: 21px; }
+  body.home-view .plan-main-grid { grid-template-columns: 1fr; }
+  body.home-view .plan-change-inline { transform: none; }
+  body.home-view .archive-record-row { grid-template-columns: 96px 84px minmax(0, 1fr) auto auto; gap: 14px; padding: 15px 20px; }
+}
