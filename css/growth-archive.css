@@ -496,3 +496,118 @@
   .gx-report-body { grid-template-columns: minmax(0, 200px) minmax(0, 1fr); }
 }
 
+/* ============================================================
+   职业测评详情页（「职业测评」标签下）
+   顶部整宽 AI 总结及建议 + 底部左「测评记录」/ 右「测评报告」
+   ============================================================ */
+.gx-sheet-assess {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: calc(100vh - 75px);
+  gap: 12px;
+}
+
+/* 顶部：AI 总结及建议 + 环形图 */
+.gx-assess-ai {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 24px;
+  min-width: 0;
+}
+.gx-assess-ai-text { min-width: 0; }
+.gx-assess-ai-title { margin: 0 0 10px; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; }
+.gx-assess-ai-p { margin: 0 0 10px; font-size: 12.5px; line-height: 1.78; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
+.gx-assess-ai-p:last-child { margin-bottom: 0; }
+.gx-assess-ai-p b { color: #2F382B; font-weight: 700; }
+.gx-assess-ai-viz { display: flex; align-items: center; gap: 18px; flex: none; }
+.gx-donut-wrap { width: 156px; flex: none; }
+.gx-donut { width: 156px; height: 156px; display: block; }
+.gx-donut-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; min-width: 148px; }
+.gx-donut-legend li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #3C453A; white-space: nowrap; }
+.gx-donut-legend i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+/* 底部两栏 */
+.gx-assess-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: 12px;
+  min-height: 0;
+  align-items: stretch;
+}
+.gx-assess-left { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.gx-assess-tabs { display: flex; flex-wrap: wrap; gap: 6px; flex: none; }
+.gx-assess-tabs button {
+  height: 32px; padding: 0 6px; border-radius: 16px; border: 1px solid #E5E4D9; background: #F7F6F0;
+  font-size: 12px; color: #5A6450; font-family: inherit; cursor: pointer;
+  white-space: nowrap; flex: 0 0 auto;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.gx-assess-tabs button:hover { background: #FFFDF8; }
+.gx-assess-tabs button.active { background: linear-gradient(96deg, #8AA96D, #96B37B); border-color: #8AA96D; color: #fff; font-weight: 600; }
+
+/* 测评记录卡 */
+.gx-assess-recs { padding: 16px 16px 14px; display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.gx-assess-recs-title { margin: 2px 0 12px; font-size: 15px; font-weight: 700; color: #2F382B; flex: none; }
+.gx-arec-list { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 12px; padding-right: 2px; }
+.gx-arec {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  border: 1px solid #E7E5DB; border-radius: 12px; background: #FBFAF4; padding: 14px 16px;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.gx-arec:hover { border-color: #DCE4C6; }
+.gx-arec.active { border-color: #8AA96D; background: #F4F8EC; box-shadow: 0 2px 8px rgba(110, 132, 88, .16); }
+.gx-arec-main { min-width: 0; }
+.gx-arec-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.gx-arec-head b { font-size: 14px; font-weight: 700; color: #2F382B; }
+.gx-arec-badge { font-style: normal; font-size: 11px; color: #5B6EB0; background: #E7EBF7; border-radius: 4px; padding: 1px 8px; line-height: 18px; white-space: nowrap; }
+.gx-arec-traits { margin: 8px 0 0; font-size: 12.5px; color: #5A6450; }
+.gx-arec-time { margin: 6px 0 0; font-size: 11.5px; color: #9AA292; }
+.gx-arec-side { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: none; }
+.gx-arec-status { font-size: 11.5px; color: #5C7E3C; background: #E7EFD6; border-radius: 5px; padding: 1px 8px; line-height: 18px; white-space: nowrap; }
+.gx-arec-illu { width: 34px; height: 34px; display: block; opacity: .92; }
+.gx-arec-illu svg { width: 34px; height: 34px; display: block; }
+
+/* 测评报告卡 */
+.gx-assess-report {
+  padding: 18px 20px 14px; display: flex; flex-direction: column; min-height: 0;
+  background: linear-gradient(180deg, #F4F8EC 0%, #EEF3E1 100%);
+  border-color: #E2E9D2;
+}
+.gx-assess-report-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex: none; }
+.gx-assess-report-title { margin: 0; font-size: 16px; font-weight: 700; color: #41552F; letter-spacing: .3px; }
+.gx-assess-report-badge { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; background: #E7EFD6; flex: none; }
+.gx-assess-report-clover { width: 17px; height: 17px; }
+.gx-assess-report-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-top: 10px; }
+.gx-assess-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 12px; }
+.gx-assess-meta b { font-size: 14px; color: #2F382B; width: 100%; }
+.gx-assess-meta span { font-size: 12px; color: #5A6450; }
+.gx-assess-summary { margin-bottom: 12px; }
+.gx-assess-summary-h { display: flex; align-items: center; gap: 6px; margin: 0 0 2px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
+.gx-assess-summary-ic { display: inline-flex; width: 14px; height: 14px; flex: none; }
+.gx-assess-summary-ic svg { width: 14px; height: 14px; display: block; }
+.gx-assess-summary-sub { margin: 0 0 10px; font-size: 11.5px; color: #8A937E; }
+.gx-dims { display: flex; flex-direction: column; gap: 9px; }
+.gx-dim-row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 96px; align-items: center; gap: 10px; }
+.gx-dim-lab { font-size: 12px; color: #3C453A; white-space: nowrap; }
+.gx-dim-lab em { font-style: normal; color: #7E8A6A; margin-left: 6px; }
+.gx-dim-lab--r { text-align: right; }
+.gx-dim-lab--r em { margin: 0 6px 0 0; }
+.gx-dim-track { height: 9px; border-radius: 5px; background: #E3E9D5; overflow: hidden; }
+.gx-dim-track i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #A9B9E0, #8E7AB5); }
+.gx-assess-total { margin: 12px 0 0; font-size: 12.5px; line-height: 1.72; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
+.gx-assess-style { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #DEE5CE; }
+.gx-assess-style h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
+.gx-assess-style p { margin: 0; font-size: 12.5px; line-height: 1.72; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
+.gx-assess-footer { margin-top: 14px; text-align: center; font-size: 12px; color: #8A937E; letter-spacing: 2px; }
+.gx-assess-report--empty .gx-records-empty { min-height: 160px; }
+
+@media (max-width: 1280px) {
+  .gx-sheet-assess { grid-template-rows: none; height: auto; }
+  .gx-assess-ai { grid-template-columns: 1fr; gap: 16px; }
+  .gx-assess-ai-viz { justify-content: center; }
+  .gx-assess-bottom { grid-template-columns: 1fr; }
+  .gx-dim-row { grid-template-columns: 84px minmax(0, 1fr) 84px; }
+}
+

@@ -129,6 +129,80 @@
   ca.interviewStatusText = { pass: '已通过', fail: '未通过', comment: '已点评' };
   if (!activeReportId && ca.interviewRecords[0]) activeReportId = ca.interviewRecords[0].id;
 
+  /* ---------- 1c. 职业测评数据 ---------- */
+  var activeAssessTab = '职业性格测评';
+  var activeAssessIndex = 0;
+
+  ca.assessmentTabs = ['职业锚测评', '职业性格测评', '多元智能测评', '职业倾向测评', '性格测评', '心理测评'];
+  ca.assessmentSummary = {
+    diag: '基于该学生成长档案中历次职业测评数据的纵向追踪，整体呈「定位逐渐清晰、发展仍不均衡」的态势。低年级以兴趣探索为主，职业锚与跨类兴趣逐步收敛，价值取向从「寻找新鲜感」转向「重视成长与稳定」，生涯成熟度稳步提升；测评期在专业方向与性格匹配度上表现较好，职业方向判断趋于明确。当前瓶颈在于三点：一是能力结构与目标职业要求相比仍有差距，历次分数波动较明显；二是职业认知多停留在「知识了解」层面，缺乏真实场景的实践验证；三是行动计划与探索投入不足，测评结果向行动的转化有限。总体判断：该生已完成从「不知道做什么」到「大致知道往哪走」的跨越，从「方向清晰」迈向「能力匹配、行动落地」是当前的主要突破方向。',
+    advice: '学生本人应通过职业访谈、课程学习与实习实践验证测评结论，并针对能力短板制定阶段性提升计划，借助打卡与复盘机制强化执行力。院校应搭建「低年级自我探索—中年级方向聚焦—高年级实践验证」的贯通式测评体系，将历次测评数据整合进成长档案、形成可纵向对比的成长曲线，精准识别待提升环节；针对能力短板开设专项工作坊，组织校企联动的职业体验活动，通过「档案追踪—能力补强—实践验证—复盘调整」的闭环，推动学生从「方向清晰」走向「人职匹配」。',
+    donut: [
+      { name: '职业锚（稳定型）', color: '#4E6FA8', value: 18 },
+      { name: '人才星图（ENFP）', color: '#8FBF5A', value: 16 },
+      { name: '智能（空间/音乐）', color: '#E7B84B', value: 14 },
+      { name: '兴趣（社会/传统/研究…）', color: '#E8833A', value: 17 },
+      { name: '性格（活泼/稳定/支配…）', color: '#DE6D93', value: 18 },
+      { name: '心理（活泼性）', color: '#8E7AB5', value: 17 }
+    ],
+    styleTitle: '行为风格分析及建议'
+  };
+  ca.assessmentRecords = {
+    '职业锚测评': [
+      { title: '服务型 · 生活型', type: '职业锚测评', traits: '服务与奉献、工作生活平衡', time: '2025-06-18 10:24', status: '已生成', report: null }
+    ],
+    '职业性格测评': [
+      { title: '竞选者 ENFP型', type: '职业性格测评', traits: '外向、直觉、情感、知觉', time: '2025-09-13 00:14', status: '已生成',
+        report: {
+          result: 'ENFP', duration: '34分08秒', tags: '热情洋溢、富有创造力、善于社交',
+          dims: [
+            { left: '外向(E)', lv: 60, right: '内向(I)', rv: 60 },
+            { left: '实感(S)', lv: 56, right: '直觉(N)', rv: 65 },
+            { left: '理性(T)', lv: 60, right: '情感(F)', rv: 60 },
+            { left: '判断(J)', lv: 45, right: '知觉(P)', rv: 65 }
+          ],
+          summary: '总体来看，你是一个充满活力和创造精神的人，喜欢探索新的可能性，并且善于理解他人的情感。',
+          styleText: 'ENFP 的行为风格是开放的、富有同理心的，善于理解和激发他人的潜力。'
+        } },
+      { title: '提倡者 INFJ型', type: '职业性格测评', traits: '内向、直觉、情感、判断', time: '2025-08-07 10:42', status: '已生成',
+        report: {
+          result: 'INFJ', duration: '31分26秒', tags: '洞察敏锐、理想主义、富有责任感',
+          dims: [
+            { left: '外向(E)', lv: 38, right: '内向(I)', rv: 70 },
+            { left: '实感(S)', lv: 42, right: '直觉(N)', rv: 68 },
+            { left: '理性(T)', lv: 50, right: '情感(F)', rv: 72 },
+            { left: '判断(J)', lv: 66, right: '知觉(P)', rv: 44 }
+          ],
+          summary: '总体来看，你是一个富有洞察力和责任感的人，重视意义与价值，善于体察他人的需要。',
+          styleText: 'INFJ 的行为风格沉稳而坚定，富有同理心，善于在复杂情境中找到方向。'
+        } },
+      { title: '辩论家 ENTP型', type: '职业性格测评', traits: '外向、直觉、思考、知觉', time: '2025-07-19 15:42', status: '已生成',
+        report: {
+          result: 'ENTP', duration: '29分51秒', tags: '思维敏捷、创意十足、喜欢挑战',
+          dims: [
+            { left: '外向(E)', lv: 66, right: '内向(I)', rv: 46 },
+            { left: '实感(S)', lv: 44, right: '直觉(N)', rv: 70 },
+            { left: '理性(T)', lv: 70, right: '情感(F)', rv: 48 },
+            { left: '判断(J)', lv: 42, right: '知觉(P)', rv: 68 }
+          ],
+          summary: '总体来看，你是一个思维活跃、乐于探索的人，善于发现新可能，也享受观点的碰撞。',
+          styleText: 'ENTP 的行为风格开放而富有挑战性，善于举一反三，也乐于推动创新。'
+        } }
+    ],
+    '多元智能测评': [
+      { title: '旋律魔杖', type: '多元智能测评', traits: '音乐智能、空间智能突出', time: '2025-05-22 09:18', status: '已生成', report: null }
+    ],
+    '职业倾向测评': [
+      { title: '传统型 · 研究型 · 艺术型', type: '职业倾向测评', traits: '条理、探索、创造并存', time: '2025-04-11 14:06', status: '已生成', report: null }
+    ],
+    '性格测评': [
+      { title: '活泼型 · 支配型 · 完美型', type: '性格测评', traits: '活跃、果断、追求完善', time: '2025-03-28 20:33', status: '已生成', report: null }
+    ],
+    '心理测评': [
+      { title: '紧张性 · 稳定型', type: '心理测评', traits: '情绪总体稳定，偶有紧张', time: '2025-02-16 11:47', status: '已生成', report: null }
+    ]
+  };
+
   /* ---------- 2. 装饰图形 ---------- */
   function gxClover(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 32 32" aria-hidden="true">' +
@@ -497,10 +571,151 @@
     });
   }
 
+  /* ---------- 8c. 职业测评详情 ---------- */
+  function gxDonut(items, size) {
+    size = size || 168;
+    var cx = size / 2, cy = size / 2, r = size * 0.335, sw = size * 0.17;
+    var total = items.reduce(function (s, i) { return s + i.value; }, 0);
+    var a = -Math.PI / 2, paths = '';
+    items.forEach(function (it) {
+      var ang = it.value / total * Math.PI * 2;
+      var a0 = a, a1 = a + ang;
+      var x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0);
+      var x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      var large = ang > Math.PI ? 1 : 0;
+      paths += '<path d="M' + x0.toFixed(2) + ' ' + y0.toFixed(2) + ' A' + r.toFixed(2) + ' ' + r.toFixed(2) +
+        ' 0 ' + large + ' 1 ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + '" fill="none" stroke="' + it.color +
+        '" stroke-width="' + sw.toFixed(2) + '" stroke-linecap="butt"/>';
+      a = a1;
+    });
+    return '<svg class="gx-donut" viewBox="0 0 ' + size + ' ' + size + '" role="img" aria-label="测评结果概览环形图">' +
+      '<g>' + paths + '</g></svg>';
+  }
+  function gxBars() {
+    return '<svg viewBox="0 0 16 16" aria-hidden="true"><g fill="#7E9A68">' +
+      '<rect x="2" y="8" width="2.6" height="6" rx="1.2"/>' +
+      '<rect x="6.7" y="5" width="2.6" height="9" rx="1.2"/>' +
+      '<rect x="11.4" y="2" width="2.6" height="12" rx="1.2"/></g></svg>';
+  }
+  function gxAvatar() {
+    return '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<circle cx="20" cy="20" r="19" fill="#EDF1E2"/>' +
+      '<circle cx="20" cy="15" r="6.6" fill="#B9C7A2"/>' +
+      '<path d="M8 34c1.5-7 6.6-10 12-10s10.5 3 12 10z" fill="#B9C7A2"/></svg>';
+  }
+
+  function gxAssessAi() {
+    var a = ca.assessmentSummary;
+    var legend = a.donut.map(function (d) {
+      return '<li><i style="background:' + d.color + '"></i><span>' + d.name + '</span></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai">' +
+      '<div class="gx-assess-ai-text">' +
+      '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+      '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+      '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz">' +
+      '<div class="gx-donut-wrap">' + gxDonut(a.donut, 156) + '</div>' +
+      '<ul class="gx-donut-legend">' + legend + '</ul>' +
+      '</div>' +
+      '</section>';
+  }
+
+  function gxAssessRecs() {
+    var tabs = ca.assessmentTabs.map(function (t) {
+      return '<button class="' + (t === activeAssessTab ? 'active' : '') + '" data-assess-tab="' + t + '">' + t + '</button>';
+    }).join('');
+    var recs = ca.assessmentRecords[activeAssessTab] || [];
+    var list = recs.length ? recs.map(function (r, i) {
+      var active = i === activeAssessIndex;
+      return '<article class="gx-arec' + (active ? ' active' : '') + '" data-assess-index="' + i + '">' +
+        '<div class="gx-arec-main">' +
+        '<div class="gx-arec-head"><b>' + r.title + '</b><em class="gx-arec-badge">' + r.type + '</em></div>' +
+        '<p class="gx-arec-traits">' + r.traits + '</p>' +
+        '<p class="gx-arec-time">测评时间：' + r.time + '</p>' +
+        '</div>' +
+        '<div class="gx-arec-side"><span class="gx-arec-status">' + r.status + '</span>' +
+        '<span class="gx-arec-illu" aria-hidden="true">' + gxAvatar() + '</span></div>' +
+        '</article>';
+    }).join('') : '<div class="gx-records-empty"><p>该测评暂无记录</p></div>';
+    return '<div class="gx-assess-left">' +
+      '<div class="gx-assess-tabs">' + tabs + '</div>' +
+      '<section class="gx-card gx-assess-recs">' +
+      '<h3 class="gx-assess-recs-title">测评记录</h3>' +
+      '<div class="gx-arec-list">' + list + '</div>' +
+      '</section>' +
+      '</div>';
+  }
+
+  function gxAssessReport() {
+    var recs = ca.assessmentRecords[activeAssessTab] || [];
+    var rec = recs[activeAssessIndex] || recs[0];
+    var rep = rec && rec.report;
+    if (!rep) {
+      return '<section class="gx-card gx-assess-report gx-assess-report--empty">' +
+        '<div class="gx-assess-report-head"><h3 class="gx-assess-report-title">' + activeAssessTab + '报告</h3></div>' +
+        '<div class="gx-records-empty"><p>该测评暂未生成详细报告，完成测评后将在此展示。</p></div>' +
+        '</section>';
+    }
+    var dimRows = rep.dims.map(function (d) {
+      return '<div class="gx-dim-row">' +
+        '<span class="gx-dim-lab">' + d.left + '<em>' + d.lv + '%</em></span>' +
+        '<div class="gx-dim-track"><i style="width:' + d.lv + '%"></i></div>' +
+        '<span class="gx-dim-lab gx-dim-lab--r"><em>' + d.rv + '%</em>' + d.right + '</span>' +
+        '</div>';
+    }).join('');
+    return '<section class="gx-card gx-assess-report">' +
+      '<div class="gx-assess-report-head">' +
+      '<h3 class="gx-assess-report-title">' + activeAssessTab + '报告</h3>' +
+      '<span class="gx-assess-report-badge" aria-hidden="true">' + gxClover('gx-assess-report-clover') + '</span>' +
+      '</div>' +
+      '<div class="gx-assess-report-body">' +
+      '<div class="gx-assess-meta"><b>' + ca.basicInfo.name + ' · 测试学生</b>' +
+      '<span>测评时长：' + rep.duration + '</span>' +
+      '<span>测评结果：' + rep.result + '</span>' +
+      '<span>你的标签：' + rep.tags + '</span></div>' +
+      '<div class="gx-assess-summary">' +
+      '<h4 class="gx-assess-summary-h"><span class="gx-assess-summary-ic">' + gxBars() + '</span>报告总结</h4>' +
+      '<p class="gx-assess-summary-sub">各维度数据对比</p>' +
+      '<div class="gx-dims">' + dimRows + '</div>' +
+      '<p class="gx-assess-total">' + rep.summary + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-style"><h4>' + ca.assessmentSummary.styleTitle + '</h4>' +
+      '<p>' + rep.styleText + '</p></div>' +
+      '<div class="gx-assess-footer">• ' + rep.result + ' •</div>' +
+      '</div>' +
+      '</section>';
+  }
+
+  function gxAssessSheet() {
+    return '<main class="gx-sheet gx-sheet-assess">' +
+      gxAssessAi() +
+      '<div class="gx-assess-bottom">' + gxAssessRecs() + gxAssessReport() + '</div>' +
+      '</main>';
+  }
+
+  function gxBindAssess() {
+    document.querySelectorAll('[data-assess-tab]').forEach(function (b) {
+      b.onclick = function () {
+        activeAssessTab = b.getAttribute('data-assess-tab');
+        activeAssessIndex = 0;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-assess-index]').forEach(function (b) {
+      b.onclick = function () {
+        activeAssessIndex = parseInt(b.getAttribute('data-assess-index'), 10) || 0;
+        render();
+      };
+    });
+  }
+
   /* ---------- 9. 页面装配 ---------- */
   /* 右栏纸张：基本资料 + AI 总结 + 学年时间线 / 其他标签的模块卡 */
   function gxSheet() {
     if (activeSideTag === 'AI面试') return gxInterviewSheet();
+    if (activeSideTag === '职业测评') return gxAssessSheet();
     var isValid = activeSideTag === '基本信息';
     return '<main class="gx-sheet">' +
       (isValid
@@ -535,6 +750,7 @@
       bind();
       gxBindBack();
       gxBindInterview();
+      gxBindAssess();
       syncUrl();
       return;
     }
