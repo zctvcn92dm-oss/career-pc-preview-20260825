@@ -90,12 +90,14 @@
     arr[n - 1] = final;
     return arr;
   }
-  ca.interviewDims = ['透明沟通', '抗压能力', '行为礼貌', '逻辑思维', '专业素养', '倾听理解'];
+  ca.interviewDims = ['专业知识', '表达流畅度', '学习潜力', '行业趋势'];
   ca.interviewJobs = [
-    { id: 'j1', name: '目标岗位1', score: 82 },
-    { id: 'j2', name: '目标岗位2', score: 85 },
-    { id: 'j3', name: '班主任老师', score: 88 },
-    { id: 'j4', name: '辅导员老师', score: 88 }
+    { id: 'j1', name: '行政专员', score: 68, star: true },
+    { id: 'j2', name: 'PHP开发工程师', score: 72 },
+    { id: 'j3', name: '大客户销售', score: 65 },
+    { id: 'j4', name: '研发技术助理', score: 70 },
+    { id: 'j5', name: '爬虫开发工程师', score: 60 },
+    { id: 'j6', name: '系统架构设计师', score: 74 }
   ];
   ca.interviewSessions = ['第1次', '第2次', '第3次', '第4次', '第5次'];
   ca.interviewTrend = {};
@@ -103,30 +105,36 @@
     var total = gxAscend(j.score, 5);
     var dims = {};
     ca.interviewDims.forEach(function (d, di) {
-      var f = Math.max(50, Math.min(98, Math.round(j.score + (di - 2.5) * 2.6)));
+      var f = Math.max(40, Math.min(80, Math.round(j.score + (di - 1.5) * 3)));
       dims[d] = gxAscend(f, 5);
     });
     ca.interviewTrend[j.id] = { total: total, dims: dims };
   });
+  ca.interviewAi = {
+    diag: '基于该生成长档案中历次 AI 面试数据的纵向追踪，整体呈「稳步向好、仍有短板」的态势。首次测评时自我介绍存在卡顿与重建，回答结构不够完整；经历多轮模拟练习后，语言流畅度与表达逻辑明显提升，综合分数稳步上升。当前主要短板在于：一是岗位匹配度判断不够精准，回答与目标岗位的胜任要求贴合度有限；二是对岗位的业务流程与事务性工作了解不足，细致度与规范意识有待补强；三是临场应变与语调把控偏弱，面对追问易出现紧张。总体判断：该生已具备面试的基本素养，但距离从「能对答」到「能胜任」仍有差距，岗位匹配与临场应变是主要突破方向。',
+    advice: '学生本人应面向目标岗位的任职要求，系统梳理学习与实践经历，运用 STAR 法组织 2—3 个结果导向的核心案例，突出人岗匹配度；针对薄弱环节，可通过招聘信息拆解、岗位职责分析、行业与企业研究等方式补齐认知短板，提升岗位胜任力。院校可依托真实招聘信息安排三次以上模拟面试，形成「训练—复盘—再练」的闭环，并在反馈中聚焦表达结构、语调节奏与应变策略，逐步缩小与岗位要求的差距。'
+  };
   ca.interviewRecords = [
-    { id: 'r1', job: '目标岗位1', score: 82, status: 'pass',
-      report: { score: 89.5,
-        dims: { '透明沟通': 90, '抗压能力': 84, '行为礼貌': 92, '逻辑思维': 86, '专业素养': 88, '倾听理解': 91 },
-        comment: '林晓宇同学在本场模拟面试中整体表现优秀。开场自我介绍条理清晰，能围绕岗位胜任力展开论述；在「抗压能力」情境题中面对连续追问保持了稳定的情绪与表达节奏，思路未被带偏。建议在「逻辑思维」维度进一步强化论证层次感，多用 STAR 等结构化框架组织案例，并适当放慢语速，给面试官更充分的倾听空间。' } },
-    { id: 'r2', job: '目标岗位2', score: 85, status: 'comment',
-      report: { score: 87.2,
-        dims: { '透明沟通': 88, '抗压能力': 82, '行为礼貌': 90, '逻辑思维': 84, '专业素养': 86, '倾听理解': 89 },
-        comment: '本场面试在「专业素养」维度表现突出，对岗位所需的工具与方法论掌握扎实，能结合课程项目举例。相对薄弱的是「抗压能力」——被要求限时作答时语速加快、出现重复表述。建议通过限时演练提升临场稳定性，并在回答前用 2 秒深呼吸稳定节奏。' } },
-    { id: 'r3', job: '班主任老师', score: 88, status: 'pass',
-      report: { score: 90.4,
-        dims: { '透明沟通': 91, '抗压能力': 87, '行为礼貌': 93, '逻辑思维': 89, '专业素养': 90, '倾听理解': 92 },
-        comment: '面对教师岗的情境模拟，沟通与礼貌维度尤为亮眼，能自然使用称呼与过渡语，体现育人岗位的亲和力。逻辑维度整体良好，个别追问下偶有发散。后续可在复盘环节主动总结「我刚才的回答要点」，强化收束能力。' } },
-    { id: 'r4', job: '辅导员老师', score: 88, status: 'fail',
-      report: { score: '83.0',
-        dims: { '透明沟通': 85, '抗压能力': 78, '行为礼貌': 88, '逻辑思维': 80, '专业素养': 84, '倾听理解': 86 },
-        comment: '本场在「抗压能力」与「逻辑思维」两个维度上未达通过线。被问及突发事件处置时，先入为主给出结论、缺少分步推演，倾听环节也未能完整复述面试官的问题要点。建议先复述问题、再分层作答，并针对危机场景做专项话术训练。' } }
+    { id: 'r1', job: '行政专员', score: 68, status: 'pass',
+      dims: { '专业知识': 72, '表达流畅度': 78, '学习潜力': 60, '行业趋势': 55 },
+      report: { comment: '林晓宇同学在本场行政专员模拟面试中表现达到通过线。自我介绍结构完整，能结合校园行政助理经历说明事务性工作能力；在「表达流畅度」维度尤为突出，应答节奏稳定、用词得体、过渡自然。建议在「行业趋势」维度继续补强——对行政职能的数字化、合规化发展趋势了解偏浅，可通过阅读行业报告、关注办公室管理新规补齐认知短板，并准备 1—2 个流程优化的具体案例以增强岗位说服力。' } },
+    { id: 'r2', job: 'PHP开发工程师', score: 72, status: 'comment',
+      dims: { '专业知识': 80, '表达流畅度': 70, '学习潜力': 66, '行业趋势': 58 },
+      report: { comment: '本场 PHP 开发工程师模拟面试在「专业知识」维度表现扎实，能准确阐述框架选型、数据库索引等核心技术点，并举例课程项目中的接口开发经验。相对薄弱的是「表达流畅度」——被追问高并发场景时语速加快、出现重复表述。建议通过限时演练提升临场稳定性，答题前用 2 秒梳理要点，并在回答结尾用一句话收束核心结论，让面试官更快抓住重点。' } },
+    { id: 'r3', job: '大客户销售', score: 65, status: 'fail',
+      dims: { '专业知识': 60, '表达流畅度': 74, '学习潜力': 62, '行业趋势': 57 },
+      report: { comment: '本场大客户销售模拟面试未达通过线。主要失分在「行业趋势」与「专业知识」：对 To B 销售的方法论（如 SPIN、客户成功体系）掌握不足，回答偏重通用话术、缺少对目标行业的理解，解决方案式表达不够充分。建议在复盘环节先完整复述面试官问题、再分层作答，并针对销售场景做专项话术训练，重点补强行业认知与结构化表达。' } },
+    { id: 'r4', job: '研发技术助理', score: 70, status: 'generated',
+      dims: { '专业知识': 75, '表达流畅度': 68, '学习潜力': 72, '行业趋势': 60 },
+      report: { comment: '本场研发技术助理模拟面试报告已生成。综合评分 70 分，各维度发展较均衡：「学习潜力」与「专业知识」表现较好，能结合实验课程说明问题排查思路；「表达流畅度」略有提升空间。系统建议后续关注「行业趋势」维度的补强，并围绕一次完整的排障经历用 STAR 法组织作答，提升人岗匹配度与回答的条理性。' } },
+    { id: 'r5', job: '爬虫开发工程师', score: 60, status: 'pass',
+      dims: { '专业知识': 64, '表达流畅度': 58, '学习潜力': 62, '行业趋势': 52 },
+      report: { comment: '本场爬虫开发工程师模拟面试达到通过线。技术基础扎实，能清晰说明反爬策略与数据清洗流程，「专业知识」维度表现稳定。短板在「行业趋势」——对数据采集的合规边界与行业监管动态了解不足。建议补充数据合规相关知识，并在表达上采用「先结论、后细节」的结构，让面试官更快地抓住回答重点。' } },
+    { id: 'r6', job: '系统架构设计师', score: 74, status: 'comment',
+      dims: { '专业知识': 82, '表达流畅度': 72, '学习潜力': 70, '行业趋势': 66 },
+      report: { comment: '本场系统架构设计师模拟面试综合评分 74 分，「专业知识」维度亮眼，能就高可用、扩展性给出有层次的方案。需在「表达流畅度」上进一步精炼——方案阐述较长、偶有发散。建议用「目标—约束—取舍」的结构组织回答，并针对架构演进路径准备 1 个端到端案例，强化系统设计叙事的完整性，避免细节淹没主线。' } }
   ];
-  ca.interviewStatusText = { pass: '已通过', fail: '未通过', comment: '已点评' };
+  ca.interviewStatusText = { pass: '已通过', fail: '未通过', comment: '已点评', generated: '已生成' };
   if (!activeReportId && ca.interviewRecords[0]) activeReportId = ca.interviewRecords[0].id;
 
   /* ---------- 1c. 职业测评数据 ---------- */
@@ -470,6 +478,50 @@
       '<g class="gx-grid">' + grid + '</g>' + paths + '<g class="gx-axis">' + xlabels + '</g></svg>';
   }
 
+  function gxBarChart(dims, colors) {
+    var keys = ca.interviewDims;
+    var W = 444, H = 204, padL = 28, padR = 10, padT = 18, padB = 30;
+    var plotW = W - padL - padR, plotH = H - padT - padB, max = 100;
+    var n = keys.length, slot = plotW / n, bw = Math.min(52, slot * 0.5);
+    function y(v) { return padT + plotH * (1 - v / max); }
+    var grid = [0, 25, 50, 75, 100].map(function (g) {
+      var yy = y(g);
+      return '<line x1="' + padL + '" y1="' + yy.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + yy.toFixed(1) + '" class="gx-grid-line"/>' +
+        '<text x="' + (padL - 5) + '" y="' + (yy + 3).toFixed(1) + '" text-anchor="end" class="gx-grid-text">' + g + '</text>';
+    }).join('');
+    var bars = keys.map(function (k, i) {
+      var v = dims[k] || 0;
+      var x0 = padL + slot * i + (slot - bw) / 2;
+      var y0 = y(v), h = padT + plotH - y0, cx = x0 + bw / 2;
+      var color = colors ? colors[i % colors.length] : '#7E9A68';
+      return '<rect x="' + x0.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="4" fill="' + color + '"/>' +
+        '<text x="' + cx.toFixed(1) + '" y="' + (y0 - 6).toFixed(1) + '" text-anchor="middle" class="gx-bar-val">' + v + '</text>' +
+        '<text x="' + cx.toFixed(1) + '" y="' + (H - 9).toFixed(1) + '" text-anchor="middle" class="gx-bar-lab">' + k + '</text>';
+    }).join('');
+    return '<svg class="gx-barchart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="报告总结柱状图">' +
+      '<g class="gx-grid">' + grid + '</g>' + bars + '</svg>';
+  }
+
+  function gxMiniBars(dims) {
+    var keys = ca.interviewDims;
+    return '<div class="gx-rec-bars">' + keys.map(function (k) {
+      var v = dims[k] || 0;
+      return '<div class="gx-rec-bar"><span class="gx-rec-bar-lab">' + k + '</span>' +
+        '<div class="gx-rec-bar-track"><i style="width:' + v + '%"></i></div>' +
+        '<span class="gx-rec-bar-val">' + v + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function gxInterviewAi() {
+    return '<section class="gx-card gx-ai-card">' +
+      '<div class="gx-card-head"><div class="gx-card-titles"><h3>AI总结及建议</h3>' +
+      '<p>基于你历次 AI 模拟面试的纵向追踪</p></div></div>' +
+      '<div class="gx-ai-card-body">' +
+      '<h4 class="gx-ai-sub">诊断总结</h4><p>' + ca.interviewAi.diag + '</p>' +
+      '<h4 class="gx-ai-sub">后续建议</h4><p>' + ca.interviewAi.advice + '</p>' +
+      '</div></section>';
+  }
+
   function gxInterviewTrend() {
     var job = ca.interviewJobs.filter(function (j) { return j.id === activeInterviewJob; })[0] || ca.interviewJobs[0];
     var t = ca.interviewTrend[job.id];
@@ -487,7 +539,9 @@
       }).join('') + '</div>';
     }
     var jobTabs = ca.interviewJobs.map(function (j) {
-      return '<button class="' + (j.id === activeInterviewJob ? 'active' : '') + '" data-interview-job="' + j.id + '">' + j.name + '<em>' + j.score + '</em></button>';
+      return '<button class="' + (j.id === activeInterviewJob ? 'active' : '') + '" data-interview-job="' + j.id + '">' +
+        (j.star ? '<i class="gx-job-star" aria-hidden="true">★</i>' : '') +
+        '<span>' + j.name + '</span><em>' + j.score + '</em></button>';
     }).join('');
     var modeBtns = [
       { k: 'total', n: '总分趋势' }, { k: 'dim', n: '维度对比' }
@@ -508,7 +562,7 @@
       return activeRecordFilter === 'all' || r.status === activeRecordFilter;
     });
     var filters = [
-      { k: 'all', n: '全部' }, { k: 'pass', n: '已通过' }, { k: 'fail', n: '未通过' }, { k: 'comment', n: '已点评' }
+      { k: 'all', n: '全部' }, { k: 'pass', n: '已通过' }, { k: 'fail', n: '未通过' }, { k: 'comment', n: '已点评' }, { k: 'generated', n: '已生成' }
     ].map(function (f) {
       return '<button class="' + (activeRecordFilter === f.k ? 'active' : '') + '" data-record-filter="' + f.k + '">' + f.n + '</button>';
     }).join('');
@@ -516,12 +570,13 @@
       var cls = 'gx-rec-item' + (r.id === activeReportId ? ' active' : '');
       return '<article class="' + cls + '" data-report-id="' + r.id + '">' +
         '<div class="gx-rec-top"><b>' + r.job + '</b><span class="gx-rec-score">' + r.score + ' 分</span></div>' +
+        gxMiniBars(r.dims) +
         '<div class="gx-rec-foot"><em class="gx-rec-status gx-rec-status--' + r.status + '">' + ca.interviewStatusText[r.status] + '</em>' +
         '<button class="gx-rec-view" data-report-id="' + r.id + '" type="button">查看报告 ›</button></div>' +
         '</article>';
     }).join('') : '<div class="gx-records-empty"><p>暂无符合条件的面试记录</p></div>';
     return '<section class="gx-card gx-recs-card">' +
-      '<div class="gx-card-head"><h3>面试记录</h3></div>' +
+      '<div class="gx-card-head"><div class="gx-card-titles"><h3>面试记录</h3></div></div>' +
       '<p class="gx-recs-desc">基于你目标岗位的多次模拟面试，系统已为你生成结构化成长记录</p>' +
       '<div class="gx-recs-filters">' + filters + '</div>' +
       '<div class="gx-recs-list">' + items + '</div>' +
@@ -531,21 +586,22 @@
   function gxInterviewReport() {
     var rec = ca.interviewRecords.filter(function (r) { return r.id === activeReportId; })[0] || ca.interviewRecords[0];
     if (!rec) return '<section class="gx-card gx-report"><div class="gx-records-empty"><p>暂无面试报告</p></div></section>';
+    var barColors = ['#7E9A68', '#C98B5E', '#6E9B9F', '#B0769B'];
     return '<section class="gx-card gx-report">' +
       '<h3 class="gx-report-title">AI面试报告</h3>' +
       '<div class="gx-report-body">' +
-      '<div class="gx-report-left">' +
-      '<div class="gx-report-score"><span class="gx-report-score-label">面试表现</span><b class="gx-report-score-num">' + rec.report.score + '</b></div>' +
-      '<div class="gx-report-radar">' + gxRadar6(rec.report.dims) + '</div>' +
+      '<div class="gx-report-head2">' +
+      '<div class="gx-report-score"><span class="gx-report-score-label">面试表现</span><b class="gx-report-score-num">' + rec.score + '</b></div>' +
+      '<div class="gx-report-chart">' + gxBarChart(rec.dims, barColors) + '</div>' +
       '</div>' +
-      '<div class="gx-report-right"><h4>AI综合点评</h4><p>' + rec.report.comment + '</p></div>' +
+      '<div class="gx-report-advice"><h4>专业分析建议</h4><p>' + (rec.report.comment || '') + '</p></div>' +
       '</div>' +
       '</section>';
   }
 
   function gxInterviewSheet() {
     return '<main class="gx-sheet gx-sheet-interview">' +
-      '<section class="gx-card gx-ai-card">' + gxAiPane(true) + '</section>' +
+      gxInterviewAi() +
       gxInterviewTrend() +
       gxInterviewRecords() +
       gxInterviewReport() +
@@ -732,7 +788,7 @@
   function gxArchivePage() {
     return gxPageHead() +
       '<section class="content-panel gx-embed-panel">' +
-      '<div class="gx-page gx-page--embedded">' + gxRail() + gxSheet() + '</div>' +
+      '<div class="gx-page gx-page--embedded' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + '">' + gxRail() + gxSheet() + '</div>' +
       '</section>';
   }
 

@@ -409,18 +409,22 @@
   display: flex;
   flex-direction: column;
 }
+/* 内嵌在内容面板时给整页（线圈本 + 2×2 网格）一个确定高度，两栏等高且不被内容撑开 */
+.gx-page--embedded.gx-page--interview {
+  height: calc(100vh - 220px);
+  min-height: 600px;
+  grid-template-rows: minmax(0, 1fr);
+}
+.gx-page--embedded.gx-page--interview .gx-rail,
+.gx-page--embedded.gx-page--interview .gx-sheet {
+  min-height: 0;
+}
 
-/* 顶部左：AI 总结及建议（堆叠版） */
-.gx-ai-card { overflow-y: auto; }
-.gx-ai--stack { display: block; padding: 18px 20px 22px; }
-.gx-ai--stack .gx-ai-title { font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .4px; margin: 0 0 4px; }
-.gx-ai--stack .gx-radar { position: static; width: auto; display: flex; justify-content: center; margin: 4px 0 10px; pointer-events: none; }
-.gx-ai--stack .gx-radar-svg { width: 100%; max-width: 300px; height: auto; }
-.gx-ai--stack .gx-ai-text { margin-top: 0; min-width: 0; }
-.gx-ai--stack .gx-ai-text h4 { margin: 8px 0 4px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
-.gx-ai--stack .gx-ai-text h4:first-of-type { margin-top: 0; }
-.gx-ai--stack .gx-ai-text p { margin: 0; font-size: 12.5px; line-height: 1.66; color: #3C453A; text-align: justify; }
-.gx-ai--stack .gx-ai-text p:first-of-type { margin-top: 8px; }
+/* 顶部左：AI 总结及建议（纯文字版） */
+.gx-ai-card-body { padding: 4px 20px 22px; flex: 1; min-height: 0; overflow-y: auto; }
+.gx-ai-sub { margin: 14px 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; letter-spacing: .3px; }
+.gx-ai-sub:first-of-type { margin-top: 0; }
+.gx-ai-card-body p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 
 /* 卡片通用头 */
 .gx-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 10px; flex: none; }
@@ -432,15 +436,19 @@
 .gx-trend-modes button { height: 30px; padding: 0 14px; border: 0; background: #F7F6F0; font-size: 13px; color: #5A6450; font-family: inherit; cursor: pointer; }
 .gx-trend-modes button + button { border-left: 1px solid #E5E4D9; }
 .gx-trend-modes button.active { background: linear-gradient(96deg, #8AA96D, #96B37B); color: #fff; font-weight: 600; }
-.gx-trend-jobs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 18px 8px; flex: none; }
+.gx-trend-jobs { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 18px 8px; flex: none; }
 .gx-trend-jobs button {
-  height: 36px; border: 1px solid #E5E4D9; border-radius: 10px; background: #F7F6F0;
-  font-size: 13px; color: #444E3A; font-family: inherit; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
+  height: 34px; padding: 0 11px; border: 1px solid #CDE0C2; border-radius: 9px; background: #EAF2E0;
+  font-size: 12.5px; color: #3E5A2C; font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: background .15s, border-color .15s, color .15s;
 }
-.gx-trend-jobs button em { font-style: normal; font-size: 12px; color: #7E9A68; font-weight: 700; }
-.gx-trend-jobs button.active { border-color: #8AA96D; background: linear-gradient(96deg, #EEF3E2, #E7EFD6); color: #3E5A2C; font-weight: 600; }
-.gx-trend-jobs button.active em { color: #5C7E3C; }
+.gx-trend-jobs button span { white-space: nowrap; }
+.gx-trend-jobs button em { font-style: normal; font-size: 12px; color: #5C7E3C; font-weight: 700; }
+.gx-trend-jobs button .gx-job-star { color: #E0A23A; font-size: 12px; line-height: 1; font-style: normal; }
+.gx-trend-jobs button.active { background: linear-gradient(96deg, #7E9A68, #8FA97A); border-color: #7E9A68; color: #fff; font-weight: 600; }
+.gx-trend-jobs button.active em { color: #EAF2E0; }
+.gx-trend-jobs button.active .gx-job-star { color: #FFE39A; }
 .gx-trend-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 2px 18px 6px; flex: none; }
 .gx-legend-item { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: #5C6653; }
 .gx-legend-item i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
@@ -452,7 +460,7 @@
 
 /* 面试记录卡 */
 .gx-recs-desc { margin: 0; padding: 0 18px 10px; font-size: 12px; color: var(--gx-muted); line-height: 1.6; flex: none; }
-.gx-recs-filters { display: flex; gap: 8px; padding: 0 18px 10px; flex: none; }
+.gx-recs-filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 10px; flex: none; }
 .gx-recs-filters button {
   height: 30px; padding: 0 14px; border: 1px solid #E5E4D9; border-radius: 15px; background: #F7F6F0;
   font-size: 13px; color: #5A6450; font-family: inherit; cursor: pointer;
@@ -468,32 +476,42 @@
 .gx-rec-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .gx-rec-top b { font-size: 14px; font-weight: 700; color: #2F382B; }
 .gx-rec-score { font-size: 13px; color: #7E9A68; font-weight: 700; white-space: nowrap; }
-.gx-rec-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 10px; }
+.gx-rec-bars { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+.gx-rec-bar { display: grid; grid-template-columns: 62px minmax(0, 1fr) 26px; align-items: center; gap: 8px; }
+.gx-rec-bar-lab { font-size: 11px; color: #5C6653; white-space: nowrap; }
+.gx-rec-bar-track { height: 7px; border-radius: 4px; background: #E3E9D5; overflow: hidden; }
+.gx-rec-bar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #92AB6F, #7E9A68); }
+.gx-rec-bar-val { font-size: 11px; color: #7E9A68; font-weight: 700; text-align: right; }
+.gx-rec-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 10px; }
 .gx-rec-status { font-style: normal; font-size: 11.5px; line-height: 20px; padding: 0 9px; border-radius: 5px; }
 .gx-rec-status--pass { background: #DCEBD0; color: #3F6A2C; }
 .gx-rec-status--fail { background: #F2D9D4; color: #A23E33; }
 .gx-rec-status--comment { background: #DDE7F0; color: #34608A; }
+.gx-rec-status--generated { background: #ECE4D2; color: #8A6E2C; }
 .gx-rec-view { border: 0; background: transparent; color: #5C7E3C; font-size: 12.5px; font-weight: 600; padding: 0; font-family: inherit; cursor: pointer; }
 .gx-rec-view:hover { text-decoration: underline; }
 
 /* AI 面试报告卡 */
 .gx-report-title { margin: 0; padding: 16px 18px 6px; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; flex: none; }
-.gx-report-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: 8px; padding: 4px 18px 16px; overflow-y: auto; }
-.gx-report-left { display: flex; flex-direction: column; align-items: center; min-width: 0; }
-.gx-report-score { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 2px 0 4px; }
+.gx-report-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 4px 18px 16px; display: flex; flex-direction: column; gap: 12px; }
+.gx-report-head2 { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; align-items: center; flex: none; }
+.gx-report-score { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .gx-report-score-label { font-size: 12px; color: var(--gx-muted); }
 .gx-report-score-num { font-size: 34px; font-weight: 800; color: #5C7E3C; line-height: 1; letter-spacing: .5px; }
-.gx-report-radar { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; width: 100%; }
-.gx-report-radar .gx-radar-svg { width: 100%; max-width: 240px; height: auto; }
-.gx-report-right { min-width: 0; }
-.gx-report-right h4 { margin: 2px 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
-.gx-report-right p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; }
+.gx-report-chart { min-width: 0; }
+.gx-barchart { width: 100%; height: auto; max-height: 200px; display: block; }
+.gx-bar-val { font-size: 11px; fill: #5C6653; font-weight: 700; }
+.gx-bar-lab { font-size: 11px; fill: #6E7A62; }
+.gx-report-advice { min-width: 0; }
+.gx-report-advice h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
+.gx-report-advice p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 
 /* 窄屏：2×2 退化为单列，随页面自然滚动 */
 @media (max-width: 1280px) {
   .gx-sheet-interview { grid-template-columns: 1fr; grid-template-rows: none; height: auto; }
+  .gx-page--embedded.gx-page--interview { height: auto; min-height: 0; }
   .gx-trend-chart { max-height: 220px; }
-  .gx-report-body { grid-template-columns: minmax(0, 200px) minmax(0, 1fr); }
+  .gx-report-head2 { grid-template-columns: 80px minmax(0, 1fr); }
 }
 
 /* ============================================================
