@@ -37,7 +37,7 @@
   right: -11px;
   height: 4px;
   border-radius: 4px;
-  background: var(--stage-color, #23c8ad);
+  background: var(--stage-color, #65BC7F);
   opacity: .5;
   z-index: 0;
 }
@@ -60,11 +60,11 @@
   height: 34px;
   flex: none;
   border-radius: 50%;
-  background: var(--stage-color, #23c8ad);
+  background: var(--stage-color, #65BC7F);
   color: #fff;
   font-size: 15px;
   font-weight: 700;
-  box-shadow: 0 0 0 5px #fff, 0 0 0 7px color-mix(in srgb, var(--stage-color, #23c8ad) 24%, white);
+  box-shadow: 0 0 0 5px #fff, 0 0 0 7px color-mix(in srgb, var(--stage-color, #65BC7F) 24%, white);
 }
 /* 节点向下连接卡片列的短竖线 */
 .pc-roadmap-stage > header:after {
@@ -75,7 +75,7 @@
   width: 2px;
   height: 18px;
   margin-left: -1px;
-  background: var(--stage-color, #23c8ad);
+  background: var(--stage-color, #65BC7F);
   opacity: .4;
 }
 .pc-roadmap-stage h2 {

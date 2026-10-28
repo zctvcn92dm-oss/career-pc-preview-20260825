@@ -8,15 +8,15 @@
 /* ---- 左侧阶段侧标签（备忘录式物化标签）---- */
 .archive-side-nav{background:rgba(242,238,225,.5);border:1px solid var(--paper-edge,#eae3cf);border-radius:16px;padding:14px 10px}
 .side-nav-head{display:flex;gap:10px;align-items:center;padding:8px 8px 12px;background:#e9f4e6;border-radius:10px;border-bottom:1px dashed #cfdccb;margin-bottom:12px}
-.side-nav-avatar{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#4db98a,#7cc9a0);color:#fff;font-weight:700}
+.side-nav-avatar{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#65BC7F,#8ad3a2);color:#fff;font-weight:700}
 .side-nav-head b{font-size:16px;color:var(--ink,#22382c)}
 .side-tag-group{display:flex;gap:7px;align-items:flex-start;margin-bottom:14px}
-.side-stage-name{writing-mode:vertical-rl;letter-spacing:4px;font-size:11px;color:#2f8f63;font-weight:700;background:#e6f6ec;border-radius:7px;padding:9px 4px;flex:none}
+.side-stage-name{writing-mode:vertical-rl;letter-spacing:4px;font-size:11px;color:#3E955C;font-weight:700;background:#e9f5ed;border-radius:7px;padding:9px 4px;flex:none}
 .side-tag-list{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
 .side-tag{display:flex;align-items:center;gap:7px;border:1px solid var(--paper-edge,#eae3cf);background:var(--white,#fffdf5);border-radius:8px;padding:7px 10px;text-align:left;font-size:12px;color:#5f6f60;cursor:pointer;box-shadow:0 2px 5px rgba(120,106,62,.1);transition:transform .15s ease,box-shadow .15s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .side-tag i{flex:none;width:6px;height:6px;border-radius:50%;background:#c8cdb9;border:1px solid #b3b8a5}
 .side-tag:hover{transform:translateX(2px);box-shadow:0 3px 8px rgba(120,106,62,.16)}
-.side-tag.active{background:linear-gradient(135deg,#4db98a,#5fc494);color:#fff;border-color:transparent;font-weight:600;box-shadow:0 5px 12px rgba(77,185,138,.28)}
+.side-tag.active{background:linear-gradient(135deg,#65BC7F,#65BC7F);color:#fff;border-color:transparent;font-weight:600;box-shadow:0 5px 12px rgba(101,188,127,.28)}
 .side-tag.active i{background:#fff;border-color:#fff}
 /* ---- 右侧内容区 ---- */
 .archive-content-zone{display:flex;flex-direction:column;gap:18px;min-width:0}
@@ -55,7 +55,7 @@
 /* ---- 底部两列：AI总结 | 学年时间线 ---- */
 .archive-bottom-grid{display:grid;grid-template-columns:minmax(300px,2fr) minmax(380px,3fr);gap:18px;align-items:start}
 .ai-summary-card,.timeline-card{background:var(--white,#fffdf5);border:1px solid var(--paper-edge,#eae3cf);border-radius:16px;box-shadow:var(--shadow);padding:20px;min-width:0}
-.ai-summary-title{display:inline-block;background:linear-gradient(135deg,#e6f6ec,#d7f0e2);color:#2f8f63;font-weight:700;font-size:14px;border-radius:20px;padding:7px 20px;margin-bottom:10px}
+.ai-summary-title{display:inline-block;background:linear-gradient(135deg,#e9f5ed,#d9eede);color:#3E955C;font-weight:700;font-size:14px;border-radius:20px;padding:7px 20px;margin-bottom:10px}
 .ai-summary-radar{display:grid;place-items:center;padding:4px 0}
 .ai-summary-radar .radar-chart{width:min(100%,250px);height:auto}
 .ai-summary-text h4{margin:12px 0 4px;font-size:13px;color:var(--ink,#22382c)}
@@ -65,28 +65,28 @@
 .grade-pill-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .grade-pill-tabs button{border:1px solid var(--paper-edge,#eae3cf);background:#fbf8ee;border-radius:18px;padding:9px 0;color:#5f6f60;font-size:13px;cursor:pointer;transition:.15s ease}
 .grade-pill-tabs button:hover{transform:translateY(-1px)}
-.grade-pill-tabs button.active{background:linear-gradient(135deg,#4db98a,#5fc494);color:#fff;border-color:transparent;font-weight:600;box-shadow:0 6px 14px rgba(77,185,138,.25)}
+.grade-pill-tabs button.active{background:linear-gradient(135deg,#65BC7F,#65BC7F);color:#fff;border-color:transparent;font-weight:600;box-shadow:0 6px 14px rgba(101,188,127,.25)}
 /* ---- 成长时间线 ---- */
 .archive-grade-timeline{position:relative;padding:2px 10px 0 26px;max-height:430px;overflow:auto}
 .archive-grade-timeline:before{content:"";position:absolute;left:8px;top:10px;bottom:18px;width:2px;background:#9aaca6}
 .archive-grade-timeline article{position:relative;padding:0 0 24px}
-.archive-grade-timeline article>i{position:absolute;left:-24px;top:2px;width:18px;height:18px;border-radius:50%;background:#4db98a;box-shadow:0 0 0 4px var(--white,#fffdf5)}
+.archive-grade-timeline article>i{position:absolute;left:-24px;top:2px;width:18px;height:18px;border-radius:50%;background:#65BC7F;box-shadow:0 0 0 4px var(--white,#fffdf5)}
 .archive-record-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .archive-record-meta time{color:#52625c;font-size:12px}
 .archive-record-meta span{padding:3px 8px;border-radius:4px;background:#8a6fe8;color:#fff;font-size:11px}
 .archive-record-meta span:first-of-type{background:#4da5d8}
 .archive-grade-timeline p{margin:8px 0 0;color:#46554f;line-height:1.7;font-size:12.5px}
-.archive-grade-timeline article>button{margin-top:8px;border:0;background:none;color:#2f8f63;padding:0;cursor:pointer}
+.archive-grade-timeline article>button{margin-top:8px;border:0;background:none;color:#3E955C;padding:0;cursor:pointer}
 .archive-grade-empty{min-height:220px;display:grid;place-content:center;justify-items:center;color:#9aa7a2}
 .archive-grade-empty span{width:54px;height:54px;color:#d7ddda}
 .archive-grade-empty svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.3}
 /* ---- 雷达图通用 ---- */
 .radar-grid polygon,.radar-grid line{fill:#f5f8f0;fill-opacity:.4;stroke:#cdd8cc;stroke-width:1}
 .radar-grid polygon+polygon{fill:none}
-.radar-area{fill:rgba(77,185,138,.24);stroke:#3ba173;stroke-width:2}
+.radar-area{fill:rgba(101,188,127,.24);stroke:#3ba173;stroke-width:2}
 .radar-chart circle{fill:#3ba173;stroke:#fff;stroke-width:2}
 .radar-labels text{fill:#34463f;font-size:12px}
-.radar-labels tspan{fill:#2f8f63;font-size:11px;font-weight:700}
+.radar-labels tspan{fill:#3E955C;font-size:11px;font-weight:700}
 @media(max-width:1366px){
 .archive-detail-layout{grid-template-columns:180px minmax(0,1fr)}
 .archive-bottom-grid{grid-template-columns:minmax(260px,1fr) minmax(300px,1.4fr)}

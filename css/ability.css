@@ -3,8 +3,8 @@
    与成长档案页同一纸张/绿系视觉语言
    ========================================================= */
 .ability-page {
-  --ab-green: #4db98a;
-  --ab-deep: #2f8f63;
+  --ab-green: #65BC7F;
+  --ab-deep: #3E955C;
   --ab-ink: #22382c;
   --ab-muted: #5f7168;
   --ab-line: #eae3cf;
@@ -67,8 +67,8 @@
 /* 雷达图配色：绿系（覆盖档案页的橄榄色） */
 .ab-radar .gx-rings ellipse { fill: none; stroke: #dbe6d4; stroke-width: 1; }
 .ab-radar .gx-rings line { stroke: #e3ead9; stroke-width: 1; }
-.ab-radar .gx-area { fill: #4db98a; fill-opacity: .28; stroke: #3ba173; stroke-width: 1.6; }
-.ab-radar .gx-dot { fill: #3ba173; stroke: #fff; stroke-width: 1.4; }
+.ab-radar .gx-area { fill: #65BC7F; fill-opacity: .28; stroke: #3E955C; stroke-width: 1.6; }
+.ab-radar .gx-dot { fill: #3E955C; stroke: #fff; stroke-width: 1.4; }
 .ab-radar .gx-labels text { fill: #34463f; font-size: 12px; }
 
 .ab-facts { display: flex; flex-direction: column; gap: 12px; }
@@ -113,7 +113,7 @@
 .ab-dim header > b { font-size: 22px; color: var(--ab-deep); font-weight: 800; line-height: 1; }
 .ab-dim header > b small { font-size: 11px; font-weight: 600; color: #8a9a8a; margin-left: 2px; }
 .ab-bar { height: 8px; border-radius: 99px; background: #eef2e7; margin: 12px 0; overflow: hidden; }
-.ab-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #4db98a, #6fc79a); }
+.ab-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #65BC7F, #8AD3A3); }
 .ab-dim-text { margin: 0; font-size: 12.5px; line-height: 1.75; color: #5f7168; }
 
 /* ---------- AI 建议 ---------- */

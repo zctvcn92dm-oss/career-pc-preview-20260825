@@ -1,16 +1,16 @@
 /* =========================================================
-   学生端首页 · 青绿(teal) SaaS 风格换肤（2026-10-26）
+   学生端首页 · 绿(green) SaaS 风格换肤（2026-10-28 主色调改为 #65BC7F）
    作用域：仅首页 body.home-view，覆盖 home-mockup.css 的「绿+奶油活页本」风格
-   设计目标：白底 + 青绿主色，干净卡片化布局
+   设计目标：白底 + #65BC7F 主色，干净卡片化布局
    ========================================================= */
 
 /* ---------- 主题变量（仅首页生效） ---------- */
 body.home-view {
-  --teal: #15b79a;
-  --teal-bright: #23c8ad;
-  --teal-deep: #0f9a82;
-  --teal-soft: #e6f7f2;
-  --teal-soft-2: #f1f8f6;
+  --teal: #65BC7F;
+  --teal-bright: #8AD3A0;
+  --teal-deep: #3E955C;
+  --teal-soft: #E9F5ED;
+  --teal-soft-2: #F2F8F3;
   --ink: #1f2a37;
   --ink-2: #33414f;
   --muted: #6b7785;
@@ -39,7 +39,7 @@ body.home-view footer { color: #9aa6b0; }
 /* 品牌方标：青绿渐变「就」字方块 */
 body.home-view .brand > span {
   background: linear-gradient(140deg, var(--teal-bright), var(--teal));
-  box-shadow: 0 3px 9px rgba(20, 160, 140, .3);
+  box-shadow: 0 3px 9px rgba(62, 149, 92, .3);
 }
 body.home-view .brand b { color: var(--ink); }
 
@@ -100,8 +100,8 @@ body.home-view .student-hero {
   border-radius: 18px;
   background:
     radial-gradient(120% 160% at 88% -40%, rgba(255, 255, 255, .26), transparent 58%),
-    linear-gradient(102deg, #26c2a4 0%, #43cfb2 55%, #77ddc0 100%);
-  box-shadow: 0 14px 30px rgba(20, 160, 140, .16);
+    linear-gradient(102deg, #3E955C 0%, #65BC7F 55%, #8ED3A3 100%);
+  box-shadow: 0 14px 30px rgba(62, 149, 92, .16);
   overflow: hidden;
   color: #fff;
 }
@@ -204,8 +204,8 @@ body.home-view .soft-badge { flex: none; padding: 6px 13px; border-radius: 8px; 
 body.home-view .home-radar-labels .dimension-label { font-size: 11.5px; fill: #6b7785; }
 body.home-view .radar-grid polygon,
 body.home-view .radar-grid line { fill: none; stroke: #e3e9ec; stroke-width: 1.1; }
-body.home-view .radar-grid polygon:first-child { fill: rgba(35, 200, 173, .08); }
-body.home-view .radar-value { fill: rgba(35, 200, 173, .28); stroke: var(--teal); stroke-width: 1.8; }
+body.home-view .radar-grid polygon:first-child { fill: rgba(101, 188, 127, .08); }
+body.home-view .radar-value { fill: rgba(101, 188, 127, .28); stroke: var(--teal); stroke-width: 1.8; }
 body.home-view .home-portrait-radar circle { fill: var(--teal); stroke: #fff; stroke-width: 1.6; }
 
 /* 画像卡右列 */
@@ -220,7 +220,7 @@ body.home-view .portrait-facts {
   padding: 14px 16px;
   border-radius: 14px;
   background: var(--teal-soft-2);
-  border: 1px solid #e7f1ee;
+  border: 1px solid #e3f0e8;
 }
 body.home-view .portrait-facts > div { padding: 0; border-radius: 0; background: none; }
 body.home-view .portrait-facts small { display: block; font-size: 13px; color: #7a8694; line-height: 1.3; }
@@ -270,7 +270,7 @@ body.home-view .plan-change-inline {
   border-radius: 12px;
   background: #ffffff;
   border: 1px solid var(--teal);
-  box-shadow: 0 6px 14px rgba(20, 160, 140, .12);
+  box-shadow: 0 6px 14px rgba(62, 149, 92, .12);
 }
 body.home-view .plan-change-inline:after { display: none; }
 body.home-view .plan-change-inline .todo-icon { width: 26px; height: 26px; border-radius: 50%; background: var(--teal-soft); color: var(--teal); display: grid; place-items: center; }
@@ -308,7 +308,7 @@ body.home-view .plan-actions button {
   height: 38px;
   padding: 0 24px;
   border-radius: 9px;
-  border: 1px solid #cfe7e0;
+  border: 1px solid #cfe9da;
   background: #ffffff;
   color: var(--teal-deep);
   font-family: inherit;
@@ -317,10 +317,10 @@ body.home-view .plan-actions button {
   cursor: pointer;
 }
 body.home-view .plan-actions button.primary {
-  border-color: transparent;
-  background: linear-gradient(100deg, var(--teal-bright), var(--teal));
+  border-color: transparent !important;
+  background: linear-gradient(100deg, var(--teal-bright), var(--teal)) !important;
   color: #fff;
-  box-shadow: 0 5px 12px rgba(20, 160, 140, .26);
+  box-shadow: 0 5px 12px rgba(62, 149, 92, .26);
 }
 
 /* ---------- 近期成长记录 ---------- */

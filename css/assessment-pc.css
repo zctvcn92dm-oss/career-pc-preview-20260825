@@ -16,7 +16,7 @@
 .assessment-chart svg+span,.assessment-bar-chart+span{position:absolute;left:50%;top:39px;transform:translate(-50%,-50%);display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:#fff;color:#566ee8;font-size:15px;font-weight:700}
 .assessment-chart small{display:block;margin-top:3px;font-size:9px;font-weight:400}
 .assessment-bar-chart{height:92px;padding:13px 12px;display:flex;flex-direction:column;justify-content:center;gap:7px;border-radius:10px;background:#f3fbf9}
-.assessment-bar-chart i{display:block;height:6px;border-radius:5px;background:linear-gradient(90deg,#7368ec,#24d1b2)}
+.assessment-bar-chart i{display:block;height:6px;border-radius:5px;background:linear-gradient(90deg,#7368ec,#65BC7F)}
 .assessment-card>footer{display:flex;justify-content:flex-end;gap:10px;padding:0 20px 17px}
 .assessment-card>footer button{height:36px;min-width:104px;border:1px solid #24cdb2;border-radius:18px;background:#fff;color:#16b69d;cursor:pointer}
 .assessment-card>footer button.primary{background:#24cdb2;color:#fff}
