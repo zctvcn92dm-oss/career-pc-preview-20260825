@@ -925,10 +925,10 @@
       '</main>';
   }
 
-  /* 内嵌在标准菜单壳内（侧栏 + 顶栏 + 页头 + 内容面板），与生涯路径图等页面统一 */
+  /* 内嵌在标准菜单壳内（侧栏 + 顶栏 + 内容面板）
+     注：按需求去掉页头区块（标题 + 说明 + 重新打开档案/返回首页 按钮），页面直接从档案内容开始 */
   function gxArchivePage() {
-    return gxPageHead() +
-      '<section class="content-panel gx-embed-panel">' +
+    return '<section class="content-panel gx-embed-panel">' +
       '<div class="gx-page gx-page--embedded' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '') + '">' + gxRail() + gxSheet() + '</div>' +
       '</section>';
   }
