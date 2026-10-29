@@ -25,9 +25,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  /* contain：按视频原始比例（864×496）完整显示，不拉伸变形、不裁切档案画面；
-     任何屏幕比例下留边都落在 .gx-intro 的青→米白渐变上，与视频首/尾帧自然衔接 */
-  object-fit: contain;
+  /* cover：视频铺满整个详情页内容区（充满 .gx-intro 层），不留黑边/渐变留白；
+     按比例裁切两端多余画面，保证动画填满整屏 */
+  object-fit: cover;
   object-position: center;
   border: 0;
   background: transparent;
@@ -62,26 +62,6 @@
   animation: gx-intro-spin .8s linear infinite;
 }
 @keyframes gx-intro-spin { to { transform: rotate(360deg); } }
-
-.gx-intro-skip {
-  position: absolute;
-  right: 30px;
-  bottom: 26px;
-  z-index: 3;
-  padding: 7px 18px;
-  border: 1px solid rgba(255, 255, 255, .5);
-  border-radius: 999px;
-  background: rgba(28, 62, 62, .3);
-  color: #F0F5F2;
-  font-family: inherit;
-  font-size: 13px;
-  letter-spacing: 1px;
-  line-height: 1;
-  cursor: pointer;
-  backdrop-filter: blur(2px);
-  transition: background .2s ease, border-color .2s ease;
-}
-.gx-intro-skip:hover { background: rgba(28, 62, 62, .52); border-color: rgba(255, 255, 255, .72); }
 
 /* 动画播放期间锁滚动，避免详情页在下方被拖动 */
 body.gx-intro-lock { overflow: hidden; }

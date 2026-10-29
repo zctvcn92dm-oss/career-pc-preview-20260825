@@ -38,8 +38,7 @@
     el.className = 'gx-intro';
     el.innerHTML =
       '<video class="gx-intro-video" muted playsinline preload="auto" src="' + INTRO_SRC + '"></video>' +
-      '<div class="gx-intro-loading"><i></i>正在打开成长档案</div>' +
-      '<button class="gx-intro-skip" type="button">跳过 ›</button>';
+      '<div class="gx-intro-loading"><i></i>正在打开成长档案</div>';
     // 挂到标准菜单壳的内容区（.workspace）内，动画只在框架里播放，
     // 侧栏与顶栏作为壳的一部分始终盖在动画之上、保持可见
     var host = document.querySelector('.workspace') || document.body;
@@ -48,7 +47,6 @@
 
     var video = el.querySelector('.gx-intro-video');
     var loading = el.querySelector('.gx-intro-loading');
-    var skip = el.querySelector('.gx-intro-skip');
 
     function start() {
       // 开场动画无需声音，始终静音播放（同时满足浏览器自动播放策略）
@@ -71,8 +69,7 @@
       maxTimer = setTimeout(function () { gxFinishIntro('timeout'); }, left + 6000);
     });
 
-    skip.addEventListener('click', function (e) { e.stopPropagation(); gxFinishIntro('skip'); });
-    document.addEventListener('keydown', gxIntroKey);   // Esc 跳过
+    document.addEventListener('keydown', gxIntroKey);   // Esc 仍可跳过（键盘，不显示按钮）
 
     maxTimer = setTimeout(function () { gxFinishIntro('timeout'); }, MAX_MS);
     return el;
