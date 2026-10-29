@@ -933,56 +933,16 @@
       '</section>';
   }
 
-  /* ---------- 8c. 能力画像（独立页面） ---------- */
-  function gxAbilityPage() {
-    var dims = (ca.dimensions || []).slice();
-    var byDesc = dims.slice().sort(function (a, b) { return b.value - a.value; });
-    var best = byDesc[0] || { name: '—', value: 0, stage: '' };
-    var weak = byDesc[byDesc.length - 1] || { name: '—', value: 0, stage: '' };
-    var dimCards = dims.map(function (d) {
-      var det = (ca.dimensionDetails && ca.dimensionDetails[d.name]) || {};
-      return '<article class="ab-dim' + (d.name === activeDimension ? ' is-active' : '') + '" data-dimension="' + d.name + '">' +
-        '<header><div><h3>' + d.name + '</h3><span class="ab-stage">' + d.stage + '</span></div>' +
-        '<b>' + d.value + '<small>分</small></b></header>' +
-        '<div class="ab-bar"><i style="width:' + d.value + '%"></i></div>' +
-        '<p class="ab-dim-text">' + (det.text || '结合测评、课程与实践记录，该维度数据持续积累中。') + '</p></article>';
-    }).join('');
-    return '<div class="page-head"><div><h1>能力画像</h1>' +
-      '<p>按能力维度汇总测评、课程、实践等成长证据，呈现你的能力发展画像</p></div>' +
-      '<button data-page="home">返回首页</button></div>' +
-      '<div class="ability-page">' +
-      '<section class="ab-hero">' +
-      '<div class="ab-hero-head"><div class="ab-hero-title"><span class="ab-eyebrow">我的能力画像</span>' +
-      '<h2>六维能力概览</h2><p>基于测评、课程、活动与实践记录综合生成</p></div>' +
-      '<div class="ab-hero-chips"><span class="ab-chip"><small>画像更新时间</small><b>2026-08-18</b></span>' +
-      '<span class="ab-chip--soft">关键词　' + (ca.keywords || []).join(' · ') + '</span></div></div>' +
-      '<div class="ab-hero-body"><div class="ab-radar">' + gxRadar(dims) + '</div>' +
-      '<div class="ab-facts">' +
-      '<div class="ab-fact"><small>当前优势维度</small><b>' + best.name + '</b><em>' + best.value + ' 分 · ' + best.stage + '</em></div>' +
-      '<div class="ab-fact"><small>当前待提升维度</small><b>' + weak.name + '</b><em>' + weak.value + ' 分 · ' + weak.stage + '</em></div>' +
-      '<div class="ab-fact"><small>已形成画像维度</small><b>' + dims.length + ' / ' + dims.length + '</b><em>覆盖自我认知、求职表现、就业实践等</em></div>' +
-      '</div></div></section>' +
-      '<section class="ab-dims"><div class="ab-sec-head"><h2>能力维度明细</h2><p>点击维度查看提升建议</p></div>' +
-      '<div class="ab-dim-grid">' + dimCards + '</div></section>' +
-      '<section class="ab-ai"><h2>AI分析建议</h2><p>' + (ca.analysis || '') + '</p></section>' +
-      '</div>';
-  }
-
   function gxEligible() {
     return state.student.bound && ca.status !== 'error' && ca.status !== 'empty';
   }
 
   var gxOriginalRender = render;
   render = function () {
+    // 能力画像已并入成长档案（成长档案包含全部学生基础数据），ability 路由统一落到档案页
+    if (page === 'ability') page = 'archive';
     // 只要不在档案页，就把当前页记为「返回目标」
-    if (page !== 'archive' && page !== 'ability') gxBackTarget = page;
-    if (page === 'ability' && gxEligible()) {
-      // 能力画像：独立页面（六维能力雷达 + 维度明细 + AI 建议）
-      app.innerHTML = shell(gxAbilityPage());
-      bind();
-      syncUrl();
-      return;
-    }
+    if (page !== 'archive') gxBackTarget = page;
     if (page === 'archive' && gxEligible()) {
       // 走标准菜单壳：保留左侧导航与顶栏，档案内容内嵌在内容面板中
       app.innerHTML = shell(gxArchivePage());
