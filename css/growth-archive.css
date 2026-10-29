@@ -72,10 +72,8 @@
   overflow:hidden;                          /* 整页不滚动 */
   color:var(--gx-ink);
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
-  background:
-    radial-gradient(600px 420px at -9% -14%,rgba(110,160,125,.30),rgba(110,160,125,0) 100%),
-    radial-gradient(780px 580px at -6% 110%,rgba(110,160,125,.42),rgba(110,160,125,0) 100%),
-    linear-gradient(180deg,#F2F7EF 0%,#EEF4EB 55%,#E9F1E5 100%);
+  /* 外框与首页一致：透出全局米色背景（--bg），不再用绿色渐变铺底；纸张风保留在内部白卡与装订环 */
+  background:transparent;
 }
 /* 左栏白纸导航：内部上下滚动（沿用独立全页行为） */
 .gx-page--embedded .gx-rail-page{overflow-y:auto}
