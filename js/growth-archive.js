@@ -294,7 +294,7 @@
       '<ellipse cx="20" cy="20" rx="3.4" ry="5" fill="#6E9463"/></svg>';
   }
   /* ---------- 3. 左侧导航（对齐 2026-10-29 设计稿：白纸面板 + 线圈装订） ---------- */
-  function gxRail() {
+  function gxRail(actions) {
     var rings = '', i;
     for (i = 0; i < 16; i++) rings += '<i></i>';
     return '<aside class="gx-rail">' +
@@ -317,6 +317,7 @@
       }).join('') +
       '</div></div>' +
       '<div class="gx-spiral gx-spiral-r">' + rings + '</div>' +
+      (actions || '') +
       '</aside>';
   }
 
@@ -618,7 +619,7 @@
       gxInterviewTrend() +
       gxInterviewRecords() +
       gxInterviewReport() +
-      '</main>';
+      '</div>';
   }
 
   function gxBindInterview() {
@@ -865,7 +866,7 @@
     return '<div class="gx-sheet gx-sheet-assess">' +
       gxAssessAi() +
       '<div class="gx-assess-bottom">' + gxAssessRecs() + gxAssessReport() + '</div>' +
-      '</main>';
+      '</div>';
   }
 
   function gxBindAssess() {
@@ -890,13 +891,13 @@
     if (activeSideTag === 'AI面试') return gxInterviewSheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
     var isValid = activeSideTag === '基本信息';
-    return '<div class="gx-sheet">' +
+    return '<div class="gx-sheet' + (isValid ? '' : ' gx-sheet--module') + '">' +
       (isValid
         ? gxBasicCard() + gxAiCard()
         : gxModuleCard() +
         '<section class="gx-card gx-bottom"><div class="gx-hint"><h4>' + activeSideTag + '模块</h4>' +
         '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p></div></section>') +
-      '</main>';
+      '</div>';
   }
 
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
@@ -904,15 +905,17 @@
   function gxArchiveEmbedded() {
     var cls = (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '');
     var label = BACK_NAMES[gxBackTarget] || '首页';
-    return '<div class="gx-page gx-page--embedded' + cls + '">' +
-      gxRail() + gxSheet() +
+    var actions =
       '<div class="gx-rail-actions">' +
       '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
       '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
       'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
       '<span>返回' + label + '</span></button>' +
-      '</div>' +
+      '</div>';
+    // 操作按钮收回左栏面板底部（与独立全页一致），整页固定、内容超出在各自面板内上下滚动
+    return '<div class="gx-page gx-page--embedded' + cls + '">' +
+      gxRail(actions) + gxSheet() +
       '</div>';
   }
 
@@ -928,8 +931,11 @@
     if (page !== 'archive') gxBackTarget = page;
     document.body.classList.toggle('home-view', page === 'home');
     if (page === 'archive' && gxEligible()) {
-      // 内嵌详情：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏），不再整屏占满
+      // 内嵌详情：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏），固定区域展示，内容超出在面板内上下滚动
       app.innerHTML = shell(gxArchiveEmbedded());
+      // shell() 会重建 .workspace，故在写入 innerHTML 之后再标记固定区域类
+      var ws = document.querySelector('.workspace');
+      if (ws) ws.classList.add('workspace--archive');
       bind();
       gxBindBack();
       gxBindInterview();
@@ -937,6 +943,8 @@
       syncUrl();
       return;
     }
+    var wsOut = document.querySelector('.workspace');
+    if (wsOut) wsOut.classList.remove('workspace--archive');
     document.removeEventListener('keydown', gxBackKey);
     gxOriginalRender();
   };

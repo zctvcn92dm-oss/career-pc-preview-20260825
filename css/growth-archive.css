@@ -31,6 +31,21 @@
   overflow:hidden;
 }
 /* ---------- 内嵌详情模式：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏） ---------- */
+/* 关键：档案固定在一块区域里（高度填满工作区），左栏导航与右栏内容各自内部上下滚动，整页不滚动 */
+.workspace--archive{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.workspace--archive .topbar{position:relative;flex:none}
+.workspace--archive main{
+  flex:1 1 auto;min-height:0;height:100%;
+  max-width:none;margin:0;padding:0;
+  overflow:hidden;
+}
+/* 内嵌档案页自带返回 / 重新打开操作，隐藏全局页脚，避免底部重复留白 */
+.workspace--archive footer{display:none}
 .gx-page--embedded{
   --gx-green:#5CAD6A;            /* 选中绿（年份 Tab / 基本信息 pill）*/
   --gx-green-deep:#4A9A5B;
@@ -48,11 +63,13 @@
   --gx-card-pad:clamp(18px,1.8vw,32px);
 
   position:relative;
+  height:100%;                   /* 填满工作区固定区域 */
   display:grid;
   grid-template-columns:var(--gx-rail-w) minmax(0,1fr);
   gap:clamp(14px,1.78vw,34px);              /* 设计稿栏间距 34px @1920 */
   padding:clamp(12px,1.46vw,28px) clamp(16px,3vw,58px) clamp(12px,1.35vw,26px) clamp(16px,1.6vw,32px);
-  align-items:stretch;
+  align-items:stretch;                      /* 两栏等高撑满，内容在面板内滚动 */
+  overflow:hidden;                          /* 整页不滚动 */
   color:var(--gx-ink);
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
   background:
@@ -60,23 +77,39 @@
     radial-gradient(780px 580px at -6% 110%,rgba(110,160,125,.42),rgba(110,160,125,0) 100%),
     linear-gradient(180deg,#F2F7EF 0%,#EEF4EB 55%,#E9F1E5 100%);
 }
-/* 内嵌：整页自然滚动，底部操作放回文档流（位于左栏导航之下，不再绝对定位于视口底部） */
-.gx-page--embedded .gx-rail-page{padding-bottom:24px;overflow:visible}
+/* 左栏白纸导航：内部上下滚动（沿用独立全页行为） */
+.gx-page--embedded .gx-rail-page{overflow-y:auto}
+/* 左栏底部操作：绝对定位于左栏面板底部（与独立全页一致），不被整页流推走 */
 .gx-page--embedded .gx-rail-actions{
-  position:static;left:auto;bottom:auto;width:auto;
-  margin-top:18px;
+  position:absolute;left:calc(clamp(16px,1.6vw,32px) + 30px);bottom:22px;
+  width:calc(var(--gx-rail-w) - 56px);z-index:5;
+  display:flex;flex-direction:column;gap:8px;
 }
-.gx-page--embedded .gx-sheet{height:auto;grid-template-rows:auto auto}
+/* 右栏纸张：填满高度，内部卡片各自滚动 */
+.gx-page--embedded .gx-sheet{height:100%}
+/* 其他标签（沿用现有功能）页面内容较短：整块随内容撑高并在右栏内滚动，避免大片留白 */
+.gx-page--embedded .gx-sheet--module{height:auto;grid-template-rows:auto;overflow-y:auto}
 @media(max-width:1720px){
   .gx-page--embedded{--gx-rail-w:clamp(250px,15.6vw,300px)}
   .gx-page--embedded .gx-brand b{font-size:20px}
   .gx-page--embedded .gx-item{height:32px;font-size:13.5px}
 }
-@media(max-width:1280px){
-  .gx-page--embedded{grid-template-columns:clamp(240px,24vw,300px) minmax(0,1fr)}
+/* 窄屏 / 矮屏：固定区域不再合适，退回整页自然滚动（与全局最小宽度 1180px 对齐） */
+@media(max-width:1180px){
+  .workspace--archive{height:auto;display:block;overflow:visible}
+  .workspace--archive main{height:auto;overflow:visible}
+  .workspace--archive footer{display:block}
+  .gx-page--embedded{height:auto;min-height:100vh;overflow:visible;grid-template-columns:clamp(240px,24vw,300px) minmax(0,1fr)}
+  .gx-page--embedded .gx-rail-page{overflow:visible;padding-bottom:96px}
+  .gx-page--embedded .gx-sheet{height:auto;grid-template-rows:auto auto}
+  .gx-page--embedded .gx-sheet--module{height:auto;grid-template-rows:auto;overflow:visible}
+  .gx-page--embedded .gx-sheet-interview,
+  .gx-page--embedded .gx-sheet-assess{height:auto}
 }
 @media(max-width:1100px){
   .gx-page--embedded{grid-template-columns:1fr}
+  /* 单列时左栏操作回到文档流，避免悬浮遮挡导航 */
+  .gx-page--embedded .gx-rail-actions{position:static;width:auto;margin-top:18px}
 }
 .gx-page--solo button{font-family:inherit;cursor:pointer}
 
