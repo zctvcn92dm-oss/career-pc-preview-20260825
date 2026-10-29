@@ -60,7 +60,7 @@ body.home-view .sidebar nav { padding: 22px 14px 10px; }
 body.home-view .nav-group { padding: 16px 0 9px 18px; color: #9aa6b0; font-size: 12px; letter-spacing: .6px; }
 body.home-view .nav-item {
   position: relative;
-  width: auto;
+  width: 100%;
   margin: 2px 0;
   height: 44px;
   min-height: 0;
@@ -96,7 +96,7 @@ body.home-view .student-hero {
   align-items: center;
   height: clamp(120px, 7.5vw, 144px);
   min-height: 0;
-  padding: 0 clamp(24px, 10.31vw, 198px) 0 48px;
+  padding: 0 clamp(24px, 8vw, 198px) 0 48px;
   border-radius: 18px;
   background:
     radial-gradient(120% 160% at 88% -40%, rgba(255, 255, 255, .26), transparent 58%),
@@ -348,6 +348,13 @@ body.home-view .archive-record-row em { padding: 5px 12px; border-radius: 7px; b
 body.home-view .archive-record-row button { border: 0; background: none; color: var(--teal-deep); font-family: inherit; font-size: 13px; cursor: pointer; white-space: nowrap; }
 
 /* ---------- 响应式（作用域同首页，确保小屏不破版） ---------- */
+/* 笔记本宽度（1367–1919，如 1728/1920）：体量适度收敛，避免直接把宽屏设计稿挤进来 */
+@media (max-width: 1919px) {
+  body.home-view .student-hero .hero-identity h1 { font-size: 19px; }
+  body.home-view .student-hero .hero-state-summary b { font-size: 21px; }
+  body.home-view .stat-card b { font-size: 30px; }
+  body.home-view .compact-head h2 { font-size: 21px; }
+}
 @media (max-width: 1560px) {
   body.home-view .student-hero { padding: 0 34px; }
   body.home-view .student-hero .hero-state-summary b { font-size: 23px; }
