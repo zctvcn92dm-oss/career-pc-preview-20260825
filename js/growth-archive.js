@@ -13,12 +13,14 @@
     className: '数字媒体2501班', campusCard: 'C2025-07086'
   };
 
+  /* 左侧导航：基本信息独立置顶（选中态），其余按阶段分组（对齐 2026-10-29 设计稿） */
   ca.sideTagGroups = [
-    { stage: '职业探索', tone: 'a', tags: ['基本信息', '线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
+    { stage: '', tags: ['基本信息'] },
+    { stage: '职业探索', tone: 'a', tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
     { stage: '职业规划', tone: 'b', tags: ['生涯体验周', '生涯活动'] },
     { stage: '职业实训', tone: 'c', tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
     { stage: '竞赛成长', tone: 'd', tags: ['大学生职业规划大赛', '大学生创新大赛'] },
-    { stage: '就业实践', tone: 'e', tags: ['毕业意向', '宣讲会', '双选会', '在线招聘'] }
+    { stage: '就业实习', tone: 'e', tags: ['毕业意向', '宣讲会', '双选会'] }
   ];
 
   ca.radar5 = [
@@ -26,7 +28,7 @@
     { name: '职业规划', value: 70 },
     { name: '职业实训', value: 58 },
     { name: '竞赛成长', value: 60 },
-    { name: '就业实践', value: 82 }
+    { name: '职业实践', value: 82 }
   ];
 
   ca.aiSummary = {
@@ -258,18 +260,6 @@
       '<path d="M17 17c5.4 1.6 7.6 4.6 6.2 6.6s-6 1.2-6.6-3.4c.6-4.6-4.4-5-5.6-3s.8 4.6 6 6.2z" opacity=".58"/>' +
       '</g></svg>';
   }
-  function gxBrassClip(cls) {
-    return '<svg class="' + cls + '" viewBox="0 0 30 66" aria-hidden="true">' +
-      '<path d="M12 20v30a7.5 7.5 0 0015 0V13a5.6 5.6 0 00-11.2 0v35a3.4 3.4 0 006.8 0V20" ' +
-      'fill="none" stroke="#C7AE72" stroke-width="2.6" stroke-linecap="round"/>' +
-      '<path d="M12 20v30a7.5 7.5 0 0015 0V13a5.6 5.6 0 00-11.2 0v35a3.4 3.4 0 006.8 0V20" ' +
-      'fill="none" stroke="#EBDCB4" stroke-width="1" stroke-linecap="round" transform="translate(-.5,-.6)"/></svg>';
-  }
-  function gxPaperclip(cls) {
-    return '<svg class="' + cls + '" viewBox="0 0 30 66" aria-hidden="true">' +
-      '<path d="M12 20v30a7.5 7.5 0 0015 0V13a5.6 5.6 0 00-11.2 0v35a3.4 3.4 0 006.8 0V20" ' +
-      'fill="none" stroke="#C9BE9E" stroke-width="2.4" stroke-linecap="round"/></svg>';
-  }
   function gxSprig(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 78 62" aria-hidden="true">' +
       '<g fill="#EAF0DC" opacity=".92">' +
@@ -277,11 +267,6 @@
       '<path d="M44 58C44 40 52 20 68 8c2 18-6 40-24 50z"/>' +
       '<path d="M36 62C26 54 20 42 20 30c8 6 16 20 16 32z" opacity=".75"/>' +
       '</g></svg>';
-  }
-  function gxStar(cls) {
-    return '<svg class="' + cls + '" viewBox="0 0 24 24" aria-hidden="true">' +
-      '<path d="M12 3.4l2.5 5.6 6.1.7-4.5 4.2 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.7l6.1-.7z" ' +
-      'fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/></svg>';
   }
   function gxBotanical(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 200 300" aria-hidden="true">' +
@@ -294,48 +279,48 @@
       '<path d="M106 268c19-10 29-24 31-43-17 6-29 22-31 43z"/>' +
       '</g></svg>';
   }
-  function gxPen(cls) {
-    return '<svg class="' + cls + '" viewBox="0 0 40 200" aria-hidden="true">' +
-      '<path d="M20 6c5 0 8 4 8 10v100H12V16c0-6 3-10 8-10z" fill="#F3F1E6" stroke="#C9C4AE" stroke-width="1.3"/>' +
-      '<path d="M12 116h16v16H12z" fill="#8FA771" stroke="#7B9460" stroke-width="1"/>' +
-      '<path d="M12 132h16l-8 40z" fill="#EFEDE0" stroke="#C9C4AE" stroke-width="1.3"/>' +
-      '<path d="M15 172h10l-5 11z" fill="#8A8A80"/>' +
-      '<path d="M20 24v84" stroke="#DED8C4" stroke-width="1.1"/></svg>';
+  /* 分组顶部嫩芽图标（绿色圆头+短茎，对齐设计稿 stage 标签顶部图标） */
+  function gxSprout(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 26" aria-hidden="true">' +
+      '<circle cx="12" cy="9.5" r="8" fill="#5CAD6A"/>' +
+      '<circle cx="9.8" cy="7.6" r="2.4" fill="#FFFFFF" opacity=".55"/>' +
+      '<rect x="10.4" y="16" width="3.2" height="8" rx="1.6" fill="#5CAD6A"/></svg>';
   }
-
-  /* ---------- 3. 左侧线圈笔记本 ---------- */
+  /* 「基本信息」独立分组的种子圆盘图标（浅绿圆盘+深色芯） */
+  function gxSeed(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 40 40" aria-hidden="true">' +
+      '<circle cx="20" cy="20" r="18" fill="#E7F1E3"/>' +
+      '<circle cx="20" cy="20" r="18" fill="none" stroke="#CDE2C6" stroke-width="1.5"/>' +
+      '<ellipse cx="20" cy="20" rx="3.4" ry="5" fill="#6E9463"/></svg>';
+  }
+  /* ---------- 3. 左侧导航（对齐 2026-10-29 设计稿：白纸面板 + 线圈装订） ---------- */
   function gxRail() {
     var rings = '', i;
-    for (i = 0; i < 17; i++) rings += '<i></i>';
+    for (i = 0; i < 16; i++) rings += '<i></i>';
     return '<aside class="gx-rail">' +
       '<div class="gx-spiral">' + rings + '</div>' +
       '<div class="gx-rail-page">' +
-      '<span class="gx-tape" aria-hidden="true"></span>' + gxBrassClip('gx-brassclip') +
       '<div class="gx-brand"><span class="gx-brand-badge">' + gxClover('gx-brand-clover') + '</span><b>成长档案</b></div>' +
       '<div class="gx-groups">' +
       ca.sideTagGroups.map(function (g) {
-        return '<div class="gx-group">' +
-          '<span class="gx-stage">' + g.stage + '</span>' +
+        var solo = !g.stage;
+        return '<div class="gx-group' + (solo ? ' gx-group--solo' : '') + '">' +
+          '<span class="gx-stage' + (solo ? ' gx-stage--solo' : '') + '">' +
+          (solo ? gxSeed('gx-seed') : gxSprout('gx-sprout') + '<span class="gx-stage-txt">' + g.stage + '</span>') +
+          '</span>' +
           '<div class="gx-items">' +
           g.tags.map(function (t) {
             var active = t === activeSideTag;
-            var current = t === '生涯体验周';
-            var cls = 'gx-item' + (active ? ' active' : current ? ' current' : '');
-            var right = active ? gxSprig('gx-item-sprig')
-              : current ? gxStar('gx-item-star')
-                : '<em class="gx-chev">›</em>';
-            var left = active ? '<i class="gx-thread"></i><i class="gx-loop"></i>' : '';
-            return '<button class="' + cls + '" data-side-tag="' + t + '">' +
-              left + '<span>' + t + '</span>' + right + '</button>';
-          }).join('') +
-          '</div></div>';
+            return '<button class="gx-item' + (active ? ' active' : '') + '" data-side-tag="' + t + '">' +
+              '<span>' + t + '</span>' + (active ? gxSprig('gx-item-sprig') : '') + '</button>';
+          }).join('') + '</div></div>';
       }).join('') +
       '</div></div>' +
       '<div class="gx-spiral gx-spiral-r">' + rings + '</div>' +
       '</aside>';
   }
 
-  /* ---------- 4. 基本资料卡 ---------- */
+  /* ---------- 4. 基本资料卡（白卡 + 绿色标题 + 双列字段 + 右侧插画） ---------- */
   function gxBasicCard() {
     var b = ca.basicInfo;
     var left = [['毕业年份', b.gradeYear], ['姓名', b.name], ['学号', b.studentNo], ['学历', b.education], ['专业', b.major], ['入学时间', b.enrollDate], ['所在班级', b.className]];
@@ -345,19 +330,15 @@
         return '<p class="gx-field"><b>' + r[0] + '：</b><span>' + (r[1] || '—') + '</span></p>';
       }).join('') + '</div>';
     };
-    var punch = '';
-    for (var i = 0; i < 7; i++) punch += '<i></i>';
     return '<section class="gx-card gx-basic">' +
-      gxPaperclip('gx-paperclip') +
-      '<span class="gx-ribbon" aria-hidden="true"></span>' +
-      '<div class="gx-punch">' + punch + '</div>' +
+      '<div class="gx-basic-head"><h2>基本信息</h2><i class="gx-basic-head-bar" aria-hidden="true"></i></div>' +
+      '<div class="gx-basic-body">' +
       '<div class="gx-fields">' + col(left) + col(right) + '</div>' +
       '<div class="gx-hero" aria-hidden="true"></div>' +
-      gxClover('gx-basic-clover') +
-      '</section>';
+      '</div></section>';
   }
 
-  /* ---------- 5. AI 总结及建议 ---------- */
+  /* ---------- 5. AI 总结及建议（标题 + 年份 Tab + 雷达 / 总结建议 / 记录时间线） ---------- */
   function gxRadar(ds) {
     if (!ds) ds = ca.radar5;
     var cx = 210, cy = 170, rx = 145, ry = 132, n = ds.length;
@@ -388,13 +369,25 @@
       '<polygon class="gx-area" points="' + poly + '"/>' + dots +
       '<g class="gx-labels">' + labels + '</g></svg>';
   }
-  function gxAiPane(stacked) {
-    return '<div class="gx-ai' + (stacked ? ' gx-ai--stack' : '') + '">' +
+  /* 设计稿结构：卡头部（标题左 + 年份 Tab 右），身体三栏（雷达 / 总结建议 / 记录） */
+  function gxAiCard() {
+    var records = ca.gradeRecords[activeArchiveGrade] || [];
+    return '<section class="gx-card gx-ai-card">' +
+      '<div class="gx-ai-head">' +
       '<h3 class="gx-ai-title">AI总结及建议</h3>' +
+      '<div class="gx-tabs">' + ca.gradeStages.map(function (x) {
+        return '<button class="' + (x.id === activeArchiveGrade ? 'active' : '') + '" data-archive-grade="' + x.id + '">' + x.title + '</button>';
+      }).join('') + '</div>' +
+      '</div>' +
+      '<div class="gx-ai-body">' +
       '<div class="gx-radar">' + gxRadar() + '</div>' +
       '<div class="gx-ai-text"><h4>总结：</h4><p>' + ca.aiSummary.total + '</p>' +
       '<h4>建议：</h4><p>' + ca.aiSummary.advice + '</p></div>' +
-      '</div>';
+      '<div class="gx-time">' +
+      (records.length ? gxRecs(records)
+        : '<div class="gx-records-empty"><p>' + activeArchiveGrade + '暂无成长记录</p></div>') +
+      '</div>' +
+      '</div></section>';
   }
 
   function gxRadar6(dims) {
@@ -402,32 +395,15 @@
     return gxRadar(ds);
   }
 
-  /* ---------- 6. 学年时间线 ---------- */
-  function gxBody(text) {
-    return text.replace(/[】\s]*(宣讲会|双选会|招聘会)$/, '】');
-  }
-  function gxTail(text) {
-    var t = /招聘会|双选会/.test(text) ? '双选会' : /宣讲会/.test(text) ? '宣讲会' : '';
-    return t ? '<em class="gx-tail">' + t + '</em>' : '';
-  }
+  /* ---------- 6. 学年时间线（日期 + 绿/蓝双色标签 + 描述） ---------- */
   function gxRecs(records, extraCls) {
     return '<div class="gx-records' + (extraCls || '') + '">' + records.map(function (x) {
       return '<article class="gx-record"><i class="gx-node"></i>' +
         '<div class="gx-meta"><time>' + x.created_at + '</time>' +
         '<em class="gx-tag gx-tag-a">' + x.business_type + '</em>' +
         '<em class="gx-tag gx-tag-b">' + x.ability_dimension + '</em></div>' +
-        '<p>' + gxBody(x.description) + gxTail(x.description) + '</p></article>';
+        '<p>' + x.description + '</p></article>';
     }).join('') + '</div>';
-  }
-  function gxTimePane() {
-    var records = ca.gradeRecords[activeArchiveGrade] || [];
-    return '<div class="gx-time">' +
-      '<div class="gx-tabs">' + ca.gradeStages.map(function (x) {
-        return '<button class="' + (x.id === activeArchiveGrade ? 'active' : '') + '" data-archive-grade="' + x.id + '">' + x.title + '</button>';
-      }).join('') + '</div>' +
-      (records.length ? gxRecs(records)
-        : '<div class="gx-records-empty"><p>' + activeArchiveGrade + '暂无成长记录</p></div>') +
-      '</div>';
   }
 
   /* ---------- 7. 其他标签的内容卡 ---------- */
@@ -909,28 +885,34 @@
   }
 
   /* ---------- 9. 页面装配 ---------- */
-  /* 右栏纸张：基本资料 + AI 总结 + 学年时间线 / 其他标签的模块卡 */
+  /* 右栏纸张：基本资料 + AI 总结（标题 + 年份 Tab + 三栏） / 其他标签的模块卡 */
   function gxSheet() {
     if (activeSideTag === 'AI面试') return gxInterviewSheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
     var isValid = activeSideTag === '基本信息';
     return '<main class="gx-sheet">' +
       (isValid
-        ? gxBasicCard() +
-        '<section class="gx-card gx-bottom">' + gxAiPane() + gxTimePane() +
-        gxBotanical('gx-bottom-botanical') + gxPen('gx-pen') + '</section>'
+        ? gxBasicCard() + gxAiCard()
         : gxModuleCard() +
         '<section class="gx-card gx-bottom"><div class="gx-hint"><h4>' + activeSideTag + '模块</h4>' +
         '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p></div></section>') +
       '</main>';
   }
 
-  /* 内嵌在标准菜单壳内（侧栏 + 顶栏 + 内容面板）
-     注：按需求去掉页头区块（标题 + 说明 + 重新打开档案/返回首页 按钮），页面直接从档案内容开始 */
+  /* 独立全页模式：档案页自带左侧导航，不套全局菜单壳（对齐 2026-10-29 设计稿），
+     导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchivePage() {
-    return '<section class="content-panel gx-embed-panel">' +
-      '<div class="gx-page gx-page--embedded' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '') + '">' + gxRail() + gxSheet() + '</div>' +
-      '</section>';
+    var label = BACK_NAMES[gxBackTarget] || '首页';
+    return '<div class="gx-page gx-page--solo' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '') + '">' +
+      gxRail() + gxSheet() +
+      '<div class="gx-rail-actions">' +
+      '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
+      '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
+      'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<span>返回' + label + '</span></button>' +
+      '</div>' +
+      '</div>';
   }
 
   function gxEligible() {
@@ -943,9 +925,10 @@
     if (page === 'ability') page = 'archive';
     // 只要不在档案页，就把当前页记为「返回目标」
     if (page !== 'archive') gxBackTarget = page;
+    document.body.classList.toggle('home-view', page === 'home');
     if (page === 'archive' && gxEligible()) {
-      // 走标准菜单壳：保留左侧导航与顶栏，档案内容内嵌在内容面板中
-      app.innerHTML = shell(gxArchivePage());
+      // 独立全页：档案自带左侧导航与页面底色，不走全局菜单壳（对齐设计稿）
+      app.innerHTML = gxArchivePage();
       bind();
       gxBindBack();
       gxBindInterview();

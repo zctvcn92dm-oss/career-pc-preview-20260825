@@ -1,226 +1,238 @@
-/* ===== 成长档案 · 复古纸张版式（对齐 2026-10-23 设计稿 1920×1080） ===== */
-.gx-page{
-  --gx-ink:#333B2E;
-  --gx-ink-2:#4C5744;
-  --gx-muted:#7C8674;
-  --gx-card:#F5F4F0;
+/* ===== 成长档案 · 独立全页版式（严格对齐 2026-10-29 设计稿 1920×1080） ===== */
+.gx-page--solo{
+  --gx-green:#5CAD6A;            /* 选中绿（年份 Tab / 基本信息 pill）*/
+  --gx-green-deep:#4A9A5B;
+  --gx-title-green:#87C06D;      /* 「基本信息」标题绿 */
+  --gx-ink:#2E3430;
+  --gx-ink-2:#4A5048;
+  --gx-muted:#8A9187;
   --gx-card-line:#E7E5DB;
-  --gx-pill:#EFEEE4;
-  --gx-pill-line:#E7E6DB;
-  --gx-green:#7E9A68;
-  --gx-green-soft:#E9EDD6;
+  --gx-pill:#F2F2F2;             /* 导航 item pill 底色 */
+  --gx-tag-green:#A8CA7E;        /* 记录 · 绿色 pill */
+  --gx-tag-blue:#62ADD4;         /* 记录 · 蓝色 pill */
+  --gx-radar:#7EBC8B;            /* 雷达图填充 */
+  --gx-rail-w:clamp(272px,15.6vw,336px);   /* 设计稿面板宽 300px @1920 */
+  --gx-card-r:20px;
+  --gx-card-pad:clamp(18px,1.8vw,32px);
 
   position:relative;
-  min-height:100vh;
+  height:100vh;
   display:grid;
-  grid-template-columns:clamp(300px,19.2vw,368px) minmax(0,1fr);
-  gap:18px;
-  padding:26px 43px 35px 0;
-  align-items:start;
+  grid-template-columns:var(--gx-rail-w) minmax(0,1fr);
+  gap:clamp(14px,1.78vw,34px);              /* 设计稿栏间距 34px @1920 */
+  padding:clamp(12px,1.46vw,28px) clamp(16px,3vw,58px) clamp(12px,1.35vw,26px) clamp(16px,1.6vw,32px);
+  align-items:stretch;
   color:var(--gx-ink);
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
   background:
-    radial-gradient(760px 620px at 76% 6%, rgba(255,255,255,.92), rgba(255,255,255,0) 68%),
-    radial-gradient(700px 560px at 8% 100%, rgba(163,175,138,.55), rgba(163,175,138,0) 70%),
-    radial-gradient(820px 620px at 96% 96%, rgba(172,184,148,.45), rgba(172,184,148,0) 72%),
-    radial-gradient(600px 480px at 2% 2%, rgba(178,189,155,.62), rgba(178,189,155,0) 72%),
-    linear-gradient(160deg,#E4E5D4 0%,#EFEEE6 42%,#F1F0E9 62%,#DDE0CF 100%);
-  background-attachment:fixed;
-  overflow-x:hidden;
+    radial-gradient(600px 420px at -9% -14%,rgba(110,160,125,.30),rgba(110,160,125,0) 100%),
+    radial-gradient(780px 580px at -6% 110%,rgba(110,160,125,.42),rgba(110,160,125,0) 100%),
+    linear-gradient(180deg,#F2F7EF 0%,#EEF4EB 55%,#E9F1E5 100%);
+  overflow:hidden;
 }
-.gx-page button{font-family:inherit;cursor:pointer}   /* 不能用 font:inherit，会覆盖 .gx-item 的 font-size */
+.gx-page--solo button{font-family:inherit;cursor:pointer}
 
-/* ---------- 左栏：线圈笔记本 ---------- */
-.gx-rail{position:relative;padding-left:18px;display:flex;flex-direction:column;align-self:start;height:calc(100vh - 61px)}
-/* 竖向装订条：浅金属细条，从页顶贯穿到底 */
-.gx-spiral:before{
-  content:"";position:absolute;left:16px;top:-4px;bottom:-4px;width:7px;
-  background:linear-gradient(90deg,#C4C1B1 0%,#EDEBE1 30%,#D6D3C4 62%,#AFAC9D 100%);
-  box-shadow:0 0 4px rgba(140,138,120,.28);
-}
-/* 金属活页环：横杆 + 右端铆钉帽 */
+/* ---------- 左栏：白纸导航面板 + 线圈装订 ---------- */
+.gx-rail{position:relative;display:flex;min-width:0;min-height:0}
+/* 装订环：左右两列金属活页环（左=图钉：细针 + 圆头；右=环尾小椭圆） */
 .gx-spiral{
-  position:absolute;left:29px;top:30px;bottom:30px;width:44px;z-index:2;pointer-events:none;
+  position:absolute;top:26px;bottom:26px;left:0;width:24px;z-index:2;pointer-events:none;
   display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;
 }
 .gx-spiral i{
-  position:relative;width:30px;height:7px;border-radius:4px;
-  background:linear-gradient(180deg,#F3F1E7 0%,#CFCCBC 28%,#989586 70%,#6E6B5D 100%);
-  box-shadow:0 1px 2px rgba(120,118,100,.26),inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;width:13px;height:5px;border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,#F4F2EA 0%,#DAD7C9 34%,#B5B2A4 76%,#98958A 100%);
+  box-shadow:0 1px 1.5px rgba(120,118,100,.18),inset 0 1px 0 rgba(255,255,255,.85);
 }
 .gx-spiral i:after{
-  content:"";position:absolute;right:-2px;top:-1.6px;width:10px;height:10px;border-radius:50%;
-  background:radial-gradient(circle at 36% 30%,#F1EFE4 0%,#C0BCAC 46%,#7E7B6D 100%);
-  box-shadow:0 1px 1.5px rgba(100,98,84,.3);
+  content:"";position:absolute;right:-3px;top:-3px;width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 38% 26%,#F8F6EF 0%,#DCD8CA 34%,#ADA998 68%,#837F6E 100%);
+  box-shadow:0 1px 1.5px rgba(100,98,84,.26);
 }
-.gx-rail-page{
-  position:relative;flex:1;
-  background:linear-gradient(180deg,#EFEEE5 0%,#ECEBE2 46%,#E9E8DE 100%);
-  border:1px solid #E3E1D6;
-  border-radius:10px;
-  padding:18px 9px 18px 28px;
-  overflow-y:auto;overflow-x:hidden;
-  box-shadow:0 3px 14px rgba(140,138,116,.13),inset 0 1px 0 rgba(255,255,255,.7);
+/* 右列：环尾（穿过面板背面露出的小椭圆，无针身） */
+.gx-spiral-r{left:auto;right:-2px;width:12px;align-items:flex-end}
+.gx-spiral-r i{
+  width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 40% 30%,#DAD7C9 0%,#B3B0A2 52%,#8B887A 100%);
+  box-shadow:0 1px 1px rgba(100,98,84,.22);
 }
-.gx-brand{display:flex;align-items:center;gap:22px;padding:0 0 14px 30px}
-.gx-brand-badge{
-  width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;
-  background:radial-gradient(circle at 42% 34%,#FEFEFB 0%,#F8F7F0 54%,#F1EFE4 100%);
-  box-shadow:0 1px 4px rgba(140,138,116,.10),inset 0 0 0 1px rgba(231,228,215,.85);
-}
-.gx-brand-clover{width:26px;height:26px;flex:none}
-.gx-brand b{font-size:24px;font-weight:700;letter-spacing:1.4px;color:#2C3628}
+.gx-spiral-r i:after{display:none}
 
-.gx-groups{display:flex;flex-direction:column;gap:12px}
-.gx-group{display:grid;grid-template-columns:34px minmax(0,1fr);gap:16px;align-items:stretch}
-.gx-stage{
-  writing-mode:vertical-rl;text-orientation:upright;
-  display:flex;align-items:center;justify-content:center;
-  background:#F8F7F1;border-radius:9px;
-  font-size:15px;letter-spacing:4px;color:#4F5C45;
-  padding:16px 0;
+.gx-rail-page{
+  position:relative;flex:1;min-height:0;
+  background:#FFFFFF;
+  border-radius:var(--gx-card-r);
+  padding:24px 26px 106px 30px;
+  display:flex;flex-direction:column;
+  overflow-y:auto;overflow-x:hidden;
+  box-shadow:0 8px 28px rgba(96,124,96,.10);
 }
-.gx-items{display:flex;flex-direction:column;gap:6px;min-width:0}
+.gx-brand{display:flex;align-items:center;gap:13px;padding:2px 6px 20px 6px;flex:none}
+.gx-brand-badge{
+  width:44px;height:44px;border-radius:13px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(160deg,#E9F4E4 0%,#DDEEDB 100%);
+  box-shadow:inset 0 0 0 1px rgba(92,173,106,.20);
+}
+.gx-brand-clover{width:25px;height:25px;flex:none}
+.gx-brand-clover g{fill:#4E9E66}
+.gx-brand b{font-size:22px;font-weight:700;letter-spacing:1.5px;color:#1F2A22}
+
+.gx-groups{display:flex;flex-direction:column;gap:clamp(12px,1.5vh,18px)}
+.gx-group{display:grid;grid-template-columns:34px minmax(0,1fr);gap:17px;align-items:stretch}
+/* 竖排阶段标签：顶部嫩芽图标 + 竖排组名 */
+.gx-stage{
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:4px 0 10px;position:relative;
+}
+.gx-stage-txt{
+  writing-mode:vertical-rl;text-orientation:upright;
+  font-size:14px;letter-spacing:3px;color:#9AA89B;line-height:1;
+}
+.gx-sprout{width:19px;height:22px;flex:none}
+/* 「基本信息」独立分组：种子圆盘占位（与分组标签同列，保证 pill 左缘对齐） */
+.gx-stage--solo{justify-content:flex-start;padding-top:0}
+.gx-seed{width:34px;height:34px;flex:none}
+.gx-items{display:flex;flex-direction:column;gap:11px;min-width:0}
 
 .gx-item{
   position:relative;
-  display:flex;align-items:center;justify-content:flex-start;
-  height:38px;padding:0 30px 0 clamp(52px,3.23vw,62px);
-  border:1px solid var(--gx-pill-line);border-radius:14px;
-  background:var(--gx-pill);color:#39422F;
-  font-size:clamp(14px,0.84vw,16px);letter-spacing:.2px;
-  transition:background .15s,border-color .15s,color .15s;
+  display:flex;align-items:center;justify-content:center;
+  height:34px;padding:0 16px;
+  border:0;border-radius:17px;
+  background:var(--gx-pill);color:#3A4238;
+  font-size:14px;letter-spacing:.5px;
+  transition:background .15s,color .15s,box-shadow .15s;
 }
-.gx-item:hover{background:#F7F6EF;border-color:#DFDED2}
-.gx-item>span{
-  display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:100%;text-align:left;
-}
-.gx-chev{
-  position:absolute;right:16px;top:50%;transform:translateY(-50%);
-  font-style:normal;font-size:17px;color:#BCC0B0;line-height:1;
-}
-/* 激活项 */
+.gx-item:hover{background:#E9EAE6}
+.gx-item>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+/* 激活项：绿色填充 pill + 右侧叶片 */
 .gx-item.active{
-  border-radius:20px;border-color:transparent;margin-bottom:14px;
-  background:linear-gradient(96deg,#7A9663 0%,#87A26E 62%,#8FA97A 100%);
-  color:#fff;box-shadow:0 2px 8px rgba(110,132,88,.28);
+  height:40px;margin:-3px 0;                 /* 设计稿选中项略高 */
+  background:linear-gradient(180deg,#63B473 0%,#55A869 100%);
+  color:#FFFFFF;font-weight:600;letter-spacing:1px;
+  box-shadow:0 3px 10px rgba(74,154,91,.30);
 }
-.gx-item.active>span{color:#fff}
-.gx-thread{
-  position:absolute;left:-56px;top:50%;transform:translateY(-50%);
-  width:58px;height:2px;background:#7E9A68;
-}
-.gx-loop{
-  position:absolute;left:-26px;top:50%;transform:translateY(-50%);
-  width:18px;height:18px;border-radius:50%;
-  background:radial-gradient(circle at 46% 38%,#57544C 0 26%,#8B887A 30% 44%,#F1EEE1 47% 70%,#A8A596 73% 100%);
-  box-shadow:0 1px 2px rgba(90,88,76,.26);
-}
-.gx-item-sprig{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:50px;height:42px}
-/* 当前项 */
-.gx-item.current{background:var(--gx-green-soft);border-color:#DCE4C6;color:#4E6B36;border-radius:19px}
-.gx-item.current>span{color:#4E6B36}
-.gx-item-star{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:17px;height:17px;opacity:.9}
+.gx-item-sprig{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:24px;height:20px;pointer-events:none}
+.gx-item-sprig g{fill:#EAF3DC}
 
-/* ---------- 右栏骨架 ---------- */
-.gx-sheet{
-  display:grid;
-  grid-template-rows:clamp(320px,34.6vh,374px) minmax(0,1fr);
-  gap:12px;min-width:0;margin:14px 0 0;padding:0;max-width:none;
-  height:calc(100vh - 75px);
+/* 导航底部操作：重新打开档案 / 返回（约束在左栏面板内宽，避免横跨全页） */
+.gx-rail-actions{
+  position:absolute;
+  left:calc(clamp(16px,1.6vw,32px) + 30px);
+  bottom:22px;
+  width:calc(var(--gx-rail-w) - 56px);
+  z-index:5;
+  display:flex;flex-direction:column;gap:8px;
 }
+.gx-rail-actions button{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:36px;padding:0 14px;
+  border:1px solid #DCE7D9;border-radius:18px;
+  background:#FFFFFF;color:#5B8A66;
+  font-size:13px;font-weight:600;letter-spacing:.3px;
+  font-family:inherit;cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s,transform .15s;
+}
+.gx-rail-actions button:hover{background:#F3F9F1;border-color:#BCD6BA;color:#43855A;transform:translateY(-1px)}
+.gx-rail-actions .gx-back svg{width:15px;height:15px;flex:none}
+
+/* ---------- 右栏：白卡 ---------- */
+/* 注：.gx-sheet 是 <main> 元素，需显式清零 home-mockup.css 中 main 的左右内边距 */
+.gx-sheet{
+  padding:0;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:clamp(12px,1.1vw,20px);
+  min-width:0;min-height:0;
+}
+.gx-page--solo .gx-sheet{height:100%}
 .gx-card{
   position:relative;
-  background:var(--gx-card);
-  border:1px solid var(--gx-card-line);
-  border-radius:10px;
-  box-shadow:0 2px 10px rgba(150,146,122,.07);
+  background:#FFFFFF;
+  border-radius:var(--gx-card-r);
+  box-shadow:0 8px 28px rgba(96,124,96,.08);
   overflow:hidden;
 }
 
-/* ---------- 基本资料卡 ---------- */
-.gx-basic{display:grid;grid-template-columns:minmax(0,1fr) 47%;overflow:visible;
-  background:linear-gradient(96deg,#F6F5F1 0%,#F5F4F0 44%,#F1F0EC 57%,#F2F1ED 100%)}
-.gx-paperclip{position:absolute;left:48px;top:-14px;width:32px;height:56px;z-index:4;transform:rotate(-4deg)}
-.gx-ribbon{
-  position:absolute;right:83px;top:-13px;width:27px;height:51px;z-index:3;
-  background:linear-gradient(180deg,#9DB580,#83A065);
-  clip-path:polygon(0 0,100% 0,100% 100%,50% 74%,0 100%);
+/* ---------- 基本信息卡 ---------- */
+.gx-basic{
+  padding:clamp(16px,1.7vw,26px) var(--gx-card-pad) clamp(12px,1.3vw,18px);
+  display:flex;flex-direction:column;
 }
-.gx-punch{
-  position:absolute;left:20px;top:62px;bottom:20px;width:12px;
-  display:flex;flex-direction:column;justify-content:space-between;z-index:2;
-}
-.gx-punch i{
-  width:11px;height:16px;border-radius:50%;
-  background:#EDEADE;box-shadow:inset 0 1px 1.5px rgba(126,122,102,.14);
-}
+.gx-basic-head{display:flex;flex-direction:column;gap:7px;flex:none;margin-bottom:clamp(4px,.8vh,10px)}
+.gx-basic-head h2{margin:0;font-size:20px;font-weight:700;color:var(--gx-title-green);letter-spacing:1.5px}
+.gx-basic-head-bar{width:34px;height:3px;border-radius:2px;background:var(--gx-title-green)}
+.gx-basic-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(360px,44%,720px);gap:clamp(14px,1.6vw,26px);min-height:0}
 .gx-fields{
-  display:grid;grid-template-columns:344px minmax(0,1fr);
-  padding:18px 10px 0 42px;align-content:center;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(16px,2.2vw,38px);align-content:center;
 }
 .gx-fcol{display:flex;flex-direction:column}
-.gx-field{margin:0;height:44px;display:flex;align-items:center}
-.gx-field b{font-size:15px;font-weight:700;color:#2F382B;letter-spacing:.3px;white-space:nowrap;flex:0 0 auto}
+.gx-field{margin:0;height:clamp(34px,3.9vh,42px);display:flex;align-items:center}
+.gx-field b{font-size:15px;font-weight:600;color:#333A34;letter-spacing:.3px;white-space:nowrap;flex:0 0 auto}
+.gx-field span{
+  font-size:15px;color:#4A5048;margin-left:3px;
+  flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
 .gx-hero{
-  overflow:hidden;border-radius:0 10px 10px 0;
+  overflow:hidden;border-radius:14px;
   background-image:url("../assets/archive-hero-scene.png");
-  background-repeat:no-repeat;background-position:right center;background-size:contain;
+  background-repeat:no-repeat;background-position:center;background-size:cover;
 }
-.gx-basic-clover{position:absolute;left:12px;bottom:-8px;width:26px;height:26px;opacity:.55;transform:rotate(-8deg)}
 
-/* ---------- 下卡：AI + 时间轴 ---------- */
-.gx-bottom{
-  display:grid;grid-template-columns:39fr 61fr;
-  padding:30px 0 4px;
+/* ---------- AI 总结及建议卡（标题 + 年份 Tab + 三栏） ---------- */
+.gx-ai-card{
+  padding:clamp(14px,1.5vw,22px) var(--gx-card-pad) clamp(10px,1.1vw,16px);
+  display:flex;flex-direction:column;min-height:0;
 }
-.gx-ai{position:relative;padding:0 0 0 44px;min-width:0;display:flex;flex-direction:column}
-.gx-ai-title{margin:0;font-size:16px;font-weight:700;color:#2F382B;letter-spacing:.4px}
-.gx-radar{position:absolute;left:91px;top:37px;width:420px;pointer-events:none}
-.gx-radar-svg{display:block;width:420px;height:auto}
-.gx-rings ellipse{fill:none;stroke:#E1E4D4;stroke-width:1}
-.gx-rings line{stroke:#E7EADB;stroke-width:1}
-.gx-area{fill:#BFCBA4;fill-opacity:.72;stroke:#A9BA8B;stroke-width:1.2}
-.gx-dot{fill:#8FA96F;stroke:#fff;stroke-width:1.4}
-.gx-labels text{font-size:11.5px;fill:#6E7A62}
-.gx-ai-text{min-width:0;margin-top:276px}
-.gx-ai-text h4{margin:6px 0 4px;font-size:13.5px;font-weight:700;color:#2F382B}
-.gx-ai-text p{margin:0;font-size:12.5px;line-height:1.64;color:#3C453A;text-align:justify;text-justify:inter-ideograph}
-
-.gx-time{position:relative;padding:0 98px 0 64px;min-width:0;display:flex;flex-direction:column;z-index:2}
-.gx-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-bottom:38px;flex:none}
+.gx-ai-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none;padding-bottom:clamp(8px,1.2vh,14px)}
+.gx-ai-title{margin:0;font-size:20px;font-weight:700;color:#1F2A22;letter-spacing:1.5px}
+.gx-tabs{display:flex;gap:clamp(10px,.9vw,15px);flex:none}
 .gx-tabs button{
-  height:34px;border-radius:17px;border:1px solid #E5E4D9;background:#F7F6F0;
-  font-size:14px;color:#5A6450;letter-spacing:.4px;
-  transition:background .15s,color .15s,border-color .15s;
+  width:clamp(112px,8.6vw,168px);height:38px;border:0;border-radius:19px;
+  background:#F3F3F3;color:#3A4238;font-size:15px;letter-spacing:1px;
+  transition:background .15s,color .15s,box-shadow .15s;
 }
-.gx-tabs button:hover{background:#FFFDF8}
+.gx-tabs button:hover{background:#E9E9E9}
 .gx-tabs button.active{
-  background:linear-gradient(96deg,#8AA96D,#96B37B);border-color:#8AA96D;color:#fff;font-weight:600;
+  background:linear-gradient(180deg,#63B473 0%,#55A869 100%);
+  color:#FFFFFF;font-weight:600;
+  box-shadow:0 3px 10px rgba(74,154,91,.26);
 }
-
-.gx-records{position:relative;padding-left:26px;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
-.gx-records:before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:#D9E3C6}
-.gx-record{position:relative;padding:0 0 12px}
+.gx-ai-body{
+  flex:1;display:grid;min-height:0;
+  grid-template-columns:clamp(240px,19vw,300px) minmax(200px,clamp(220px,17vw,270px)) minmax(0,1fr);
+  gap:clamp(12px,1.15vw,22px);              /* 设计稿三栏间距 22px @1920 */
+}
+/* 雷达图 */
+.gx-radar{display:flex;align-items:center;justify-content:center;min-width:0}
+.gx-radar-svg{display:block;width:100%;max-width:310px;height:auto}
+.gx-rings ellipse{fill:none;stroke:#E4E8DD;stroke-width:1}
+.gx-rings line{stroke:#E9EDE2;stroke-width:1}
+.gx-area{fill:var(--gx-radar);fill-opacity:.94;stroke:#6FB27E;stroke-width:1.2}
+.gx-dot{fill:#5FB57C;stroke:#FFFFFF;stroke-width:1.4}
+.gx-labels text{font-size:13px;fill:#6B7365;letter-spacing:.5px}
+/* 总结 / 建议 */
+.gx-ai-text{min-width:0;overflow-y:auto;padding-right:2px;padding-top:clamp(14px,3.2vh,38px)}
+.gx-ai-text h4{margin:0 0 5px;font-size:14px;font-weight:700;color:#2E3430;letter-spacing:.5px}
+.gx-ai-text h4:last-of-type{margin-top:clamp(10px,1.6vh,16px)}
+.gx-ai-text p{margin:0;font-size:13px;line-height:1.75;color:#4A5048;text-align:justify;text-justify:inter-ideograph}
+/* 记录时间线 */
+.gx-time{display:flex;flex-direction:column;min-width:0;min-height:0}
+.gx-records{position:relative;padding-left:22px;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
+.gx-records:before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1.5px;background:#D9E8D2}
+.gx-record{position:relative;padding:0 0 14px}
 .gx-node{
-  position:absolute;left:-25px;top:3px;width:11px;height:11px;border-radius:50%;
-  background:#8FAE6F;box-shadow:0 0 0 3px var(--gx-card);
+  position:absolute;left:-21px;top:4px;width:10px;height:10px;border-radius:50%;
+  background:var(--gx-green);box-shadow:0 0 0 3px #FFFFFF;
 }
-.gx-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.gx-meta time{font-size:12.5px;color:#5C6653;letter-spacing:.2px}
-.gx-tag{font-style:normal;font-size:11.5px;line-height:18px;padding:0 8px;border-radius:4px}
-.gx-tag-a{background:#D9E6B4;color:#4A6A2E}
-.gx-tag-b{background:#6E9B4A;color:#fff}
-.gx-record p{margin:5px 0 0;font-size:12.5px;line-height:1.7;color:#333B2E}
-.gx-tail{
-  font-style:normal;display:inline-block;margin-left:10px;padding:1px 9px;border-radius:5px;
-  background:#E7EDD7;color:#57713C;font-size:11.5px;line-height:1.65;vertical-align:1px;
-}
+.gx-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gx-meta time{font-size:12.5px;color:#6B7365;letter-spacing:.2px}
+.gx-tag{font-style:normal;font-size:11.5px;line-height:20px;padding:0 9px;border-radius:4px;color:#FFFFFF;white-space:nowrap}
+.gx-tag-a{background:var(--gx-tag-green)}
+.gx-tag-b{background:var(--gx-tag-blue)}
+.gx-record p{margin:4px 0 0;font-size:13px;line-height:1.6;color:#333A34}
 .gx-records-empty{flex:1;display:flex;align-items:center;justify-content:center;color:#939B88;font-size:13px}
-
-.gx-bottom-botanical{position:absolute;right:14px;bottom:-6px;width:150px;opacity:.5;pointer-events:none}
-.gx-pen{position:absolute;right:112px;bottom:-8px;width:36px;transform:rotate(-14deg);opacity:.95;pointer-events:none}
 
 /* 其他标签 */
 .gx-module{padding:26px 30px}
@@ -230,167 +242,46 @@
 .gx-hint{padding:34px 30px;color:#6E7A62;font-size:13px}
 .gx-hint h4{margin:0 0 8px;font-size:16px;color:#2F382B}
 .gx-hint p{margin:0;line-height:1.9}
-
-/* ---------- 响应式 ---------- */
-@media(max-width:1720px){
-  .gx-page{padding:22px 30px 28px 0;grid-template-columns:clamp(280px,20.8vw,330px) minmax(0,1fr);gap:16px}
-  .gx-rail{padding-left:36px}
-  .gx-spiral{left:24px}
-  .gx-brand b{font-size:22px}
-  .gx-item{font-size:clamp(12px,0.92vw,14px);height:38px;padding:0 18px 0 clamp(20px,1.62vw,26px)}
-  .gx-group{grid-template-columns:30px minmax(0,1fr);gap:12px}
-  .gx-rail-page{padding-left:20px}
-  .gx-sheet{height:auto;min-height:calc(100vh - 61px)}
-  .gx-bottom{min-height:520px}
-  .gx-ai-text p{font-size:12px;line-height:1.6}
-  .gx-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-left:34px}
-  /* 窄屏收窄插画区，把宽度让给字段区，避免长值被省略号截断 */
-  .gx-basic{grid-template-columns:minmax(0,1fr) 42%}
-  .gx-field b{font-size:14px}
-  .gx-field{height:42px}
-  .gx-time{padding-left:44px;padding-right:40px}
-  .gx-tabs{gap:14px}
-}
-@media(max-width:1280px){
-  .gx-page{grid-template-columns:250px minmax(0,1fr);padding:18px 20px 24px 0;gap:14px}
-  .gx-rail{padding-left:34px}
-  .gx-spiral{left:20px}
-  .gx-sheet{min-height:0;margin-top:8px}
-  .gx-bottom{grid-template-columns:1fr;gap:20px;padding-bottom:16px}
-  .gx-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-left:30px}
-  .gx-basic{grid-template-columns:1fr 38%}
-  /* 1280 及以下：阶段标签改横排小标题，把整行宽度让给导航项（避免长标签被截断） */
-  .gx-group{grid-template-columns:1fr;gap:5px}
-  .gx-stage{
-    writing-mode:horizontal-tb;text-orientation:mixed;
-    justify-content:flex-start;height:auto;padding:3px 12px;width:max-content;
-    font-size:12px;letter-spacing:2px;border-radius:6px;
-  }
-  .gx-item{font-size:13px;padding:0 12px 0 16px;letter-spacing:0}
-  .gx-bottom{min-height:0}
-  .gx-radar{padding-left:0}
-}
-
-/* 首个小标题不带上边距，让「总结：」落在设计稿位置 */
-.gx-ai-text h4:first-of-type{margin-top:0}
-/* 窄屏回退：雷达回到文档流 */
-@media(max-width:1720px){
-  .gx-radar{position:static;width:auto;display:flex;justify-content:center;padding:14px 0 0}
-  .gx-radar-svg{width:100%;max-width:330px}
-  .gx-ai-text{margin-top:14px}
-}
 .hidden{display:none!important}
 
-/* 右边缘第二排活页环（跨纸页右缘） */
-.gx-spiral-r{left:auto;right:-14px;width:38px;align-items:flex-end}
-.gx-spiral-r:before{display:none}
-.gx-spiral-r i:after{right:auto;left:-2px}
-
-/* 顶部纸胶带 + 黄铜回形针 */
-.gx-tape{
-  position:absolute;left:26px;top:-14px;width:58px;height:30px;z-index:3;
-  background:linear-gradient(135deg,rgba(211,203,172,.72),rgba(176,170,138,.58));
-  transform:rotate(-33deg);border-radius:1px;pointer-events:none;
-  box-shadow:0 1px 2px rgba(150,145,120,.16);
+/* ---------- 响应式：笔记本 / 窄屏 ---------- */
+@media(max-width:1720px){
+  .gx-page--solo{--gx-rail-w:clamp(250px,15.6vw,300px)}
+  .gx-brand b{font-size:20px}
+  .gx-item{height:32px;font-size:13.5px}
+  .gx-basic-body{grid-template-columns:minmax(0,1fr) clamp(320px,38%,560px)}
+  .gx-field{height:clamp(34px,4.1vh,42px)}
+  .gx-field b,.gx-field span{font-size:14px}
+  .gx-ai-body{grid-template-columns:clamp(230px,20vw,280px) minmax(200px,clamp(210px,18vw,260px)) minmax(0,1fr)}
+  .gx-radar-svg{max-width:270px}
+  .gx-labels text{font-size:12px}
 }
-.gx-brassclip{
-  position:absolute;left:14px;top:-6px;width:26px;height:56px;z-index:4;
-  transform:rotate(-37deg);transform-origin:50% 10%;pointer-events:none;
-  filter:drop-shadow(0 1px 1.5px rgba(140,124,88,.32));
+@media(max-width:1440px){
+  .gx-tabs button{width:clamp(96px,7.6vw,120px);height:34px;font-size:13.5px}
+  .gx-basic-head h2,.gx-ai-title{font-size:18px}
+  .gx-ai-text p{font-size:12.5px;line-height:1.7}
 }
-
-/* 「总结：」与正文之间留更大呼吸（对齐设计稿） */
-.gx-ai-text p:first-of-type{margin-top:23px}
-
-/* ===== 顶部工具条：返回 + 重新打开档案（点击再播「打开档案」开场动画） ===== */
-.gx-topbar{
-  position:fixed;right:34px;top:22px;z-index:60;
-  display:flex;gap:12px;align-items:center;
-}
-.gx-back{
-  position:static;
-  display:inline-flex;align-items:center;gap:7px;
-  height:40px;padding:0 20px 0 15px;
-  border:1px solid #DCDAC2;border-radius:999px;
-  background:linear-gradient(180deg,#FDFCF3 0%,#F6F4E7 100%);
-  color:#4E9A6A;font-size:14px;font-weight:700;letter-spacing:.3px;
-  font-family:inherit;cursor:pointer;
-  box-shadow:0 4px 12px rgba(120,116,84,.16),inset 0 1px 0 rgba(255,255,255,.85);
-  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
-}
-.gx-reopen{
-  display:inline-flex;align-items:center;gap:6px;
-  height:40px;padding:0 18px;
-  border:1px solid #CFE0C2;border-radius:999px;
-  background:linear-gradient(180deg,#F4F8EC 0%,#E9F0DC 100%);
-  color:#4E8F5F;font-size:14px;font-weight:700;letter-spacing:.3px;
-  font-family:inherit;cursor:pointer;
-  box-shadow:0 4px 12px rgba(120,116,84,.14),inset 0 1px 0 rgba(255,255,255,.85);
-  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
-}
-.gx-reopen:hover{
-  transform:translateY(-1px);
-  background:linear-gradient(180deg,#FFFFFF 0%,#F1F6E6 100%);
-  border-color:#BBD7A6;color:#43855A;
-  box-shadow:0 7px 16px rgba(120,116,84,.2),inset 0 1px 0 rgba(255,255,255,.9);
-}
-.gx-reopen:active{transform:translateY(0)}
-.gx-back svg{width:17px;height:17px;flex:none}
-.gx-back:hover{
-  transform:translateY(-1px);
-  background:linear-gradient(180deg,#FFFFFF 0%,#FAF8EC 100%);
-  border-color:#CBD9BF;color:#43855A;
-  box-shadow:0 7px 16px rgba(120,116,84,.2),inset 0 1px 0 rgba(255,255,255,.9);
-}
-.gx-back:active{transform:translateY(0)}
-
-/* 基本资料：标签 + 值（此前只渲染了标签，值丢失） */
-.gx-field span {
-  font-size: 15px;
-  font-weight: 400;
-  color: #39422F;
-  letter-spacing: .2px;
-  margin-left: 2px;
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-@media (max-width: 1560px) { .gx-field span { font-size: 14px; } }
-
-/* ============================================================
-   内嵌模式：置于标准内容面板内，与「生涯路径图」等页面统一
-   （侧栏 + 顶栏由外壳提供，档案只在内容面板里铺开）
-   ============================================================ */
-.gx-head-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.gx-embed-panel {
-  padding: 0;
-  overflow: hidden;
-  background: linear-gradient(180deg, #F8F7EE 0%, #F4F3EA 100%);
-}
-/* 两栏等高伸展：左栏线圈本与右侧纸张同高，页面随内容自然滚动（与路径图等页一致） */
-  .gx-page--embedded {
-  min-height: 0;
-  height: auto;
-  align-items: stretch;
-  grid-template-columns: clamp(262px, 17vw, 330px) minmax(0, 1fr);
-  gap: 16px;
-  padding: 14px 12px 18px 8px;
-  background: transparent;
-}
-.gx-page--embedded .gx-rail {
-  height: 100%;
-  max-height: none;
-}
-.gx-page--embedded .gx-sheet {
-  height: 100%;
-  margin-top: 0;
+/* 窄屏 / 低屏：转为自然滚动的流式布局 */
+@media(max-width:1280px),(max-height:760px){
+  .gx-page--solo{height:auto;min-height:100vh;overflow:visible;grid-template-columns:clamp(240px,24vw,300px) minmax(0,1fr)}
+  .gx-rail-page{padding-bottom:96px}
+  .gx-sheet{height:auto;grid-template-rows:none}
+  .gx-basic{min-height:340px}
+  .gx-ai-card{min-height:520px}
+  /* 阶段标签改横排小标题，把整行宽度让给导航项（避免长标签被截断） */
+  .gx-group{grid-template-columns:1fr;gap:6px}
+  .gx-stage{
+    flex-direction:row;justify-content:flex-start;height:auto;
+    padding:2px 12px;width:max-content;gap:7px;border-radius:8px;background:#F3F7F1;
+  }
+  .gx-stage-txt{writing-mode:horizontal-tb;font-size:12px;letter-spacing:2px}
+  .gx-sprout{width:15px;height:17px}
+  .gx-seed{width:19px;height:19px}
+  .gx-item{font-size:13px;padding:0 12px;letter-spacing:0}
+  .gx-ai-body{grid-template-columns:minmax(0,1fr)}
+  .gx-radar{padding:8px 0}
+  .gx-radar-svg{max-width:300px}
+  .gx-records{max-height:460px}
 }
 
 /* ============================================================
@@ -399,7 +290,7 @@
 .gx-sheet-interview {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-  height: calc(100vh - 75px);
+  height: 100%;
   gap: 12px;
 }
 .gx-sheet-interview > .gx-card {
@@ -409,27 +300,12 @@
   display: flex;
   flex-direction: column;
 }
-/* 内嵌在内容面板时给整页（线圈本 + 2×2 网格）一个确定高度，两栏等高且不被内容撑开 */
-.gx-page--embedded.gx-page--interview {
-  height: calc(100vh - 220px);
-  min-height: 600px;
-  grid-template-rows: minmax(0, 1fr);
-}
-.gx-page--embedded.gx-page--interview .gx-rail,
-.gx-page--embedded.gx-page--interview .gx-sheet {
-  min-height: 0;
-}
-/* 职业测评页：同面试页，给整页确定高度，报告卡内部滚动而非撑高整页 */
-.gx-page--embedded.gx-page--assess {
-  height: calc(100vh - 75px);
-  min-height: 600px;
-  grid-template-rows: minmax(0, 1fr);
-}
-.gx-page--embedded.gx-page--assess .gx-rail,
-.gx-page--embedded.gx-page--assess .gx-sheet {
-  min-height: 0;
-  height: 100%;
-}
+/* 面试/测评页：整页（导航 + 网格）一屏高，卡片内部滚动而非撑高整页 */
+.gx-page--solo.gx-page--interview{grid-template-rows:minmax(0,1fr)}
+.gx-page--solo.gx-page--interview .gx-rail,
+.gx-page--solo.gx-page--interview .gx-sheet{min-height:0}
+.gx-page--solo.gx-page--assess .gx-rail,
+.gx-page--solo.gx-page--assess .gx-sheet{min-height:0;height:100%}
 
 /* 顶部左：AI 总结及建议（纯文字版） */
 .gx-ai-card-body { padding: 4px 20px 22px; flex: 1; min-height: 0; overflow-y: auto; }
@@ -518,9 +394,9 @@
 .gx-report-advice p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 
 /* 窄屏：2×2 退化为单列，随页面自然滚动 */
-@media (max-width: 1280px) {
+@media (max-width: 1280px), (max-height: 760px) {
   .gx-sheet-interview { grid-template-columns: 1fr; grid-template-rows: none; height: auto; }
-  .gx-page--embedded.gx-page--interview { height: auto; min-height: 0; }
+  .gx-page--solo.gx-page--interview { height: auto; min-height: 0; }
   .gx-trend-chart { max-height: 220px; }
   .gx-report-head2 { grid-template-columns: 80px minmax(0, 1fr); }
 }
@@ -532,7 +408,7 @@
 .gx-sheet-assess {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
-  height: calc(100vh - 75px);
+  height: 100%;
   gap: 12px;
 }
 
@@ -712,11 +588,10 @@
 .gx-rpt-foot { padding: 14px 18px 18px; text-align: center; border-top: 1px dashed #DEE5CE; }
 .gx-rpt-foot p { margin: 0 0 3px; font-size: 11px; color: #8A937E; line-height: 1.5; }
 
-@media (max-width: 1280px) {
+@media (max-width: 1280px), (max-height: 760px) {
   .gx-sheet-assess { grid-template-rows: none; height: auto; }
   .gx-assess-ai { grid-template-columns: 1fr; gap: 16px; }
   .gx-assess-ai-viz { justify-content: center; }
   .gx-assess-bottom { grid-template-columns: 1fr; }
   .gx-dim-row { grid-template-columns: 84px minmax(0, 1fr) 84px; }
 }
-
