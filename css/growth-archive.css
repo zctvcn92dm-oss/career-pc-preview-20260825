@@ -30,6 +30,54 @@
     linear-gradient(180deg,#F2F7EF 0%,#EEF4EB 55%,#E9F1E5 100%);
   overflow:hidden;
 }
+/* ---------- 内嵌详情模式：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏） ---------- */
+.gx-page--embedded{
+  --gx-green:#5CAD6A;            /* 选中绿（年份 Tab / 基本信息 pill）*/
+  --gx-green-deep:#4A9A5B;
+  --gx-title-green:#87C06D;      /* 「基本信息」标题绿 */
+  --gx-ink:#2E3430;
+  --gx-ink-2:#4A5048;
+  --gx-muted:#8A9187;
+  --gx-card-line:#E7E5DB;
+  --gx-pill:#F2F2F2;             /* 导航 item pill 底色 */
+  --gx-tag-green:#A8CA7E;        /* 记录 · 绿色 pill */
+  --gx-tag-blue:#62ADD4;         /* 记录 · 蓝色 pill */
+  --gx-radar:#7EBC8B;           /* 雷达图填充 */
+  --gx-rail-w:clamp(272px,15.6vw,336px);   /* 设计稿面板宽 300px @1920 */
+  --gx-card-r:20px;
+  --gx-card-pad:clamp(18px,1.8vw,32px);
+
+  position:relative;
+  display:grid;
+  grid-template-columns:var(--gx-rail-w) minmax(0,1fr);
+  gap:clamp(14px,1.78vw,34px);              /* 设计稿栏间距 34px @1920 */
+  padding:clamp(12px,1.46vw,28px) clamp(16px,3vw,58px) clamp(12px,1.35vw,26px) clamp(16px,1.6vw,32px);
+  align-items:stretch;
+  color:var(--gx-ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  background:
+    radial-gradient(600px 420px at -9% -14%,rgba(110,160,125,.30),rgba(110,160,125,0) 100%),
+    radial-gradient(780px 580px at -6% 110%,rgba(110,160,125,.42),rgba(110,160,125,0) 100%),
+    linear-gradient(180deg,#F2F7EF 0%,#EEF4EB 55%,#E9F1E5 100%);
+}
+/* 内嵌：整页自然滚动，底部操作放回文档流（位于左栏导航之下，不再绝对定位于视口底部） */
+.gx-page--embedded .gx-rail-page{padding-bottom:24px;overflow:visible}
+.gx-page--embedded .gx-rail-actions{
+  position:static;left:auto;bottom:auto;width:auto;
+  margin-top:18px;
+}
+.gx-page--embedded .gx-sheet{height:auto;grid-template-rows:auto auto}
+@media(max-width:1720px){
+  .gx-page--embedded{--gx-rail-w:clamp(250px,15.6vw,300px)}
+  .gx-page--embedded .gx-brand b{font-size:20px}
+  .gx-page--embedded .gx-item{height:32px;font-size:13.5px}
+}
+@media(max-width:1280px){
+  .gx-page--embedded{grid-template-columns:clamp(240px,24vw,300px) minmax(0,1fr)}
+}
+@media(max-width:1100px){
+  .gx-page--embedded{grid-template-columns:1fr}
+}
 .gx-page--solo button{font-family:inherit;cursor:pointer}
 
 /* ---------- 左栏：白纸导航面板 + 线圈装订 ---------- */

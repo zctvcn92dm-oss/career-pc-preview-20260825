@@ -613,7 +613,7 @@
   }
 
   function gxInterviewSheet() {
-    return '<main class="gx-sheet gx-sheet-interview">' +
+    return '<div class="gx-sheet gx-sheet-interview">' +
       gxInterviewAi() +
       gxInterviewTrend() +
       gxInterviewRecords() +
@@ -862,7 +862,7 @@
   }
 
   function gxAssessSheet() {
-    return '<main class="gx-sheet gx-sheet-assess">' +
+    return '<div class="gx-sheet gx-sheet-assess">' +
       gxAssessAi() +
       '<div class="gx-assess-bottom">' + gxAssessRecs() + gxAssessReport() + '</div>' +
       '</main>';
@@ -890,7 +890,7 @@
     if (activeSideTag === 'AI面试') return gxInterviewSheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
     var isValid = activeSideTag === '基本信息';
-    return '<main class="gx-sheet">' +
+    return '<div class="gx-sheet">' +
       (isValid
         ? gxBasicCard() + gxAiCard()
         : gxModuleCard() +
@@ -899,11 +899,12 @@
       '</main>';
   }
 
-  /* 独立全页模式：档案页自带左侧导航，不套全局菜单壳（对齐 2026-10-29 设计稿），
-     导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
-  function gxArchivePage() {
+  /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
+     不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
+  function gxArchiveEmbedded() {
+    var cls = (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '');
     var label = BACK_NAMES[gxBackTarget] || '首页';
-    return '<div class="gx-page gx-page--solo' + (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '') + '">' +
+    return '<div class="gx-page gx-page--embedded' + cls + '">' +
       gxRail() + gxSheet() +
       '<div class="gx-rail-actions">' +
       '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
@@ -927,8 +928,8 @@
     if (page !== 'archive') gxBackTarget = page;
     document.body.classList.toggle('home-view', page === 'home');
     if (page === 'archive' && gxEligible()) {
-      // 独立全页：档案自带左侧导航与页面底色，不走全局菜单壳（对齐设计稿）
-      app.innerHTML = gxArchivePage();
+      // 内嵌详情：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏），不再整屏占满
+      app.innerHTML = shell(gxArchiveEmbedded());
       bind();
       gxBindBack();
       gxBindInterview();
