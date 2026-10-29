@@ -31,7 +31,7 @@
 .gx-page button{font-family:inherit;cursor:pointer}   /* 不能用 font:inherit，会覆盖 .gx-item 的 font-size */
 
 /* ---------- 左栏：线圈笔记本 ---------- */
-.gx-rail{position:relative;padding-left:22px;display:flex;flex-direction:column;align-self:start;height:calc(100vh - 61px)}
+.gx-rail{position:relative;padding-left:18px;display:flex;flex-direction:column;align-self:start;height:calc(100vh - 61px)}
 /* 竖向装订条：浅金属细条，从页顶贯穿到底 */
 .gx-spiral:before{
   content:"";position:absolute;left:16px;top:-4px;bottom:-4px;width:7px;
@@ -58,7 +58,7 @@
   background:linear-gradient(180deg,#EFEEE5 0%,#ECEBE2 46%,#E9E8DE 100%);
   border:1px solid #E3E1D6;
   border-radius:10px;
-  padding:18px 9px 18px 33px;
+  padding:18px 9px 18px 28px;
   overflow-y:auto;overflow-x:hidden;
   box-shadow:0 3px 14px rgba(140,138,116,.13),inset 0 1px 0 rgba(255,255,255,.7);
 }
@@ -234,12 +234,12 @@
 /* ---------- 响应式 ---------- */
 @media(max-width:1720px){
   .gx-page{padding:22px 30px 28px 0;grid-template-columns:clamp(280px,20.8vw,330px) minmax(0,1fr);gap:16px}
-  .gx-rail{padding-left:48px}
+  .gx-rail{padding-left:36px}
   .gx-spiral{left:24px}
   .gx-brand b{font-size:22px}
   .gx-item{font-size:clamp(12px,0.92vw,14px);height:38px;padding:0 18px 0 clamp(20px,1.62vw,26px)}
   .gx-group{grid-template-columns:30px minmax(0,1fr);gap:12px}
-  .gx-rail-page{padding-left:26px}
+  .gx-rail-page{padding-left:20px}
   .gx-sheet{height:auto;min-height:calc(100vh - 61px)}
   .gx-bottom{min-height:520px}
   .gx-ai-text p{font-size:12px;line-height:1.6}
@@ -253,7 +253,7 @@
 }
 @media(max-width:1280px){
   .gx-page{grid-template-columns:250px minmax(0,1fr);padding:18px 20px 24px 0;gap:14px}
-  .gx-rail{padding-left:42px}
+  .gx-rail{padding-left:34px}
   .gx-spiral{left:20px}
   .gx-sheet{min-height:0;margin-top:8px}
   .gx-bottom{grid-template-columns:1fr;gap:20px;padding-bottom:16px}
@@ -375,13 +375,13 @@
   background: linear-gradient(180deg, #F8F7EE 0%, #F4F3EA 100%);
 }
 /* 两栏等高伸展：左栏线圈本与右侧纸张同高，页面随内容自然滚动（与路径图等页一致） */
-.gx-page--embedded {
+  .gx-page--embedded {
   min-height: 0;
   height: auto;
   align-items: stretch;
   grid-template-columns: clamp(262px, 17vw, 330px) minmax(0, 1fr);
   gap: 16px;
-  padding: 18px 22px 22px 14px;
+  padding: 14px 12px 18px 8px;
   background: transparent;
 }
 .gx-page--embedded .gx-rail {

@@ -3,8 +3,10 @@
 .archive-feedback{text-align:center;padding:90px 20px;background:var(--white,#fffdf5);border:1px solid var(--paper-edge,#eae3cf);border-radius:14px}
 .archive-feedback .icon-box{margin:auto}
 .archive-feedback p{color:var(--muted)}
+/* 成长档案页：收紧左右留白，外壳更贴近侧栏与右边缘（仅作用于 archive 页） */
+.archive-workspace{padding-left:12px;padding-right:12px}
 /* ---- 布局：左侧标签栏 + 右侧内容区 ---- */
-.archive-detail-layout{display:grid;grid-template-columns:204px minmax(0,1fr);gap:18px;padding:20px;align-items:start}
+.archive-detail-layout{display:grid;grid-template-columns:204px minmax(0,1fr);gap:14px;padding:12px;align-items:start}
 /* ---- 左侧阶段侧标签（备忘录式物化标签）---- */
 .archive-side-nav{background:rgba(242,238,225,.5);border:1px solid var(--paper-edge,#eae3cf);border-radius:16px;padding:14px 10px}
 .side-nav-head{display:flex;gap:10px;align-items:center;padding:8px 8px 12px;background:#e9f4e6;border-radius:10px;border-bottom:1px dashed #cfdccb;margin-bottom:12px}
