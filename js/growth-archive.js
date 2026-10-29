@@ -23,10 +23,10 @@
 
   ca.radar5 = [
     { name: '职业探索', value: 74 },
-    { name: '职业实践', value: 82 },
-    { name: '竞赛成长', value: 60 },
+    { name: '职业规划', value: 70 },
     { name: '职业实训', value: 58 },
-    { name: '职业规划', value: 70 }
+    { name: '竞赛成长', value: 60 },
+    { name: '就业实践', value: 82 }
   ];
 
   ca.aiSummary = {
