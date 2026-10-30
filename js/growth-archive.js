@@ -928,8 +928,8 @@
     if (page === 'ability') page = 'archive';
     // 只要不在档案页，就把当前页记为「返回目标」
     if (page !== 'archive') gxBackTarget = page;
-    // 档案页沿用首页的壳层主题（白底侧栏 + 绿色高亮选中项），保证左侧菜单与首页一致
-    document.body.classList.toggle('home-view', page === 'home' || page === 'archive');
+    // 所有页面统一沿用首页的壳层主题（白底侧栏 + 绿色高亮选中项），保证左侧菜单与首页一致
+    document.body.classList.add('home-view');
     if (page === 'archive' && gxEligible()) {
       // 内嵌详情：纸张风档案放进全局菜单壳（保留全局侧栏/顶栏），固定区域展示，内容超出在面板内上下滚动
       app.innerHTML = shell(gxArchiveEmbedded());
