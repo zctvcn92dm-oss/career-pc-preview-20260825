@@ -17,7 +17,7 @@
   ca.sideTagGroups = [
     { stage: '', tags: ['基本信息'] },
     { stage: '职业探索', tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
-    { stage: '生涯规划', tags: ['生涯体验周', '生涯活动'] },
+    { stage: '职业规划', tags: ['生涯体验周', '生涯活动'] },
     { stage: '职业实训', tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
     { stage: '竞赛成长', tags: ['大学生职业规划大赛', '大学生创新大赛'] },
     { stage: '就业实习', tags: ['毕业意向', '宣讲会', '双选会'] },
@@ -26,10 +26,10 @@
 
   ca.radar5 = [
     { name: '职业探索', value: 74 },
-    { name: '职业规划', value: 70 },
-    { name: '职业实训', value: 58 },
+    { name: '职业实践', value: 82 },
     { name: '竞赛成长', value: 60 },
-    { name: '职业实践', value: 82 }
+    { name: '职业实训', value: 58 },
+    { name: '职业规划', value: 70 }
   ];
 
   ca.aiSummary = {
