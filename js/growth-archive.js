@@ -434,20 +434,13 @@
 
   /* 页头：与「生涯路径图」等标准页面统一（标题 + 说明 + 右侧操作） */
   function gxPageHead() {
-    var label = BACK_NAMES[gxBackTarget] || '首页';
     var isAbility = page === 'ability';
     return '<div class="page-head gx-head">' +
       '<div><h1>' + (isAbility ? '能力画像' : '成长档案') + '</h1>' +
       '<p>' + (isAbility
         ? '按能力维度汇总测评、课程、实践等成长证据，呈现你的能力发展画像'
         : '统一归集测评、课程、活动、竞赛等成长记录，并按学年形成成长时间线') + '</p></div>' +
-      '<div class="gx-head-actions">' +
-      '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
-      '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
-      'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '<span>返回' + label + '</span></button>' +
-      '</div></div>';
+      '</div>';
   }
 
   function gxBackKey(e) {
@@ -903,16 +896,8 @@
      不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchiveEmbedded() {
     var cls = (activeSideTag === 'AI面试' ? ' gx-page--interview' : '') + (activeSideTag === '职业测评' ? ' gx-page--assess' : '');
-    var label = BACK_NAMES[gxBackTarget] || '首页';
-    var actions =
-      '<div class="gx-rail-actions">' +
-      '<button class="gx-reopen" type="button" title="重新播放「打开档案」开场动画">↺ 重新打开档案</button>' +
-      '<button class="gx-back" type="button" data-gx-back="' + gxBackTarget + '">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" ' +
-      'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '<span>返回' + label + '</span></button>' +
-      '</div>';
-    // 操作按钮收回左栏面板底部（与独立全页一致），整页固定、内容超出在各自面板内上下滚动
+    // 左栏底部「重新打开档案 / 返回」按钮已移除：统一由全局左侧菜单导航
+    var actions = '';
     return '<div class="gx-page gx-page--embedded' + cls + '">' +
       gxRail(actions) + gxSheet() +
       '</div>';
