@@ -500,7 +500,20 @@
   padding: 20px 24px;
   min-width: 0;
 }
-.gx-assess-ai-text { min-width: 0; }
+/* 文字区限高：整块 AI 卡片维持在 ~310px（对齐设计稿红框），文字超出时在区内上下滚动 */
+.gx-assess-ai-text {
+  min-width: 0;
+  max-height: clamp(220px, 30vh, 290px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #A9C48F #EEF3E6;
+}
+.gx-assess-ai-text::-webkit-scrollbar { width: 8px; }
+.gx-assess-ai-text::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-assess-ai-text::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+.gx-assess-ai-text::-webkit-scrollbar-thumb:hover { background: #8FB273; }
 .gx-assess-ai-title { margin: 0 0 10px; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; }
 .gx-assess-ai-p { margin: 0 0 10px; font-size: 12.5px; line-height: 1.78; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 .gx-assess-ai-p:last-child { margin-bottom: 0; }
