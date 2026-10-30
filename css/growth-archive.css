@@ -113,35 +113,11 @@
 
 /* ---------- 左栏：白纸导航面板 + 线圈装订 ---------- */
 .gx-rail{position:relative;display:flex;min-width:0;min-height:0}
-/* 装订环：左右两列金属活页环（左=图钉：细针 + 圆头；右=环尾小椭圆） */
-.gx-spiral{
-  position:absolute;top:26px;bottom:26px;left:0;width:24px;z-index:2;pointer-events:none;
-  display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;
-}
-.gx-spiral i{
-  position:relative;width:13px;height:5px;border-radius:0 3px 3px 0;
-  background:linear-gradient(180deg,#F4F2EA 0%,#DAD7C9 34%,#B5B2A4 76%,#98958A 100%);
-  box-shadow:0 1px 1.5px rgba(120,118,100,.18),inset 0 1px 0 rgba(255,255,255,.85);
-}
-.gx-spiral i:after{
-  content:"";position:absolute;right:-3px;top:-3px;width:11px;height:11px;border-radius:50%;
-  background:radial-gradient(circle at 38% 26%,#F8F6EF 0%,#DCD8CA 34%,#ADA998 68%,#837F6E 100%);
-  box-shadow:0 1px 1.5px rgba(100,98,84,.26);
-}
-/* 右列：环尾（穿过面板背面露出的小椭圆，无针身） */
-.gx-spiral-r{left:auto;right:-2px;width:12px;align-items:flex-end}
-.gx-spiral-r i{
-  width:7px;height:7px;border-radius:50%;
-  background:radial-gradient(circle at 40% 30%,#DAD7C9 0%,#B3B0A2 52%,#8B887A 100%);
-  box-shadow:0 1px 1px rgba(100,98,84,.22);
-}
-.gx-spiral-r i:after{display:none}
-
 .gx-rail-page{
   position:relative;flex:1;min-height:0;
-  background:#FFFFFF;
+  background:linear-gradient(180deg,#EAF4E6 0%,#E1EFDB 100%);
   border-radius:var(--gx-card-r);
-  padding:24px 26px 106px 30px;
+  padding:22px 22px 26px 22px;
   display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
   box-shadow:0 8px 28px rgba(96,124,96,.10);
@@ -157,42 +133,34 @@
 .gx-brand b{font-size:22px;font-weight:700;letter-spacing:1.5px;color:#1F2A22}
 
 .gx-groups{display:flex;flex-direction:column;gap:clamp(12px,1.5vh,18px)}
-.gx-group{display:grid;grid-template-columns:34px minmax(0,1fr);gap:17px;align-items:stretch}
-/* 竖排阶段标签：顶部嫩芽图标 + 竖排组名 */
-.gx-stage{
-  display:flex;flex-direction:column;align-items:center;gap:9px;
-  padding:4px 0 10px;position:relative;
-}
-.gx-stage-txt{
-  writing-mode:vertical-rl;text-orientation:upright;
-  font-size:14px;letter-spacing:3px;color:#9AA89B;line-height:1;
-}
-.gx-sprout{width:19px;height:22px;flex:none}
-/* 「基本信息」独立分组：种子圆盘占位（与分组标签同列，保证 pill 左缘对齐） */
-.gx-stage--solo{justify-content:flex-start;padding-top:0}
-.gx-seed{width:34px;height:34px;flex:none}
-.gx-items{display:flex;flex-direction:column;gap:11px;min-width:0}
+.gx-group{display:flex;flex-direction:column;gap:8px}
+/* 分组标题：绿色圆点 + 横排组名 */
+.gx-stage{display:flex;align-items:center;gap:8px;padding:2px 4px 7px;position:relative}
+.gx-stage-txt{font-size:13px;font-weight:600;color:#5B8A66;letter-spacing:1px;line-height:1}
+.gx-stage-dot{width:8px;height:8px;border-radius:50%;background:#7CB98C;flex:none;box-shadow:0 0 0 3px rgba(124,185,140,.18)}
+.gx-items{display:flex;flex-direction:column;gap:10px;min-width:0}
 
 .gx-item{
   position:relative;
-  display:flex;align-items:center;justify-content:center;
-  height:34px;padding:0 16px;
-  border:0;border-radius:17px;
-  background:var(--gx-pill);color:#3A4238;
+  display:flex;align-items:center;gap:9px;
+  height:36px;padding:0 16px;
+  border:1px solid #E1EADF;border-radius:18px;
+  background:#FFFFFF;color:#3A4238;
   font-size:14px;letter-spacing:.5px;
-  transition:background .15s,color .15s,box-shadow .15s;
+  box-shadow:0 1px 2px rgba(80,110,80,.06);
+  transition:background .15s,color .15s,box-shadow .15s,border-color .15s;
 }
-.gx-item:hover{background:#E9EAE6}
+.gx-item .gx-dot-ic{width:9px;height:9px;border-radius:50%;background:#BFD9C2;flex:none;transition:background .15s}
+.gx-item:hover{background:#F4F9F1;border-color:#CFE3CC}
 .gx-item>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-/* 激活项：绿色填充 pill + 右侧叶片 */
+/* 激活项：绿色填充胶囊 + 白字 */
 .gx-item.active{
-  height:40px;margin:-3px 0;                 /* 设计稿选中项略高 */
-  background:linear-gradient(180deg,#63B473 0%,#55A869 100%);
+  background:linear-gradient(180deg,#5CAD6A 0%,#4A9A5B 100%);
   color:#FFFFFF;font-weight:600;letter-spacing:1px;
-  box-shadow:0 3px 10px rgba(74,154,91,.30);
+  border-color:#4A9A5B;
+  box-shadow:0 3px 10px rgba(74,154,91,.28);
 }
-.gx-item-sprig{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:24px;height:20px;pointer-events:none}
-.gx-item-sprig g{fill:#EAF3DC}
+.gx-item.active .gx-dot-ic{background:#FFFFFF}
 
 /* 导航底部操作：重新打开档案 / 返回（约束在左栏面板内宽，避免横跨全页） */
 .gx-rail-actions{
@@ -237,10 +205,10 @@
 .gx-basic{
   padding:clamp(16px,1.7vw,26px) var(--gx-card-pad) clamp(12px,1.3vw,18px);
   display:flex;flex-direction:column;
+  border:1px solid var(--gx-card-line);
 }
-.gx-basic-head{display:flex;flex-direction:column;gap:7px;flex:none;margin-bottom:clamp(4px,.8vh,10px)}
+.gx-basic-head{display:flex;align-items:center;gap:10px;flex:none;margin-bottom:clamp(4px,.8vh,10px)}
 .gx-basic-head h2{margin:0;font-size:20px;font-weight:700;color:var(--gx-title-green);letter-spacing:1.5px}
-.gx-basic-head-bar{width:34px;height:3px;border-radius:2px;background:var(--gx-title-green)}
 .gx-basic-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(360px,44%,720px);gap:clamp(14px,1.6vw,26px);min-height:0}
 .gx-fields{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
@@ -343,19 +311,12 @@
 /* 窄屏 / 低屏：转为自然滚动的流式布局 */
 @media(max-width:1280px),(max-height:760px){
   .gx-page--solo{height:auto;min-height:100vh;overflow:visible;grid-template-columns:clamp(240px,24vw,300px) minmax(0,1fr)}
-  .gx-rail-page{padding-bottom:96px}
   .gx-sheet{height:auto;grid-template-rows:none}
   .gx-basic{min-height:340px}
   .gx-ai-card{min-height:520px}
-  /* 阶段标签改横排小标题，把整行宽度让给导航项（避免长标签被截断） */
-  .gx-group{grid-template-columns:1fr;gap:6px}
-  .gx-stage{
-    flex-direction:row;justify-content:flex-start;height:auto;
-    padding:2px 12px;width:max-content;gap:7px;border-radius:8px;background:#F3F7F1;
-  }
-  .gx-stage-txt{writing-mode:horizontal-tb;font-size:12px;letter-spacing:2px}
-  .gx-sprout{width:15px;height:17px}
-  .gx-seed{width:19px;height:19px}
+  .gx-group{gap:6px}
+  .gx-stage{padding:2px 4px 6px}
+  .gx-stage-txt{font-size:12px;letter-spacing:1px}
   .gx-item{font-size:13px;padding:0 12px;letter-spacing:0}
   .gx-ai-body{grid-template-columns:minmax(0,1fr)}
   .gx-radar{padding:8px 0}

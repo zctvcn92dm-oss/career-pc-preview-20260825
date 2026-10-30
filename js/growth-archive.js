@@ -15,11 +15,13 @@
 
   /* 左侧导航：阶段分组对齐全局侧栏词汇（生涯成长/学习与认知/体验与辅导/AI应用/赛事与我的） */
   ca.sideTagGroups = [
-    { stage: '生涯成长', tags: ['基本信息', '生涯规划书', '未来信箱', '生涯助理'] },
-    { stage: '学习与认知', tags: ['线上课', '微视频', '职业测评', '职业认知'] },
-    { stage: '体验与辅导', tags: ['生涯体验周', '生涯活动', '线上咨询', '预约咨询', '职场沟通技巧'] },
-    { stage: 'AI应用', tags: ['AI简历', 'AI面试'] },
-    { stage: '赛事与我的', tags: ['大学生职业规划大赛', '大学生创新大赛', '就业活动', '毕业意向', '宣讲会', '双选会', '在线招聘'] }
+    { stage: '', tags: ['基本信息'] },
+    { stage: '职业探索', tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
+    { stage: '生涯规划', tags: ['生涯体验周', '生涯活动'] },
+    { stage: '职业实训', tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
+    { stage: '竞赛成长', tags: ['大学生职业规划大赛', '大学生创新大赛'] },
+    { stage: '就业实习', tags: ['毕业意向', '宣讲会', '双选会'] },
+    { stage: '', tags: ['AI助理'] }
   ];
 
   ca.radar5 = [
@@ -294,28 +296,23 @@
   }
   /* ---------- 3. 左侧导航（对齐 2026-10-29 设计稿：白纸面板 + 线圈装订） ---------- */
   function gxRail(actions) {
-    var rings = '', i;
-    for (i = 0; i < 16; i++) rings += '<i></i>';
     return '<aside class="gx-rail">' +
-      '<div class="gx-spiral">' + rings + '</div>' +
       '<div class="gx-rail-page">' +
       '<div class="gx-brand"><span class="gx-brand-badge">' + gxClover('gx-brand-clover') + '</span><b>成长档案</b></div>' +
       '<div class="gx-groups">' +
       ca.sideTagGroups.map(function (g) {
         var solo = !g.stage;
-        return '<div class="gx-group' + (solo ? ' gx-group--solo' : '') + '">' +
-          '<span class="gx-stage' + (solo ? ' gx-stage--solo' : '') + '">' +
-          (solo ? gxSeed('gx-seed') : gxSprout('gx-sprout') + '<span class="gx-stage-txt">' + g.stage + '</span>') +
-          '</span>' +
-          '<div class="gx-items">' +
-          g.tags.map(function (t) {
-            var active = t === activeSideTag;
-            return '<button class="gx-item' + (active ? ' active' : '') + '" data-side-tag="' + t + '">' +
-              '<span>' + t + '</span>' + (active ? gxSprig('gx-item-sprig') : '') + '</button>';
-          }).join('') + '</div></div>';
+        var items = g.tags.map(function (t) {
+          var active = t === activeSideTag;
+          return '<button class="gx-item' + (active ? ' active' : '') + '" data-side-tag="' + t + '">' +
+            '<i class="gx-dot-ic" aria-hidden="true"></i><span>' + t + '</span></button>';
+        }).join('');
+        if (solo) return '<div class="gx-group gx-group--solo">' + items + '</div>';
+        return '<div class="gx-group">' +
+          '<div class="gx-stage"><i class="gx-stage-dot" aria-hidden="true"></i><span class="gx-stage-txt">' + g.stage + '</span></div>' +
+          '<div class="gx-items">' + items + '</div></div>';
       }).join('') +
       '</div></div>' +
-      '<div class="gx-spiral gx-spiral-r">' + rings + '</div>' +
       (actions || '') +
       '</aside>';
   }
@@ -324,14 +321,14 @@
   function gxBasicCard() {
     var b = ca.basicInfo;
     var left = [['毕业年份', b.gradeYear], ['姓名', b.name], ['学号', b.studentNo], ['学历', b.education], ['专业', b.major], ['入学时间', b.enrollDate], ['所在班级', b.className]];
-    var right = [['学校/学院', b.school], ['性别', b.gender], ['身份证号', b.idCard], ['手机号码', b.phone], ['电子邮件', b.email], ['学制', b.duration], ['校园卡编号', b.campusCard]];
+    var right = [['学校/学院', b.school], ['性别', b.gender], ['身份证号', b.idCard], ['手机号码', b.phone], ['电子邮箱', b.email], ['学制', b.duration], ['校园卡编号', b.campusCard]];
     var col = function (rows) {
       return '<div class="gx-fcol">' + rows.map(function (r) {
         return '<p class="gx-field"><b>' + r[0] + '：</b><span>' + (r[1] || '—') + '</span></p>';
       }).join('') + '</div>';
     };
     return '<section class="gx-card gx-basic">' +
-      '<div class="gx-basic-head"><h2>基本信息</h2><i class="gx-basic-head-bar" aria-hidden="true"></i></div>' +
+      '<div class="gx-basic-head"><h2>基本信息</h2></div>' +
       '<div class="gx-basic-body">' +
       '<div class="gx-fields">' + col(left) + col(right) + '</div>' +
       '<div class="gx-hero" aria-hidden="true"></div>' +
