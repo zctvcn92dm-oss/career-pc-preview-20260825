@@ -115,7 +115,7 @@
 .gx-rail{position:relative;display:flex;min-width:0;min-height:0}
 .gx-rail-page{
   position:relative;flex:1;min-height:0;
-  background:linear-gradient(180deg,#EAF4E6 0%,#E1EFDB 100%);
+  background:linear-gradient(180deg,#DEEAE0 0%,#DCE5E0 100%);
   border-radius:var(--gx-card-r);
   padding:22px 22px 26px 22px;
   display:flex;flex-direction:column;
@@ -137,7 +137,7 @@
 /* 分组标题：绿色圆点 + 横排组名 */
 .gx-stage{display:flex;align-items:center;gap:8px;padding:2px 4px 7px;position:relative}
 .gx-stage-txt{font-size:13px;font-weight:600;color:#5B8A66;letter-spacing:1px;line-height:1}
-.gx-stage-dot{width:8px;height:8px;border-radius:50%;background:#7CB98C;flex:none;box-shadow:0 0 0 3px rgba(124,185,140,.18)}
+.gx-stage-dot{width:8px;height:8px;border-radius:50%;background:#B5D594;flex:none;box-shadow:0 0 0 3px rgba(181,213,148,.22)}
 .gx-items{display:flex;flex-direction:column;gap:10px;min-width:0}
 
 .gx-item{
@@ -155,10 +155,10 @@
 .gx-item>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 /* 激活项：绿色填充胶囊 + 白字 */
 .gx-item.active{
-  background:linear-gradient(180deg,#5CAD6A 0%,#4A9A5B 100%);
+  background:linear-gradient(180deg,#5DAE69 0%,#57AA66 100%);
   color:#FFFFFF;font-weight:600;letter-spacing:1px;
-  border-color:#4A9A5B;
-  box-shadow:0 3px 10px rgba(74,154,91,.28);
+  border-color:#57AA66;
+  box-shadow:0 3px 10px rgba(87,170,102,.28);
 }
 .gx-item.active .gx-dot-ic{background:#FFFFFF}
 
@@ -222,9 +222,25 @@
   flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .gx-hero{
+  position:relative;
   overflow:hidden;border-radius:14px;
   background-image:url("../assets/archive-hero-scene.png");
   background-repeat:no-repeat;background-position:center;background-size:cover;
+  display:flex;align-items:center;justify-content:center;
+}
+/* 插画叠字：设计稿同构图缺字，按页面绿系补「成长档案 / 记录成长轨迹，见证青春足迹」 */
+.gx-hero-title{
+  position:relative;z-index:2;margin:0;padding:0 10px;
+  font-size:clamp(20px,1.9vw,30px);font-weight:800;letter-spacing:3px;
+  color:#2E5E3A;
+  text-shadow:0 1px 2px rgba(255,255,255,.65);
+}
+.gx-hero-slogan{
+  position:absolute;left:0;right:0;bottom:9%;z-index:2;
+  text-align:center;padding:0 12px;
+  font-size:clamp(11px,.95vw,14px);font-weight:600;letter-spacing:2px;
+  color:#3C7A4E;
+  text-shadow:0 1px 2px rgba(255,255,255,.65);
 }
 
 /* ---------- AI 总结及建议卡（标题 + 年份 Tab + 三栏） ---------- */

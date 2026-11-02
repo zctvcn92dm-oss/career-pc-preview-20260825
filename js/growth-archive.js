@@ -331,7 +331,10 @@
       '<div class="gx-basic-head"><h2>基本信息</h2></div>' +
       '<div class="gx-basic-body">' +
       '<div class="gx-fields">' + col(left) + col(right) + '</div>' +
-      '<div class="gx-hero" aria-hidden="true"></div>' +
+      '<div class="gx-hero">' +
+      '<span class="gx-hero-title">成长档案</span>' +
+      '<span class="gx-hero-slogan">记录成长轨迹，见证青春足迹</span>' +
+      '</div>' +
       '</div></section>';
   }
 
