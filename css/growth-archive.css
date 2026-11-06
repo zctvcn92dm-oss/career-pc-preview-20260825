@@ -115,52 +115,116 @@
 .gx-rail{position:relative;display:flex;min-width:0;min-height:0}
 .gx-rail-page{
   position:relative;flex:1;min-height:0;
-  background:linear-gradient(180deg,#DEEAE0 0%,#DCE5E0 100%);
+  /* 设计稿：左栏面板为白底（取色众数 250,250,250），薄荷绿是页面外底色不是面板色 */
+  background:#FFFFFF;
   border-radius:var(--gx-card-r);
-  padding:22px 22px 26px 22px;
+  padding:18px 22px 14px 22px;
   display:flex;flex-direction:column;
   overflow-y:auto;overflow-x:hidden;
   box-shadow:0 8px 28px rgba(96,124,96,.10);
 }
-.gx-brand{display:flex;align-items:center;gap:13px;padding:2px 6px 20px 6px;flex:none}
+.gx-brand{display:flex;align-items:center;gap:13px;padding:2px 6px 14px 6px;flex:none}
 .gx-brand-badge{
   width:44px;height:44px;border-radius:13px;flex:none;display:grid;place-items:center;
-  background:linear-gradient(160deg,#E9F4E4 0%,#DDEEDB 100%);
-  box-shadow:inset 0 0 0 1px rgba(92,173,106,.20);
+  /* 设计稿：绿底 + 白色四叶草（原为浅绿底+绿叶，反了） */
+  background:linear-gradient(160deg,#5DAE69 0%,#4A9A5B 100%);
+  box-shadow:0 3px 10px rgba(74,154,91,.26);
 }
 .gx-brand-clover{width:25px;height:25px;flex:none}
-.gx-brand-clover g{fill:#4E9E66}
+.gx-brand-clover g{fill:#FFFFFF}
 .gx-brand b{font-size:22px;font-weight:700;letter-spacing:1.5px;color:#1F2A22}
 
-.gx-groups{display:flex;flex-direction:column;gap:clamp(12px,1.5vh,18px)}
-.gx-group{display:flex;flex-direction:column;gap:8px}
-/* 分组标题：绿色圆点 + 横排组名 */
-.gx-stage{display:flex;align-items:center;gap:8px;padding:2px 4px 7px;position:relative}
-.gx-stage-txt{font-size:13px;font-weight:600;color:#5B8A66;letter-spacing:1px;line-height:1}
-.gx-stage-dot{width:8px;height:8px;border-radius:50%;background:#B5D594;flex:none;box-shadow:0 0 0 3px rgba(181,213,148,.22)}
-.gx-items{display:flex;flex-direction:column;gap:10px;min-width:0}
+.gx-groups{display:flex;flex-direction:column;gap:clamp(10px,1.45vh,16px)}
+/* 设计稿：每个分组 = 左侧竖排「标签」块 + 右侧胶囊菜单列
+   实测：标签宽 36.6 CSS、标签↔胶囊间距 12.2、胶囊左缘距面板左 80.6 */
+.gx-group{
+  position:relative;
+  display:grid;
+  grid-template-columns:clamp(38px,2.4vw,46px) minmax(0,1fr);
+  gap:clamp(10px,.7vw,12px);
+  align-items:start;
+}
+/* 无分组标签的项（基本信息 / AI助理）：胶囊与其他组右对齐，故占第二列 */
+.gx-group--solo>.gx-item{grid-column:2}
+/* 竖排分组标签：浅灰圆角标签块（#EFF1EF），顶部绿色圆形图标 + 竖排组名。
+   设计稿实测（2048 稿折算 CSS）：块宽 35.6、块左缘距面板左 27.2、块↔胶囊间距 15、
+   块在分组内「垂直居中」（不是顶部对齐）；文字墨迹宽 13.1 ≈ 字号 15.4，字距 ~20.6。
+   绝对定位，不参与分组高度计算——否则含 2 项的短分组会被标签撑高，与下一组拉开大空洞 */
+.gx-stage{
+  position:absolute;
+  left:clamp(3px,.45vw,5px);
+  top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(3px,.5vh,5px);
+  width:clamp(28px,1.85vw,35.5px);
+  padding:clamp(5px,.7vh,7px) 0 clamp(5px,.8vh,8px);
+  background:#EFF1EF;
+  border-radius:clamp(9px,.85vw,12px);
+}
+/* 只有图标、没有组名的标签块（设计稿「基本信息」组就是这种） */
+.gx-stage--icon{padding:clamp(6px,.85vh,9px) 0;border-radius:clamp(8px,.8vw,11px)}
+.gx-stage-ic{width:clamp(12px,1vw,15px);height:auto;flex:none;display:block}
+.gx-stage-txt{
+  writing-mode:vertical-rl;text-orientation:upright;
+  font-size:clamp(12.5px,.75vw,14px);font-weight:600;color:#2E3430;
+  letter-spacing:clamp(2px,.17vw,3.2px);line-height:1;white-space:nowrap;
+}
+/* 线圈装订环：设计稿面板左缘（从边缘起 1~23px）有一列金属环，环尾正对标签块左缘。
+   每个标签块上下各一个，读起来像纸页被穿在环上 */
+.gx-stage::before,.gx-stage::after{
+  content:"";position:absolute;
+  left:calc(clamp(3px,.45vw,5px) - 22px);
+  width:22px;height:12px;
+  background:
+    radial-gradient(circle at 73% 50%,
+      #7E867F 0 1.9px,          /* 环孔（暗） */
+      #BFC4BF 2.1px 3px,        /* 环体内侧 */
+      #E4E7E3 3.1px 4.7px,      /* 环体外侧金属亮边 */
+      rgba(228,231,227,0) 5.3px),
+    linear-gradient(90deg,#C9CCC8 0 55%,rgba(201,204,200,0) 74%) center/100% 2px no-repeat;
+  filter:drop-shadow(0 1px 1.5px rgba(90,105,92,.18));
+  pointer-events:none;
+}
+.gx-stage::before{top:-2px}
+.gx-stage::after{bottom:-2px}
+/* 设计稿实测：胶囊行高 ≈40px、行间距 ≈3px（原为 36px / 10px，偏松）。
+   页签为绝对定位后需显式指定列，否则胶囊列会自动落入第一列（塌成一条） */
+.gx-items{grid-column:2;display:flex;flex-direction:column;gap:clamp(3px,.4vh,6px);min-width:0}
 
 .gx-item{
   position:relative;
-  display:flex;align-items:center;gap:9px;
-  height:36px;padding:0 16px;
-  border:1px solid #E1EADF;border-radius:18px;
-  background:#FFFFFF;color:#3A4238;
-  font-size:14px;letter-spacing:.5px;
+  display:flex;align-items:center;justify-content:center;gap:0;
+  height:clamp(29px,3.3vh,35px);padding:0 16px;
+  /* 设计稿：胶囊为浅灰填充 #F2F2F2、无描边、文字居中且无前置图标 */
+  border:0;border-radius:18px;
+  background:#F2F2F2;color:#2E3430;
+  font-size:clamp(14px,1.35vh,16px);letter-spacing:0;
   box-shadow:0 1px 2px rgba(80,110,80,.06);
   transition:background .15s,color .15s,box-shadow .15s,border-color .15s;
 }
-.gx-item .gx-dot-ic{width:9px;height:9px;border-radius:50%;background:#BFD9C2;flex:none;transition:background .15s}
-.gx-item:hover{background:#F4F9F1;border-color:#CFE3CC}
-.gx-item>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-/* 激活项：绿色填充胶囊 + 白字 */
+.gx-item:hover{background:#E9EAE9}
+.gx-item>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+/* 激活项：绿色填充胶囊 + 白字 + 左端白色打孔（设计稿里像吊牌挂在装订环上） */
 .gx-item.active{
   background:linear-gradient(180deg,#5DAE69 0%,#57AA66 100%);
-  color:#FFFFFF;font-weight:600;letter-spacing:1px;
+  color:#FFFFFF;font-weight:600;letter-spacing:.5px;
   border-color:#57AA66;
+  /* 左端打孔 + 右端枝叶占位：左右内边距不对称，避免长文案压到叶片上 */
+  padding:0 34px 0 24px;
   box-shadow:0 3px 10px rgba(87,170,102,.28);
 }
-.gx-item.active .gx-dot-ic{background:#FFFFFF}
+/* 激活项左端：白色打孔 + 透过孔洞看到的灰色环体（设计稿里胶囊是「挂在装订环上」的） */
+.gx-item.active::before{
+  content:"";position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#B7BCB6 0 2.6px,#FFFFFF 2.9px 100%);
+  box-shadow:0 0 0 2px rgba(255,255,255,.30);
+}
+/* 激活胶囊右端的叶片装饰（设计稿：橄榄绿枝叶 42×38，压在绿色胶囊右端内） */
+.gx-item-sprig{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:37px;height:30px;pointer-events:none;
+}
 
 /* 导航底部操作：重新打开档案 / 返回（约束在左栏面板内宽，避免横跨全页） */
 .gx-rail-actions{
@@ -174,13 +238,14 @@
 .gx-rail-actions button{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   height:36px;padding:0 14px;
-  border:1px solid #DCE7D9;border-radius:18px;
-  background:#FFFFFF;color:#5B8A66;
+  /* 设计稿：绿底白字（原为白底绿字，反了） */
+  border:1px solid #57AA66;border-radius:18px;
+  background:linear-gradient(180deg,#5DAE69 0%,#57AA66 100%);color:#FFFFFF;
   font-size:13px;font-weight:600;letter-spacing:.3px;
   font-family:inherit;cursor:pointer;
   transition:background .15s,border-color .15s,color .15s,transform .15s;
 }
-.gx-rail-actions button:hover{background:#F3F9F1;border-color:#BCD6BA;color:#43855A;transform:translateY(-1px)}
+.gx-rail-actions button:hover{background:linear-gradient(180deg,#54A462 0%,#4C9C5B 100%);border-color:#4C9C5B;color:#FFFFFF;transform:translateY(-1px)}
 .gx-rail-actions .gx-back svg{width:15px;height:15px;flex:none}
 
 /* ---------- 右栏：白卡 ---------- */
@@ -208,11 +273,14 @@
   border:1px solid var(--gx-card-line);
 }
 .gx-basic-head{display:flex;align-items:center;gap:10px;flex:none;margin-bottom:clamp(4px,.8vh,10px)}
-.gx-basic-head h2{margin:0;font-size:20px;font-weight:700;color:var(--gx-title-green);letter-spacing:1.5px}
-.gx-basic-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(360px,44%,720px);gap:clamp(14px,1.6vw,26px);min-height:0}
+.gx-basic-head h2{margin:0;font-size:20px;font-weight:700;color:#3F7A4E;letter-spacing:1.5px}
+/* 第二列（插画）宽度需使 hero 盒宽高比 ≈ 设计稿 1.776：高 293 → 宽 520 ≈ 48%（原 44% 时为 1.66，
+   cover 裁切比与设计稿不同，导致叠字压不到书本/基座） */
+.gx-basic-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(360px,48%,720px);gap:clamp(12px,1.3vw,20px);min-height:0}
+/* 列间距收窄：hero 占 48% 后字段列变窄，需腾出空间避免「学校/学院」等值被省略号截断 */
 .gx-fields{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0 clamp(16px,2.2vw,38px);align-content:center;
+  gap:0 clamp(12px,1.2vw,22px);align-content:center;
 }
 .gx-fcol{display:flex;flex-direction:column}
 .gx-field{margin:0;height:clamp(34px,3.9vh,42px);display:flex;align-items:center}
@@ -224,23 +292,22 @@
 .gx-hero{
   position:relative;
   overflow:hidden;border-radius:14px;
-  background-image:url("../assets/archive-hero-scene.png");
-  background-repeat:no-repeat;background-position:center;background-size:cover;
-  display:flex;align-items:center;justify-content:center;
+  /* 完全对齐设计稿：底图改用设计稿 hero 的原样渲染图（1080×608，比 1.776）；
+     文字已画在图内、位置即设计稿位置，故 HTML 叠字改为 sr-only（见下）。
+     注意：.gx-basic-body 第二列必须保持 48%，使盒比 = 1.776，否则底图会被拉伸变形 */
+  background-image:url("../assets/archive-hero-scene-design.jpg");
+  background-repeat:no-repeat;background-position:center;
+  background-size:cover;
+  /* 锁定设计稿比例 1.776：任何视口下都不被拉伸/裁切（底图是设计稿原样渲染图，变形即失真） */
+  aspect-ratio:1080/608;
+  align-self:center;   /* 不随行高拉伸，保持比例 */
+  display:block;
 }
-/* 插画叠字：设计稿同构图缺字，按页面绿系补「成长档案 / 记录成长轨迹，见证青春足迹」 */
-.gx-hero-title{
-  position:relative;z-index:2;margin:0;padding:0 10px;
-  font-size:clamp(20px,1.9vw,30px);font-weight:800;letter-spacing:3px;
-  color:#2E5E3A;
-  text-shadow:0 1px 2px rgba(255,255,255,.65);
-}
-.gx-hero-slogan{
-  position:absolute;left:0;right:0;bottom:9%;z-index:2;
-  text-align:center;padding:0 12px;
-  font-size:clamp(11px,.95vw,14px);font-weight:600;letter-spacing:2px;
-  color:#3C7A4E;
-  text-shadow:0 1px 2px rgba(255,255,255,.65);
+/* 底图已含「成长档案」与基座口号（位置即设计稿位置），HTML 叠字改为仅读屏可见，
+   避免与底图文字重影；文案保留在 DOM 中供无障碍与语义使用。 */
+.gx-hero-title,.gx-hero-slogan{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
 }
 
 /* ---------- AI 总结及建议卡（标题 + 年份 Tab + 三栏） ---------- */
@@ -291,9 +358,10 @@
 }
 .gx-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gx-meta time{font-size:12.5px;color:#6B7365;letter-spacing:.2px}
-.gx-tag{font-style:normal;font-size:11.5px;line-height:20px;padding:0 9px;border-radius:4px;color:#FFFFFF;white-space:nowrap}
-.gx-tag-a{background:var(--gx-tag-green)}
-.gx-tag-b{background:var(--gx-tag-blue)}
+/* 设计稿：浅色底 + 深绿/深蓝字 + 胶囊圆角（原为实色底+白字、圆角仅 4px） */
+.gx-tag{font-style:normal;font-size:11.5px;line-height:20px;padding:0 10px;border-radius:10px;white-space:nowrap}
+.gx-tag-a{background:#E1F0D6;color:#3F6A2C}
+.gx-tag-b{background:#DEE9F5;color:#34608A}
 .gx-record p{margin:4px 0 0;font-size:13px;line-height:1.6;color:#333A34}
 .gx-records-empty{flex:1;display:flex;align-items:center;justify-content:center;color:#939B88;font-size:13px}
 
@@ -311,8 +379,15 @@
 @media(max-width:1720px){
   .gx-page--solo{--gx-rail-w:clamp(250px,15.6vw,300px)}
   .gx-brand b{font-size:20px}
-  .gx-item{height:32px;font-size:13.5px}
-  .gx-basic-body{grid-template-columns:minmax(0,1fr) clamp(320px,38%,560px)}
+  /* 竖排页签占宽后胶囊列变窄：同步收紧页签列与胶囊内边距，避免长项被省略号截断 */
+  .gx-group{grid-template-columns:clamp(34px,2.3vw,42px) minmax(0,1fr);gap:clamp(8px,.7vw,11px)}
+  .gx-stage{width:clamp(26px,1.75vw,33px)}
+  .gx-stage-txt{font-size:13px;letter-spacing:2.6px}
+  .gx-item{padding:0 12px;gap:7px}
+  .gx-item .gx-item-ic{width:13px;height:13px}
+  .gx-item{height:clamp(32px,3.7vh,40px);font-size:13.5px}
+  /* 42% 用于维持 hero 盒比 ≈1.776，避免断点内底图被拉伸变形 */
+  .gx-basic-body{grid-template-columns:minmax(0,1fr) clamp(320px,42%,560px)}
   .gx-field{height:clamp(34px,4.1vh,42px)}
   .gx-field b,.gx-field span{font-size:14px}
   .gx-ai-body{grid-template-columns:clamp(230px,20vw,280px) minmax(200px,clamp(210px,18vw,260px)) minmax(0,1fr)}
@@ -321,8 +396,14 @@
 }
 @media(max-width:1440px){
   .gx-tabs button{width:clamp(96px,7.6vw,120px);height:34px;font-size:13.5px}
+  .gx-item{font-size:12.5px;letter-spacing:0;padding:0 9px}
   .gx-basic-head h2,.gx-ai-title{font-size:18px}
   .gx-ai-text p{font-size:12.5px;line-height:1.7}
+  /* 窄屏字段列被 hero 挤压：值改为换行显示，避免「学校/学院」「邮箱」「学号」等被省略号截断。
+     1920 及以上仍为单行（与设计稿一致），此规则只在 ≤1440 生效。 */
+  .gx-field{height:auto;min-height:clamp(30px,3.6vh,38px);padding:4px 0;align-items:flex-start}
+  .gx-field b{line-height:1.45}
+  .gx-field span{white-space:normal;overflow:visible;text-overflow:clip;word-break:break-word;line-height:1.45}
 }
 /* 窄屏 / 低屏：转为自然滚动的流式布局 */
 @media(max-width:1280px),(max-height:760px){
@@ -330,10 +411,11 @@
   .gx-sheet{height:auto;grid-template-rows:none}
   .gx-basic{min-height:340px}
   .gx-ai-card{min-height:520px}
-  .gx-group{gap:6px}
-  .gx-stage{padding:2px 4px 6px}
-  .gx-stage-txt{font-size:12px;letter-spacing:1px}
-  .gx-item{font-size:13px;padding:0 12px;letter-spacing:0}
+  .gx-group{gap:clamp(7px,.7vw,10px);grid-template-columns:clamp(30px,2.1vw,38px) minmax(0,1fr)}
+  .gx-stage{width:clamp(24px,1.7vw,31px)}
+  .gx-stage{padding:5px 0 6px}
+  .gx-stage-txt{font-size:12px;letter-spacing:2px}
+  .gx-item{font-size:12.5px;padding:0 9px;letter-spacing:0}
   .gx-ai-body{grid-template-columns:minmax(0,1fr)}
   .gx-radar{padding:8px 0}
   .gx-radar-svg{max-width:300px}
@@ -341,21 +423,49 @@
 }
 
 /* ============================================================
-   AI 模拟面试详情页（「AI面试」标签下，2×2 网格）
+   AI 模拟面试详情页（「AI面试」标签下）
+   排版分布对齐职业测评详情页：顶部整宽 AI 总结 + 下方左两卡 / 右一卡
    ============================================================ */
+/* 两个详情页共用顶部「AI总结及建议」高度基准：切换页签时顶部区域严格等高。
+   306px 取自职业测评页在 1876×1155 / 1920×1080 下的实测高度 306.5px。 */
+:root { --gx-ai-card-h: 306px; }
+.gx-sheet-assess > .gx-assess-ai,
+.gx-sheet-interview > .gx-ai-card {
+  height: var(--gx-ai-card-h);
+  box-sizing: border-box;
+}
 .gx-sheet-interview {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   height: 100%;
   gap: 12px;
 }
-.gx-sheet-interview > .gx-card {
+.gx-sheet-interview .gx-card {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+/* 下方两栏：左「成绩趋势 + 面试记录」上下叠放，右「AI面试报告」占满整高 */
+.gx-interview-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+.gx-interview-left {
+  display: grid;
+  grid-template-rows: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+}
+/* 左栏卡变矮后，岗位按钮换行会吃掉折线图全部高度：改成单行横向滚动 */
+.gx-sheet-interview .gx-trend-jobs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+.gx-sheet-interview .gx-trend-jobs button { flex: none; }
 /* 面试/测评页：整页（导航 + 网格）一屏高，卡片内部滚动而非撑高整页 */
 .gx-page--solo.gx-page--interview{grid-template-rows:minmax(0,1fr)}
 .gx-page--solo.gx-page--interview .gx-rail,
@@ -363,8 +473,9 @@
 .gx-page--solo.gx-page--assess .gx-rail,
 .gx-page--solo.gx-page--assess .gx-sheet{min-height:0;height:100%}
 
-/* 顶部左：AI 总结及建议（纯文字版） */
-.gx-ai-card-body { padding: 4px 20px 22px; flex: 1; min-height: 0; overflow-y: auto; }
+/* 顶部整宽：AI 总结及建议（纯文字版），内边距与职业测评页 .gx-assess-ai 对齐 */
+.gx-sheet-interview > .gx-ai-card .gx-card-head { padding: 20px 24px 10px; }
+.gx-ai-card-body { padding: 0 24px 22px; flex: 1; min-height: 0; overflow-y: auto; }
 .gx-ai-sub { margin: 14px 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; letter-spacing: .3px; }
 .gx-ai-sub:first-of-type { margin-top: 0; }
 .gx-ai-card-body p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
@@ -449,9 +560,21 @@
 .gx-report-advice h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 700; color: #2F382B; }
 .gx-report-advice p { margin: 0; font-size: 12.5px; line-height: 1.74; color: #3C453A; text-align: justify; text-justify: inter-ideograph; }
 
-/* 窄屏：2×2 退化为单列，随页面自然滚动 */
+/* 窄屏 / 矮屏：改为单列堆叠，卡片定高，整块在 sheet 内滚动
+   （与 .gx-sheet-assess 的堆叠修复同理，绕开祖先 height:100vh + overflow:hidden 的裁切） */
 @media (max-width: 1280px), (max-height: 760px) {
-  .gx-sheet-interview { grid-template-columns: 1fr; grid-template-rows: none; height: auto; }
+  /* 全部退化为普通块级流：grid 容器带 max-height 时会把 auto 行压缩，
+     曾导致 .gx-interview-left 高度归零、左两卡与右报告卡重叠。 */
+  .gx-sheet-interview { display: block; grid-template-rows: none; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-interview > .gx-ai-card { margin-bottom: 12px; }
+  .gx-interview-bottom { display: block; }
+  .gx-interview-left { display: block; }
+  /* 顶部卡改为自然高：测评页堆叠后环形图会换行，固定 306px 会裁掉内容 */
+  .gx-sheet-assess > .gx-assess-ai,
+  .gx-sheet-interview > .gx-ai-card { height: auto; min-height: var(--gx-ai-card-h); }
+  .gx-assess-ai-text { max-height: none; }
+  .gx-interview-left > .gx-card { height: 40vh; min-height: 280px; margin-bottom: 12px; }
+  .gx-interview-bottom > .gx-report { height: 60vh; min-height: 320px; }
   .gx-page--solo.gx-page--interview { height: auto; min-height: 0; }
   .gx-trend-chart { max-height: 220px; }
   .gx-report-head2 { grid-template-columns: 80px minmax(0, 1fr); }
@@ -477,10 +600,10 @@
   padding: 20px 24px;
   min-width: 0;
 }
-/* 文字区限高：整块 AI 卡片维持在 ~310px（对齐设计稿红框），文字超出时在区内上下滚动 */
+/* 文字区限高：跟随两页共用的卡高（306px - 上下 padding 40px），文字超出时在区内上下滚动 */
 .gx-assess-ai-text {
   min-width: 0;
-  max-height: clamp(220px, 30vh, 290px);
+  max-height: calc(var(--gx-ai-card-h) - 40px);
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 8px;
@@ -506,12 +629,27 @@
 .gx-assess-bottom {
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  grid-template-rows: auto minmax(0, 1fr);   /* 行1=页签行，行2=两卡；auto 跟随页签实际高度，换行也不失准 */
   gap: 12px;
   min-height: 0;
   align-items: stretch;
 }
+/* .gx-assess-left 包装已移除（保留规则便于回滚）：tabs / spacer / recs / report 现在是 4 个网格项 */
 .gx-assess-left { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.gx-assess-tabs-spacer { min-height: 0; pointer-events: none; }
 .gx-assess-tabs { display: flex; flex-wrap: wrap; gap: 6px; flex: none; }
+
+/* ===== 设计长图报告：整图铺满 + 卡内滚动 + SVG 姓名补丁 ===== */
+.gx-rpt-image { position: relative; line-height: 0; }  /* 必须：抢回 SVG 的包含块，否则补丁被压到卡片顶端 */
+.gx-rpt-image-src { display: block; width: 100%; height: auto; }
+.gx-rpt-name-patch { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.gx-rpt-name-patch text { font-family: "PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+/* 细滚动条（参照 .gx-assess-ai-text），作用域限定到整图报告容器 */
+.gx-assess-report--full .gx-assess-report-body.gx-rpt-body { scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6; }
+.gx-assess-report--full .gx-assess-report-body.gx-rpt-body::-webkit-scrollbar { width: 8px; }
+.gx-assess-report--full .gx-assess-report-body.gx-rpt-body::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-assess-report--full .gx-assess-report-body.gx-rpt-body::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+.gx-assess-report--full .gx-assess-report-body.gx-rpt-body::-webkit-scrollbar-thumb:hover { background: #8FB273; }
 .gx-assess-tabs button {
   height: 32px; padding: 0 6px; border-radius: 16px; border: 1px solid #E5E4D9; background: #F7F6F0;
   font-size: 12px; color: #5A6450; font-family: inherit; cursor: pointer;
@@ -542,6 +680,66 @@
 .gx-arec-status { font-size: 11.5px; color: #5C7E3C; background: #E7EFD6; border-radius: 5px; padding: 1px 8px; line-height: 18px; white-space: nowrap; }
 .gx-arec-illu { width: 34px; height: 34px; display: block; opacity: .92; }
 .gx-arec-illu svg { width: 34px; height: 34px; display: block; }
+
+/* ============================================================
+   v35 · 测评页左栏（页签行 + 测评记录卡）配色对齐右侧报告长图
+   报告主色取自 enfp-assessment-report-design-4x.jpg：
+     标题/强调 #20CFAE、顶部薄荷渐变 #A2F0C0、浅青带 #EAFCF6 / #F0FCFC。
+   原配色为暖调橄榄绿 #8AA96D + 米黄 #FBFAF4，与报告的冷调青绿不搭。
+   本区块集中覆盖 653–682 行；删掉整块即可回滚到 v34 配色。
+   ============================================================ */
+.gx-sheet-assess {
+  --gx-teal: #20CFAE;        /* 主强调：报告标题色 */
+  --gx-teal-deep: #0FA98C;   /* 深青：小字可读 */
+  --gx-teal-line: #CDEDE4;   /* 描边 */
+  --gx-teal-bg: #F5FDFB;     /* 记录项底色 */
+  --gx-teal-wash: #EAFCF6;   /* 激活项 / 滚动条轨道 */
+  --gx-teal-ink: #254A43;    /* 标题深青灰 */
+  --gx-teal-mute: #5B7570;   /* 次要文字 */
+}
+/* 页签按钮：未激活浅青白、激活青绿渐变 */
+.gx-sheet-assess .gx-assess-tabs button {
+  border: 1px solid var(--gx-teal-line);
+  background: #F2FCFA;
+  color: #4A6A63;
+}
+.gx-sheet-assess .gx-assess-tabs button:hover { background: #E4FAF3; border-color: #8FE0C8; }
+.gx-sheet-assess .gx-assess-tabs button.active {
+  background: linear-gradient(96deg, #20CFAE, #4AD9BC);
+  border-color: #20CFAE;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(32, 207, 174, .22);
+}
+/* 记录卡：极淡青白顶渐变，呼应报告头部的薄荷渐变 */
+.gx-sheet-assess .gx-assess-recs { background: linear-gradient(180deg, #F5FDFB 0%, #FFFFFF 132px); }
+.gx-sheet-assess .gx-assess-recs-title { color: var(--gx-teal-ink); }
+/* 记录项：米黄底 → 浅青白，激活态用报告同款浅青渐变带 */
+.gx-sheet-assess .gx-arec {
+  border: 1px solid #D8F0E8;
+  background: var(--gx-teal-bg);
+}
+.gx-sheet-assess .gx-arec:hover { border-color: #8FE0C8; background: #EFFCF8; }
+.gx-sheet-assess .gx-arec.active {
+  border-color: var(--gx-teal);
+  background: linear-gradient(100deg, var(--gx-teal-wash) 0%, var(--gx-teal-bg) 100%);
+  box-shadow: 0 2px 10px rgba(32, 207, 174, .18);
+}
+.gx-sheet-assess .gx-arec-head b { color: var(--gx-teal-ink); }
+/* 蓝色类型徽章 / 橄榄绿状态徽章 → 青绿系 */
+.gx-sheet-assess .gx-arec-badge { color: var(--gx-teal-deep); background: #DCF7EF; }
+.gx-sheet-assess .gx-arec-status { color: var(--gx-teal-deep); background: #DCF7EF; }
+.gx-sheet-assess .gx-arec-traits { color: var(--gx-teal-mute); }
+.gx-sheet-assess .gx-arec-time { color: #93AFA9; }
+/* 列表内头像插画（SVG presentation attribute 可被 CSS 覆盖，不影响 gxFullReport 回滚路径） */
+.gx-sheet-assess .gx-arec-illu svg circle:first-child { fill: #DCF7EF; }
+.gx-sheet-assess .gx-arec-illu svg circle:nth-child(2),
+.gx-sheet-assess .gx-arec-illu svg path { fill: #7FD9BE; }
+/* 细滚动条与报告卡同款青绿 */
+.gx-sheet-assess .gx-arec-list { scrollbar-width: thin; scrollbar-color: #7FD9BE var(--gx-teal-wash); }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar { width: 8px; }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-track { background: var(--gx-teal-wash); border-radius: 4px; }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb:hover { background: var(--gx-teal); }
 
 /* 测评报告卡 */
 .gx-assess-report {
@@ -658,9 +856,338 @@
 .gx-rpt-foot p { margin: 0 0 3px; font-size: 11px; color: #8A937E; line-height: 1.5; }
 
 @media (max-width: 1280px), (max-height: 760px) {
-  .gx-sheet-assess { grid-template-rows: none; height: auto; }
+  /* 堆叠成单列时祖先仍是 height:100vh + overflow:hidden（<=1180px 才整页滚动），
+     让 sheet 自身可滚，避免 1180<w<=1280 且 h>760 / w>1280 且 h<=760 两个窗口内容被裁。 */
+  .gx-sheet-assess { grid-template-rows: none; height: auto; max-height: 100%; overflow-y: auto; }
   .gx-assess-ai { grid-template-columns: 1fr; gap: 16px; }
   .gx-assess-ai-viz { justify-content: center; }
-  .gx-assess-bottom { grid-template-columns: 1fr; }
+  .gx-assess-bottom { grid-template-columns: 1fr; grid-template-rows: none; }
+  .gx-assess-tabs-spacer { display: none; }
+  /* 给两张卡确定高度（而非仅 max-height）：否则堆叠时 grid 行被压缩到约 130px，长图几乎不可读 */
+  .gx-assess-recs { height: 40vh; min-height: 200px; }
+  .gx-assess-report { height: 60vh; min-height: 320px; }
   .gx-dim-row { grid-template-columns: 84px minmax(0, 1fr) 84px; }
+}
+
+/* ============================================================
+   v36 · 普通模块标签详情页（16 个）版式对齐职业测评详情页
+   分布：顶部整宽「AI总结及建议」（复用 gxAssessAi，高度共用 --gx-ai-card-h=306px）
+        + 下方左「模块记录」/ 右「模块说明」两栏。
+   原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。
+   删掉本区块 + 还原 js 里的 gxSheet 即可回滚到 v35。
+   ============================================================ */
+.gx-sheet-module {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-sheet-module > .gx-assess-ai {
+  height: var(--gx-ai-card-h);
+  box-sizing: border-box;
+}
+.gx-module-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+.gx-module-bottom > .gx-card {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* 两栏内容都很少：左卡空态、右卡提示文案垂直居中，避免「顶部一行字 + 大片空白」 */
+.gx-module-bottom > .gx-module,
+.gx-module-bottom > .gx-bottom,
+.gx-module-bottom .gx-hint { flex: 1; }
+.gx-module-bottom .gx-hint { display: flex; flex-direction: column; justify-content: center; }
+
+/* 窄屏 / 矮屏：整条链退化为块级流（沿用 v34 修 grid 压缩导致卡片重叠的做法） */
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-module { display: block; grid-template-rows: none; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-module > .gx-assess-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
+  .gx-module-bottom { display: block; }
+  .gx-module-bottom > .gx-card { height: 44vh; min-height: 260px; margin-bottom: 12px; }
+}
+
+/* ============================================================
+   v37 · AI 面试页：顶部整宽卡改左右两栏 + 右栏换真实报告长图
+   顶部：左「AI总结及建议」文字 / 右整块「成绩趋势」（用户图 1 红框 + 右上角箭头）
+   下方：左「面试记录」整高 / 右「AI面试报告」设计长图整高、卡内滚动
+   高度沿用 --gx-ai-card-h=306px；删本区块 + 还原 js 的 gxInterviewSheet 即可回滚 v36。
+   ============================================================ */
+.gx-sheet-interview .gx-card.gx-interview-top {
+  height: var(--gx-ai-card-h);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: stretch;
+}
+.gx-interview-top-ai {
+  min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding: 20px 24px 18px;
+  border-right: 1px solid #EAF1EC;
+}
+.gx-interview-top-h { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: #2F382B; letter-spacing: .3px; flex: none; }
+.gx-interview-top-sub { margin: 0 0 10px; font-size: 12px; color: var(--gx-muted); flex: none; }
+.gx-interview-top-text {
+  flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-right: 6px;
+  scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6;
+}
+.gx-interview-top-text::-webkit-scrollbar { width: 7px; }
+.gx-interview-top-text::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-interview-top-text::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+.gx-interview-top-text p {
+  margin: 0 0 8px; font-size: 12.5px; line-height: 1.74; color: #3C453A;
+  text-align: justify; text-justify: inter-ideograph;
+}
+.gx-interview-top-text p:last-child { margin-bottom: 0; }
+/* 右栏：整块成绩趋势压进 306px，收紧字号与间距，折线图仍保留 */
+.gx-interview-top-trend {
+  min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding: 14px 0 6px;
+  overflow: hidden;
+}
+.gx-interview-top-trend .gx-card-head { padding: 0 18px 8px; align-items: center; }
+.gx-interview-top-trend .gx-card-titles h3 { font-size: 15px; }
+.gx-interview-top-trend .gx-card-titles p { font-size: 11.5px; }
+.gx-interview-top-trend .gx-trend-modes button { height: 26px; padding: 0 10px; font-size: 12px; }
+.gx-interview-top-trend .gx-trend-jobs { padding: 0 18px 6px; }
+.gx-interview-top-trend .gx-trend-jobs button { height: 28px; padding: 0 9px; font-size: 11.5px; }
+.gx-interview-top-trend .gx-trend-legend { padding: 0 18px 4px; }
+.gx-interview-top-trend .gx-trend-chart { flex: 1; min-height: 0; padding: 0 14px 2px; }
+.gx-interview-top-trend .gx-linechart { max-height: 190px; }
+/* 真实报告长图：整图铺满 + 卡内滚动（复用 v32 的 .gx-rpt-image 定位体系） */
+.gx-report.gx-report--image { padding: 0; }
+.gx-report--image .gx-report-body.gx-rpt-body {
+  display: block; padding: 0; gap: 0;
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin; scrollbar-color: #7FD9BE #EAFCF6;
+}
+.gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar { width: 8px; }
+.gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-track { background: #EAFCF6; border-radius: 4px; }
+.gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
+.gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-thumb:hover { background: #20CFAE; }
+.gx-report--image .gx-rpt-name-patch text { font-family: "PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-interview .gx-card.gx-interview-top {
+    height: auto; min-height: var(--gx-ai-card-h);
+    grid-template-columns: 1fr; margin-bottom: 12px;
+  }
+  .gx-interview-top-ai { border-right: 0; border-bottom: 1px solid #EAF1EC; padding-bottom: 14px; }
+  .gx-interview-top-text { max-height: none; overflow: visible; }
+  .gx-interview-top-trend { height: 270px; }
+  .gx-interview-bottom > .gx-recs-card { height: 44vh; min-height: 280px; margin-bottom: 12px; }
+  .gx-interview-bottom > .gx-report--image { height: 80vh; min-height: 420px; }
+}
+
+/* ============================================================
+   v38 · AI 面试页：报告改 HTML 矢量 + 顶部合成一个区域 + 最近 10 次统计
+   1) 报告：221x1920 位图发虚且本地无高清原图 → 全部用矢量文字/SVG 重绘，锐利。
+   2) 顶部：去掉右侧「成绩趋势」标题/副标题/切换按钮与中间竖分隔线，
+      左右同属一张卡「一个区域」；右栏无标题，集中统计条 + 10 点折线 + 10 行明细。
+   3) 高度仍锁 --gx-ai-card-h=306px，右栏内部滚动。
+   删本区块并把 js 的 gxInterviewVectorReport/gxInterviewStatsInner 换回 v37 函数即可回滚。
+   ============================================================ */
+
+/* --- 顶部「一个区域」：无分隔线 --- */
+.gx-interview-top-ai { border-right: 0; border-bottom: 0; }
+.gx-interview-top-stats {
+  min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding: 13px 18px 12px 12px;
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin; scrollbar-color: #9BE3CE #F0FAF6;
+}
+.gx-interview-top-stats::-webkit-scrollbar { width: 7px; }
+.gx-interview-top-stats::-webkit-scrollbar-track { background: #F0FAF6; border-radius: 4px; }
+.gx-interview-top-stats::-webkit-scrollbar-thumb { background: #9BE3CE; border-radius: 4px; }
+
+/* 统计条 */
+.gx-istat-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: none; }
+.gx-istat-card {
+  min-width: 0; padding: 7px 10px 8px;
+  border: 1px solid #D6F2E7; border-radius: 10px;
+  background: linear-gradient(160deg, #F0FCF7, #E6F9F1);
+}
+.gx-istat-card span { display: block; font-size: 11px; color: #5B8577; white-space: nowrap; }
+.gx-istat-card b { display: block; margin-top: 1px; font-size: 20px; line-height: 1.2; font-weight: 800; color: #0FA98C; }
+.gx-istat-card em { margin-left: 2px; font-size: 11px; font-style: normal; font-weight: 600; color: #4E9C85; }
+
+/* 10 点成绩趋势 */
+.gx-istat-chart { flex: none; height: 116px; margin: 10px 0 9px; }
+.gx-istat-svg { display: block; width: 100%; height: 100%; }
+
+/* 最近 10 次明细 */
+.gx-istat-list { flex: none; border: 1px solid #E5F3EC; border-radius: 10px; overflow: hidden; }
+.gx-istat-row {
+  display: grid; grid-template-columns: 62px 52px minmax(0, 1fr) 56px;
+  align-items: center; gap: 6px; height: 27px; padding: 0 10px;
+  border-top: 1px solid #F0F7F3; font-size: 11.5px; color: #3C5148;
+}
+.gx-istat-row:first-child { border-top: 0; }
+.gx-istat-row--head { height: 26px; border-top: 0; background: #F3FBF7; color: #5B8577; font-size: 11px; font-weight: 700; }
+.gx-istat-seq { color: #6C8A7E; }
+.gx-istat-date { color: #8AA79A; }
+.gx-istat-job { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-istat-score, .gx-istat-row--head span:last-child { text-align: right; }
+.gx-istat-score { font-weight: 700; color: #0FA98C; }
+
+/* --- HTML 矢量 AI 面试报告（薄荷青绿，复刻真实报告视觉） --- */
+.gx-report.gx-report--vector { padding: 0; }
+.gx-ir-scroll {
+  flex: 1; min-height: 0;
+  overflow-y: auto; overflow-x: hidden;
+  background: linear-gradient(180deg, #CFF5E6 0, #E9F9F2 190px, #E9F9F2 100%);
+  scrollbar-width: thin; scrollbar-color: #7FD9BE #DFF6EC;
+}
+.gx-ir-scroll::-webkit-scrollbar { width: 8px; }
+.gx-ir-scroll::-webkit-scrollbar-track { background: #DFF6EC; border-radius: 4px; }
+.gx-ir-scroll::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
+.gx-ir-scroll::-webkit-scrollbar-thumb:hover { background: #20CFAE; }
+
+.gx-ir-hero {
+  position: relative; height: 78px; flex: none;
+  display: grid; place-items: center;
+  background: linear-gradient(118deg, #A2F0C0 0%, #C4F5DC 40%, #DDF8F1 100%);
+  overflow: hidden;
+}
+.gx-ir-hero-deco {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255,255,255,.5) 0 7px, transparent 8px),
+    radial-gradient(circle at 86% 78%, rgba(255,255,255,.42) 0 12px, transparent 13px),
+    radial-gradient(circle at 68% 12%, rgba(32,207,174,.14) 0 26px, transparent 27px);
+}
+.gx-ir-hero-title { position: relative; font-size: 21px; font-weight: 800; letter-spacing: 2px; color: #0E9E82; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.gx-ir-ai {
+  position: absolute; right: 15px; top: 13px; width: 27px; height: 27px;
+  border-radius: 8px; display: grid; place-items: center;
+  background: linear-gradient(135deg, #4BD3B2, #20CFAE); color: #fff;
+  font-size: 11px; font-weight: 800; box-shadow: 0 3px 9px rgba(32,207,174,.3);
+}
+.gx-ir-body { position: relative; margin-top: -16px; padding: 0 12px 16px; }
+.gx-ir-person {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; border-radius: 14px; background: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(32,120,100,.09);
+}
+.gx-ir-avatar { width: 54px; height: 54px; flex: none; border-radius: 50%; overflow: hidden; }
+.gx-ir-avatar svg { display: block; width: 100%; height: 100%; }
+.gx-ir-person-info { flex: 1; min-width: 0; }
+.gx-ir-person-info > b { display: block; margin-bottom: 6px; font-size: 15px; font-weight: 700; color: #253F37; }
+.gx-ir-meta { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px; }
+.gx-ir-meta li { display: flex; gap: 5px; min-width: 0; font-size: 11px; color: #43635A; }
+.gx-ir-meta li span { flex: none; color: #8AA79A; }
+.gx-ir-meta li em { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-style: normal; font-weight: 600; }
+
+.gx-ir-sec { margin-top: 14px; }
+.gx-ir-sec-h { display: flex; align-items: center; gap: 6px; margin: 0 0 7px; font-size: 13px; font-weight: 800; color: #0E9E82; }
+.gx-ir-sec-h i {
+  width: 20px; height: 20px; flex: none; border-radius: 6px;
+  display: grid; place-items: center; font-style: normal; font-size: 11px; color: #fff;
+  background: linear-gradient(135deg, #7FE0C4, #20CFAE);
+}
+.gx-ir-card { padding: 12px 13px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 4px 14px rgba(32,120,100,.06); }
+.gx-ir-p { margin: 0 0 8px; font-size: 11.8px; line-height: 1.8; color: #3C5148; text-align: justify; text-justify: inter-ideograph; }
+.gx-ir-p:last-child { margin-bottom: 0; }
+.gx-ir-p b { color: #0FA98C; }
+
+.gx-ir-bars { margin: 2px 0 10px; }
+.gx-ir-bar-head, .gx-ir-bar-row { display: grid; grid-template-columns: 84px minmax(0, 1fr) 78px; gap: 8px; align-items: center; }
+.gx-ir-bar-head {
+  padding: 6px 10px; border-radius: 7px; font-size: 10.5px; font-weight: 700; color: #fff;
+  background: linear-gradient(96deg, #8C86D6, #6FC9D6 52%, #20CFAE);
+}
+.gx-ir-bar-head span:last-child { text-align: right; }
+.gx-ir-bar-row { padding: 6px 10px 0; font-size: 11px; }
+.gx-ir-bar-lab { color: #43635A; white-space: nowrap; }
+.gx-ir-bar-track { height: 9px; border-radius: 5px; overflow: hidden; background: #EAF6F1; }
+.gx-ir-bar-track i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #5CDDBB, #20CFAE); }
+.gx-ir-bar-val { text-align: right; font-weight: 700; color: #0FA98C; }
+.gx-ir-bar-val em { margin-left: 2px; font-style: normal; font-weight: 400; color: #9DB6AC; }
+
+.gx-ir-pass { display: flex; gap: 9px; padding: 10px 11px; border: 1px solid #A8E9D1; border-radius: 9px; background: linear-gradient(96deg, #DFF9EE, #C9F4E2); }
+.gx-ir-pass-ico { width: 20px; height: 20px; flex: none; border-radius: 6px; display: grid; place-items: center; background: #20CFAE; color: #fff; font-size: 12px; font-weight: 800; }
+.gx-ir-pass b { font-size: 12px; color: #0E7F68; }
+.gx-ir-pass p { margin: 4px 0 0; font-size: 11.3px; line-height: 1.7; color: #3C6A5B; }
+.gx-ir-tips { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.gx-ir-tips li { display: flex; gap: 8px; align-items: flex-start; font-size: 11.3px; line-height: 1.6; color: #43635A; }
+.gx-ir-tips i { width: 17px; height: 17px; flex: none; border-radius: 5px; display: grid; place-items: center; background: #E3F8F0; color: #0FA98C; font-style: normal; font-size: 10px; font-weight: 800; }
+.gx-ir-foot { margin: 14px 0 0; text-align: center; font-size: 10.5px; line-height: 1.6; color: #7FA99A; }
+
+/* 窄屏 / 矮屏堆叠：顶部卡单列时统计区给确定高度，报告卡沿用 60vh */
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-interview-top-ai { border-right: 0; border-bottom: 0; }
+  .gx-interview-top-stats { height: 300px; max-height: none; padding: 12px 18px 14px; }
+  .gx-interview-bottom > .gx-report--vector { height: 60vh; min-height: 320px; }
+}
+
+/* ============================================================
+   v40 · AI 面试报告区域 = 这一张原图，什么都不加
+   用户原话「我只要你把AI面试报告区域用这种图展示」：撤掉 v39 额外加的
+   「适应宽度 / 原图 1:1」切换按钮与 is-native 状态，报告卡里就是这张 221x1920 源文件。
+   默认按原生 221px 1:1 显示（不放大、不插值），居中在浅青底上、卡内上下滚动。
+   作用域严格限定 .gx-report--image（仅 AI 面试报告），
+   不影响职业测评页 ENFP / 职业倾向两张报告图的铺满显示。
+   ============================================================ */
+.gx-report--image .gx-report-body.gx-rpt-body {
+  background: linear-gradient(180deg, #E6F8F0 0%, #DDF5EC 100%);
+}
+.gx-report--image .gx-rpt-image {
+  width: 221px; max-width: none; margin: 0 auto;
+  background: #FFFFFF;
+  box-shadow: 0 6px 22px rgba(32,120,100,.14);
+}
+
+/* ============================================================
+   v44 · AI 面试页右上角按设计图重做「成绩趋势」卡
+   图：青绿竖条标题 + 总分趋势/维度对比分段切换 + 0–100 轴虚线网格
+       平滑折线（空心圆点）+ 右下角「仅展示已完成的面试记录」。
+   撤掉 v38 的 10 次统计条 / 10 行岗位明细（对应 CSS 保留为死规则，可回滚）。
+   作用域严格限定 .gx-sheet-interview，不影响职业测评页 / 普通模块页。
+   回滚：删本区块 + gxInterviewTop() 右栏换回 gxInterviewStatsInner()。
+   ============================================================ */
+.gx-sheet-interview .gx-interview-top-trend-card {
+  min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  padding: 15px 18px 10px 14px;
+  overflow: hidden;
+}
+.gx-tr-head { display: flex; align-items: center; gap: 9px; flex: none; margin-bottom: 11px; }
+.gx-tr-bar { width: 4px; height: 19px; border-radius: 2px; background: #20CFAE; flex: none; }
+.gx-tr-head h3 { margin: 0; font-size: 17px; font-weight: 700; color: #23312C; letter-spacing: .4px; }
+.gx-tr-modes {
+  flex: none; display: grid; grid-template-columns: 1fr 1fr;
+  padding: 4px; border-radius: 12px; background: #EAFBF6; margin-bottom: 8px;
+}
+.gx-tr-modes button {
+  height: 32px; border: 0; border-radius: 9px; background: transparent;
+  font-family: inherit; font-size: 13px; font-weight: 700; color: #20A98C; cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.gx-tr-modes button.active {
+  background: linear-gradient(100deg, #20CFAE, #12BFA0);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(18, 191, 160, .28);
+}
+.gx-tr-legend {
+  flex: none; display: flex; flex-wrap: wrap; gap: 3px 12px;
+  margin: 0 0 2px; font-size: 10.5px; color: #5B7570;
+}
+.gx-tr-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.gx-tr-legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.gx-tr-chart { flex: 1; min-height: 0; }
+.gx-tr-svg { display: block; width: 100%; height: 100%; }
+.gx-tr-note { flex: none; text-align: right; font-size: 11px; color: #A9B7B2; margin-top: 1px; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-interview .gx-interview-top-trend-card { height: 280px; }
 }

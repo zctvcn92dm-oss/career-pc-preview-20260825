@@ -5,22 +5,24 @@
   /* ---------- 1. 数据 ---------- */
   ca.basicInfo = {
     gradeYear: '2025—2026学年', school: '测试学校 · 数字创意学院',
-    name: '林晓宇', gender: '女',
+    name: '杨强', gender: '女',
     studentNo: '2025070806', idCard: '4301**********1234',
     education: '本科', phone: '138****6688',
-    major: '数字媒体技术', email: 'linxy@stu.test.edu.cn',
+    major: '数字媒体技术', email: 'yangq@stu.test.edu.cn',
     enrollDate: '2025年9月', duration: '四年',
     className: '数字媒体2501班', campusCard: 'C2025-07086'
   };
 
-  /* 左侧导航：阶段分组对齐全局侧栏词汇（生涯成长/学习与认知/体验与辅导/AI应用/赛事与我的） */
+  /* 左侧导航：阶段分组对齐全局侧栏词汇（生涯成长/学习与认知/体验与辅导/AI应用/赛事与我的）
+     icon: 1=标签块顶部有绿色嫩芽图标。设计稿里「基本信息/职业探索/职业实训/就业实习」有图标，
+     「职业规划/竞赛成长」只有竖排文字没有图标，此处照设计稿保留这个差异 */
   ca.sideTagGroups = [
-    { stage: '', tags: ['基本信息'] },
-    { stage: '职业探索', tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
-    { stage: '职业规划', tags: ['生涯体验周', '生涯活动'] },
-    { stage: '职业实训', tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
-    { stage: '竞赛成长', tags: ['大学生职业规划大赛', '大学生创新大赛'] },
-    { stage: '就业实习', tags: ['毕业意向', '宣讲会', '双选会'] },
+    { stage: '', icon: 1, tags: ['基本信息'] },
+    { stage: '职业探索', icon: 1, tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
+    { stage: '职业规划', icon: 0, tags: ['生涯体验周', '生涯活动'] },
+    { stage: '职业实训', icon: 1, tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
+    { stage: '竞赛成长', icon: 0, tags: ['大学生职业规划大赛', '大学生创新大赛'] },
+    { stage: '就业实习', icon: 1, tags: ['毕业意向', '宣讲会', '双选会'] },
     { stage: '', tags: ['AI助理'] }
   ];
 
@@ -117,27 +119,56 @@
     diag: '基于该生成长档案中历次 AI 面试数据的纵向追踪，整体呈「稳步向好、仍有短板」的态势。首次测评时自我介绍存在卡顿与重建，回答结构不够完整；经历多轮模拟练习后，语言流畅度与表达逻辑明显提升，综合分数稳步上升。当前主要短板在于：一是岗位匹配度判断不够精准，回答与目标岗位的胜任要求贴合度有限；二是对岗位的业务流程与事务性工作了解不足，细致度与规范意识有待补强；三是临场应变与语调把控偏弱，面对追问易出现紧张。总体判断：该生已具备面试的基本素养，但距离从「能对答」到「能胜任」仍有差距，岗位匹配与临场应变是主要突破方向。',
     advice: '学生本人应面向目标岗位的任职要求，系统梳理学习与实践经历，运用 STAR 法组织 2—3 个结果导向的核心案例，突出人岗匹配度；针对薄弱环节，可通过招聘信息拆解、岗位职责分析、行业与企业研究等方式补齐认知短板，提升岗位胜任力。院校可依托真实招聘信息安排三次以上模拟面试，形成「训练—复盘—再练」的闭环，并在反馈中聚焦表达结构、语调节奏与应变策略，逐步缩小与岗位要求的差距。'
   };
+  /* v38：补齐为「最近 10 次」完整序列。seq / date 供右上角统计条、10 点折线、
+     10 行明细与下方「面试记录」卡共用同一数据源，保证「累计 10 次」口径不冲突。 */
   ca.interviewRecords = [
-    { id: 'r1', job: '行政专员', score: 68, status: 'pass',
+    { id: 'r1', seq: 1, date: '09-08', job: '行政专员', score: 68, status: 'pass',
       dims: { '专业知识': 72, '表达流畅度': 78, '学习潜力': 60, '行业趋势': 55 },
-      report: { comment: '林晓宇同学在本场行政专员模拟面试中表现达到通过线。自我介绍结构完整，能结合校园行政助理经历说明事务性工作能力；在「表达流畅度」维度尤为突出，应答节奏稳定、用词得体、过渡自然。建议在「行业趋势」维度继续补强——对行政职能的数字化、合规化发展趋势了解偏浅，可通过阅读行业报告、关注办公室管理新规补齐认知短板，并准备 1—2 个流程优化的具体案例以增强岗位说服力。' } },
-    { id: 'r2', job: 'PHP开发工程师', score: 72, status: 'comment',
+      report: { comment: '杨强同学在本场行政专员模拟面试中表现达到通过线。自我介绍结构完整，能结合校园行政助理经历说明事务性工作能力；在「表达流畅度」维度尤为突出，应答节奏稳定、用词得体、过渡自然。建议在「行业趋势」维度继续补强——对行政职能的数字化、合规化发展趋势了解偏浅，可通过阅读行业报告、关注办公室管理新规补齐认知短板，并准备 1—2 个流程优化的具体案例以增强岗位说服力。' } },
+    { id: 'r2', seq: 2, date: '09-15', job: 'PHP开发工程师', score: 72, status: 'comment',
       dims: { '专业知识': 80, '表达流畅度': 70, '学习潜力': 66, '行业趋势': 58 },
       report: { comment: '本场 PHP 开发工程师模拟面试在「专业知识」维度表现扎实，能准确阐述框架选型、数据库索引等核心技术点，并举例课程项目中的接口开发经验。相对薄弱的是「表达流畅度」——被追问高并发场景时语速加快、出现重复表述。建议通过限时演练提升临场稳定性，答题前用 2 秒梳理要点，并在回答结尾用一句话收束核心结论，让面试官更快抓住重点。' } },
-    { id: 'r3', job: '大客户销售', score: 65, status: 'fail',
+    { id: 'r3', seq: 3, date: '09-22', job: '大客户销售', score: 65, status: 'fail',
       dims: { '专业知识': 60, '表达流畅度': 74, '学习潜力': 62, '行业趋势': 57 },
       report: { comment: '本场大客户销售模拟面试未达通过线。主要失分在「行业趋势」与「专业知识」：对 To B 销售的方法论（如 SPIN、客户成功体系）掌握不足，回答偏重通用话术、缺少对目标行业的理解，解决方案式表达不够充分。建议在复盘环节先完整复述面试官问题、再分层作答，并针对销售场景做专项话术训练，重点补强行业认知与结构化表达。' } },
-    { id: 'r4', job: '研发技术助理', score: 70, status: 'generated',
+    { id: 'r4', seq: 4, date: '09-29', job: '研发技术助理', score: 70, status: 'generated',
       dims: { '专业知识': 75, '表达流畅度': 68, '学习潜力': 72, '行业趋势': 60 },
       report: { comment: '本场研发技术助理模拟面试报告已生成。综合评分 70 分，各维度发展较均衡：「学习潜力」与「专业知识」表现较好，能结合实验课程说明问题排查思路；「表达流畅度」略有提升空间。系统建议后续关注「行业趋势」维度的补强，并围绕一次完整的排障经历用 STAR 法组织作答，提升人岗匹配度与回答的条理性。' } },
-    { id: 'r5', job: '爬虫开发工程师', score: 60, status: 'pass',
+    { id: 'r5', seq: 5, date: '10-08', job: '爬虫开发工程师', score: 60, status: 'pass',
       dims: { '专业知识': 64, '表达流畅度': 58, '学习潜力': 62, '行业趋势': 52 },
       report: { comment: '本场爬虫开发工程师模拟面试达到通过线。技术基础扎实，能清晰说明反爬策略与数据清洗流程，「专业知识」维度表现稳定。短板在「行业趋势」——对数据采集的合规边界与行业监管动态了解不足。建议补充数据合规相关知识，并在表达上采用「先结论、后细节」的结构，让面试官更快地抓住回答重点。' } },
-    { id: 'r6', job: '系统架构设计师', score: 74, status: 'comment',
+    { id: 'r6', seq: 6, date: '10-15', job: '系统架构设计师', score: 74, status: 'comment',
       dims: { '专业知识': 82, '表达流畅度': 72, '学习潜力': 70, '行业趋势': 66 },
-      report: { comment: '本场系统架构设计师模拟面试综合评分 74 分，「专业知识」维度亮眼，能就高可用、扩展性给出有层次的方案。需在「表达流畅度」上进一步精炼——方案阐述较长、偶有发散。建议用「目标—约束—取舍」的结构组织回答，并针对架构演进路径准备 1 个端到端案例，强化系统设计叙事的完整性，避免细节淹没主线。' } }
+      report: { comment: '本场系统架构设计师模拟面试综合评分 74 分，「专业知识」维度亮眼，能就高可用、扩展性给出有层次的方案。需在「表达流畅度」上进一步精炼——方案阐述较长、偶有发散。建议用「目标—约束—取舍」的结构组织回答，并针对架构演进路径准备 1 个端到端案例，强化系统设计叙事的完整性，避免细节淹没主线。' } },
+    { id: 'r7', seq: 7, date: '10-22', job: '数字媒体运营', score: 71, status: 'pass',
+      dims: { '专业知识': 74, '表达流畅度': 76, '学习潜力': 70, '行业趋势': 64 },
+      report: { comment: '本场数字媒体运营模拟面试达到通过线。能结合课程项目说明内容选题、投放复盘与数据指标之间的关系，「表达流畅度」与「专业知识」表现稳定。需补强的是「行业趋势」——对短视频平台算法变化与内容合规要求了解偏浅。建议梳理 1 个从选题到复盘完整闭环的运营案例，用数据说明自己的判断依据，并关注平台规则更新。' } },
+    { id: 'r8', seq: 8, date: '10-29', job: '产品经理助理', score: 73, status: 'comment',
+      dims: { '专业知识': 76, '表达流畅度': 74, '学习潜力': 75, '行业趋势': 67 },
+      report: { comment: '本场产品经理助理模拟面试综合评分 73 分，需求分析环节能主动澄清用户场景与约束条件，「学习潜力」维度较为突出。回答的不足在于方案阐述偏发散，优先级判断缺少明确依据。建议用「用户—场景—价值—成本」四步组织作答，先给结论再展开，并准备 1 个需求取舍案例说明如何权衡实现成本与体验收益。' } },
+    { id: 'r9', seq: 9, date: '11-03', job: '前端开发工程师', score: 75, status: 'generated',
+      dims: { '专业知识': 80, '表达流畅度': 73, '学习潜力': 76, '行业趋势': 70 },
+      report: { comment: '本场前端开发工程师模拟面试报告已生成。综合评分 75 分，「专业知识」与「学习潜力」表现较好，能清楚说明组件化设计、状态管理与性能优化的基本思路，并举例课程项目中的首屏加载优化。建议继续补强「行业趋势」，关注前端工程化与跨端方案的发展；回答技术选型时用「约束—备选—取舍」结构收束，避免只罗列技术名词。' } },
+    { id: 'r10', seq: 10, date: '11-05', job: '数据分析师', score: 76, status: 'pass',
+      dims: { '专业知识': 82, '表达流畅度': 75, '学习潜力': 78, '行业趋势': 72 },
+      report: { comment: '本场数据分析师模拟面试表现达到通过线，是近期 10 次训练中的最好成绩。能完整说明指标拆解、数据清洗与结论验证的流程，并主动指出样本偏差对结论的影响，「专业知识」与「学习潜力」均有明显提升。后续建议聚焦「行业趋势」与业务理解：在回答中补充结论对业务决策的实际价值，并针对一次完整分析项目用 STAR 法准备端到端案例，进一步缩小与岗位要求的差距。' } }
   ];
   ca.interviewStatusText = { pass: '已通过', fail: '未通过', comment: '已点评', generated: '已生成' };
+  /* v38：最近 10 次统计视图（按 seq 时间正序），右上角所有统计与明细的唯一数据源 */
+  ca.interviewHistory = ca.interviewRecords.slice().sort(function (a, b) { return a.seq - b.seq; });
+  ca.interviewStats = (function () {
+    var h = ca.interviewHistory;
+    var sum = h.reduce(function (s, r) { return s + r.score; }, 0);
+    var max = h.reduce(function (m, r) { return Math.max(m, r.score); }, 0);
+    var pass = h.filter(function (r) { return r.status === 'pass'; }).length;
+    return {
+      count: h.length,
+      avg: (sum / h.length).toFixed(1),
+      max: max,
+      delta: h[h.length - 1].score - h[0].score,
+      pass: pass
+    };
+  })();
   if (!activeReportId && ca.interviewRecords[0]) activeReportId = ca.interviewRecords[0].id;
 
   /* ---------- 1c. 职业测评数据 ---------- */
@@ -164,6 +195,16 @@
     ],
     '职业性格测评': [
       { title: '竞选者 ENFP型', type: '职业性格测评', traits: '外向、直觉、情感、知觉', time: '2025-09-13 00:14', status: '已生成',
+        /* 源设计图仅 344x1920，铺满卡片时浏览器要放大 1.63x（Retina 3.26x），小字发虚。
+           改用 4x LANCZOS + 轻度锐化版（1376x7680，与原图严格等比），浏览器改为缩小显示。
+           w/h 是 SVG 补丁的逻辑坐标系；因等比放大，viewBox 与补丁坐标全部保持不变。
+           若拿到 >=1120px 的高清原图，替换 src 后需按新图像素重新测量补丁坐标。
+           删掉本 designImage 字段即可回退到 gxFullReport() 的纯 HTML 矢量长报告。 */
+        designImage: {
+          src: 'assets/enfp-assessment-report-design-4x.jpg',
+          w: 344, h: 1920,
+          patch: { rect: [80, 49, 135, 28], text: [89, 68], fontSize: 12, fill: '#2F382B' }
+        },
         report: {
           result: 'ENFP', duration: '3分4秒', tags: '热情洋溢、富有创造力、善于社交',
           dims: [
@@ -241,7 +282,13 @@
       { title: '旋律魔杖', type: '多元智能测评', traits: '音乐智能、空间智能突出', time: '2025-05-22 09:18', status: '已生成', report: null }
     ],
     '职业倾向测评': [
-      { title: '传统型 · 研究型 · 艺术型', type: '职业倾向测评', traits: '条理、探索、创造并存', time: '2025-04-11 14:06', status: '已生成', report: null }
+      { title: '传统型 · 研究型 · 艺术型', type: '职业倾向测评', traits: '条理、探索、创造并存', time: '2025-04-11 14:06', status: '已生成',
+        designImage: {
+          src: 'assets/career-tendency-assessment-report-design.jpg',
+          w: 1190, h: 5840,
+          patch: { rect: [277, 170, 467, 97], text: [308, 235], fontSize: 41.5, fill: '#2F382B' }
+        },
+        report: null }
     ],
     '性格测评': [
       { title: '活泼型 · 支配型 · 完美型', type: '性格测评', traits: '活跃、果断、追求完善', time: '2025-03-28 20:33', status: '已生成', report: null }
@@ -260,6 +307,30 @@
       '<path d="M15 17c-5.4 1.6-7.6 4.6-6.2 6.6s6 1.2 6.6-3.4c.6 4.6 4.4 5 5.6 3s-.8-4.6-6-6.2z" opacity=".72"/>' +
       '<path d="M17 17c5.4 1.6 7.6 4.6 6.2 6.6s-6 1.2-6.6-3.4c.6-4.6-4.4-5-5.6-3s.8 4.6 6 6.2z" opacity=".58"/>' +
       '</g></svg>';
+  }
+  /* 小绿叶：用于基座文字两侧的装饰（设计稿有，此前缺失） */
+  function gxLeaf(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M4 20C4 10 10 4 20 4c0 10-6 16-16 16z"/>' +
+      '<path d="M4 20C9 15 14 10 20 4" fill="none" stroke="#FFFFFF" stroke-opacity=".5" stroke-width="1.3" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+  /* 菜单项具象图标（设计稿每项有小圆形图标；原实现仅一个纯圆点）
+     用 currentColor 描边，激活态自动随白字变白 */
+  function gxTagIcon(tag) {
+    var d;
+    if (tag.indexOf('基本信息') >= 0) d = 'M8 8.4a2.6 2.6 0 100-5.2 2.6 2.6 0 000 5.2zM2.8 13.4c.5-2.4 2.6-3.8 5.2-3.8s4.7 1.4 5.2 3.8';
+    else if (tag.indexOf('课') >= 0 || tag.indexOf('视频') >= 0) d = 'M6.2 5.6l4.2 2.4-4.2 2.4V5.6zM2.6 3.4h10.8v9.2H2.6z';
+    else if (tag.indexOf('咨询') >= 0) d = 'M13.4 8.6c0 2.5-2.4 4.5-5.4 4.5-.7 0-1.4-.1-2-.3L2.6 13.8l1-2.7A4.3 4.3 0 012.6 8.6c0-2.5 2.4-4.5 5.4-4.5s5.4 2 5.4 4.5z';
+    else if (tag.indexOf('测评') >= 0) d = 'M4.4 2.8h7.2v10.4H4.4zM6.2 6h3.6M6.2 8.6h3.6';
+    else if (tag.indexOf('AI') >= 0) d = 'M8 2.4l1.3 3.1L12.4 6l-3.1 1.3L8 10.4 6.7 7.3 3.6 6l3.1-.5L8 2.4z';
+    else if (tag.indexOf('简历') >= 0) d = 'M4 2.6h5l3 3v7.8H4zM9 2.6v3h3';
+    else if (tag.indexOf('面试') >= 0) d = 'M5.6 7.4a2 2 0 100-4 2 2 0 000 4zM2.4 12.6c.4-1.8 1.6-2.8 3.2-2.8M10.4 5.6a2 2 0 100-4 2 2 0 000 4zM9.6 9.8c1.6 0 2.8 1 3.2 2.8';
+    else if (tag.indexOf('礼仪') >= 0 || tag.indexOf('沟通') >= 0) d = 'M3.4 4.6h9.2v5.2H3.4zM6 9.8L5 13l3-1.6L11 13l-1-3.2';
+    else if (tag.indexOf('大赛') >= 0) d = 'M5 2.8h6v2.4a3 3 0 11-6 0V2.8zM8 8.4V11M5.6 13.2h4.8';
+    else if (tag.indexOf('意向') >= 0) d = 'M8 2.6l6 2.6-6 2.6-6-2.6 6-2.6zM4 8v2.6c0 1.3 1.8 2.4 4 2.4s4-1.1 4-2.4V8';
+    else d = 'M3.4 3.6h9.2v8.8H3.4zM3.4 6.4h9.2M6 2.4v2.2M10 2.4v2.2';
+    return '<svg class="gx-item-ic" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
   }
   function gxSprig(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 78 62" aria-hidden="true">' +
@@ -281,11 +352,25 @@
       '</g></svg>';
   }
   /* 分组顶部嫩芽图标（绿色圆头+短茎，对齐设计稿 stage 标签顶部图标） */
+  /* 标签块顶部图标：设计稿为「绿色空心环 + 一片斜出的叶 + 环下一块浅绿柔光」 */
   function gxSprout(cls) {
     return '<svg class="' + cls + '" viewBox="0 0 24 26" aria-hidden="true">' +
-      '<circle cx="12" cy="9.5" r="8" fill="#5CAD6A"/>' +
-      '<circle cx="9.8" cy="7.6" r="2.4" fill="#FFFFFF" opacity=".55"/>' +
-      '<rect x="10.4" y="16" width="3.2" height="8" rx="1.6" fill="#5CAD6A"/></svg>';
+      '<circle cx="10.4" cy="17.6" r="8" fill="#DEEBD7"/>' +
+      '<circle cx="11" cy="10.2" r="6" fill="none" stroke="#5CAD6A" stroke-width="3.1"/>' +
+      '<ellipse cx="17.8" cy="13.6" rx="3.5" ry="2.1" transform="rotate(38 17.8 13.6)" fill="#5CAD6A"/></svg>';
+  }
+  /* 激活胶囊右端的橄榄绿枝叶（设计稿实测：42×38 设计px，取色 #93BC51：
+     上方三叶呈 V 形 + 细枝干，下方两片小叶） */
+  function gxPillSprig() {
+    return '<svg class="gx-item-sprig" viewBox="0 0 44 36" aria-hidden="true">' +
+      '<g fill="#93BC51">' +
+      '<ellipse cx="12.4" cy="9.4" rx="7.4" ry="3.5" transform="rotate(-31 12.4 9.4)"/>' +
+      '<ellipse cx="31.4" cy="8.6" rx="7.4" ry="3.5" transform="rotate(29 31.4 8.6)"/>' +
+      '<ellipse cx="22" cy="5.6" rx="3.5" ry="5.4"/>' +
+      '<ellipse cx="12.6" cy="26.6" rx="5.8" ry="3" transform="rotate(-13 12.6 26.6)"/>' +
+      '<ellipse cx="25.4" cy="28.4" rx="5" ry="2.7" transform="rotate(15 25.4 28.4)"/>' +
+      '</g>' +
+      '<path d="M22 3.4v16.2" stroke="#93BC51" stroke-width="1.15" stroke-linecap="round"/></svg>';
   }
   /* 「基本信息」独立分组的种子圆盘图标（浅绿圆盘+深色芯） */
   function gxSeed(cls) {
@@ -301,15 +386,17 @@
       '<div class="gx-brand"><span class="gx-brand-badge">' + gxClover('gx-brand-clover') + '</span><b>成长档案</b></div>' +
       '<div class="gx-groups">' +
       ca.sideTagGroups.map(function (g) {
-        var solo = !g.stage;
         var items = g.tags.map(function (t) {
           var active = t === activeSideTag;
           return '<button class="gx-item' + (active ? ' active' : '') + '" data-side-tag="' + t + '">' +
-            '<i class="gx-dot-ic" aria-hidden="true"></i><span>' + t + '</span></button>';
+            '<span>' + t + '</span>' + (active ? gxPillSprig() : '') + '</button>';
         }).join('');
-        if (solo) return '<div class="gx-group gx-group--solo">' + items + '</div>';
-        return '<div class="gx-group">' +
-          '<div class="gx-stage"><i class="gx-stage-dot" aria-hidden="true"></i><span class="gx-stage-txt">' + g.stage + '</span></div>' +
+        /* 既无组名也无图标的（如「AI助理」）不画标签块，胶囊与其它组右对齐 */
+        if (!g.stage && !g.icon) return '<div class="gx-group gx-group--solo">' + items + '</div>';
+        var tag = '<div class="gx-stage' + (g.stage ? '' : ' gx-stage--icon') + '">' +
+          (g.icon ? gxSprout('gx-stage-ic') : '') +
+          (g.stage ? '<span class="gx-stage-txt">' + g.stage + '</span>' : '') + '</div>';
+        return '<div class="gx-group">' + tag +
           '<div class="gx-items">' + items + '</div></div>';
       }).join('') +
       '</div></div>' +
@@ -333,7 +420,7 @@
       '<div class="gx-fields">' + col(left) + col(right) + '</div>' +
       '<div class="gx-hero">' +
       '<span class="gx-hero-title">成长档案</span>' +
-      '<span class="gx-hero-slogan">记录成长轨迹，见证青春足迹</span>' +
+      '<span class="gx-hero-slogan">' + gxLeaf('gx-hero-leaf') + '聚焦成长轨迹，见证青春绽放' + gxLeaf('gx-hero-leaf gx-hero-leaf--flip') + '</span>' +
       '</div>' +
       '</div></section>';
   }
@@ -528,7 +615,7 @@
       '</div></section>';
   }
 
-  function gxInterviewTrend() {
+  function gxInterviewTrendInner() {
     var job = ca.interviewJobs.filter(function (j) { return j.id === activeInterviewJob; })[0] || ca.interviewJobs[0];
     var t = ca.interviewTrend[job.id];
     var labels = ca.interviewSessions;
@@ -554,13 +641,16 @@
     ].map(function (m) {
       return '<button class="' + (activeTrendMode === m.k ? 'active' : '') + '" data-trend-mode="' + m.k + '">' + m.n + '</button>';
     }).join('');
-    return '<section class="gx-card gx-trend">' +
-      '<div class="gx-card-head"><div class="gx-card-titles"><h3>成绩趋势</h3><p>基于你目标岗位的能力成长曲线</p></div>' +
+    return '<div class="gx-card-head gx-trend-head"><div class="gx-card-titles"><h3>成绩趋势</h3>' +
+      '<p>基于你目标岗位的能力成长曲线</p></div>' +
       '<div class="gx-trend-modes">' + modeBtns + '</div></div>' +
       '<div class="gx-trend-jobs">' + jobTabs + '</div>' +
       legend +
-      '<div class="gx-trend-chart">' + gxLineChart(series, labels) + '</div>' +
-      '</section>';
+      '<div class="gx-trend-chart">' + gxLineChart(series, labels) + '</div>';
+  }
+  /* v37 回滚路径：独立的「成绩趋势」卡。现已整块并入顶部整宽卡的右栏。 */
+  function gxInterviewTrend() {
+    return '<section class="gx-card gx-trend">' + gxInterviewTrendInner() + '</section>';
   }
 
   function gxInterviewRecords() {
@@ -605,13 +695,298 @@
       '</section>';
   }
 
-  function gxInterviewSheet() {
-    return '<div class="gx-sheet gx-sheet-interview">' +
-      gxInterviewAi() +
-      gxInterviewTrend() +
-      gxInterviewRecords() +
-      gxInterviewReport() +
+  /* ---------- v38：右上角统计区（面试次数统计 + 10 点成绩趋势 + 10 次明细） ----------
+     用户口径：不设标题，全部集中在一个区域内；顶部卡仍锁 306px，右栏内部滚动。
+     原「成绩趋势」的岗位按钮 / 维度对比 / 卡片标题整体退役（函数保留作回滚）。 */
+  function gxTenPointChart(h) {
+    var W = 560, H = 116, padL = 28, padR = 12, padT = 10, padB = 20;
+    var plotW = W - padL - padR, plotH = H - padT - padB, min = 40, max = 100;
+    function x(i) { return padL + plotW * i / (h.length - 1); }
+    function y(v) { return padT + plotH * (1 - (v - min) / (max - min)); }
+    var grid = [40, 60, 80, 100].map(function (g) {
+      var yy = y(g).toFixed(1);
+      return '<line x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '" stroke="#E7F3EC" stroke-width="1"/>' +
+        '<text x="' + (padL - 5) + '" y="' + (Number(yy) + 3).toFixed(1) + '" text-anchor="end" font-size="9" fill="#A3B8AE">' + g + '</text>';
+    }).join('');
+    var pts = h.map(function (r, i) { return x(i).toFixed(1) + ' ' + y(r.score).toFixed(1); });
+    var line = 'M' + pts.join(' L');
+    var area = line + ' L' + x(h.length - 1).toFixed(1) + ' ' + (H - padB) + ' L' + x(0).toFixed(1) + ' ' + (H - padB) + ' Z';
+    var dots = h.map(function (r, i) {
+      return '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(r.score).toFixed(1) + '" r="2.4" fill="#20CFAE" stroke="#fff" stroke-width="1"/>';
+    }).join('');
+    var xlab = h.map(function (r, i) {
+      return '<text x="' + x(i).toFixed(1) + '" y="' + (H - 5) + '" text-anchor="middle" font-size="9" fill="#8AA79A">第' + r.seq + '次</text>';
+    }).join('');
+    return '<svg class="gx-istat-svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="最近10次面试成绩趋势折线图">' +
+      '<defs><linearGradient id="gxIstatFill" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="#20CFAE" stop-opacity=".26"/>' +
+      '<stop offset="100%" stop-color="#20CFAE" stop-opacity="0"/></linearGradient></defs>' +
+      grid + '<path d="' + area + '" fill="url(#gxIstatFill)"/>' +
+      '<path d="' + line + '" fill="none" stroke="#20CFAE" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+      dots + xlab + '</svg>';
+  }
+  function gxInterviewStatsInner() {
+    var h = ca.interviewHistory, st = ca.interviewStats;
+    var cards = [
+      { lab: '累计面试', val: st.count, unit: '次' },
+      { lab: '平均成绩', val: st.avg, unit: '分' },
+      { lab: '最高成绩', val: st.max, unit: '分' },
+      { lab: '较首次提升', val: (st.delta >= 0 ? '+' : '') + st.delta, unit: '分' }
+    ].map(function (c) {
+      return '<div class="gx-istat-card"><span>' + c.lab + '</span><b>' + c.val + '<em>' + c.unit + '</em></b></div>';
+    }).join('');
+    var rows = h.slice().reverse().map(function (r) {
+      return '<div class="gx-istat-row">' +
+        '<span class="gx-istat-seq">第' + r.seq + '次</span>' +
+        '<span class="gx-istat-date">' + r.date + '</span>' +
+        '<span class="gx-istat-job" title="' + gxEsc(r.job) + '">' + gxEsc(r.job) + '</span>' +
+        '<span class="gx-istat-score">' + r.score + ' 分</span>' +
+        '</div>';
+    }).join('');
+    return '<div class="gx-istat-strip">' + cards + '</div>' +
+      '<div class="gx-istat-chart">' + gxTenPointChart(h) + '</div>' +
+      '<div class="gx-istat-list">' +
+        '<div class="gx-istat-row gx-istat-row--head"><span>面试次数</span><span>日期</span><span>面试岗位</span><span>成绩</span></div>' +
+        rows +
       '</div>';
+  }
+
+  /* ---------- v44：右上角按设计图重做为「成绩趋势」卡 ----------
+     图：青绿竖条标题「成绩趋势」+「总分趋势 / 维度对比」分段切换 +
+         0/25/50/75/100 虚线网格折线图 + 右下角「仅展示已完成的面试记录」。
+     v38 的 10 次统计条 / 10 行岗位明细退役（gxInterviewStatsInner 保留作回滚）。
+     数据源仍是 ca.interviewHistory（最近 10 次），与下方「面试记录」口径一致。 */
+  function gxSmoothPath(pts) {
+    if (pts.length < 2) return '';
+    var d = 'M' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      var c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+      var c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += ' C' + c1x.toFixed(1) + ' ' + c1y.toFixed(1) + ',' +
+        c2x.toFixed(1) + ' ' + c2y.toFixed(1) + ',' +
+        p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+    }
+    return d;
+  }
+  function gxTrendSvg(series, n) {
+    var W = 480, H = 190, L = 34, R = 12, T = 10, B = 24;
+    var pw = W - L - R, ph = H - T - B;
+    function X(i) { return L + (n <= 1 ? pw / 2 : pw * i / (n - 1)); }
+    function Y(v) { return T + ph * (1 - v / 100); }
+    var grid = [0, 25, 50, 75, 100].map(function (g) {
+      var yy = Y(g).toFixed(1);
+      return '<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy +
+        '" stroke="#DFE9E6" stroke-width="1" stroke-dasharray="4 4"/>' +
+        '<text x="' + (L - 7) + '" y="' + (Number(yy) + 3).toFixed(1) +
+        '" text-anchor="end" font-size="10" fill="#9AAFAA">' + g + '</text>';
+    }).join('');
+    var xlab = [];
+    for (var i = 0; i < n; i++) {
+      xlab.push('<text x="' + X(i).toFixed(1) + '" y="' + (H - 6) +
+        '" text-anchor="middle" font-size="10" fill="#9AAFAA">' + (i + 1) + '</text>');
+    }
+    var lines = series.map(function (s) {
+      var pts = s.values.map(function (v, i) { return [X(i), Y(v)]; });
+      var dots = pts.map(function (p) {
+        return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) +
+          '" r="' + (series.length > 1 ? 3 : 4.2) + '" fill="#FFFFFF" stroke="' + s.color +
+          '" stroke-width="2"/>';
+      }).join('');
+      return '<path d="' + gxSmoothPath(pts) + '" fill="none" stroke="' + s.color +
+        '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' + dots;
+    }).join('');
+    return '<svg class="gx-tr-svg" viewBox="0 0 ' + W + ' ' + H +
+      '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="面试成绩趋势折线图">' +
+      grid +
+      '<line x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + (H - B) + '" stroke="#7A8B85" stroke-width="1.2"/>' +
+      '<line x1="' + L + '" y1="' + (H - B) + '" x2="' + (W - R) + '" y2="' + (H - B) + '" stroke="#7A8B85" stroke-width="1.2"/>' +
+      lines + xlab.join('') + '</svg>';
+  }
+  function gxInterviewTrendCardInner() {
+    var h = ca.interviewHistory, n = h.length;
+    var totalMode = activeTrendMode !== 'dim';
+    var series;
+    if (totalMode) {
+      series = [{ color: '#20CFAE', values: h.map(function (r) { return r.score; }) }];
+    } else {
+      var dims = ['专业知识', '表达流畅度', '学习潜力', '行业趋势'];
+      var colors = ['#20CFAE', '#F2A65A', '#7C8CFF', '#B0769B'];
+      series = dims.map(function (d, i) {
+        return { name: d, color: colors[i], values: h.map(function (r) { return r.dims[d]; }) };
+      });
+    }
+    var legend = totalMode ? '' : '<div class="gx-tr-legend">' + series.map(function (s) {
+      return '<span><i style="background:' + s.color + '"></i>' + s.name + '</span>';
+    }).join('') + '</div>';
+    return '<div class="gx-tr-head"><span class="gx-tr-bar"></span><h3>成绩趋势</h3></div>' +
+      '<div class="gx-tr-modes">' +
+        '<button class="' + (totalMode ? 'active' : '') + '" data-trend-mode="total" type="button">总分趋势</button>' +
+        '<button class="' + (!totalMode ? 'active' : '') + '" data-trend-mode="dim" type="button">维度对比</button>' +
+      '</div>' + legend +
+      '<div class="gx-tr-chart">' + gxTrendSvg(series, n) + '</div>' +
+      '<div class="gx-tr-note">仅展示已完成的面试记录</div>';
+  }
+
+  /* ---------- v38：顶部整宽卡合并为一个区域（去掉右侧标题与竖分隔线） ---------- */
+  function gxInterviewTop() {
+    return '<section class="gx-card gx-interview-top">' +
+      '<div class="gx-interview-top-ai">' +
+        '<h3 class="gx-interview-top-h">AI总结及建议</h3>' +
+        '<p class="gx-interview-top-sub">基于你历次 AI 模拟面试的纵向追踪</p>' +
+        '<div class="gx-interview-top-text">' +
+          '<h4 class="gx-ai-sub">诊断总结</h4><p>' + ca.interviewAi.diag + '</p>' +
+          '<h4 class="gx-ai-sub">后续建议</h4><p>' + ca.interviewAi.advice + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="gx-interview-top-trend-card">' + gxInterviewTrendCardInner() + '</div>' +
+    '</section>';
+  }
+
+  /* ---------- v37：真实 AI 面试报告设计长图 ---------- */
+  function gxInterviewImageReport() {
+    /* 源图仅 221x1920，铺满卡片要放大约 2.5x；改用 4x LANCZOS + 轻度锐化版
+       （884x7680，严格等比），浏览器改为缩小显示。w/h 与 SVG 补丁沿用原图
+       221x1920 逻辑坐标系，等比放大后坐标全部保持不变。
+       页眉姓名墨迹实测 x57–105 / y36–44；白卡纯白区从 y32 开始，补丁底色取 #FBFDFD。
+       把 gxInterviewSheet() 里的调用改回 gxInterviewReport() 即可回到纯 HTML 报告。 */
+    var di = {
+      src: 'assets/ai-interview-report-design-4x.jpg',
+      w: 221, h: 1920,
+      patch: { rect: [54, 32, 145, 16], text: [57, 43.5], fontSize: 9, fill: '#2F382B' }
+    };
+    var p = di.patch;
+    var label = gxEsc(ca.basicInfo.name + ' · 测试学生');
+    var rect = '<rect x="' + p.rect[0] + '" y="' + p.rect[1] +
+      '" width="' + p.rect[2] + '" height="' + p.rect[3] + '" fill="#FBFDFD"/>';
+    var text = '<text x="' + p.text[0] + '" y="' + p.text[1] +
+      '" font-size="' + p.fontSize + '" font-weight="600"' +
+      ' font-family="PingFang SC, Microsoft YaHei, sans-serif"' +
+      ' fill="' + p.fill + '">' + label + '</text>';
+    /* v40：用户明确「我只要你把 AI 面试报告区域用这种图展示」。
+       去掉 v39 自作主张加的查看切换与说明，报告卡里就是这一张原图，
+       按原生 221px 1:1 显示（不放大、不插值），卡片内上下滚动看完整份报告。
+       SVG 姓名补丁以 .gx-rpt-image 为包含块，随容器一起是 221px，坐标系 1:1 对齐。 */
+    return '<section class="gx-card gx-report gx-report--image">' +
+      '<div class="gx-report-body gx-rpt-body">' +
+        '<div class="gx-rpt-image">' +
+          '<img class="gx-rpt-image-src" src="' + di.src + '"' +
+            ' width="' + di.w + '" height="' + di.h + '"' +
+            ' alt="' + gxEsc('AI面试报告：' + ca.basicInfo.name + ' · 测试学生') + '">' +
+          '<svg class="gx-rpt-name-patch" viewBox="0 0 ' + di.w + ' ' + di.h + '"' +
+            ' preserveAspectRatio="none" aria-hidden="true">' + rect + text + '</svg>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  /* ---------- v38：AI 面试报告 · HTML 矢量重建 ----------
+     用户反馈 221x1920 位图报告「不够清晰」，本地不存在高清原图，4x 重采样也救不回
+     4~5px 高的中文笔画。改为浏览器矢量渲染：文字、头像、条形图、渐变全部由 HTML/CSS/SVG
+     绘制，任意缩放都锐利；配色沿用真实报告的薄荷青绿（#20CFAE / #A2F0C0 / #EAFCF6）。
+     内容取自当前选中的面试记录 + 最近 10 次统计，点击「查看报告」会同步刷新。
+     回滚到位图：把 gxInterviewSheet() 里的 gxInterviewVectorReport() 改回 gxInterviewImageReport()。 */
+  function gxIrAvatar() {
+    return '<svg viewBox="0 0 48 48" aria-hidden="true">' +
+      '<circle cx="24" cy="24" r="23" fill="#D9F5EA"/>' +
+      '<path d="M12 41c1.4-8.4 5.8-12.4 12-12.4S34.6 32.6 36 41z" fill="#4FD3B2"/>' +
+      '<circle cx="24" cy="19.5" r="8.3" fill="#FBEADB"/>' +
+      '<path d="M15.6 19.2c-.4-6.2 3.4-9.6 8.4-9.6s8.8 3.4 8.4 9.6c-1.3-3.2-4.2-5.1-8.4-5.1s-7.1 1.9-8.4 5.1z" fill="#2F382B"/>' +
+      '<circle cx="21" cy="20" r="1" fill="#2F382B"/><circle cx="27" cy="20" r="1" fill="#2F382B"/>' +
+      '<path d="M22 23.6c1.2 1 2.8 1 4 0" fill="none" stroke="#C98B72" stroke-width="1" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+  function gxIrBars(rec, baseline) {
+    var head = '<div class="gx-ir-bar-head"><span>能力维度</span><span>本次得分</span><span>近10次参考</span></div>';
+    var rows = ca.interviewDims.map(function (k) {
+      var v = rec.dims[k] || 0;
+      return '<div class="gx-ir-bar-row">' +
+        '<span class="gx-ir-bar-lab">' + k + '</span>' +
+        '<div class="gx-ir-bar-track"><i style="width:' + v + '%"></i></div>' +
+        '<span class="gx-ir-bar-val">' + v + '<em>/ ' + baseline + '</em></span>' +
+        '</div>';
+    }).join('');
+    return '<div class="gx-ir-bars">' + head + rows + '</div>';
+  }
+  function gxIrSection(n, title, inner) {
+    return '<section class="gx-ir-sec">' +
+      '<h4 class="gx-ir-sec-h"><i>' + n + '</i>' + title + '</h4>' +
+      '<div class="gx-ir-card">' + inner + '</div>' +
+      '</section>';
+  }
+  function gxInterviewVectorReport() {
+    var rec = ca.interviewRecords.filter(function (r) { return r.id === activeReportId; })[0] || ca.interviewRecords[0];
+    if (!rec) return '<section class="gx-card gx-report"><div class="gx-records-empty"><p>暂无面试报告</p></div></section>';
+    var st = ca.interviewStats;
+    var name = gxEsc(ca.basicInfo.name + ' · 测试学生');
+    var baseline = Math.round(Number(st.avg));
+    var sec1 = '<p class="gx-ir-p">本场「' + gxEsc(rec.job) + '」模拟面试综合得分 <b>' + rec.score +
+      ' 分</b>，最近 10 次训练平均 ' + st.avg + ' 分、最高 ' + st.max + ' 分，整体呈稳步向好、仍有短板的态势。' +
+      '系统在专业知识、表达流畅度、学习潜力、行业趋势四个维度完成结构化评估，并据此生成能力画像与提升建议。</p>' +
+      '<p class="gx-ir-p">' + gxEsc(ca.interviewAi.diag) + '</p>';
+    var sec2 = gxIrBars(rec, baseline) +
+      '<p class="gx-ir-p">相对最近 10 次参考线，「' + gxEsc(ca.interviewDims.reduce(function (best, k) {
+        return (rec.dims[k] || 0) > (rec.dims[best] || 0) ? k : best;
+      }, ca.interviewDims[0])) + '」为本次优势维度；建议优先补强得分最低的维度，并结合目标岗位要求准备可验证的案例。</p>';
+    var sec3 = '<p class="gx-ir-p">' + gxEsc(rec.report.comment || '') + '</p>' +
+      gxIrBars(rec, baseline);
+    var sec4 = '<p class="gx-ir-p">结合纵向追踪结果，建议围绕岗位匹配度、表达结构与临场应变三条主线持续改进：' +
+      '一是以目标岗位的任职要求为标尺，系统梳理学习与实践经历；二是运用 STAR 法组织 2—3 个结果导向的核心案例；' +
+      '三是针对薄弱环节做专项演练，形成「训练—复盘—再练」的闭环。</p>' +
+      '<p class="gx-ir-p">' + gxEsc(ca.interviewAi.advice) + '</p>';
+    var sec5 = '<div class="gx-ir-pass"><span class="gx-ir-pass-ico">✓</span>' +
+      '<div><b>阶段结论</b><p>已完成 ' + st.count + ' 次 AI 模拟面试，其中 ' + st.pass +
+      ' 次达到通过线；最近一次较首次提升 ' + st.delta + ' 分，具备面试基本素养，岗位匹配与临场应变是下一阶段主要突破方向。</p></div></div>' +
+      '<ul class="gx-ir-tips">' +
+      '<li><i>1</i>面向目标岗位拆解任职要求，逐条对应准备经历与案例</li>' +
+      '<li><i>2</i>每次训练后完整复盘，记录卡的作答结构与被追问的薄弱点</li>' +
+      '<li><i>3</i>补强行业认知，关注岗位所在领域的政策、流程与发展趋势</li>' +
+      '</ul>';
+    return '<section class="gx-card gx-report gx-report--vector">' +
+      '<div class="gx-ir-scroll">' +
+        '<div class="gx-ir-hero">' +
+          '<div class="gx-ir-hero-title">AI面试报告</div>' +
+          '<div class="gx-ir-ai">AI</div>' +
+          '<div class="gx-ir-hero-deco" aria-hidden="true"></div>' +
+        '</div>' +
+        '<div class="gx-ir-body">' +
+          '<div class="gx-ir-person">' +
+            '<span class="gx-ir-avatar" aria-hidden="true">' + gxIrAvatar() + '</span>' +
+            '<div class="gx-ir-person-info"><b>' + name + '</b>' +
+              '<ul class="gx-ir-meta">' +
+                '<li><span>测评岗位</span><em>' + gxEsc(rec.job) + '</em></li>' +
+                '<li><span>综合评分</span><em>' + rec.score + ' 分</em></li>' +
+                '<li><span>测评日期</span><em>2026-' + rec.date + '</em></li>' +
+                '<li><span>报告编号</span><em>AI-IV-' + rec.id.toUpperCase() + '</em></li>' +
+              '</ul>' +
+            '</div>' +
+          '</div>' +
+          gxIrSection('一', '报告总结', sec1) +
+          gxIrSection('二', '能力分析及建议', sec2) +
+          gxIrSection('三', '面试表现分析', sec3) +
+          gxIrSection('四', '专业分析建议', sec4) +
+          gxIrSection('五', '面试建议及提升', sec5) +
+          '<p class="gx-ir-foot">本报告由 AI 模拟面试系统依据历次作答自动生成，仅供生涯规划与训练复盘参考。</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  function gxInterviewSheet() {
+    /* v39 分布：顶部整宽卡合并为「一个区域」——左 AI 总结及建议文字，右无标题统计区
+       （统计条 + 10 点折线 + 10 次明细，右栏内滚动），无竖分隔线、无右侧卡片标题；
+       高度沿用 --gx-ai-card-h=306px 与职业测评页一致。
+       下方左「面试记录」/ 右「真实 AI 面试报告原图长图」两栏，各自整高、卡内滚动，
+       并带「适应宽度 / 原图 1:1」查看切换（用户口径：报告那里就展示原图报告）。
+       gxInterviewVectorReport() 保留为 v38 矢量版回滚路径，当前不调用。
+       回滚 v37：gxInterviewTop() 右栏换回 gxInterviewTrendInner() 并恢复 v37 CSS。 */
+    return '<div class="gx-sheet gx-sheet-interview">' +
+      gxInterviewTop() +
+      '<div class="gx-interview-bottom">' +
+        gxInterviewRecords() +
+        gxInterviewImageReport() +
+      '</div>' +
+    '</div>';
   }
 
   function gxBindInterview() {
@@ -701,13 +1076,14 @@
         '<span class="gx-arec-illu" aria-hidden="true">' + gxAvatar() + '</span></div>' +
         '</article>';
     }).join('') : '<div class="gx-records-empty"><p>该测评暂无记录</p></div>';
-    return '<div class="gx-assess-left">' +
-      '<div class="gx-assess-tabs">' + tabs + '</div>' +
+    /* tabs / spacer / 测评记录 / 报告 直接作为 .gx-assess-bottom 的 4 个网格项，
+       让报告卡与左卡同处第二行、顶底对齐（原先 .gx-assess-left 包装导致报告卡高约 44px）。 */
+    return '<div class="gx-assess-tabs">' + tabs + '</div>' +
+      '<div class="gx-assess-tabs-spacer" aria-hidden="true"></div>' +
       '<section class="gx-card gx-assess-recs">' +
       '<h3 class="gx-assess-recs-title">测评记录</h3>' +
       '<div class="gx-arec-list">' + list + '</div>' +
-      '</section>' +
-      '</div>';
+      '</section>';
   }
 
   /* 完整版职业性格测评报告（对齐设计稿竖版长报告） */
@@ -754,7 +1130,7 @@
       '<div class="gx-rpt-person">' +
       '<span class="gx-rpt-avatar" aria-hidden="true">' + gxAvatar() + '</span>' +
       '<div class="gx-rpt-person-info">' +
-      '<b>林晓宇 · 测试学生</b>' +
+      '<b>杨强 · 测试学生</b>' +
       '<p>测评时长：' + rep.duration + '</p>' +
       '<p>测评结果：' + rep.result + '</p>' +
       '<p>你的特点：' + rep.tags + '</p>' +
@@ -809,10 +1185,42 @@
       '</div>';
   }
 
+  /* 设计长图报告：原图零修改，用白色同色补丁盖住页眉姓名后叠加当前学生姓名。
+     viewBox 使用图片原生像素坐标系；SVG 必须填满 .gx-rpt-image（与 img 渲染盒一致），
+     否则 preserveAspectRatio="none" 会失真 —— 见 css 中 .gx-rpt-image 的定位要求。
+     移除记录的 designImage 字段即可回退到下方原 HTML 长报告 / 空态。 */
+  function gxEsc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function gxDesignImageReport(di) {
+    var p = di.patch;
+    var label = gxEsc(ca.basicInfo.name + ' · 测试学生');
+    var rect = '<rect x="' + p.rect[0] + '" y="' + p.rect[1] +
+      '" width="' + p.rect[2] + '" height="' + p.rect[3] + '" fill="#FFFFFF"/>';
+    var text = '<text x="' + p.text[0] + '" y="' + p.text[1] +
+      '" font-size="' + p.fontSize + '" font-weight="600"' +
+      ' font-family="PingFang SC, Microsoft YaHei, sans-serif"' +
+      ' fill="' + p.fill + '">' + label + '</text>';
+    return '<section class="gx-card gx-assess-report gx-assess-report--full">' +
+      '<div class="gx-assess-report-body gx-rpt-body">' +
+        '<div class="gx-rpt-image">' +
+          '<img class="gx-rpt-image-src" src="' + di.src + '"' +
+            ' width="' + di.w + '" height="' + di.h + '"' +
+            ' alt="' + gxEsc(activeAssessTab + '报告：' + ca.basicInfo.name + ' · 测试学生') + '">' +
+          '<svg class="gx-rpt-name-patch" viewBox="0 0 ' + di.w + ' ' + di.h + '"' +
+            ' preserveAspectRatio="none" aria-hidden="true">' + rect + text + '</svg>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxAssessReport() {
     var recs = ca.assessmentRecords[activeAssessTab] || [];
     var rec = recs[activeAssessIndex] || recs[0];
     var rep = rec && rec.report;
+    var di = rec && rec.designImage;
+    if (di) return gxDesignImageReport(di);   /* 设计长图优先于空态 / 原 HTML 长报告 */
     if (!rep) {
       return '<section class="gx-card gx-assess-report gx-assess-report--empty">' +
         '<div class="gx-assess-report-head"><h3 class="gx-assess-report-title">' + activeAssessTab + '报告</h3></div>' +
@@ -882,14 +1290,27 @@
   function gxSheet() {
     if (activeSideTag === 'AI面试') return gxInterviewSheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
-    var isValid = activeSideTag === '基本信息';
-    return '<div class="gx-sheet' + (isValid ? '' : ' gx-sheet--module') + '">' +
-      (isValid
-        ? gxBasicCard() + gxAiCard()
-        : gxModuleCard() +
-        '<section class="gx-card gx-bottom"><div class="gx-hint"><h4>' + activeSideTag + '模块</h4>' +
-        '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p></div></section>') +
-      '</div>';
+    if (activeSideTag === '基本信息') {
+      return '<div class="gx-sheet">' + gxBasicCard() + gxAiCard() + '</div>';
+    }
+    return gxModuleSheet();
+  }
+
+  /* 其余 16 个普通模块标签（线上课 / 微视频 / 线上咨询 / 预约咨询 / 生涯体验周 /
+     生涯活动 / AI简历 / 职业礼仪 / 职场沟通技巧 / 就业活动 / 大学生职业规划大赛 /
+     大学生创新大赛 / 毕业意向 / 宣讲会 / 双选会 / AI助理）统一走这套版式：
+     与职业测评详情页同分布 —— 顶部整宽「AI总结及建议」（直接复用 gxAssessAi，
+     高度共用 --gx-ai-card-h=306px），下方左「模块记录」/ 右「模块说明」两栏。
+     原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。 */
+  function gxModuleSheet() {
+    var hint = '<section class="gx-card gx-bottom"><div class="gx-hint">' +
+      '<h4>' + activeSideTag + '模块</h4>' +
+      '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p>' +
+      '</div></section>';
+    return '<div class="gx-sheet gx-sheet-module">' +
+      gxAssessAi() +
+      '<div class="gx-module-bottom">' + gxModuleCard() + hint + '</div>' +
+    '</div>';
   }
 
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，

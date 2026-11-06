@@ -2,7 +2,10 @@
    规则：page 从「非 archive」变为「archive」时播放一次；档案页内部切换
    左侧标签 / 学年页签（page 始终为 archive）不重复播放。 */
 (function () {
-  var INTRO_SRC = 'assets/archive-open-intro.mp4?v=20261029-archive-intro-v6';
+  /* 视频已裁掉尾部 31 帧（原帧 91–121 / t=3.75s 之后）：那一段是一张放大的
+     档案详情页 UI 截图，文字全糊。现只保留前 90 帧（3.75s）的清晰档案夹动画，
+     播完由 ended 事件淡出到真实详情页。原片 archive-open-intro.mp4 保留未改。 */
+  var INTRO_SRC = 'assets/archive-open-intro-trimmed.mp4?v=20261105-archive-intro-v7';
   var FADE_MS = 450;
   var MAX_MS = 9000;          // 保险丝：超时强制进入，避免卡在动画层
 
@@ -19,7 +22,10 @@
   }
 
   function gxFinishIntro(reason) {
-    if (!layer) return;
+    /* v42 兜底：动画层若被外部 render() 连带从 DOM 中冲掉（layer 变量仍指向
+       已脱离文档的元素），必须把 gx-intro-lock 清掉，否则 body 会一直
+       overflow:hidden，详情页看起来像「少了一块」。 */
+    if (!layer) { document.body.classList.remove('gx-intro-lock'); return; }
     var el = layer;
     layer = null;
     el.setAttribute('data-reason', reason || 'manual');

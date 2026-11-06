@@ -1,0 +1,325 @@
+/* ============================================================
+   v41 · 学生端 16:10 固定画布（MacBook Air 13" 基准 1440×900）
+   ------------------------------------------------------------
+   目标：整体页面按 16:10 比例制作，排版一屏放完全部模块，不再被截断。
+   做法：
+     1) 全站外壳统一进 1440×900 画布，s = min(innerWidth/1440, innerHeight/900)
+        等比缩放居中（缩放由 js/home-1610.js 写入 .app-shell 的 transform）。
+     2) 画布内的 100vh / vw / clamp() 全部换成确定像素，
+        避免按真实视口解析导致画布内部漂移。
+     3) 首页 main 用 5 行 grid 精确分配：hero / 统计 / 双栏 / 近期记录 / 页脚。
+     4) 原 .plan-change-inline 是 absolute + top:108px 的悬浮便签，
+        与 .plan-main-grid 大面积重叠；这里让它回到 grid 第二列的正常流。
+     5) 其它页面 main 内部滚动；成长档案页单独补偿 100vh → 900px。
+   作用域：全部规则带 body.mba-canvas，不改动任何既有文件，
+           仅在 js/home-1610.js 给 body 加上该 class 时生效。
+   本文件最后加载，用于覆盖 home-mockup.css / home-teal.css 的几何与响应式规则。
+
+   v42 修正：页面标记从 body[data-page] 改为 body[data-canvas-page]。
+   原因：app.js 的 bind() 会选中所有 [data-page] 元素绑定跳页点击，
+   给 body 写 data-page 会让每次点击冒泡时多触发一次 render()，
+   从而冲掉刚创建的 .gx-intro 动画层并中断 .gx-hero 背景图加载。
+   ============================================================ */
+
+/* ---------- 0. 画布容器 ---------- */
+html.mba-canvas,
+html.mba-canvas body {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body.mba-canvas {
+  /* 盖掉 :root 上按 vw 漂移的变量；后代从 body 继承这里的值 */
+  --hm-rail-w: 240px;
+  --hm-top-h: 64px;
+  --hm-pad-r: 24px;
+  --hm-pad-l: 24px;
+  background: #eef2f0;
+}
+body.mba-canvas .app-shell {
+  position: relative;
+  width: 1440px;
+  height: 900px;
+  min-height: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--bg);
+}
+
+/* ---------- 1. 外壳：侧栏 / 顶栏（全站统一） ---------- */
+/* .sidebar 是 position:fixed；父级有 transform 后，其包含块自动变成 .app-shell，
+   因此 top:0/bottom:0 正好等于画布高度 900px。 */
+body.mba-canvas .sidebar { width: 240px; top: 0; bottom: 0; height: 900px; }
+body.mba-canvas .brand { height: 64px; padding-left: 18px; }
+body.mba-canvas .sidebar nav {
+  height: 836px;                    /* 900 - 64 */
+  padding: 10px 12px 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+body.mba-canvas .nav-group { padding: 9px 0 6px 14px; font-size: 11.5px; }
+body.mba-canvas .nav-item {
+  height: 38px;
+  margin: 1px 0;
+  padding: 0 12px;
+  gap: 10px;
+  font-size: 13.5px;
+  border-radius: 9px;
+}
+body.mba-canvas .nav-item svg { width: 17px; height: 17px; }
+body.mba-canvas .workspace { margin-left: 240px; width: 1200px; }
+body.mba-canvas .topbar { position: relative; height: 64px; padding: 0 24px 0 18px; }
+body.mba-canvas .channels { gap: 18px; }
+body.mba-canvas .channels button { font-size: 14px; }
+body.mba-canvas .user-tools { gap: 14px; }
+
+/* ---------- 2. 非首页：内容区在画布内滚动，不裁内容 ---------- */
+body.mba-canvas main {
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  height: 836px;                    /* 900 - 64 */
+  padding: 18px 24px 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+body.mba-canvas footer { margin-top: 18px; }
+
+/* ---------- 3. 首页：五行网格，一屏放完全部模块 ---------- */
+/* 836 = padding 16 + 12 + (100 + 92 + 372 + 176 + 20) + 4×12 */
+body.mba-canvas[data-canvas-page="home"] main {
+  display: grid;
+  grid-template-rows: 100px 92px 372px 176px 20px;
+  gap: 12px;
+  height: 836px;
+  padding: 16px 24px 12px;
+  overflow: hidden;
+}
+body.mba-canvas[data-canvas-page="home"] .student-hero,
+body.mba-canvas[data-canvas-page="home"] .stats-grid,
+body.mba-canvas[data-canvas-page="home"] .portrait-plan-primary,
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel,
+body.mba-canvas[data-canvas-page="home"] footer {
+  margin: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 3.1 Hero */
+body.mba-canvas[data-canvas-page="home"] .student-hero {
+  height: 100px;
+  padding: 0 24px 0 28px;
+  border-radius: 14px;
+  grid-template-columns: 38% minmax(0, 1fr) auto;
+}
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-avatar { width: 48px; height: 48px; flex: 0 0 48px; font-size: 18px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-identity h1 { margin-bottom: 6px; font-size: 19px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-tags span { padding: 3px 9px; font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-state-summary b { margin: 4px 0 6px; font-size: 21px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-state-summary small,
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-state-summary i { font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .progress-ring { width: 76px; height: 76px; flex: 0 0 76px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .progress-ring b { font-size: 18px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-archive-copy b { font-size: 13px; }
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-archive-copy small,
+body.mba-canvas[data-canvas-page="home"] .student-hero .hero-archive-copy i { font-size: 11px; }
+
+/* 3.2 统计卡 */
+body.mba-canvas[data-canvas-page="home"] .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  height: 92px;
+}
+body.mba-canvas[data-canvas-page="home"] .stat-card { height: 92px; padding: 8px 0 6px; border-radius: 12px; }
+body.mba-canvas[data-canvas-page="home"] .stat-card .icon-box { width: 30px; height: 30px; border-radius: 9px; }
+body.mba-canvas[data-canvas-page="home"] .stat-card .icon-box svg { width: 17px; height: 17px; }
+body.mba-canvas[data-canvas-page="home"] .stat-card b { margin-top: 4px; font-size: 24px; }
+body.mba-canvas[data-canvas-page="home"] .stat-card small { margin-top: 2px; font-size: 11px; }
+
+/* 3.3 画像 / 规划双栏 */
+body.mba-canvas[data-canvas-page="home"] .portrait-plan-primary {
+  display: grid;
+  grid-template-columns: minmax(0, 430fr) minmax(0, 700fr);
+  gap: 14px;
+  height: 372px;
+  align-items: stretch;
+}
+body.mba-canvas[data-canvas-page="home"] .portrait-plan-primary .home-portrait-panel,
+body.mba-canvas[data-canvas-page="home"] .portrait-plan-primary .home-plan-panel {
+  min-height: 0;
+  height: 372px;
+  border-radius: 13px;
+}
+body.mba-canvas[data-canvas-page="home"] .home-portrait-panel { padding: 12px 14px 10px; }
+body.mba-canvas[data-canvas-page="home"] .home-plan-panel { padding: 12px 16px 10px; }
+/* 标题区锁高：原弹性高度会被 1560/1366 断点里的字体规则带偏，导致不同视口
+   画布内规划卡内容高度不一致。 */
+body.mba-canvas[data-canvas-page="home"] .compact-head {
+  height: 48px;
+  min-height: 0;                 /* ai-home.css 给了 min-height:72px / 66px */
+  align-items: center;
+  padding-bottom: 8px;
+  box-sizing: border-box;
+}
+body.mba-canvas[data-canvas-page="home"] .compact-head h2 { margin-top: 3px; font-size: 18px; line-height: 1.2; }
+body.mba-canvas[data-canvas-page="home"] .panel-eyebrow { font-size: 11.5px; line-height: 1.2; }
+body.mba-canvas[data-canvas-page="home"] .soft-badge { padding: 5px 10px; font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .plan-badges { flex-wrap: nowrap; }
+body.mba-canvas[data-canvas-page="home"] .plan-badges span { padding: 5px 10px; font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .compact-plan-focus { padding: 10px 14px 11px; }
+body.mba-canvas[data-canvas-page="home"] .compact-plan-focus small { font-size: 11.5px; }
+body.mba-canvas[data-canvas-page="home"] .compact-plan-focus h3 { margin-top: 6px; font-size: 16px; line-height: 1.35; }
+body.mba-canvas[data-canvas-page="home"] .plan-stage-path { margin-top: 9px; padding: 9px 12px; gap: 10px; }
+body.mba-canvas[data-canvas-page="home"] .plan-stage-path small { font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .plan-stage-path b { font-size: 13.5px; }
+body.mba-canvas[data-canvas-page="home"] .plan-main-grid {
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 14px;
+  padding-top: 10px;
+  align-items: start;
+}
+body.mba-canvas[data-canvas-page="home"] .plan-related-services { margin-top: 8px; gap: 10px; }
+body.mba-canvas[data-canvas-page="home"] .plan-related-services button { padding: 9px 14px; }
+body.mba-canvas[data-canvas-page="home"] .plan-related-services small { font-size: 10.5px; }
+body.mba-canvas[data-canvas-page="home"] .plan-related-services b { margin-top: 3px; font-size: 13px; }
+body.mba-canvas[data-canvas-page="home"] .plan-footer { margin-top: 9px; }
+body.mba-canvas[data-canvas-page="home"] .plan-footer > small { font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .plan-actions button { height: 32px; padding: 0 16px; font-size: 12.5px; }
+
+/* 3.4 便签回到正常流：这是原来「排版乱」的主因
+   原规则 position:absolute + top:108px + right:20px + transform:rotate(-1.1deg)，
+   直接盖在 .plan-main-grid 上（实测重叠 216×189px）。 */
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline {
+  position: static;
+  top: auto;
+  right: auto;
+  width: auto;
+  max-width: none;
+  transform: none;
+  z-index: auto;
+  grid-column: 2;
+  align-self: start;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 11px;
+  border-radius: 10px;
+}
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline:after { display: none; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline .todo-icon { width: 22px; height: 22px; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline .todo-icon svg { width: 12px; height: 12px; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline small { font-size: 10.5px; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline b { margin-top: 3px; font-size: 12.5px; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline p { margin-top: 3px; font-size: 10px; line-height: 1.5; }
+body.mba-canvas[data-canvas-page="home"] .plan-change-inline em { margin-top: 3px; font-size: 9.5px; }
+
+/* 3.5 画像卡主体 */
+body.mba-canvas[data-canvas-page="home"] .portrait-summary { padding-top: 8px; gap: 10px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts { padding: 10px 12px; gap: 8px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts > small,
+body.mba-canvas[data-canvas-page="home"] .portrait-facts small { font-size: 11.5px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts dl { gap: 8px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts dl > div { padding: 8px 11px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts dt { font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-facts dd { margin-top: 3px; font-size: 14px; }
+body.mba-canvas[data-canvas-page="home"] .keyword-list { gap: 3px 12px; margin-top: 5px; }
+body.mba-canvas[data-canvas-page="home"] .portrait-plan-primary .keyword-list span { font-size: 13px; }
+body.mba-canvas[data-canvas-page="home"] .text-action { padding: 3px 0; font-size: 12.5px; }
+
+/* 3.6 近期成长记录
+   原卡片内容 252px > 可用 174px，第 3 条记录被 overflow:hidden 裁掉。
+   这里把标题压成单行、记录压成两行紧凑排版，3 条记录完整落在一屏内。 */
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel {
+  height: 176px;
+  min-height: 0;                 /* ai-home.css 给了 min-height:386px 等下限 */
+  border-radius: 12px;
+}
+/* ai-home.css 里 .recent-archive-list>.panel-head 用了 height/min-height/padding
+   的 !important（54px），这里必须用同级 !important 才能把标题压成单行。 */
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel .panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px !important;
+  min-height: 0 !important;
+  padding: 5px 16px !important;
+}
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel .panel-head > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel .panel-head h2 { font-size: 15px; line-height: 1.25; }
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel .panel-head p { margin: 0; font-size: 10.5px; line-height: 1.25; }
+body.mba-canvas[data-canvas-page="home"] .recent-archive-panel .panel-head > button { font-size: 12px; }
+body.mba-canvas[data-canvas-page="home"] .archive-record-row {
+  min-height: 0;                 /* ai-home.css 给了 min-height:66px */
+  padding: 5px 16px;
+  gap: 14px;
+  grid-template-columns: 100px 84px minmax(0, 1fr) auto auto;
+}
+body.mba-canvas[data-canvas-page="home"] .archive-record-row h3 {
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.mba-canvas[data-canvas-page="home"] .archive-record-row p {
+  margin-top: 1px;
+  font-size: 9.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.mba-canvas[data-canvas-page="home"] .archive-record-row time { font-size: 11px; }
+body.mba-canvas[data-canvas-page="home"] .record-source { padding: 3px 9px; font-size: 10.5px; }
+body.mba-canvas[data-canvas-page="home"] .archive-record-row em { padding: 3px 9px; font-size: 10px; }
+body.mba-canvas[data-canvas-page="home"] .archive-record-row button { font-size: 11.5px; }
+
+/* 3.7 页脚 */
+body.mba-canvas[data-canvas-page="home"] footer {
+  height: 20px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+}
+
+/* ---------- 4. 成长档案页补偿 ---------- */
+/* 原规则用 height:100vh 且按真实视口触发媒体查询；画布内统一锁到 900px，
+   并用更高特异性把窄屏退化规则拉回两栏固定区域。 */
+body.mba-canvas[data-canvas-page="archive"] .workspace--archive { height: 900px; }
+body.mba-canvas[data-canvas-page="archive"] .workspace--archive main {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 836px;
+  padding: 0;
+  overflow: hidden;
+}
+body.mba-canvas[data-canvas-page="archive"] .workspace--archive footer { display: none; }
+body.mba-canvas[data-canvas-page="archive"] .gx-page--embedded {
+  --gx-rail-w: 250px;
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 20px 14px 18px;
+  overflow: hidden;
+}
+body.mba-canvas[data-canvas-page="archive"] .gx-page--embedded .gx-rail-page { overflow-y: auto; }
+body.mba-canvas[data-canvas-page="archive"] .gx-page--embedded .gx-sheet { height: 100%; }
+body.mba-canvas[data-canvas-page="archive"] .gx-page--solo { height: 900px; }
+
+/* 开场动画层与弹窗 */
+/* .gx-intro 原本 height:100vh，按真实视口算会超出 900px 画布被裁；
+   改成相对 .workspace（900px）的 100%，动画始终铺满内容区。 */
+body.mba-canvas .gx-intro { height: 100%; }
+body.mba-canvas .modal-mask,
+body.mba-canvas .modal { position: fixed; }
