@@ -85,6 +85,46 @@
   var activeRecordFilter = 'all';
   var activeReportId = '';
 
+  /* ---------- 1c. v48 · 生涯体验周专属数据 ----------
+     活动名 / 地点 / 周期取自云生涯后台「生涯活动 → 生涯体验周」列表截图。
+     口径转换：后台的「报名数 / 签到数 / 浏览量 / 发布状态 / 操作」是运营视角，
+     学生端不照搬，改为「我是否报名 / 我是否签到 / 我沉淀了什么成果」；
+     并把活动状态翻成学生语言（进行中 / 已结束），补上成果与能力维度作为成长证据。 */
+  ca.experienceWeek = {
+    ai: {
+      diag: '你已参与 5 场生涯体验周类活动，完成签到 3 场，覆盖岗位体验、行业参访、项目实践三类场景。整体呈现「参与面广、沉淀偏浅」的态势：活动类型分布较均衡，但成果多停留在体验记录层面，缺少可复用的岗位洞察与能力证据。近两场活动存在报名后未签到情况，建议先确认时间冲突再报名。',
+      advice: '优先选择与目标行业直接相关的岗位体验场，并在活动结束后 48 小时内补齐一份「岗位观察笔记」（岗位职责 / 能力要求 / 与自己的匹配度三栏）；把已获得的结业证书与调研报告关联到对应能力维度，形成可对外展示的成长证据链。'
+    },
+    donut: [
+      { name: '岗位体验', value: 34, color: '#20CFAE' },
+      { name: '行业参访', value: 24, color: '#5CC7B4' },
+      { name: '项目实践', value: 20, color: '#8FB9D6' },
+      { name: '职业访谈', value: 14, color: '#A8D8C0' },
+      { name: '其他', value: 8, color: '#DCEFE8' }
+    ],
+    kpi: { joined: 5, signed: 3, days: 9, works: 3 },
+    abilities: [
+      { name: '职业认知', value: 82 },
+      { name: '岗位体验', value: 74 },
+      { name: '自我管理', value: 71 },
+      { name: '协作沟通', value: 68 },
+      { name: '行业理解', value: 63 }
+    ],
+    works: [
+      { name: '生涯体验周结业证书', type: '证书', from: '生涯体验周（食创楼）', date: '2025-11-07' },
+      { name: '小组调研报告 · 自然美育场景', type: '作品', from: '探索自然之美 · 风景之地活动', date: '2024-10-23' },
+      { name: '职业访谈记录 · 产品经理岗', type: '记录', from: '第一届就业活动周', date: '2024-09-30' }
+    ],
+    activities: [
+      { name: '第一届生涯体验周', place: '长沙总部', period: '2026-10-01 ~ 10-31', days: 3, type: '岗位体验', status: '进行中', signup: true, signed: false, work: '', ability: '职业认知能力' },
+      { name: '生涯体验周（食创楼）', place: '长沙总部', period: '2025-11-06 ~ 11-07', days: 2, type: '岗位体验', status: '已结束', signup: true, signed: true, work: '生涯体验周结业证书', ability: '职业认知能力' },
+      { name: '山西警察学院生涯体验周', place: '山西', period: '2025-07-23 ~ 07-31', days: 2, type: '行业参访', status: '已结束', signup: true, signed: false, work: '', ability: '行业理解能力' },
+      { name: '《探索自然之美 · 风景之地活动》', place: '长沙', period: '2024-09-18 ~ 10-23', days: 2, type: '项目实践', status: '已结束', signup: true, signed: true, work: '小组调研报告', ability: '协作沟通能力' },
+      { name: '第一届就业活动周', place: '北京', period: '2024-09-05 ~ 09-30', days: 2, type: '职业访谈', status: '已结束', signup: true, signed: true, work: '职业访谈记录', ability: '职业认知能力' }
+    ]
+  };
+  var activeEwFilter = 'all';
+
   function gxAscend(final, n) {
     var arr = [], base = Math.round(final * 0.74), i;
     for (i = 0; i < n; i++) {
@@ -770,21 +810,23 @@
     return d;
   }
   function gxTrendSvg(series, n) {
-    var W = 480, H = 190, L = 34, R = 12, T = 10, B = 24;
+    /* v45：按设计稿把 X 轴绘图带收窄（左右留白 42/34，原 34/12），
+       网格 / 坐标文字统一换成报告薄荷青绿的浅灰调。 */
+    var W = 480, H = 190, L = 42, R = 34, T = 10, B = 24;
     var pw = W - L - R, ph = H - T - B;
     function X(i) { return L + (n <= 1 ? pw / 2 : pw * i / (n - 1)); }
     function Y(v) { return T + ph * (1 - v / 100); }
     var grid = [0, 25, 50, 75, 100].map(function (g) {
       var yy = Y(g).toFixed(1);
       return '<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy +
-        '" stroke="#DFE9E6" stroke-width="1" stroke-dasharray="4 4"/>' +
+        '" stroke="#DCEFEA" stroke-width="1" stroke-dasharray="4 4"/>' +
         '<text x="' + (L - 7) + '" y="' + (Number(yy) + 3).toFixed(1) +
-        '" text-anchor="end" font-size="10" fill="#9AAFAA">' + g + '</text>';
+        '" text-anchor="end" font-size="10" fill="#93AFA9">' + g + '</text>';
     }).join('');
     var xlab = [];
     for (var i = 0; i < n; i++) {
       xlab.push('<text x="' + X(i).toFixed(1) + '" y="' + (H - 6) +
-        '" text-anchor="middle" font-size="10" fill="#9AAFAA">' + (i + 1) + '</text>');
+        '" text-anchor="middle" font-size="10" fill="#93AFA9">' + (i + 1) + '</text>');
     }
     var lines = series.map(function (s) {
       var pts = s.values.map(function (v, i) { return [X(i), Y(v)]; });
@@ -799,8 +841,8 @@
     return '<svg class="gx-tr-svg" viewBox="0 0 ' + W + ' ' + H +
       '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="面试成绩趋势折线图">' +
       grid +
-      '<line x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + (H - B) + '" stroke="#7A8B85" stroke-width="1.2"/>' +
-      '<line x1="' + L + '" y1="' + (H - B) + '" x2="' + (W - R) + '" y2="' + (H - B) + '" stroke="#7A8B85" stroke-width="1.2"/>' +
+      '<line x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + (H - B) + '" stroke="#8BAC9F" stroke-width="1.2"/>' +
+      '<line x1="' + L + '" y1="' + (H - B) + '" x2="' + (W - R) + '" y2="' + (H - B) + '" stroke="#8BAC9F" stroke-width="1.2"/>' +
       lines + xlab.join('') + '</svg>';
   }
   function gxInterviewTrendCardInner() {
@@ -811,7 +853,9 @@
       series = [{ color: '#20CFAE', values: h.map(function (r) { return r.score; }) }];
     } else {
       var dims = ['专业知识', '表达流畅度', '学习潜力', '行业趋势'];
-      var colors = ['#20CFAE', '#F2A65A', '#7C8CFF', '#B0769B'];
+      /* v45：橙/紫/粉与报告薄荷青绿冲突，收敛到同色系的不同明度，
+         末位保留一个柔和蓝（报告长图里的蓝色标签带）。 */
+      var colors = ['#0E9A80', '#20CFAE', '#5CC7B4', '#8FB9D6'];
       series = dims.map(function (d, i) {
         return { name: d, color: colors[i], values: h.map(function (r) { return r.dims[d]; }) };
       });
@@ -819,8 +863,9 @@
     var legend = totalMode ? '' : '<div class="gx-tr-legend">' + series.map(function (s) {
       return '<span><i style="background:' + s.color + '"></i>' + s.name + '</span>';
     }).join('') + '</div>';
-    return '<div class="gx-tr-head"><span class="gx-tr-bar"></span><h3>成绩趋势</h3></div>' +
-      '<div class="gx-tr-modes">' +
+    /* v45：用户明确「不要那个成绩趋势标题」，标题 + 青绿竖条整块移除，
+       右上角直接从「总分趋势 / 维度对比」分段切换起头。 */
+    return '<div class="gx-tr-modes">' +
         '<button class="' + (totalMode ? 'active' : '') + '" data-trend-mode="total" type="button">总分趋势</button>' +
         '<button class="' + (!totalMode ? 'active' : '') + '" data-trend-mode="dim" type="button">维度对比</button>' +
       '</div>' + legend +
@@ -1287,8 +1332,386 @@
 
   /* ---------- 9. 页面装配 ---------- */
   /* 右栏纸张：基本资料 + AI 总结（标题 + 年份 Tab + 三栏） / 其他标签的模块卡 */
+  /* ============================================================
+     v48 · 生涯体验周专属详情页
+     不再复用 16 个模块的「记录 + 说明」通用模板：该标签有真实业务数据
+     （后台活动列表：活动名称 / 地点 / 周期 / 报名 / 签到 / 活动状态），
+     值得做成一个有产品主张的「我的体验周旅程」。
+     结构仍守两条既有口径：
+       1) 顶部 AI 卡与其它详情页共用 --gx-ai-card-h=306px，切换标签不跳版；
+       2) 下方是唯一一张完整白卡（v46「一个整体，不是给分开」）。
+     卡内：筛选行 + KPI 概览条 + 左「活动旅程时间轴」/ 右「能力成长 + 成果清单」。
+     删掉本组函数与 gxSheet 里的分支即可回到 v47 通用模板。
+     ============================================================ */
+  function gxEwAi() {
+    var e = ca.experienceWeek;
+    var legend = e.donut.map(function (d) {
+      return '<li><i style="background:' + d.color + '"></i><span>' + d.name + '</span></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ew-ai">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-ew-ai-sub">基于你参与的生涯体验周活动与沉淀成果的纵向追踪</p>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + e.ai.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + e.ai.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz">' +
+        '<div class="gx-donut-wrap">' + gxDonut(e.donut, 156) + '</div>' +
+        '<ul class="gx-donut-legend">' + legend + '</ul>' +
+      '</div>' +
+    '</section>';
+  }
+
+  function gxEwTabs() {
+    var opts = [
+      { k: 'all', n: '全部' },
+      { k: 'signed', n: '已签到' },
+      { k: 'signup', n: '仅报名' },
+      { k: 'works', n: '有成果' }
+    ];
+    return '<div class="gx-ew-tabs">' + opts.map(function (o) {
+      return '<button type="button" class="' + (activeEwFilter === o.k ? 'active' : '') +
+        '" data-ew-filter="' + o.k + '">' + o.n + '</button>';
+    }).join('') + '</div>';
+  }
+
+  function gxEwKpis() {
+    var k = ca.experienceWeek.kpi;
+    var items = [
+      { v: k.joined, u: '场', n: '参与活动' },
+      { v: k.signed, u: '场', n: '完成签到' },
+      { v: k.days, u: '天', n: '累计体验' },
+      { v: k.works, u: '项', n: '沉淀成果' }
+    ];
+    return '<div class="gx-ew-kpis">' + items.map(function (x) {
+      return '<div class="gx-ew-kpi"><b>' + x.v + '</b><i>' + x.u + '</i><span>' + x.n + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function gxEwTimeline() {
+    var list = ca.experienceWeek.activities.filter(function (a) {
+      if (activeEwFilter === 'signed') return a.signed;
+      if (activeEwFilter === 'signup') return a.signup && !a.signed;
+      if (activeEwFilter === 'works') return !!a.work;
+      return true;
+    });
+    if (!list.length) return '<div class="gx-ew-empty">该筛选下暂无活动记录</div>';
+    return '<div class="gx-ew-list">' + list.map(function (a) {
+      var st = a.signed
+        ? '<em class="gx-ew-st gx-ew-st--ok">已签到</em>'
+        : (a.status === '进行中'
+          ? '<em class="gx-ew-st gx-ew-st--ing">待参与</em>'
+          : '<em class="gx-ew-st gx-ew-st--miss">未签到</em>');
+      var wk = a.work
+        ? '<div class="gx-ew-work"><i>成果</i><span>' + gxEsc(a.work) + '</span></div>'
+        : '<div class="gx-ew-work gx-ew-work--empty"><i>成果</i><span>暂无，建议补交岗位观察笔记</span></div>';
+      return '<article class="gx-ew-item">' +
+        '<div class="gx-ew-dot"></div>' +
+        '<div class="gx-ew-item-main">' +
+          '<div class="gx-ew-item-top"><h4>' + gxEsc(a.name) + '</h4>' + st + '</div>' +
+          '<p class="gx-ew-meta">' + gxEsc(a.place) + ' · ' + a.period + ' · ' + a.days + ' 天</p>' +
+          '<div class="gx-ew-tags"><span>' + gxEsc(a.type) + '</span><span>' + gxEsc(a.ability) + '</span></div>' +
+          wk +
+        '</div>' +
+      '</article>';
+    }).join('') + '</div>';
+  }
+
+  function gxEwEvidence() {
+    var e = ca.experienceWeek;
+    var bars = e.abilities.map(function (a) {
+      return '<div class="gx-ew-bar"><span>' + a.name + '</span>' +
+        '<div class="gx-ew-bar-track"><i style="width:' + a.value + '%"></i></div>' +
+        '<b>' + a.value + '</b></div>';
+    }).join('');
+    var works = e.works.map(function (w) {
+      return '<li><div class="gx-ew-work-ico"></div><div class="gx-ew-work-txt">' +
+        '<b>' + gxEsc(w.name) + '</b><p>' + gxEsc(w.from) + ' · ' + w.date + '</p></div>' +
+        '<em>' + w.type + '</em></li>';
+    }).join('');
+    return '<div class="gx-ew-evidence">' +
+      '<h4 class="gx-ew-sec-title">能力成长</h4><div class="gx-ew-bars">' + bars + '</div>' +
+      '<h4 class="gx-ew-sec-title">成果清单</h4><ul class="gx-ew-works">' + works + '</ul>' +
+    '</div>';
+  }
+
+  function gxEwSheet() {
+    return '<div class="gx-sheet gx-sheet-ew">' +
+      gxEwAi() +
+      '<section class="gx-card gx-ew-panel">' +
+        '<div class="gx-ew-head">' +
+          '<div class="gx-ew-heading"><h3>我的体验周旅程</h3>' +
+            '<p>按活动时间倒序 · 数据来自云生涯后台活动归档</p></div>' +
+          gxEwTabs() +
+        '</div>' +
+        gxEwKpis() +
+        '<div class="gx-ew-body">' +
+          '<div class="gx-ew-journey">' + gxEwTimeline() + '</div>' +
+          gxEwEvidence() +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindEw() {
+    document.querySelectorAll('[data-ew-filter]').forEach(function (b) {
+      b.onclick = function () { activeEwFilter = b.getAttribute('data-ew-filter'); render(); };
+    });
+  }
+
+  /* ==========================================================================
+     v49 · AI 面试详情页按 1280×720 设计稿整体重做
+     设计稿口径（与 v45 的薄荷青绿版是两套皮肤，本区块独立、可整块删除回滚）：
+       顶部两张并列卡：左「AI总结及建议」(诊断总结/后续建议 + 右下枝叶)，
+                       右「成绩趋势」(竖条标题 + 总分趋势/维度对比 + 4 点折线 + 注释)
+       下方两张并列卡：左「竖排岗位筛选 + 面试记录时间轴」，右「AI面试报告」横版报告卡
+     配色回到设计稿的奶油米白 + 草绿；所有类名加 gx-iv2 前缀，不复用 v44/v45 的
+     .gx-interview-top / .gx-interview-bottom / .gx-report 等类，避免旧规则串味。
+     旧 gxInterviewSheet() / gxInterviewTop() / gxInterviewImageReport() 全部保留为回滚路径。
+     ========================================================================== */
+  ca.interviewDesign = {
+    jobs: ['行政专员', 'PHP开发工程师', '大客户销售', '研发技术助理', '爬虫开发工程师',
+      '系统架构设计师', '生物制药工程师', '药品注册员', '医疗器械开发',
+      '新能源电池工程师', '外科医生', '专科医生', '牙科医生', '理疗师'],
+    status: [
+      { k: 'all', n: '全部' }, { k: 'done', n: '已完成' }, { k: 'undone', n: '未完成' },
+      { k: 'generating', n: '报告生成中' }, { k: 'failed', n: '报告生成失败' }
+    ],
+    dims: ['专业知识', '表达清晰度', '学习潜力', '行业热情'],
+    records: [
+      { date: '2025-12-05', time: '18:37:50', state: '面试未结束', dims: [0, 0, 0, 0], st: 'undone' },
+      { date: '2025-11-10', time: '11:46:16', score: 30, pass: false, dims: [2, 1, 1, 1], st: 'done', report: true },
+      { date: '2025-10-24', time: '15:43:56', state: '面试未结束', dims: [0, 0, 0, 0], st: 'undone' },
+      { date: '2025-10-24', time: '15:43:55', state: '面试未结束', dims: [0, 0, 0, 0], st: 'undone' },
+      { date: '2025-10-24', time: '15:41:13', state: '面试未结束', dims: [0, 0, 0, 0], st: 'undone' }
+    ],
+    trend: {
+      total: [50, 50, 50, 10],
+      dims: [[48, 52, 46, 12], [42, 46, 50, 8], [55, 48, 52, 15], [38, 44, 40, 6]]
+    },
+    report: {
+      duration: '1分27秒', style: '亲和引导型', job: '行政专员', score: 60,
+      scores: [2, 3, 4, 3],
+      summary: '候选人展现了明确的学习意愿和基础的行政思维框架（如台账管理、会前准备），具备一定的可塑性。然而，专业知识掌握较浅，回答普遍停留在概念层面，缺乏具体案例、方法论和细节支撑，是应届生典型的经验不足问题。整体表现中规中矩，潜力大于现岗能力。'
+    }
+  };
+  var activeIv2Job = '行政专员';
+  var activeIv2Status = 'all';
+  var activeIv2TrendMode = 'total';
+  var activeIv2ReportScore = 60;
+
+  function gxIv2Sprig(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 62 116" aria-hidden="true">' +
+      '<path d="M31 114 C31 84 27 52 19 8" fill="none" stroke="#93BE7C" stroke-width="1.7" stroke-linecap="round"/>' +
+      '<g fill="#B9D6A2" opacity=".9">' +
+      '<ellipse cx="19" cy="16" rx="4.4" ry="9" transform="rotate(-30 19 16)"/>' +
+      '<ellipse cx="12" cy="34" rx="4" ry="8.4" transform="rotate(-52 12 34)"/>' +
+      '<ellipse cx="27" cy="44" rx="4.2" ry="8.6" transform="rotate(38 27 44)"/>' +
+      '<ellipse cx="12" cy="60" rx="3.8" ry="8" transform="rotate(-50 12 60)"/>' +
+      '<ellipse cx="29" cy="72" rx="4" ry="8.2" transform="rotate(42 29 72)"/>' +
+      '<ellipse cx="16" cy="88" rx="3.6" ry="7.6" transform="rotate(-48 16 88)"/>' +
+      '<ellipse cx="31" cy="98" rx="3.6" ry="7.4" transform="rotate(44 31 98)"/>' +
+      '</g></svg>';
+  }
+  function gxIv2Stars(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 90 60" aria-hidden="true">' +
+      '<g fill="#F5D98A"><path d="M28 6l2.6 6.4L37 15l-6.4 2.6L28 24l-2.6-6.4L19 15l6.4-2.6z"/>' +
+      '<path d="M50 20l1.7 4.2 4.3 1.8-4.3 1.7L50 32l-1.7-4.3-4.3-1.7 4.3-1.8z"/>' +
+      '<path d="M66 3l1.4 3.4 3.6 1.4-3.6 1.5L66 13l-1.4-3.7-3.6-1.5 3.6-1.4z"/></g></svg>';
+  }
+  function gxIv2Avatar() {
+    return '<svg viewBox="0 0 64 64" aria-hidden="true">' +
+      '<circle cx="32" cy="32" r="31" fill="#E7F0DD"/>' +
+      '<path d="M13 58c1.8-11 8.6-16 19-16s17.2 5 19 16z" fill="#82B36A"/>' +
+      '<circle cx="32" cy="26" r="11" fill="#F7E3D0"/>' +
+      '<path d="M21 25.5c-.6-8 4.5-12.5 11-12.5s11.6 4.5 11 12.5c-1.8-4.2-5.6-6.6-11-6.6s-9.2 2.4-11 6.6z" fill="#2F382B"/>' +
+      '<circle cx="28" cy="27" r="1.1" fill="#2F382B"/><circle cx="36" cy="27" r="1.1" fill="#2F382B"/>' +
+      '<path d="M29 32c1.6 1.3 4.4 1.3 6 0" fill="none" stroke="#C98B72" stroke-width="1.2" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  function gxIv2Ai() {
+    return '<section class="gx-card gx-iv2-ai">' +
+      '<h3 class="gx-iv2-ai-title">AI总结及建议</h3>' +
+      '<div class="gx-iv2-ai-text">' +
+        '<h4>诊断总结：</h4><p>' + ca.interviewAi.diag + '</p>' +
+        '<h4>后续建议：</h4><p>' + ca.interviewAi.advice + '</p>' +
+      '</div>' + gxIv2Sprig('gx-iv2-ai-sprig') +
+      '</section>';
+  }
+
+  function gxIv2TrendSvg() {
+    var W = 330, H = 152, L = 32, R = 12, T = 8, B = 24;
+    var pw = W - L - R, ph = H - T - B;
+    function X(i) { return L + pw * i / 3; }
+    function Y(v) { return T + ph * (1 - v / 100); }
+    var grid = [0, 25, 50, 75, 100].map(function (g) {
+      var yy = Y(g).toFixed(1);
+      return '<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy +
+        '" stroke="#E2E8D9" stroke-width="1"' + (g === 0 ? '' : ' stroke-dasharray="3 4"') + '/>' +
+        '<text x="' + (L - 7) + '" y="' + (Number(yy) + 3.2).toFixed(1) +
+        '" text-anchor="end" font-size="9" fill="#9AA896">' + g + '</text>';
+    }).join('');
+    var xlab = [1, 2, 3, 4].map(function (k) {
+      return '<text x="' + X(k - 1).toFixed(1) + '" y="' + (H - 5) +
+        '" text-anchor="middle" font-size="9" fill="#9AA896">' + k + '</text>';
+    }).join('');
+    var d = ca.interviewDesign, total = activeIv2TrendMode !== 'dim';
+    var series = total ? [{ c: '#6FA457', v: d.trend.total }] :
+      d.trend.dims.map(function (v, i) {
+        return { c: ['#548C42', '#79AC60', '#9FC984', '#C0D9A8'][i], v: v };
+      });
+    var lines = series.map(function (s) {
+      var pts = s.v.map(function (v, i) { return [X(i), Y(v)]; });
+      return '<path d="' + gxSmoothPath(pts) + '" fill="none" stroke="' + s.c +
+        '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+        pts.map(function (p) {
+          return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) +
+            '" r="3" fill="#FFFEFB" stroke="' + s.c + '" stroke-width="1.6"/>';
+        }).join('');
+    }).join('');
+    return '<svg class="gx-iv2-tr-svg" viewBox="0 0 ' + W + ' ' + H +
+      '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="面试成绩趋势折线图">' +
+      grid + lines + xlab +
+      '<line x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + (H - B) +
+      '" stroke="#9AA896" stroke-width="1"/></svg>';
+  }
+  function gxIv2Trend() {
+    var d = ca.interviewDesign, total = activeIv2TrendMode !== 'dim';
+    var modes = [{ k: 'total', n: '总分趋势' }, { k: 'dim', n: '维度对比' }].map(function (m) {
+      return '<button type="button" class="' + (activeIv2TrendMode === m.k ? 'active' : '') +
+        '" data-iv2-mode="' + m.k + '">' + m.n + '</button>';
+    }).join('');
+    var legend = total ? '' : '<div class="gx-iv2-tr-legend">' + d.dims.map(function (n, i) {
+      return '<span><i style="background:' + ['#548C42', '#79AC60', '#9FC984', '#C0D9A8'][i] + '"></i>' + n + '</span>';
+    }).join('') + '</div>';
+    return '<section class="gx-card gx-iv2-trend">' +
+      '<div class="gx-iv2-tr-head"><i></i><h3>成绩趋势</h3></div>' +
+      gxIv2Stars('gx-iv2-tr-stars') +
+      '<div class="gx-iv2-modes">' + modes + '</div>' + legend +
+      '<div class="gx-iv2-tr-chart">' + gxIv2TrendSvg() + '</div>' +
+      '<div class="gx-iv2-tr-note">仅展示已完成的面试记录</div>' +
+      gxIv2Sprig('gx-iv2-tr-sprig') +
+      '</section>';
+  }
+  function gxIv2Top() {
+    return '<div class="gx-iv2-top">' + gxIv2Ai() + gxIv2Trend() + '</div>';
+  }
+
+  function gxIv2Records() {
+    var d = ca.interviewDesign;
+    var jobs = d.jobs.map(function (n) {
+      return '<button type="button" class="' + (activeIv2Job === n ? 'active' : '') +
+        '" data-iv2-job="' + n + '">' + n + '</button>';
+    }).join('');
+    var status = d.status.map(function (s) {
+      return '<button type="button" class="' + (activeIv2Status === s.k ? 'active' : '') +
+        '" data-iv2-status="' + s.k + '">' + s.n + '</button>';
+    }).join('');
+    var list = d.records.filter(function (r) {
+      return activeIv2Status === 'all' || r.st === activeIv2Status;
+    });
+    var items = list.length ? list.map(function (r) {
+      var right = r.report ?
+        '<span class="gx-iv2-rec-score">' + r.score + '</span><span class="gx-iv2-rec-badge">不及格</span>' +
+        '<button type="button" class="gx-iv2-rec-view" data-iv2-report="' + r.score + '">查看报告</button>' :
+        '<span class="gx-iv2-rec-state">' + r.state + '</span>';
+      var dims = d.dims.map(function (n, i) {
+        return '<span class="gx-iv2-dim">' + n + ' <i>' + r.dims[i] + '</i></span>';
+      }).join('');
+      return '<article class="gx-iv2-rec"><span class="gx-iv2-dot"></span>' +
+        '<div class="gx-iv2-rec-box">' +
+          '<div class="gx-iv2-rec-top"><div class="gx-iv2-rec-date"><b>' + r.date + '</b><em>' + r.time + '</em></div>' +
+          '<div class="gx-iv2-rec-right">' + right + '</div></div>' +
+          '<div class="gx-iv2-dims">' + dims + '</div>' +
+        '</div></article>';
+    }).join('') : '<div class="gx-iv2-empty">暂无符合条件的面试记录</div>';
+    return '<section class="gx-card gx-iv2-records">' +
+      '<div class="gx-iv2-jobs">' + jobs + '</div>' +
+      '<div class="gx-iv2-rec-main">' +
+        '<div class="gx-iv2-rec-head"><h3><i></i>面试记录</h3>' +
+        '<div class="gx-iv2-status">' + status + '</div></div>' +
+        '<div class="gx-iv2-timeline">' + items + '</div>' +
+      '</div></section>';
+  }
+
+  function gxIv2ScoreSvg() {
+    var W = 470, H = 138, L = 42, R = 14, T = 14, B = 36;
+    var pw = W - L - R, ph = H - T - B;
+    function Y(v) { return T + ph * (1 - v / 100); }
+    var grid = [0, 20, 40, 60, 80, 100].map(function (g) {
+      var yy = Y(g).toFixed(1);
+      return '<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy +
+        '" stroke="#E4E9DC" stroke-width="1"' + (g === 0 ? '' : ' stroke-dasharray="3 4"') + '/>' +
+        '<text x="' + (L - 7) + '" y="' + (Number(yy) + 3).toFixed(1) +
+        '" text-anchor="end" font-size="8.5" fill="#A0AE9B">' + g + '</text>';
+    }).join('');
+    var d = ca.interviewDesign, cx = [];
+    var marks = d.report.scores.map(function (v, i) {
+      var x = L + pw * (i + 0.5) / 4;
+      cx.push([x, Y(0) - 3]);
+      return '<rect x="' + (x - 3).toFixed(1) + '" y="' + (Y(0) - 3).toFixed(1) +
+        '" width="6" height="3" rx="1" fill="#7FB268"/>' +
+        '<text x="' + x.toFixed(1) + '" y="' + (Y(0) - 7).toFixed(1) +
+        '" text-anchor="middle" font-size="9" font-weight="700" fill="#5B8F49">' + v + '</text>';
+    }).join('');
+    var line = '<path d="' + gxSmoothPath(cx) + '" fill="none" stroke="#B9D6A2" stroke-width="1.4"/>';
+    var labels = d.dims.map(function (n, i) {
+      var x = L + pw * (i + 0.5) / 4, y = H - 12;
+      return '<text x="' + x.toFixed(1) + '" y="' + y +
+        '" text-anchor="middle" font-size="8.5" fill="#9AA896" transform="rotate(-20 ' + x.toFixed(1) + ' ' + y + ')">' + n + '</text>';
+    }).join('');
+    return '<svg class="gx-iv2-score-svg" viewBox="0 0 ' + W + ' ' + H +
+      '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="报告总结维度评分图">' +
+      '<text x="' + L + '" y="9" font-size="8.5" fill="#A0AE9B">评分 (0-100分)</text>' +
+      grid + line + marks + labels + '</svg>';
+  }
+  function gxIv2Report() {
+    var r = ca.interviewDesign.report;
+    var meta = [
+      ['面试总时长', r.duration], ['面试官风格', r.style],
+      ['面试岗位', r.job], ['最终得分', activeIv2ReportScore + '分']
+    ].map(function (m) {
+      return '<li><span>' + m[0] + '：</span><em>' + m[1] + '</em></li>';
+    }).join('');
+    return '<section class="gx-card gx-iv2-report">' +
+      gxIv2Stars('gx-iv2-rep-stars') +
+      '<div class="gx-iv2-rep-ai">AI</div>' +
+      gxIv2Sprig('gx-iv2-rep-sprig') +
+      '<h3 class="gx-iv2-rep-title">AI面试报告</h3>' +
+      '<div class="gx-iv2-person">' +
+        '<span class="gx-iv2-avatar">' + gxIv2Avatar() + '</span>' +
+        '<div class="gx-iv2-person-info"><b>' + ca.basicInfo.name + '-测试学生</b><ul>' + meta + '</ul></div>' +
+      '</div>' +
+      '<div class="gx-iv2-sumtag"><i>▣</i>报告总结</div>' +
+      '<div class="gx-iv2-score">' + gxIv2ScoreSvg() + '</div>' +
+      '<p class="gx-iv2-rep-sum">' + r.summary + '</p>' +
+      '</section>';
+  }
+  function gxIv2Sheet() {
+    return '<div class="gx-sheet gx-sheet-interview gx-iv2">' +
+      gxIv2Top() +
+      '<div class="gx-iv2-bottom">' + gxIv2Records() + gxIv2Report() + '</div>' +
+      '</div>';
+  }
+  function gxBindIv2() {
+    document.querySelectorAll('[data-iv2-job]').forEach(function (b) {
+      b.onclick = function () { activeIv2Job = b.getAttribute('data-iv2-job'); render(); };
+    });
+    document.querySelectorAll('[data-iv2-status]').forEach(function (b) {
+      b.onclick = function () { activeIv2Status = b.getAttribute('data-iv2-status'); render(); };
+    });
+    document.querySelectorAll('[data-iv2-mode]').forEach(function (b) {
+      b.onclick = function () { activeIv2TrendMode = b.getAttribute('data-iv2-mode'); render(); };
+    });
+    document.querySelectorAll('[data-iv2-report]').forEach(function (b) {
+      b.onclick = function () { activeIv2ReportScore = Number(b.getAttribute('data-iv2-report')); render(); };
+    });
+  }
+
   function gxSheet() {
-    if (activeSideTag === 'AI面试') return gxInterviewSheet();
+    if (activeSideTag === '生涯体验周') return gxEwSheet();
+    if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
     if (activeSideTag === '基本信息') {
       return '<div class="gx-sheet">' + gxBasicCard() + gxAiCard() + '</div>';
@@ -1303,13 +1726,21 @@
      高度共用 --gx-ai-card-h=306px），下方左「模块记录」/ 右「模块说明」两栏。
      原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。 */
   function gxModuleSheet() {
-    var hint = '<section class="gx-card gx-bottom"><div class="gx-hint">' +
+    /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
+       原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
+       并排成两张白卡（中间 12px 间隙 + 各自圆角阴影），用户要求「是一个整体，不是给分开」。
+       现在唯一的外层 .gx-card.gx-module-panel 提供白底/圆角/阴影，
+       内层两栏降级为无外观的区块，靠 CSS 去掉背景与间隙。
+       回滚：去掉外层 section、hint 改回 <section class="gx-card gx-bottom"> 并恢复 v36 CSS。 */
+    var hint = '<div class="gx-module-side"><div class="gx-hint">' +
       '<h4>' + activeSideTag + '模块</h4>' +
       '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p>' +
-      '</div></section>';
+      '</div></div>';
     return '<div class="gx-sheet gx-sheet-module">' +
       gxAssessAi() +
-      '<div class="gx-module-bottom">' + gxModuleCard() + hint + '</div>' +
+      '<section class="gx-card gx-module-panel">' +
+        '<div class="gx-module-bottom">' + gxModuleCard() + hint + '</div>' +
+      '</section>' +
     '</div>';
   }
 
@@ -1346,6 +1777,8 @@
       gxBindBack();
       gxBindInterview();
       gxBindAssess();
+      gxBindEw();
+      gxBindIv2();
       syncUrl();
       return;
     }

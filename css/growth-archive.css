@@ -870,11 +870,15 @@
 }
 
 /* ============================================================
-   v36 · 普通模块标签详情页（16 个）版式对齐职业测评详情页
-   分布：顶部整宽「AI总结及建议」（复用 gxAssessAi，高度共用 --gx-ai-card-h=306px）
-        + 下方左「模块记录」/ 右「模块说明」两栏。
-   原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。
-   删掉本区块 + 还原 js 里的 gxSheet 即可回滚到 v35。
+   v36 建立 · 普通模块标签详情页（16 个）版式对齐职业测评详情页
+   v46 调整 · 下方「模块记录 + 模块说明」由两张并排白卡合并为「一张卡」：
+     用户反馈「下方这个区域应该是一个整体，而不是给分开」——原实现里
+     gxModuleCard() 与 hint 各自是 .gx-card，中间 12px gap + 各自圆角阴影。
+     现在唯一的外层 .gx-card.gx-module-panel 提供白底 / 圆角 / 阴影，
+     内层两栏降级为无外观区块（透明底、无边框、无阴影、gap:0）。
+   分布：顶部整宽「AI总结及建议」+ 下方整宽一张卡（卡内左右两栏）。
+   回滚：去掉 js 里 .gx-module-panel 外层、hint 改回 .gx-card.gx-bottom，
+        并把 .gx-module-bottom 恢复为 gap:12px 的两张独立卡。
    ============================================================ */
 .gx-sheet-module {
   grid-template-columns: minmax(0, 1fr);
@@ -886,32 +890,45 @@
   height: var(--gx-ai-card-h);
   box-sizing: border-box;
 }
-.gx-module-bottom {
+/* 唯一的一张白卡：.gx-card 提供白底 / 圆角 / 阴影 / overflow:hidden */
+.gx-sheet-module > .gx-card.gx-module-panel {
+  min-width: 0; min-height: 0;
+  display: block;
+  padding: 0;
+}
+.gx-module-panel > .gx-module-bottom {
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
-  gap: 12px;
-  min-width: 0;
-  min-height: 0;
+  gap: 0;
+  height: 100%;
+  min-width: 0; min-height: 0;
   align-items: stretch;
 }
-.gx-module-bottom > .gx-card {
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+/* 卡内两栏不再是独立卡片；两栏内容都少，右侧说明文案仍垂直居中 */
+.gx-module-panel .gx-card.gx-module,
+.gx-module-panel .gx-module-side {
+  min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  flex: 1;
+  background: transparent;
+  border: 0; border-radius: 0;
+  box-shadow: none; overflow: visible;
 }
-/* 两栏内容都很少：左卡空态、右卡提示文案垂直居中，避免「顶部一行字 + 大片空白」 */
-.gx-module-bottom > .gx-module,
-.gx-module-bottom > .gx-bottom,
-.gx-module-bottom .gx-hint { flex: 1; }
-.gx-module-bottom .gx-hint { display: flex; flex-direction: column; justify-content: center; }
+.gx-module-panel .gx-hint {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+}
 
 /* 窄屏 / 矮屏：整条链退化为块级流（沿用 v34 修 grid 压缩导致卡片重叠的做法） */
 @media (max-width: 1280px), (max-height: 760px) {
   .gx-sheet-module { display: block; grid-template-rows: none; height: auto; max-height: 100%; overflow-y: auto; }
   .gx-sheet-module > .gx-assess-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
-  .gx-module-bottom { display: block; }
-  .gx-module-bottom > .gx-card { height: 44vh; min-height: 260px; margin-bottom: 12px; }
+  .gx-sheet-module > .gx-card.gx-module-panel { height: auto; }
+  .gx-module-panel > .gx-module-bottom { display: block; height: auto; }
+  .gx-module-panel .gx-card.gx-module,
+  .gx-module-panel .gx-module-side { min-height: 240px; }
+  /* 单列时只用一道极淡横线区分上下两块，仍在同一张卡内 */
+  .gx-module-panel .gx-module-side { border-top: 1px solid #EDF3EF; }
 }
 
 /* ============================================================
@@ -1191,3 +1208,618 @@
 @media (max-width: 1280px), (max-height: 760px) {
   .gx-sheet-interview .gx-interview-top-trend-card { height: 280px; }
 }
+
+/* ============================================================
+   v45 · AI 面试页：整体色调对齐右侧 AI 面试报告 + 右上趋势区按设计稿收窄
+   依据：
+   1) 报告长图 ai-interview-report-design-4x.jpg 主色实测
+      #D0F0F0 / #E0F0F0 薄荷青绿；沿用 v35 职业测评页已确认过的
+      #20CFAE / #7FD9BE / #EAFCF6 / #F5FDFB / #CDEDE4 一整套语言。
+      v45 之前红框左半边仍是暖调橄榄绿 #8AA96D + 米黄 #FBFAF4，与报告不搭。
+   2) 设计稿 1280x720 实测：顶部左白卡 x208–864(656px)、右卡 x870–1153(283px)
+      ≈ 2.3 : 1；原 0.92 : 1.08 让右栏占了 54%，明显偏宽。
+   3) 用户明确「不要那个成绩趋势标题」→ DOM 层已删 .gx-tr-head。
+   作用域严格限定 .gx-sheet-interview，不影响职业测评页 / 普通模块页。
+   回滚：删本区块 + 还原 js 的标题 / 颜色 / L,R 即可回到 v44。
+   ============================================================ */
+.gx-sheet-interview {
+  --gx-teal: #20CFAE;
+  --gx-teal-deep: #0FA98C;
+  --gx-teal-line: #CDEDE4;
+  --gx-teal-bg: #F5FDFB;
+  --gx-teal-wash: #EAFCF6;
+  --gx-teal-ink: #254A43;
+  --gx-teal-mute: #5B7570;
+}
+
+/* --- 1. 顶部两栏按设计稿 2.3 : 1；右栏（趋势图）显著收窄 --- */
+.gx-sheet-interview .gx-card.gx-interview-top {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+}
+/* 左栏透出极淡薄荷米白，右栏保持纯白，靠底色差分区（不破坏 v38「一个区域」） */
+.gx-sheet-interview .gx-interview-top-ai {
+  background: linear-gradient(155deg, #F8FCFA 0%, #F2FAF6 100%);
+}
+.gx-sheet-interview .gx-interview-top-trend-card {
+  background: #FFFFFF;
+  border-left: 1px solid #EDF7F3;
+  padding: 16px 16px 12px;
+}
+
+/* --- 2. 顶部 AI 卡：标题 / 小标题 / 正文 / 滚动条 → 报告青绿系 --- */
+.gx-sheet-interview .gx-interview-top-h { color: var(--gx-teal-ink); }
+.gx-sheet-interview .gx-interview-top-sub { color: var(--gx-teal-mute); }
+.gx-sheet-interview .gx-interview-top-text p { color: #3E5751; }
+.gx-sheet-interview .gx-interview-top-text .gx-ai-sub { color: var(--gx-teal-deep); }
+.gx-sheet-interview .gx-interview-top-text { scrollbar-color: #7FD9BE var(--gx-teal-wash); }
+.gx-sheet-interview .gx-interview-top-text::-webkit-scrollbar-track { background: var(--gx-teal-wash); }
+.gx-sheet-interview .gx-interview-top-text::-webkit-scrollbar-thumb { background: #7FD9BE; }
+
+/* --- 3. 面试记录卡：暖橄榄绿 / 米黄 → 报告薄荷青绿（对齐 v35 口径） --- */
+.gx-sheet-interview .gx-recs-card { background: linear-gradient(180deg, #F5FDFB 0%, #FFFFFF 132px); }
+.gx-sheet-interview .gx-recs-card .gx-card-head h3,
+.gx-sheet-interview .gx-recs-card .gx-card-titles h3 { color: var(--gx-teal-ink); }
+.gx-sheet-interview .gx-recs-desc { color: var(--gx-teal-mute); }
+.gx-sheet-interview .gx-recs-filters button {
+  border: 1px solid var(--gx-teal-line); background: #F2FCFA; color: #4A6A63;
+}
+.gx-sheet-interview .gx-recs-filters button:hover { background: #E4FAF3; border-color: #8FE0C8; }
+.gx-sheet-interview .gx-recs-filters button.active {
+  background: linear-gradient(96deg, #20CFAE, #4AD9BC);
+  border-color: #20CFAE; color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(32, 207, 174, .22);
+}
+.gx-sheet-interview .gx-rec-item { border: 1px solid #D8F0E8; background: var(--gx-teal-bg); }
+.gx-sheet-interview .gx-rec-item:hover { border-color: #8FE0C8; background: #EFFCF8; }
+.gx-sheet-interview .gx-rec-item.active {
+  border-color: var(--gx-teal);
+  background: linear-gradient(100deg, var(--gx-teal-wash) 0%, var(--gx-teal-bg) 100%);
+  box-shadow: 0 2px 10px rgba(32, 207, 174, .18);
+}
+.gx-sheet-interview .gx-rec-top b { color: var(--gx-teal-ink); }
+.gx-sheet-interview .gx-rec-score,
+.gx-sheet-interview .gx-rec-bar-val { color: var(--gx-teal-deep); }
+.gx-sheet-interview .gx-rec-bar-lab { color: var(--gx-teal-mute); }
+.gx-sheet-interview .gx-rec-bar-track { background: #E1F3EE; }
+.gx-sheet-interview .gx-rec-bar-track i { background: linear-gradient(90deg, #5CDDBB, #20CFAE); }
+.gx-sheet-interview .gx-rec-status--pass { background: #DCF7EF; color: #0B7A64; }
+.gx-sheet-interview .gx-rec-status--fail { background: #FCE9E5; color: #A9483C; }
+.gx-sheet-interview .gx-rec-status--comment { background: #E1F0F6; color: #346C8A; }
+.gx-sheet-interview .gx-rec-status--generated { background: #E6F6F0; color: #0E7A64; }
+.gx-sheet-interview .gx-rec-view { color: var(--gx-teal-deep); }
+.gx-sheet-interview .gx-recs-list { scrollbar-color: #7FD9BE var(--gx-teal-wash); }
+.gx-sheet-interview .gx-recs-list::-webkit-scrollbar { width: 8px; }
+.gx-sheet-interview .gx-recs-list::-webkit-scrollbar-track { background: var(--gx-teal-wash); border-radius: 4px; }
+.gx-sheet-interview .gx-recs-list::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
+.gx-sheet-interview .gx-recs-list::-webkit-scrollbar-thumb:hover { background: var(--gx-teal); }
+
+/* --- 4. 右上趋势卡：无标题后由分段切换起头，配色与报告一致 --- */
+.gx-sheet-interview .gx-tr-modes { background: var(--gx-teal-wash); margin-bottom: 10px; }
+.gx-sheet-interview .gx-tr-modes button { color: #4A8C7E; }
+.gx-sheet-interview .gx-tr-modes button.active {
+  background: linear-gradient(100deg, #20CFAE, #4AD9BC);
+  box-shadow: 0 4px 12px rgba(32, 207, 174, .24);
+}
+.gx-sheet-interview .gx-tr-legend { color: var(--gx-teal-mute); }
+.gx-sheet-interview .gx-tr-note { color: #93AFA9; }
+/* 收窄后的右栏内，折线图再留一点左右余量（设计稿 X 轴约占卡内 72%）。
+   右栏从 54% 收到 30% 后，chart 若继续 flex:1 会把折线垂直居中到卡片下半部，
+   按钮与图之间空出约 150px；改为定高紧贴按钮，注释由 margin-top:auto 压到卡底。 */
+.gx-sheet-interview .gx-tr-chart { flex: 0 0 auto; height: 158px; padding: 2px 6px 0; }
+.gx-sheet-interview .gx-tr-note { margin-top: auto; }
+
+/* --- 5. 报告卡滚动条与整页同套青绿 --- */
+.gx-sheet-interview .gx-report--image .gx-report-body.gx-rpt-body {
+  scrollbar-color: #7FD9BE var(--gx-teal-wash);
+}
+.gx-sheet-interview .gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-track { background: var(--gx-teal-wash); }
+.gx-sheet-interview .gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-thumb { background: #7FD9BE; }
+.gx-sheet-interview .gx-report--image .gx-report-body.gx-rpt-body::-webkit-scrollbar-thumb:hover { background: var(--gx-teal); }
+
+/* 矮屏 / 窄屏：恢复堆叠，避免 2.3:1 把右栏压成不可用宽度 */
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-interview .gx-card.gx-interview-top { grid-template-columns: 1fr; }
+  .gx-sheet-interview .gx-interview-top-trend-card {
+    border-left: 0; border-top: 1px solid #EDF7F3;
+  }
+  /* 堆叠成单列时也不让趋势图铺满整宽，保持「调窄」后的观感 */
+  .gx-sheet-interview .gx-tr-modes,
+  .gx-sheet-interview .gx-tr-legend,
+  .gx-sheet-interview .gx-tr-chart,
+  .gx-sheet-interview .gx-tr-note {
+    width: 100%; max-width: 380px; margin-left: auto; margin-right: auto;
+  }
+}
+
+/* ============================================================
+   v47 · 职业测评页「测评名称」页签行不再换行
+   实测（1440×900 纯画布）：6 个按钮 + gap 只需 486px，但 .gx-assess-tabs
+   作为 .gx-assess-bottom 的第 1 个网格项只占左列 450.8px，右列被一个
+   纯空白的 .gx-assess-tabs-spacer 占去 433.2px —— 只差 35px 就把
+   「心理测评」挤到第二行；1920 视口同样差 36px。用户反馈「一行就展示的下」。
+   处理：页签行跨满两列（grid-column:1/-1）、隐藏 spacer、关掉 flex-wrap。
+   按钮本身仍 flex-start 左对齐，视觉上只是第 6 个回到第一行，右半留白。
+   下方「测评记录 / 测评报告」仍在第二行两列，顶底对齐不变。
+   窄屏堆叠时 grid 本就是单列、spacer 也已 display:none，本规则同样安全。
+   回滚：删本区块即可回到 v46。
+   ============================================================ */
+.gx-sheet-assess .gx-assess-bottom > .gx-assess-tabs {
+  grid-column: 1 / -1;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.gx-sheet-assess .gx-assess-bottom > .gx-assess-tabs-spacer {
+  display: none;
+}
+
+/* ============================================================
+   v48 · 生涯体验周专属详情页（学生端成长档案「生涯体验周」标签）
+   设计主张：后台列表是运营视角（报名数 / 签到数 / 浏览量 / 发布状态 / 操作），
+   学生端不照搬，转成「我是否报名 / 我是否签到 / 我沉淀了什么成果」，
+   并把活动翻成按时间倒序的成长旅程 + 可对外展示的证据链。
+   守两条既有口径：顶部 AI 卡共用 --gx-ai-card-h=306px；
+   下方是唯一一张完整白卡（v46），卡内左右分区只用一道极淡线，不加间隙/圆角/阴影。
+   配色沿用 v45 报告薄荷青绿。删本区块 + 去掉 gxSheet 分支即可回到 v47 通用模板。
+   ============================================================ */
+.gx-sheet-ew {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-sheet-ew > .gx-ew-ai {
+  height: var(--gx-ai-card-h);
+  box-sizing: border-box;
+}
+.gx-ew-ai .gx-assess-ai-title { color: #254A43; }
+.gx-ew-ai .gx-assess-ai-p b { color: #0FA98C; }
+.gx-ew-ai .gx-assess-ai-text { scrollbar-color: #7FD9BE #EAFCF6; }
+.gx-ew-ai .gx-assess-ai-text::-webkit-scrollbar-track { background: #EAFCF6; }
+.gx-ew-ai .gx-assess-ai-text::-webkit-scrollbar-thumb { background: #7FD9BE; }
+.gx-ew-ai-sub { margin: -4px 0 12px; font-size: 12px; color: #5B7570; }
+.gx-ew-ai .gx-donut-legend li { font-size: 12px; color: #4A6A63; }
+
+/* 下方唯一一张卡 */
+.gx-ew-panel {
+  display: flex; flex-direction: column;
+  padding: 0; min-width: 0; min-height: 0;
+}
+.gx-ew-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 20px 12px; flex: none;
+}
+.gx-ew-heading h3 { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: #254A43; }
+.gx-ew-heading p { margin: 0; font-size: 11.5px; color: #8AA7A0; }
+.gx-ew-tabs { display: flex; flex-wrap: nowrap; gap: 6px; flex: none; }
+.gx-ew-tabs button {
+  height: 30px; padding: 0 14px; border: 1px solid #D8F0E8; border-radius: 15px;
+  background: #F2FCFA; color: #4A6A63; font-size: 12.5px; font-family: inherit;
+  cursor: pointer; white-space: nowrap;
+  transition: background .15s ease, border-color .15s ease;
+}
+.gx-ew-tabs button:hover { background: #E4FAF3; border-color: #8FE0C8; }
+.gx-ew-tabs button.active {
+  background: linear-gradient(96deg, #20CFAE, #4AD9BC);
+  border-color: #20CFAE; color: #FFFFFF; font-weight: 600;
+  box-shadow: 0 2px 8px rgba(32, 207, 174, .22);
+}
+
+/* KPI 概览：一条整带，不拆成四张小卡 */
+.gx-ew-kpis {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 20px 14px; padding: 12px 0; border-radius: 12px;
+  background: linear-gradient(100deg, #F5FDFB, #EAFCF6);
+  flex: none;
+}
+.gx-ew-kpi { display: flex; align-items: baseline; justify-content: center; gap: 4px; flex-wrap: wrap; }
+.gx-ew-kpi + .gx-ew-kpi { border-left: 1px solid #D8F0E8; }
+.gx-ew-kpi b { font-size: 24px; font-weight: 800; color: #0FA98C; line-height: 1; }
+.gx-ew-kpi i { font-style: normal; font-size: 12px; color: #4A8C7E; }
+.gx-ew-kpi span { flex-basis: 100%; text-align: center; font-size: 11.5px; color: #5B7570; margin-top: 4px; }
+
+/* 卡内左右两栏：无 gap / 无独立卡片外观 */
+.gx-ew-body {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  gap: 0; min-height: 0; flex: 1;
+}
+.gx-ew-journey {
+  min-width: 0; min-height: 0; overflow-y: auto;
+  padding: 2px 20px 18px;
+  scrollbar-width: thin; scrollbar-color: #7FD9BE #EAFCF6;
+}
+.gx-ew-journey::-webkit-scrollbar { width: 7px; }
+.gx-ew-journey::-webkit-scrollbar-track { background: #EAFCF6; border-radius: 4px; }
+.gx-ew-journey::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
+.gx-ew-evidence {
+  min-width: 0; min-height: 0; overflow-y: auto;
+  border-left: 1px solid #EDF7F3;
+  background: linear-gradient(160deg, #FCFEFD, #F8FCFA);
+  padding: 2px 20px 10px;
+  scrollbar-width: thin; scrollbar-color: #7FD9BE #EAFCF6;
+}
+
+/* 活动旅程时间轴 */
+.gx-ew-list { position: relative; padding-left: 18px; display: flex; flex-direction: column; gap: 12px; }
+.gx-ew-list::before {
+  content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px;
+  width: 2px; border-radius: 2px; background: #D8F0E8;
+}
+.gx-ew-item { position: relative; }
+.gx-ew-dot {
+  position: absolute; left: -18px; top: 16px; width: 11px; height: 11px;
+  border-radius: 50%; background: #FFFFFF; border: 2px solid #20CFAE; box-sizing: border-box;
+}
+.gx-ew-item-main {
+  border: 1px solid #E3F3ED; border-radius: 12px; background: #FFFFFF; padding: 12px 14px;
+  transition: border-color .15s ease;
+}
+.gx-ew-item-main:hover { border-color: #8FE0C8; }
+.gx-ew-item-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.gx-ew-item-top h4 { margin: 0; font-size: 13.5px; font-weight: 700; color: #254A43; }
+.gx-ew-st { font-style: normal; font-size: 11px; line-height: 20px; padding: 0 9px; border-radius: 5px; white-space: nowrap; }
+.gx-ew-st--ok { background: #DCF7EF; color: #0B7A64; }
+.gx-ew-st--ing { background: #E1F0F6; color: #346C8A; }
+.gx-ew-st--miss { background: #FFF2E4; color: #A96B2C; }
+.gx-ew-meta { margin: 6px 0 0; font-size: 11.5px; color: #7C9690; }
+.gx-ew-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.gx-ew-tags span {
+  font-size: 11px; line-height: 19px; padding: 0 8px; border-radius: 10px;
+  background: #EAFCF6; color: #0FA98C;
+}
+.gx-ew-work {
+  display: flex; align-items: center; gap: 8px; margin-top: 9px; padding-top: 9px;
+  border-top: 1px dashed #E3F3ED; font-size: 11.5px;
+}
+.gx-ew-work i { font-style: normal; flex: none; color: #0FA98C; font-weight: 700; }
+.gx-ew-work span { color: #3E5751; }
+.gx-ew-work--empty span { color: #A9BDB7; }
+.gx-ew-empty { padding: 40px 0; text-align: center; color: #93AFA9; font-size: 12.5px; }
+
+/* 右栏：能力成长 + 成果清单 */
+.gx-ew-sec-title { margin: 4px 0 9px; font-size: 12.5px; font-weight: 700; color: #254A43; }
+.gx-ew-sec-title:not(:first-child) { margin-top: 10px; }
+.gx-ew-bars { display: flex; flex-direction: column; gap: 6px; }
+.gx-ew-bar {
+  display: grid; grid-template-columns: 60px minmax(0, 1fr) 24px;
+  align-items: center; gap: 8px; font-size: 11px; line-height: 1.3;
+}
+.gx-ew-bar > span { color: #5B7570; white-space: nowrap; }
+.gx-ew-bar-track { height: 6px; border-radius: 4px; background: #E1F3EE; overflow: hidden; }
+.gx-ew-bar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #5CDDBB, #20CFAE); }
+.gx-ew-bar b { color: #0FA98C; font-size: 11px; text-align: right; }
+.gx-ew-works { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.gx-ew-works li {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 9px; border: 1px solid #E3F3ED; border-radius: 9px; background: #FFFFFF;
+}
+.gx-ew-work-ico { width: 7px; height: 7px; border-radius: 50%; background: #20CFAE; flex: none; }
+.gx-ew-work-txt { min-width: 0; flex: 1; }
+.gx-ew-work-txt b {
+  display: block; font-size: 11px; line-height: 1.35; color: #254A43; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gx-ew-work-txt p {
+  margin: 1px 0 0; font-size: 10px; line-height: 1.3; color: #93AFA9;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gx-ew-works em {
+  font-style: normal; flex: none; font-size: 10px; padding: 0 6px; line-height: 18px;
+  border-radius: 5px; background: #DCF7EF; color: #0B7A64;
+}
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-ew { display: block; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-ew > .gx-ew-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
+  .gx-ew-head { flex-wrap: wrap; }
+  .gx-ew-body { display: block; }
+  .gx-ew-journey, .gx-ew-evidence { overflow: visible; }
+  .gx-ew-evidence { border-left: 0; border-top: 1px solid #EDF7F3; padding-top: 16px; }
+}
+
+/* ==========================================================================
+   v49 · AI 面试详情页按 1280×720 设计稿重做（独立皮肤，删本区块即回滚）
+   设计稿实测：页面底 #FDFAF3 奶油米白；顶部左卡 x180–880 / 右卡 x890–1255
+   ≈ 1.9 : 1；下方左卡 x195–730 / 右卡 x745–1260 ≈ 1.04 : 1；
+   主色草绿 #6FA457（分段按钮/折线）、深绿 #5B8F49（标题）、浅绿 #BDD3A7（激活胶囊）。
+   与 v45 薄荷青绿是两套皮肤：所有选择器带 .gx-iv2 前缀，旧 v44/v45 规则
+   只命中 .gx-interview-top / .gx-report--image 等旧类名，不会串味。
+   ========================================================================== */
+.gx-sheet.gx-iv2 {
+  --iv2-card: #FFFEFB;
+  --iv2-green: #6FA457;
+  --iv2-green-deep: #5B8F49;
+  --iv2-green-soft: #BDD3A7;
+  --iv2-ink: #2F3B2F;
+  --iv2-body: #4A554A;
+  --iv2-mute: #8A9A86;
+  --iv2-line: #E7EBDC;
+  --iv2-red: #E1504B;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--gx-ai-card-h) minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-iv2 .gx-iv2-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  gap: 12px;
+  height: var(--gx-ai-card-h);
+  min-width: 0;
+  min-height: 0;
+}
+.gx-iv2 .gx-iv2-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+.gx-iv2 .gx-card {
+  border: 1px solid var(--iv2-line);
+  border-radius: 14px;
+  background: var(--iv2-card);
+  box-shadow: 0 2px 12px rgba(96, 116, 74, .055);
+  box-sizing: border-box;
+}
+
+/* --- 顶部左：AI总结及建议 --- */
+.gx-iv2 .gx-card.gx-iv2-ai {
+  position: relative;
+  padding: 15px 20px 12px;
+  overflow: hidden;
+  background: linear-gradient(170deg, #FFFEFB 0%, #FBFBF5 100%);
+}
+.gx-iv2 .gx-iv2-ai-title {
+  align-self: flex-start;
+  margin: 0 0 8px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid var(--iv2-green-soft);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--iv2-ink);
+  letter-spacing: .4px;
+  flex: none;
+}
+.gx-iv2 .gx-iv2-ai-text {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--iv2-green-soft) #F1F4E9;
+}
+.gx-iv2 .gx-iv2-ai-text::-webkit-scrollbar { width: 6px; }
+.gx-iv2 .gx-iv2-ai-text::-webkit-scrollbar-track { background: #F1F4E9; border-radius: 3px; }
+.gx-iv2 .gx-iv2-ai-text::-webkit-scrollbar-thumb { background: var(--iv2-green-soft); border-radius: 3px; }
+.gx-iv2 .gx-iv2-ai-text h4 { margin: 0 0 3px; font-size: 12px; font-weight: 700; color: #3E4A3B; }
+.gx-iv2 .gx-iv2-ai-text p {
+  margin: 0 0 6px;
+  font-size: 10.8px;
+  line-height: 1.7;
+  color: var(--iv2-body);
+  text-align: justify;
+}
+.gx-iv2 .gx-iv2-ai-text p:last-child { margin-bottom: 0; }
+.gx-iv2 .gx-iv2-ai-sprig {
+  position: absolute; right: 4px; bottom: 0;
+  width: 50px; height: 96px; opacity: .72; pointer-events: none;
+}
+
+/* --- 顶部右：成绩趋势 --- */
+.gx-iv2 .gx-card.gx-iv2-trend {
+  position: relative;
+  padding: 14px 16px 10px;
+  overflow: hidden;
+}
+.gx-iv2 .gx-iv2-tr-head { display: flex; align-items: center; gap: 8px; flex: none; }
+.gx-iv2 .gx-iv2-tr-head i {
+  width: 4px; height: 17px; border-radius: 2px;
+  background: var(--iv2-green); flex: none;
+}
+.gx-iv2 .gx-iv2-tr-head h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--iv2-ink); }
+.gx-iv2 .gx-iv2-tr-stars {
+  position: absolute; right: 6px; top: 4px;
+  width: 68px; height: 44px; pointer-events: none;
+}
+.gx-iv2 .gx-iv2-modes {
+  display: flex; gap: 0; flex: none;
+  margin: 12px 0 9px; padding: 3px;
+  background: #F0F2E9; border-radius: 20px;
+}
+.gx-iv2 .gx-iv2-modes button {
+  flex: 1; height: 28px; border: 0; border-radius: 18px;
+  background: transparent; color: var(--iv2-green-deep);
+  font-size: 12px; cursor: pointer; transition: background .15s;
+}
+.gx-iv2 .gx-iv2-modes button.active {
+  background: var(--iv2-green); color: #FFFFFF; font-weight: 700;
+  box-shadow: 0 2px 7px rgba(90, 140, 60, .26);
+}
+.gx-iv2 .gx-iv2-tr-legend {
+  display: flex; flex-wrap: wrap; gap: 3px 10px; flex: none;
+  margin: 0 0 4px; font-size: 10px; color: #6B7A66;
+}
+.gx-iv2 .gx-iv2-tr-legend i {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; margin-right: 3px;
+}
+.gx-iv2 .gx-iv2-tr-chart { flex: 1; min-height: 0; }
+.gx-iv2 .gx-iv2-tr-svg { display: block; width: 100%; height: 100%; }
+.gx-iv2 .gx-iv2-tr-note {
+  flex: none; text-align: right; font-size: 10.5px; color: #A8B3A2;
+}
+.gx-iv2 .gx-iv2-tr-sprig {
+  position: absolute; right: -2px; bottom: -2px;
+  width: 32px; height: 60px; opacity: .42; pointer-events: none;
+}
+
+/* --- 下方左：竖排岗位 + 面试记录时间轴 --- */
+.gx-iv2 .gx-card.gx-iv2-records {
+  display: grid;
+  grid-template-columns: 142px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  overflow: hidden;
+}
+.gx-iv2 .gx-iv2-jobs {
+  display: flex; flex-direction: column; gap: 4px;
+  min-height: 0; overflow-y: auto;
+  padding: 8px 7px;
+  background: #FAFAF3; border: 1px solid #EEF0E4; border-radius: 12px;
+  scrollbar-width: thin; scrollbar-color: var(--iv2-green-soft) #F1F4E9;
+}
+.gx-iv2 .gx-iv2-jobs button {
+  flex: none; height: 25px;
+  border: 1px solid #E6EADD; border-radius: 16px;
+  background: var(--iv2-card); color: var(--iv2-body);
+  font-size: 11px; cursor: pointer; white-space: nowrap;
+}
+.gx-iv2 .gx-iv2-jobs button:hover { border-color: var(--iv2-green-soft); background: #F3F8ED; }
+.gx-iv2 .gx-iv2-jobs button.active {
+  background: var(--iv2-green-soft); border-color: var(--iv2-green-soft);
+  color: #2F4A28; font-weight: 700;
+}
+.gx-iv2 .gx-iv2-rec-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.gx-iv2 .gx-iv2-rec-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; flex: none; margin-bottom: 9px;
+}
+.gx-iv2 .gx-iv2-rec-head h3 {
+  display: flex; align-items: center; gap: 7px;
+  margin: 0; font-size: 14px; font-weight: 700; color: var(--iv2-ink);
+  white-space: nowrap;
+}
+.gx-iv2 .gx-iv2-rec-head h3 i {
+  width: 3px; height: 15px; border-radius: 2px; background: var(--iv2-green);
+}
+.gx-iv2 .gx-iv2-status { display: flex; gap: 4px; flex-wrap: nowrap; }
+.gx-iv2 .gx-iv2-status button {
+  height: 22px; padding: 0 6px;
+  border: 1px solid #DDE6D2; border-radius: 4px;
+  background: var(--iv2-card); color: #7A8A72;
+  font-size: 10px; white-space: nowrap; cursor: pointer;
+}
+.gx-iv2 .gx-iv2-status button.active {
+  background: var(--iv2-green-deep); border-color: var(--iv2-green-deep); color: #FFFFFF;
+}
+.gx-iv2 .gx-iv2-timeline {
+  position: relative; flex: 1; min-height: 0;
+  overflow-y: auto; padding-left: 16px;
+  scrollbar-width: thin; scrollbar-color: var(--iv2-green-soft) #F1F4E9;
+}
+.gx-iv2 .gx-iv2-timeline::before {
+  content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px;
+  width: 1.5px; background: #A8C992;
+}
+.gx-iv2 .gx-iv2-rec { position: relative; margin-bottom: 7px; }
+.gx-iv2 .gx-iv2-dot {
+  position: absolute; left: -14px; top: 15px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--iv2-green); border: 1.5px solid var(--iv2-card);
+}
+.gx-iv2 .gx-iv2-rec-box {
+  padding: 7px 10px;
+  border: 1px solid #E9EDE0; border-radius: 9px; background: var(--iv2-card);
+}
+.gx-iv2 .gx-iv2-rec-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.gx-iv2 .gx-iv2-rec-date { display: flex; align-items: baseline; gap: 8px; flex: none; white-space: nowrap; }
+.gx-iv2 .gx-iv2-rec-date b { font-size: 12px; color: var(--iv2-ink); }
+.gx-iv2 .gx-iv2-rec-date em { font-style: normal; font-size: 10px; color: #A0AE9B; }
+.gx-iv2 .gx-iv2-rec-right { display: flex; align-items: center; gap: 6px; }
+.gx-iv2 .gx-iv2-rec-state { font-size: 10.5px; color: var(--iv2-green-deep); }
+.gx-iv2 .gx-iv2-rec-score { font-size: 17px; font-weight: 800; color: var(--iv2-red); }
+.gx-iv2 .gx-iv2-rec-badge {
+  font-size: 9px; color: var(--iv2-red);
+  border: 1px solid #F0B9B6; border-radius: 3px; padding: 1px 3px;
+}
+.gx-iv2 .gx-iv2-rec-view {
+  height: 22px; padding: 0 9px; border: 0; border-radius: 5px;
+  background: var(--iv2-green); color: #FFFFFF; font-size: 10px; cursor: pointer;
+}
+.gx-iv2 .gx-iv2-dims { display: flex; flex-wrap: nowrap; gap: 3px; margin-top: 7px; }
+.gx-iv2 .gx-iv2-dim {
+  font-size: 8.5px; color: #7A8A72;
+  background: #F2F6EC; border-radius: 9px; padding: 2px 4px; white-space: nowrap;
+}
+.gx-iv2 .gx-iv2-dim i { font-style: normal; color: var(--iv2-green-deep); font-weight: 700; }
+.gx-iv2 .gx-iv2-empty { padding: 40px 0; text-align: center; font-size: 12px; color: var(--iv2-mute); }
+
+/* --- 下方右：AI面试报告横版卡 --- */
+.gx-iv2 .gx-card.gx-iv2-report {
+  position: relative;
+  padding: 14px 18px 12px;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #F3F6EA 0%, #FAFBF3 55%, #F1F6E8 100%);
+  scrollbar-width: thin; scrollbar-color: var(--iv2-green-soft) #EAF0DF;
+}
+.gx-iv2 .gx-iv2-rep-title {
+  flex: none; margin: 2px 0 14px;
+  text-align: center; font-size: 20px; font-weight: 700;
+  color: var(--iv2-green-deep); letter-spacing: 1px;
+}
+.gx-iv2 .gx-iv2-rep-stars {
+  position: absolute; left: 6px; top: 4px;
+  width: 72px; height: 48px; pointer-events: none;
+}
+.gx-iv2 .gx-iv2-rep-ai {
+  position: absolute; right: 14px; top: 12px;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--iv2-green); color: #FFFFFF;
+  font-size: 14px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-8deg); box-shadow: 0 3px 8px rgba(90, 140, 60, .26);
+  pointer-events: none;
+}
+.gx-iv2 .gx-iv2-rep-sprig {
+  position: absolute; right: -4px; bottom: 0;
+  width: 46px; height: 90px; opacity: .6; pointer-events: none;
+}
+.gx-iv2 .gx-iv2-person {
+  display: flex; align-items: center; gap: 16px; flex: none;
+  padding: 12px 18px;
+  background: var(--iv2-card); border: 1px solid #EDF0E3; border-radius: 12px;
+}
+.gx-iv2 .gx-iv2-avatar { width: 58px; height: 58px; flex: none; }
+.gx-iv2 .gx-iv2-avatar svg { display: block; width: 100%; height: 100%; }
+.gx-iv2 .gx-iv2-person-info b { display: block; margin-bottom: 6px; font-size: 15px; color: var(--iv2-ink); }
+.gx-iv2 .gx-iv2-person-info ul { list-style: none; margin: 0; padding: 0; }
+.gx-iv2 .gx-iv2-person-info li { font-size: 11px; line-height: 1.7; color: var(--iv2-body); }
+.gx-iv2 .gx-iv2-person-info li span { color: #7A8A72; }
+.gx-iv2 .gx-iv2-person-info li em { font-style: normal; color: var(--iv2-ink); }
+.gx-iv2 .gx-iv2-sumtag {
+  align-self: flex-start; display: flex; align-items: center; gap: 5px; flex: none;
+  margin: 12px 0 -1px; padding: 5px 14px 5px 10px;
+  background: #DDEBCB; border-radius: 8px 14px 0 0;
+  color: #4C7A3A; font-size: 12px; font-weight: 700;
+}
+.gx-iv2 .gx-iv2-sumtag i { font-style: normal; font-size: 12px; }
+.gx-iv2 .gx-iv2-score {
+  flex: none; padding: 8px 10px 2px;
+  background: var(--iv2-card); border: 1px solid #EDF0E3; border-radius: 0 10px 10px 10px;
+}
+.gx-iv2 .gx-iv2-score-svg { display: block; width: 100%; height: auto; }
+.gx-iv2 .gx-iv2-rep-sum {
+  flex: none; margin: 10px 2px 0;
+  font-size: 11px; line-height: 1.8; color: var(--iv2-body); text-align: justify;
+}
+
+/* --- 矮屏 / 窄屏：整页可滚，四张卡纵向排布 --- */
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet.gx-iv2 {
+    display: block; height: auto; max-height: 100%; overflow-y: auto;
+  }
+  .gx-iv2 .gx-iv2-top {
+    height: auto; min-height: 250px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    margin-bottom: 12px;
+  }
+  .gx-iv2 .gx-iv2-ai-text, .gx-iv2 .gx-iv2-timeline { overflow: visible; }
+  .gx-iv2 .gx-iv2-bottom { display: block; }
+  .gx-iv2 .gx-card.gx-iv2-records { height: 430px; margin-bottom: 12px; }
+  .gx-iv2 .gx-card.gx-iv2-report { min-height: 440px; height: auto; }
+}
+
