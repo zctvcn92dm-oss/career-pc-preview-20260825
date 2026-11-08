@@ -1823,3 +1823,15 @@
   .gx-iv2 .gx-card.gx-iv2-report { min-height: 440px; height: auto; }
 }
 
+/* ==========================================================================
+   v50 · 线上课 AI 总结卡：专属文案信息密度更高，局部收紧排版保证一屏完整显示
+   作用域仅 .gx-ai--course，职业测评页 / 其余 15 个通用模块 / 生涯体验周均不受影响。
+   ========================================================================== */
+.gx-ai--course .gx-assess-ai-title { margin-bottom: 8px; }
+.gx-ai--course .gx-assess-ai-p {
+  font-size: 12px;
+  line-height: 1.62;
+  margin-bottom: 8px;
+}
+.gx-ai--course .gx-assess-ai-text { padding-right: 6px; }
+.gx-ai--course .gx-donut-legend li { font-size: 12px; }

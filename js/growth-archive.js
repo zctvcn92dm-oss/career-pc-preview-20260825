@@ -229,6 +229,24 @@
     ],
     styleTitle: '行为风格分析及建议'
   };
+
+  /* v50 · 线上课专属 AI 总结数据
+     口径：线上课 = 线上课程学习，AI 结论必须围绕「课程 / 课时 / 主题 / 完课 / 测验 / 归档」
+     展开，不能复用职业测评的「职业锚 / 人才星图 / 测评结论」语义。
+     数字全部对齐 ca.gradeRecords 里已归档的课程记录：
+       第一年《大学生职业生涯规划》12 节 / 第二年《行业认知与职业选择》10 节 /
+       第三年《职场礼仪与形象管理》8 节（business_type=职业礼仪，description 含「线上课学习」），
+     合计 3 门 30 节；第四年无课程记录 → 文案中的「学习断层」与下方空态自洽。
+     章节测验均分 86 分为原型示例值，接真实平台数据时需替换。 */
+  ca.onlineCourseSummary = {
+    diag: '归集平台线上课程学习记录：自 2023 年 3 月至今累计完成 3 门课、30 节课时，均已完课，章节测验均分 86 分。主题从《大学生职业生涯规划》12 节、《行业认知与职业选择》10 节，转向《职场礼仪与形象管理》8 节，呈「低年级定方向—中年级补素养」路径，与「直接就业 · 数字媒体运营类岗位」的毕业意向基本吻合。短板有三：第四年暂无新增课程记录，毕业学年出现学习断层；课程偏通识与规划类，缺少内容运营、数据分析等岗位技能课；归档以完课课时为主，缺少测验、笔记与作业等过程证据，难以判断知识内化程度。',
+    advice: '建议毕业学年补选 1—2 门岗位技能类课程，把章节测验、笔记摘要与课程作业同步归档，形成「学习—练习—沉淀」证据链；并用《行业认知与职业选择》的岗位结论复核 AI 面试与简历记录，检验课程认知是否与真实岗位要求一致。院校侧可建立「低年级规划—中年级素养—高年级岗位技能」选课导航，对第四年断层设置提醒，把完课与测验数据关联到档案能力维度，据此推送对应课程。',
+    donut: [
+      { name: '职业生涯规划 · 12 节', color: '#4E6FA8', value: 40 },
+      { name: '行业认知选择 · 10 节', color: '#8FBF5A', value: 33 },
+      { name: '职场礼仪形象 · 8 节', color: '#E7B84B', value: 27 }
+    ]
+  };
   ca.assessmentRecords = {
     '职业锚测评': [
       { title: '服务型 · 生活型', type: '职业锚测评', traits: '服务与奉献、工作生活平衡', time: '2025-06-18 10:24', status: '已生成', report: null }
@@ -1086,12 +1104,15 @@
       '<path d="M8 34c1.5-7 6.6-10 12-10s10.5 3 12 10z" fill="#B9C7A2"/></svg>';
   }
 
-  function gxAssessAi() {
-    var a = ca.assessmentSummary;
+  /* v50：支持注入专属 summary（线上课用 ca.onlineCourseSummary）。
+     不传参时行为与 v36 完全一致，职业测评页与其它 15 个通用模块页零改动。 */
+  function gxAssessAi(summary, extraClass) {
+    var a = summary || ca.assessmentSummary;
+    var cls = 'gx-card gx-assess-ai' + (extraClass ? ' ' + extraClass : '');
     var legend = a.donut.map(function (d) {
       return '<li><i style="background:' + d.color + '"></i><span>' + d.name + '</span></li>';
     }).join('');
-    return '<section class="gx-card gx-assess-ai">' +
+    return '<section class="' + cls + '">' +
       '<div class="gx-assess-ai-text">' +
       '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
       '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
@@ -1736,8 +1757,13 @@
       '<h4>' + activeSideTag + '模块</h4>' +
       '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p>' +
       '</div></div>';
+    /* v50：线上课的 AI 卡换成「线上课程学习」语义（文案 + 环形图均来自
+       ca.onlineCourseSummary）；其余 15 个通用模块标签仍走默认测评 summary。 */
+    var ai = activeSideTag === '线上课'
+      ? gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course')
+      : gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
-      gxAssessAi() +
+      ai +
       '<section class="gx-card gx-module-panel">' +
         '<div class="gx-module-bottom">' + gxModuleCard() + hint + '</div>' +
       '</section>' +
