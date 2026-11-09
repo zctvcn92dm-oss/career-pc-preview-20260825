@@ -2322,3 +2322,239 @@
     border-top: 1px solid #EDF1E8; padding-top: 12px;
   }
 }
+
+/* ==========================================================================
+   v56 · 「线上咨询 / 预约咨询」详情页下方：学生咨询记录档案（独立皮肤，删本区块即回滚）
+   --------------------------------------------------------------------------
+   版式沿用 v46/v48/v51：顶部整宽 AI 卡（--gx-ai-card-h=306px，一字未改）+
+   下方唯一一张完整白卡；卡内左右分区只用一道极淡线，不加间隙 / 圆角 / 阴影。
+   视觉信息架构迁移自两张移动端咨询记录截图：
+     线上卡 = 浅色状态条「已结束」+ 右上「线上」角标 + 学生 + 青绿阶段主题 +
+              发起时间 / 问题 / 咨询老师 / 回复时间 / 回复内容 +「评价 / 查看记录」
+     线下卡 = 右上「线下」角标 + 类别筛选 + 学生 + 阶段主题 + 提交时间 /
+              预约咨询师 / 日期 / 时间 / 地点 / 咨询状态 / 问题 +「私信」
+     右栏   = 温馨提示 +「查看咨询档案」
+   配色跟随档案页草绿（#5CAD6A 系），阶段主题用青绿点缀呼应移动端，但不整块照搬
+   移动端的薄荷青，避免与顶部 AI 卡、左侧年级标签脱节。
+   所有选择器带 .gx-cr / .gx-sheet-cr 前缀，不污染其它 14 个通用模块与四个专属页。
+   ========================================================================== */
+.gx-sheet-cr {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-sheet-cr > .gx-assess-ai { height: var(--gx-ai-card-h); box-sizing: border-box; }
+
+.gx-cr-panel {
+  display: flex; flex-direction: column;
+  padding: 0; min-width: 0; min-height: 0; overflow: hidden;
+}
+.gx-cr-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 20px 8px; flex: none;
+}
+.gx-cr-heading { min-width: 0; }
+.gx-cr-heading h3 { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: #2F382B; }
+.gx-cr-heading p {
+  margin: 0; font-size: 11px; color: #8A9187;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gx-cr-tabs { display: flex; flex-wrap: nowrap; gap: 5px; flex: none; }
+.gx-cr-tabs button {
+  height: 28px; padding: 0 10px; border: 1px solid #DFE8D6; border-radius: 14px;
+  background: #F7FAF4; color: #4A554A; font-size: 11.5px; font-family: inherit;
+  cursor: pointer; white-space: nowrap; transition: background .15s ease, border-color .15s ease;
+}
+.gx-cr-tabs button:hover { background: #EAF4E3; border-color: #A8CA7E; }
+.gx-cr-tabs button i { font-style: normal; font-size: 10.5px; color: #9AA491; margin-left: 2px; }
+.gx-cr-tabs button.active {
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B);
+  border-color: #5CAD6A; color: #FFFFFF; font-weight: 600;
+  box-shadow: 0 2px 8px rgba(92, 173, 106, .22);
+}
+.gx-cr-tabs button.active i { color: #E7F5E4; }
+
+.gx-cr-kpis {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 20px 8px; padding: 8px 0; border-radius: 12px;
+  background: linear-gradient(100deg, #F6FAF2, #EDF5E7); flex: none;
+}
+.gx-cr-kpi { display: flex; align-items: baseline; justify-content: center; gap: 4px; flex-wrap: wrap; }
+.gx-cr-kpi + .gx-cr-kpi { border-left: 1px solid #DDE9D3; }
+.gx-cr-kpi b { font-size: 23px; font-weight: 800; color: #4A9A5B; line-height: 1; }
+.gx-cr-kpi i { font-style: normal; font-size: 11.5px; color: #5B7A4E; }
+.gx-cr-kpi span { flex-basis: 100%; text-align: center; font-size: 11px; color: #6B7566; margin-top: 3px; }
+.gx-cr-kpi.warn b { color: #C08A3E; }
+
+.gx-cr-body {
+  display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.58fr);
+  gap: 0; min-height: 0; flex: 1;
+}
+.gx-cr-records, .gx-cr-profile-scroll {
+  min-width: 0; min-height: 0; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6;
+}
+.gx-cr-records { padding: 0 20px 12px; }
+/* 右栏做成「内容可滚 + 底部入口固定」，保证移动端截图里的「查看咨询档案」在首屏可见。 */
+.gx-cr-profile {
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  overflow: hidden; border-left: 1px solid #EDF1E8;
+  background: linear-gradient(160deg, #FDFEFB, #F8FBF5);
+}
+.gx-cr-profile-scroll { flex: 1; padding: 0 18px 8px; }
+.gx-cr-profile-foot {
+  flex: none; padding: 7px 18px 11px;
+  border-top: 1px solid #EDF1E8; background: #FBFDF8;
+}
+.gx-cr-records::-webkit-scrollbar, .gx-cr-profile-scroll::-webkit-scrollbar { width: 7px; }
+.gx-cr-records::-webkit-scrollbar-track, .gx-cr-profile-scroll::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-cr-records::-webkit-scrollbar-thumb, .gx-cr-profile-scroll::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+
+.gx-cr-sec-title { margin: 1px 0 5px; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-cr-sec-title i { font-style: normal; font-weight: 400; font-size: 11px; color: #9AA491; margin-left: 8px; }
+.gx-cr-list { display: flex; flex-direction: column; gap: 6px; }
+
+/* 咨询记录卡：状态条 + 右上角渠道角标，复刻移动端卡片信息架构 */
+.gx-cr-card {
+  position: relative; border: 1px solid #E7EBDD; border-radius: 12px;
+  background: #FFFFFF; overflow: hidden;
+}
+.gx-cr-card.open { border-color: #A8CA7E; box-shadow: 0 2px 10px rgba(92, 173, 106, .10); }
+.gx-cr-status {
+  display: flex; align-items: center; gap: 6px; height: 22px; padding-left: 12px;
+  background: #EFF8F5; color: #3E9E8B; font-size: 11px; font-weight: 600;
+}
+.gx-cr-clock { position: relative; display: block; width: 12px; height: 12px; border: 1.5px solid #4DAE92; border-radius: 50%; }
+.gx-cr-clock::after {
+  content: ''; position: absolute; left: 5px; top: 2px; width: 1.5px; height: 4px; background: #4DAE92;
+}
+.gx-cr-badge {
+  margin-left: auto; align-self: stretch; display: flex; align-items: center; padding: 0 12px;
+  font-style: normal; color: #FFFFFF; font-size: 11px; font-weight: 600;
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B); border-bottom-left-radius: 10px;
+}
+.gx-cr-badge--float {
+  position: absolute; top: 0; right: 0; padding: 2px 12px 3px;
+  font-style: normal; color: #FFFFFF; font-size: 11px; font-weight: 600;
+  background: linear-gradient(96deg, #6FB87B, #4A9A5B); border-bottom-left-radius: 10px;
+}
+.gx-cr-card-body { padding: 6px 12px 7px; }
+.gx-cr-card--appt .gx-cr-card-body { padding-top: 8px; }
+.gx-cr-card-top { display: flex; align-items: center; gap: 8px; }
+.gx-cr-card--appt .gx-cr-card-top { padding-right: 52px; }
+.gx-cr-card-top h4 { margin: 0; font-size: 13px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-cr-cat {
+  font-size: 10px; line-height: 17px; padding: 0 7px; border-radius: 9px;
+  background: #F0F5EA; color: #5B7A4E; white-space: nowrap;
+}
+.gx-cr-stage { margin: 1px 0 3px; font-size: 11.5px; font-weight: 600; color: #3FA98C; }
+.gx-cr-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px 12px; }
+.gx-cr-field { margin: 0; min-width: 0; font-size: 11px; color: #3A4436; line-height: 1.4; }
+.gx-cr-field.wide { grid-column: 1 / -1; }
+.gx-cr-field label { display: inline; font-size: 10.5px; color: #9AA491; margin-right: 5px; }
+.gx-cr-field span { color: #3A4436; }
+.gx-cr-st { font-size: 10.5px; line-height: 17px; padding: 0 7px; border-radius: 5px; font-weight: 600; }
+.gx-cr-st--done { background: #E8F4E4; color: #3F7D4C; }
+.gx-cr-st--pending { background: #FCEEDA; color: #A9702A; }
+.gx-cr-st--rejected { background: #F0F1EE; color: #8A9187; }
+
+.gx-cr-reply { margin-top: 4px; padding-top: 4px; border-top: 1px dashed #E0E8D5; }
+.gx-cr-reply-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gx-cr-reply-head b { font-size: 11.5px; font-weight: 700; color: #3A4436; }
+.gx-cr-reply-head time { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+.gx-cr-reply p { margin: 2px 0 0; font-size: 11px; line-height: 1.45; color: #5B6556; }
+
+.gx-cr-actions { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 5px; }
+.gx-cr-mini { margin-right: auto; font-size: 10.5px; color: #A98A55; }
+.gx-cr-actions button {
+  height: 24px; padding: 0 10px; border: 1px solid #DFE8D6; border-radius: 12px;
+  background: #F7FAF4; color: #4A9A5B; font-size: 11px; font-family: inherit; cursor: pointer;
+  white-space: nowrap; transition: background .15s ease;
+}
+.gx-cr-actions button:hover { background: #EAF4E3; }
+.gx-cr-actions button.primary {
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B); border-color: #5CAD6A; color: #FFFFFF;
+}
+
+/* 展开详情：咨询往来 / 状态流转 / 归档缺口 */
+.gx-cr-detail { padding: 8px 12px 10px; border-top: 1px solid #E7EBDD; background: #FBFCF8; }
+.gx-cr-detail h5 { margin: 0 0 5px; font-size: 11.5px; font-weight: 700; color: #2F382B; }
+.gx-cr-flow { margin: 0 0 6px; padding-left: 16px; }
+.gx-cr-flow li { font-size: 10.5px; line-height: 1.55; color: #6B7566; }
+.gx-cr-flow li::marker { color: #5CAD6A; }
+.gx-cr-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 12px; }
+.gx-cr-detail-grid .wide { grid-column: 1 / -1; }
+.gx-cr-msg { margin: 5px 0 0; font-size: 10.5px; line-height: 1.5; color: #5B6556; }
+.gx-cr-msg label { color: #9AA491; margin-right: 5px; }
+.gx-cr-detail-note {
+  margin: 6px 0 0; padding: 5px 9px; border-left: 2px solid #A8CA7E;
+  background: #F4F8EF; border-radius: 0 6px 6px 0;
+  font-size: 10.5px; line-height: 1.5; color: #6B7566;
+}
+
+/* 右栏：类别分布 / 咨询链路 / 温馨提示 / 断层 / 档案入口 */
+/* 密度实测收紧：右栏内容能在 356px 可视高度里尽量看全，底部入口始终固定可见。 */
+.gx-cr-profile .gx-cr-sec-title:not(:first-child) { margin-top: 7px; }
+.gx-cr-bars { display: flex; flex-direction: column; gap: 3px; }
+.gx-cr-bar {
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) 34px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-cr-bar > span { color: #6B7566; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-cr-bar-track { height: 6px; border-radius: 4px; background: #E7EDDF; overflow: hidden; }
+.gx-cr-bar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #8FCB7C, #5CAD6A); }
+.gx-cr-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; white-space: nowrap; }
+.gx-cr-bar.zero .gx-cr-bar-track { background: #F5EBDA; }
+.gx-cr-bar.zero b { color: #A9702A; }
+.gx-cr-chain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.gx-cr-chain li { display: flex; align-items: center; gap: 7px; font-size: 10.5px; color: #5B6556; }
+.gx-cr-chain li i {
+  flex: none; width: 16px; height: 16px; border-radius: 50%; background: #E8F4E4;
+  color: #4A9A5B; font-style: normal; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.gx-cr-tips, .gx-cr-gap { margin-top: 7px; padding: 6px 9px; border-radius: 9px; }
+.gx-cr-tips { border: 1px solid #DDEBCE; background: #F6FAF2; }
+.gx-cr-gap { border: 1px dashed #E4C98A; background: #FFFBF1; }
+.gx-cr-tips b, .gx-cr-gap b { display: block; font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+.gx-cr-tips b { color: #4A7A3E; }
+.gx-cr-gap b { color: #8A6320; }
+.gx-cr-tips p, .gx-cr-gap p { margin: 0; font-size: 10.5px; line-height: 1.45; }
+.gx-cr-tips p { color: #5B7A4E; }
+.gx-cr-gap p { color: #9C8863; }
+.gx-cr-archive-btn {
+  display: block; width: 100%; height: 30px; border: 0; border-radius: 15px;
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B); color: #FFFFFF;
+  font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(92, 173, 106, .22);
+}
+.gx-cr-archive-btn.ghost {
+  background: #F7FAF4; border: 1px solid #DFE8D6; color: #4A9A5B; box-shadow: none;
+}
+.gx-cr-arch-sub { margin: 0 0 6px; font-size: 10.5px; color: #8A9187; }
+.gx-cr-arch-group { margin-bottom: 6px; }
+.gx-cr-arch-group h5 { margin: 0 0 2px; font-size: 11px; font-weight: 700; color: #3A4436; }
+.gx-cr-arch-group h5 i { font-style: normal; font-size: 10px; font-weight: 400; color: #9AA491; margin-left: 6px; }
+.gx-cr-arch-group ul { list-style: none; margin: 0; padding: 0; }
+.gx-cr-arch-group li { display: flex; gap: 6px; font-size: 10.5px; line-height: 1.5; color: #5B6556; }
+.gx-cr-arch-group li time { flex: none; font-size: 10px; color: #9AA491; }
+.gx-cr-arch-group li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-cr-arch-empty { margin: 0; font-size: 10.5px; color: #A9702A; }
+.gx-cr-arch-fields { margin: 0; padding: 0 0 0 15px; }
+.gx-cr-arch-fields li { font-size: 10.5px; line-height: 1.6; color: #5B6556; }
+.gx-cr-arch-fields li::marker { color: #5CAD6A; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-cr { display: block; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-cr > .gx-assess-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
+  .gx-cr-head { flex-wrap: wrap; }
+  .gx-cr-heading p { white-space: normal; }
+  .gx-cr-body { display: block; }
+  .gx-cr-records, .gx-cr-profile-scroll, .gx-cr-profile { overflow: visible; }
+  .gx-cr-profile {
+    display: block; border-left: 0; border-top: 1px solid #EDF1E8; padding-top: 14px;
+  }
+  .gx-cr-profile-scroll { padding: 0 18px 8px; }
+  .gx-cr-profile-foot { border-top: 0; background: transparent; padding-top: 2px; }
+}

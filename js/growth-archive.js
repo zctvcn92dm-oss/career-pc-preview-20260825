@@ -2001,6 +2001,9 @@
 
   function gxSheet() {
     if (activeSideTag === '线上课') return gxOcSheet();
+    /* v56：线上咨询 / 预约咨询的下方详情记录区升级为专属咨询记录档案。
+       回滚：删掉这一行，两页即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
+    if (activeSideTag === '线上咨询' || activeSideTag === '预约咨询') return gxCrSheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -2342,6 +2345,437 @@
     '</div>';
   }
 
+  /* ==========================================================================
+     v56 · 「线上咨询 / 预约咨询」详情页下方：学生咨询记录档案（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：两张移动端图是学生查看咨询记录的页面，需要补齐 PC 端这两个模块
+               「底下区域的详情记录页面」的内容。
+     迁移原则：**只迁移字段结构与视觉信息架构**，不迁移移动端示例身份 / 时间线 /
+               地点。移动端是「杨强-测试学生 / 2025届 软件技术 / 大二 / 2026 年 /
+               北京高校就业创业指导中心」，PC 原型是「杨强 / 数字媒体技术 / 第四年 /
+               2022—2025」，且顶部 AI 卡已锁定线上 8 次、预约 6 次；照搬会让同一页
+               的 AI 卡与下方记录互相打架。咨询师姓名为本版示意数据，不覆盖 ca.basicInfo。
+     字段迁移：
+       线上记录 = 状态条「已结束」+「线上」角标 + 学生 + 阶段主题 + 发起时间 + 问题 +
+                  咨询老师 + 回复时间 + 回复内容 +「评价 / 查看记录」
+       线下记录 =「线下」角标 + 类别筛选 + 学生 + 阶段主题 + 提交时间 + 预约咨询师 +
+                  日期 + 时间 + 地点 + 咨询状态 + 问题 +「私信」
+       公共底部 = 温馨提示 +「查看咨询档案」
+     数据自洽：
+       线上 8 次 = 生涯规划师 3 + 就业指导老师 2 + 行业/专业/心理咨询师各 1，
+         最近一条 2024-09-25 20:06:13「就业与考研的权衡选择」与 ca.gradeRecords
+         第四年记录、v53 AI 卡逐字对应；其中落地类（岗位匹配 / 简历面试）2 次。
+       预约 6 次 = 生涯规划 2 + 就业指导/学业发展/心理调适/其他各 1，
+         转化 6 发起 → 5 老师接受 → 4 完成线下面询；最早一条 2022-12-05 14:38:20
+         「专业方向与职业选择」与 ca.gradeRecords 第一年记录、v54 AI 卡逐字对应。
+       两页都是**跨学年汇总档案**，不受左栏 activeArchiveGrade 过滤影响（同 v51 课程
+       学习档案），所以预约咨询第四年空态不会让下方变空；断层单独写进右栏提示。
+     温馨提示按渠道分流：线下保留移动端原句的下半段（提前 10 分钟、交通安全、出校
+       报备），但地点改为「预约记录中标注的咨询室」；线上改为小程序会话口径，
+       不再出现「到达咨询室」这类与线上咨询矛盾的文案。
+     顶部 AI 卡完全复用 gxConsultAi() / gxApptAi()，本次一字未改。
+     ========================================================================== */
+  ca.consultRecords = {
+    online: {
+      kind: 'online',
+      title: '我的线上咨询记录',
+      subtitle: '云生涯Max 小程序发起 · 跨学年汇总 8 次 · 不受左栏年级筛选影响',
+      recordsTitle: '咨询记录',
+      recordsTip: '点击「查看记录」展开咨询往来与归档状态',
+      tabs: [
+        { k: 'all', label: '全部', n: 8 },
+        { k: 'c1', label: '生涯规划师', n: 3 },
+        { k: 'c2', label: '就业指导老师', n: 2 },
+        { k: 'other', label: '其他类别', n: 3 }
+      ],
+      kpis: [
+        { v: '8', u: '次', label: '累计线上咨询' },
+        { v: '5', u: '类', label: '覆盖老师类别' },
+        { v: '8', u: '条', label: '老师已回复' },
+        { v: '0', u: '条', label: '结论归档', warn: true }
+      ],
+      chain: ['小程序选择老师类别', '线上咨询沟通', '评价与结论归档'],
+      tips: '线上咨询通过云生涯Max 小程序进行，请按老师回复时段进入会话；结束后及时评价，并把咨询结论与行动清单回填成长档案。',
+      gap: '最近一次为 2024 年 9 月 25 日，毕业学年未再发起；8 次咨询的结论与行动清单均未回填，效果暂无法复核。',
+      records: [
+        {
+          id: 'ol1', grade: '第四年', stage: '第四年 · 就业与考研权衡', cat: '生涯规划师', group: 'c1',
+          at: '2024-09-25 20:06:13', question: '就业与考研如何权衡？家里希望考研，我更想直接就业。',
+          teacher: '生涯规划师 · 周敏老师', replyAt: '2024-09-25 20:14:52',
+          reply: '先结合毕业意向与岗位要求做一次取舍，建议同步准备秋招并保留考研选项，两周后复盘一次。',
+          rating: '待评价', dimension: '自我认知能力'
+        },
+        {
+          id: 'ol2', grade: '第三年', stage: '第三年 · 行业与岗位认知', cat: '行业导师', group: 'other',
+          at: '2024-05-18 19:32:40', question: '数字媒体运营岗的能力要求与我的专业怎么对应？',
+          teacher: '行业导师 · 陈立老师', replyAt: '2024-05-18 19:48:11',
+          reply: '先对照岗位 JD 拆出内容策划、数据复盘两项核心能力，再用课程项目与作品集补证据。',
+          rating: '已评价 · 5 星', dimension: '职业认知能力'
+        },
+        {
+          id: 'ol3', grade: '第二年', stage: '第二年 · 简历与面试准备', cat: '就业指导老师', group: 'c2',
+          at: '2024-03-12 15:08:26', question: '实习简历里该突出哪些经历？',
+          teacher: '就业指导老师 · 许岚老师', replyAt: '2024-03-12 15:21:03',
+          reply: '优先放与岗位相关的课程项目和量化结果，删除无关证书，面试前再准备三段 STAR 表述。',
+          rating: '已评价 · 5 星', dimension: '求职表现能力'
+        },
+        {
+          id: 'ol4', grade: '第二年', stage: '第二年 · 专业方向确认', cat: '专业导师', group: 'other',
+          at: '2023-11-06 20:41:09', question: '数字媒体技术更偏设计还是偏开发？',
+          teacher: '专业导师 · 何舟老师', replyAt: '2023-11-06 20:55:37',
+          reply: '两条路径都可行，建议先按作品方向选课，再用一次课程项目验证自己更擅长哪一段。',
+          rating: '已评价 · 4 星', dimension: '职业规划能力'
+        },
+        {
+          id: 'ol5', grade: '第一年', stage: '第一年 · 专业方向确认', cat: '生涯规划师', group: 'c1',
+          at: '2023-06-20 16:22:55', question: '入学一年还不确定专业方向，怎么开始探索？',
+          teacher: '生涯规划师 · 周敏老师', replyAt: '2023-06-20 16:40:18',
+          reply: '先完成职业兴趣测评，再选 2 个方向各做一次行业访谈，把结论记进成长档案。',
+          rating: '已评价 · 5 星', dimension: '自我认知能力'
+        },
+        {
+          id: 'ol6', grade: '第一年', stage: '第一年 · 竞赛与学业平衡', cat: '心理咨询师', group: 'other',
+          at: '2023-04-11 21:03:17', question: '同时准备竞赛和课业，最近压力有点大。',
+          teacher: '心理咨询师 · 苏禾老师', replyAt: '2023-04-11 21:17:44',
+          reply: '先把任务按重要与紧急拆开，保留固定休息时段；如果持续失眠，建议预约一次线下面询。',
+          rating: '已评价 · 5 星', dimension: '自我认知能力'
+        },
+        {
+          id: 'ol7', grade: '第一年', stage: '第一年 · 职业兴趣解读', cat: '生涯规划师', group: 'c1',
+          at: '2023-01-09 10:47:33', question: '霍兰德测评结果是艺术型、社会型、研究型，怎么理解？',
+          teacher: '生涯规划师 · 周敏老师', replyAt: '2023-01-09 11:02:26',
+          reply: '可以先关注内容创作与用户研究交叉的岗位，低年级不必急于定岗，多做体验再收敛。',
+          rating: '已评价 · 4 星', dimension: '自我认知能力'
+        },
+        {
+          id: 'ol8', grade: '第一年', stage: '第一年 · 入学适应与规划', cat: '就业指导老师', group: 'c2',
+          at: '2022-11-15 14:29:08', question: '大一需要为就业提前做些什么？',
+          teacher: '就业指导老师 · 许岚老师', replyAt: '2022-11-15 14:44:51',
+          reply: '先建立课程与活动的过程记录，每学期末回看一次成长档案，大二再开始岗位探索。',
+          rating: '已评价 · 5 星', dimension: '职业规划能力'
+        }
+      ]
+    },
+    appointment: {
+      kind: 'appointment',
+      title: '我的预约咨询记录',
+      subtitle: '线下咨询师列表发起 · 跨学年汇总 6 次 · 不受左栏年级筛选影响',
+      recordsTitle: '预约与面询记录',
+      recordsTip: '点击「私信」展开老师沟通、状态流转与面询归档',
+      tabs: [
+        { k: 'all', label: '全部', n: 6 },
+        { k: 'c1', label: '生涯规划', n: 2 },
+        { k: 'c2', label: '就业指导', n: 1 },
+        { k: 'other', label: '其他类别', n: 3 }
+      ],
+      kpis: [
+        { v: '6', u: '次', label: '发起线下预约' },
+        { v: '5', u: '次', label: '老师已接受' },
+        { v: '4', u: '次', label: '完成线下面询' },
+        { v: '67', u: '%', label: '面询完成率' }
+      ],
+      chain: ['查看咨询师列表', '选类别并预约咨询师', '老师接受预约', '线下一对一面询'],
+      tips: '请按预约时段提前 10 分钟到达预约记录标注的咨询室，途中注意交通安全，提前报备并办理出校请假；老师接受预约后方可线下一对一咨询。',
+      gap: '1 次未被老师接受、1 次接受后未完成面询；最晚预约为 2024 年 6 月，毕业学年未再发起，4 次面询结论均未回填。',
+      records: [
+        {
+          id: 'ap1', grade: '第三年', stage: '第三年 · 岗位匹配与简历面试', cat: '就业指导', group: 'c2',
+          at: '2024-06-14 09:16:22', teacher: '就业指导 · 许岚老师',
+          date: '2024-06-18', slot: '10:00—10:30', place: '测试学校 · 生涯指导中心 203 咨询室',
+          status: '已完成面询', statusType: 'done', question: '简历里的项目经历怎么写，才更匹配数字媒体运营岗？',
+          msg: '许岚老师：已接受预约，请带上最新版简历与作品集链接，我们现场逐条改。',
+          dimension: '求职表现能力'
+        },
+        {
+          id: 'ap2', grade: '第二年', stage: '第二年 · 学业发展与能力提升', cat: '学业发展', group: 'other',
+          at: '2023-12-08 14:05:41', teacher: '学业发展 · 何舟老师',
+          date: '2023-12-12', slot: '15:00—15:30', place: '测试学校 · 生涯指导中心 201 咨询室',
+          status: '老师已接受 · 面询未完成', statusType: 'pending', question: '课程项目和专业竞赛之间该怎么分配时间？',
+          msg: '何舟老师：已接受预约，当天未见到场，可重新选时段改约。',
+          dimension: '职业规划能力'
+        },
+        {
+          id: 'ap3', grade: '第二年', stage: '第二年 · 心理调适与压力管理', cat: '心理调适', group: 'other',
+          at: '2023-09-19 11:22:07', teacher: '心理调适 · 苏禾老师',
+          date: '2023-09-22', slot: '14:30—15:00', place: '测试学校 · 学生发展中心 305 咨询室',
+          status: '已完成面询', statusType: 'done', question: '连续几周赶作业，想聊聊怎么调整节奏。',
+          msg: '苏禾老师：已接受预约，面询当天请准时到 305 咨询室。',
+          dimension: '自我认知能力'
+        },
+        {
+          id: 'ap4', grade: '第一年', stage: '第一年 · 生涯规划与目标确立', cat: '生涯规划', group: 'c1',
+          at: '2023-05-24 16:38:50', teacher: '生涯规划 · 周敏老师',
+          date: '2023-05-29', slot: '09:30—10:00', place: '测试学校 · 生涯指导中心 203 咨询室',
+          status: '已完成面询', statusType: 'done', question: '想把四年目标写清楚，但不知道从哪一步开始。',
+          msg: '周敏老师：已接受预约，带上职业测评报告，我们一起做四年行动表。',
+          dimension: '职业规划能力'
+        },
+        {
+          id: 'ap5', grade: '第一年', stage: '第一年 · 学业咨询其他类别', cat: '其他类别', group: 'other',
+          at: '2023-03-07 10:12:33', teacher: '其他类别 · 待分配咨询师',
+          date: '2023-03-10', slot: '11:00—11:30', place: '未分配咨询室',
+          status: '老师未接受', statusType: 'rejected', question: '想了解转专业的流程与影响。',
+          msg: '系统提示：该时段咨询师未接受预约，可到咨询师列表重新选择类别与咨询师。',
+          dimension: '自我认知能力'
+        },
+        {
+          id: 'ap6', grade: '第一年', stage: '第一年 · 专业方向与职业选择', cat: '生涯规划', group: 'c1',
+          at: '2022-12-05 14:38:20', teacher: '生涯规划 · 周敏老师',
+          date: '2022-12-09', slot: '16:00—16:30', place: '测试学校 · 生涯指导中心 203 咨询室',
+          status: '已完成面询', statusType: 'done', question: '专业方向与职业选择怎么一起考虑？',
+          msg: '周敏老师：已接受预约，请提前 10 分钟到场，我们会围绕专业方向做一次一对一面询。',
+          dimension: '自我认知能力'
+        }
+      ]
+    }
+  };
+
+  /* v56 交互状态：两个页面共用同一组 key，切换标签时整体复位，避免筛选 / 展开串页。 */
+  var activeCrPage = '';
+  var activeCrFilter = 'all';
+  var activeCrOpen = '';
+  var activeCrArchive = false;
+
+  function gxCrState(kind) {
+    if (activeCrPage !== kind) {
+      activeCrPage = kind;
+      activeCrFilter = 'all';
+      activeCrOpen = '';
+      activeCrArchive = false;
+    }
+  }
+
+  function gxCrData() {
+    return ca.consultRecords[activeSideTag === '线上咨询' ? 'online' : 'appointment'];
+  }
+
+  function gxCrTabs(d) {
+    return '<div class="gx-cr-tabs">' + d.tabs.map(function (t) {
+      return '<button type="button" class="' + (activeCrFilter === t.k ? 'active' : '') +
+        '" data-cr-filter="' + t.k + '">' + gxEsc(t.label) + ' <i>' + t.n + '</i></button>';
+    }).join('') + '</div>';
+  }
+
+  function gxCrKpis(d) {
+    return '<div class="gx-cr-kpis">' + d.kpis.map(function (k) {
+      return '<div class="gx-cr-kpi' + (k.warn ? ' warn' : '') + '">' +
+        '<b>' + gxEsc(k.v) + '</b><i>' + gxEsc(k.u) + '</i>' +
+        '<span>' + gxEsc(k.label) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function gxCrFiltered(d) {
+    return d.records.filter(function (r) {
+      return activeCrFilter === 'all' || r.group === activeCrFilter;
+    });
+  }
+
+  function gxCrField(label, value, cls) {
+    return '<p class="gx-cr-field' + (cls ? ' ' + cls : '') + '"><label>' + gxEsc(label) +
+      '</label><span>' + gxEsc(value) + '</span></p>';
+  }
+
+  /* 展开详情：把移动端「查看记录 / 私信」对应的咨询往来、状态流转与归档缺口一次补齐。
+     AI 卡里写「沟通结论与行动清单未同步归档」，这里逐条显示未回填，不假装已有数据。 */
+  function gxCrDetail(r, d) {
+    var online = d.kind === 'online';
+    var flow = online
+      ? ['在小程序选择「' + r.cat + '」发起咨询 · ' + r.at, r.teacher + ' 回复 · ' + r.replyAt, '会话已结束 · 待评价与结论归档']
+      : ['提交预约 · 待确认 · ' + r.at,
+         r.statusType === 'rejected' ? '老师未接受预约' : '老师已接受预约',
+         r.statusType === 'done' ? '线下一对一面询完成 · ' + r.date + ' ' + r.slot
+           : (r.statusType === 'rejected' ? '面询未成行，可重新预约' : '面询未完成，可改约')];
+    return '<div class="gx-cr-detail">' +
+      '<h5>咨询往来与归档</h5>' +
+      '<ol class="gx-cr-flow">' + flow.map(function (x) {
+        return '<li>' + gxEsc(x) + '</li>';
+      }).join('') + '</ol>' +
+      '<div class="gx-cr-detail-grid">' +
+        gxCrField('咨询问题', r.question, 'wide') +
+        gxCrField('咨询结论', online ? '未回填' : (r.statusType === 'done' ? '未回填' : '未产生面询结论')) +
+        gxCrField('行动清单', '未回填') +
+        gxCrField('关联能力维度', r.dimension) +
+        (online ? gxCrField('咨询评价', r.rating) : gxCrField('咨询状态', r.status)) +
+      '</div>' +
+      (online ? '' : '<p class="gx-cr-msg"><label>老师沟通</label>' + gxEsc(r.msg) + '</p>') +
+      '<p class="gx-cr-detail-note">该条记录来自云生涯平台归档，沟通结论与行动清单需学生面询 / 会话结束后回填，' +
+        '当前档案仅保留发起、回复与状态信息。</p>' +
+      '</div>';
+  }
+
+  function gxCrRecord(r, d) {
+    var online = d.kind === 'online';
+    var open = activeCrOpen === r.id;
+    /* 学生身份沿用 ca.basicInfo，不迁移移动端截图里的「杨强-测试学生 / 2025届 软件技术」。 */
+    var student = ca.basicInfo.name + ' · ' + ca.basicInfo.className;
+    var head = '<div class="gx-cr-card-top">' +
+      '<h4>' + gxEsc(student) + '</h4>' +
+      '<span class="gx-cr-cat">' + gxEsc(r.cat) + '</span></div>' +
+      '<p class="gx-cr-stage">' + gxEsc(r.stage) + '</p>';
+    var grid, actions;
+    if (online) {
+      grid = '<div class="gx-cr-grid">' +
+        gxCrField('发起时间', r.at) +
+        gxCrField('咨询问题', r.question, 'wide') +
+        '</div>' +
+        '<div class="gx-cr-reply">' +
+          '<div class="gx-cr-reply-head"><b>' + gxEsc(r.teacher) + '</b><time>' + gxEsc(r.replyAt) + '</time></div>' +
+          '<p>' + gxEsc(r.reply) + '</p>' +
+        '</div>';
+      actions = '<div class="gx-cr-actions">' +
+        '<span class="gx-cr-mini">结论归档：未回填 · ' + gxEsc(r.rating) + '</span>' +
+        '<button type="button" data-cr-open="' + r.id + '">评价</button>' +
+        '<button type="button" class="primary" data-cr-open="' + r.id + '">查看记录</button>' +
+        '</div>';
+    } else {
+      grid = '<div class="gx-cr-grid gx-cr-grid--appt">' +
+        gxCrField('提交时间', r.at) +
+        gxCrField('预约咨询师', r.teacher) +
+        gxCrField('日期', r.date) +
+        gxCrField('时间', r.slot) +
+        gxCrField('地点', r.place) +
+        '<p class="gx-cr-field"><label>咨询状态</label><span><b class="gx-cr-st gx-cr-st--' + r.statusType + '">' +
+          gxEsc(r.status) + '</b></span></p>' +
+        gxCrField('问题', r.question, 'wide') +
+        '</div>';
+      actions = '<div class="gx-cr-actions">' +
+        '<span class="gx-cr-mini">' + (r.statusType === 'done' ? '面询结论：未回填' : '面询结论：未产生') + '</span>' +
+        '<button type="button" class="primary" data-cr-open="' + r.id + '">私信</button>' +
+        '</div>';
+    }
+    var statusBar = online
+      ? '<div class="gx-cr-status"><i class="gx-cr-clock"></i><span>已结束</span>' +
+        '<em class="gx-cr-badge">线上</em></div>'
+      : '<em class="gx-cr-badge gx-cr-badge--float">线下</em>';
+    return '<article class="gx-cr-card gx-cr-card--' + (online ? 'online' : 'appt') + (open ? ' open' : '') + '">' +
+      statusBar + '<div class="gx-cr-card-body">' + head + grid + actions + '</div>' +
+      (open ? gxCrDetail(r, d) : '') + '</article>';
+  }
+
+  /* 右栏：咨询阶段分布（按学年）+ 咨询链路 + 温馨提示，与移动端截图的
+     「记录卡 + 温馨提示 + 查看咨询档案」信息架构对齐。
+     阶段分布与顶部 AI 卡的「老师类别 / 预约类别分布」是互补的两个维度，不重复堆图；
+     第四年为 0 次的断层直接体现在横条上，与 AI 卡「毕业学年未再发起」口径一致。
+     「查看咨询档案」固定在外层 .gx-cr-profile-foot，不随内容滚动，保证首屏可见；
+     数据断层提示放在点开的档案摘要视图里，避免右栏一屏放不下而被裁半截。 */
+  function gxCrProfile(d) {
+    var online = d.kind === 'online';
+    var order = ['第一年', '第二年', '第三年', '第四年'];
+    var bars = order.map(function (g) {
+      var n = d.records.filter(function (r) { return r.grade === g; }).length;
+      var pct = Math.round(n / d.records.length * 100);
+      return '<div class="gx-cr-bar' + (n ? '' : ' zero') + '"><span>' + g + '</span>' +
+        '<div class="gx-cr-bar-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + n + ' 次</b></div>';
+    }).join('');
+    var chain = d.chain.map(function (x, i) {
+      return '<li><i>' + (i + 1) + '</i><span>' + gxEsc(x) + '</span></li>';
+    }).join('');
+    return '<div class="gx-cr-profile-inner">' +
+      '<h4 class="gx-cr-sec-title">咨询阶段分布</h4>' +
+      '<div class="gx-cr-bars">' + bars + '</div>' +
+      '<h4 class="gx-cr-sec-title">' + (online ? '线上咨询链路' : '线下预约链路') + '</h4>' +
+      '<ol class="gx-cr-chain">' + chain + '</ol>' +
+      '<div class="gx-cr-tips"><b>温馨提示</b><p>' + gxEsc(d.tips) + '</p></div>' +
+      '</div>';
+  }
+
+  /* 「查看咨询档案」视图：按学年索引全部记录，是列表不是图表，与上面的画像视图分工明确。 */
+  function gxCrArchiveView(d) {
+    var order = ['第一年', '第二年', '第三年', '第四年'];
+    var groups = order.map(function (g) {
+      var rs = d.records.filter(function (r) { return r.grade === g; });
+      return '<div class="gx-cr-arch-group"><h5>' + g + '<i>' + rs.length + ' 次</i></h5>' +
+        (rs.length
+          ? '<ul>' + rs.map(function (r) {
+              return '<li><time>' + gxEsc(r.at.slice(0, 10)) + '</time><span>' +
+                gxEsc(r.stage.split(' · ')[1] || r.stage) + '</span></li>';
+            }).join('') + '</ul>'
+          : '<p class="gx-cr-arch-empty">该学年暂无' +
+              (d.kind === 'online' ? '线上咨询' : '线下预约') + '记录</p>') +
+        '</div>';
+    }).join('');
+    return '<div class="gx-cr-profile-inner">' +
+      '<h4 class="gx-cr-sec-title">咨询档案摘要</h4>' +
+      '<p class="gx-cr-arch-sub">按学年索引 ' + d.records.length + ' 次' +
+        (d.kind === 'online' ? '线上咨询' : '线下预约') + ' · 与顶部 AI 卡口径一致</p>' +
+      '<div class="gx-cr-gap"><b>档案断层提示</b><p>' + gxEsc(d.gap) + '</p></div>' +
+      groups +
+      '<h4 class="gx-cr-sec-title">归档字段</h4>' +
+      '<ul class="gx-cr-arch-fields">' +
+        (d.kind === 'online'
+          ? '<li>渠道与老师类别</li><li>发起 / 回复时间</li><li>咨询问题与回复</li><li>咨询评价</li><li>结论与行动清单（待回填）</li>'
+          : '<li>预约类别与咨询师</li><li>日期 / 时段 / 地点</li><li>咨询状态流转</li><li>咨询问题与老师沟通</li><li>面询结论（待回填）</li>') +
+      '</ul>' +
+      '</div>';
+  }
+
+  function gxCrSheet() {
+    var d = gxCrData();
+    gxCrState(d.kind);
+    var list = gxCrFiltered(d);
+    var ai = d.kind === 'online' ? gxConsultAi() : gxApptAi();
+    return '<div class="gx-sheet gx-sheet-cr">' +
+      ai +
+      '<section class="gx-card gx-cr-panel">' +
+        '<div class="gx-cr-head">' +
+          '<div class="gx-cr-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+          gxCrTabs(d) +
+        '</div>' +
+        gxCrKpis(d) +
+        '<div class="gx-cr-body">' +
+          '<div class="gx-cr-records">' +
+            '<h4 class="gx-cr-sec-title">' + gxEsc(d.recordsTitle) +
+              ' <i>共 ' + list.length + ' 条 · ' + gxEsc(d.recordsTip) + '</i></h4>' +
+            '<div class="gx-cr-list">' + list.map(function (r) { return gxCrRecord(r, d); }).join('') + '</div>' +
+          '</div>' +
+          '<div class="gx-cr-profile">' +
+            '<div class="gx-cr-profile-scroll">' +
+              (activeCrArchive ? gxCrArchiveView(d) : gxCrProfile(d)) +
+            '</div>' +
+            '<div class="gx-cr-profile-foot">' +
+              (activeCrArchive
+                ? '<button type="button" class="gx-cr-archive-btn ghost" data-cr-archive="0">返回咨询画像</button>'
+                : '<button type="button" class="gx-cr-archive-btn" data-cr-archive="1">查看咨询档案</button>') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindCr() {
+    document.querySelectorAll('[data-cr-filter]').forEach(function (b) {
+      b.onclick = function () {
+        activeCrFilter = b.getAttribute('data-cr-filter');
+        var d = gxCrData();
+        if (activeCrOpen && !gxCrFiltered(d).some(function (r) { return r.id === activeCrOpen; })) activeCrOpen = '';
+        render();
+      };
+    });
+    document.querySelectorAll('[data-cr-open]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-cr-open');
+        activeCrOpen = activeCrOpen === id ? '' : id;
+        render();
+        if (activeCrOpen) {
+          var rec = document.querySelector('.gx-cr-records');
+          var el = document.querySelector('.gx-cr-card.open');
+          if (rec && el) {
+            var r = rec.getBoundingClientRect(), e = el.getBoundingClientRect();
+            rec.scrollTop += (e.top - r.top) - 4;
+          }
+        }
+      };
+    });
+    document.querySelectorAll('[data-cr-archive]').forEach(function (b) {
+      b.onclick = function () {
+        activeCrArchive = b.getAttribute('data-cr-archive') === '1';
+        render();
+      };
+    });
+  }
+
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
      不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchiveEmbedded() {
@@ -2378,6 +2812,7 @@
       gxBindEw();
       gxBindIv2();
       gxBindOc();
+      gxBindCr();
       syncUrl();
       return;
     }
