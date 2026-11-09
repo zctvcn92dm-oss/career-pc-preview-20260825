@@ -686,60 +686,66 @@
    报告主色取自 enfp-assessment-report-design-4x.jpg：
      标题/强调 #20CFAE、顶部薄荷渐变 #A2F0C0、浅青带 #EAFCF6 / #F0FCFC。
    原配色为暖调橄榄绿 #8AA96D + 米黄 #FBFAF4，与报告的冷调青绿不搭。
-   本区块集中覆盖 653–682 行；删掉整块即可回滚到 v34 配色。
+   --------------------------------------------------------------------------
+   **v59 已改**：用户反馈「职业测评整体区域要和其他详情页统一」。
+   v51–v58 所有详情页用平台草绿主色（#5CAD6A / #93BC51 / #F6FAF2 / #EEF3E6），
+   职业测评是唯一残留的冷调青绿页。本区块整体换成平台草绿；
+   右侧报告长图同步指向 *-grass.jpg（只旋转青绿色相，紫条 / 头像 / 黑字 / 白底不动，
+   原图文件保留，改回 src 即可回滚）。两段口径一起改，避免「左绿右青」更割裂。
+   本区块集中覆盖 653–682 行；删掉整块即可回滚到 v34 通用配色。
    ============================================================ */
 .gx-sheet-assess {
-  --gx-teal: #20CFAE;        /* 主强调：报告标题色 */
-  --gx-teal-deep: #0FA98C;   /* 深青：小字可读 */
-  --gx-teal-line: #CDEDE4;   /* 描边 */
-  --gx-teal-bg: #F5FDFB;     /* 记录项底色 */
-  --gx-teal-wash: #EAFCF6;   /* 激活项 / 滚动条轨道 */
-  --gx-teal-ink: #254A43;    /* 标题深青灰 */
-  --gx-teal-mute: #5B7570;   /* 次要文字 */
+  --gx-leaf: #5CAD6A;        /* 主强调：平台草绿 */
+  --gx-leaf-deep: #3D6B33;   /* 深绿：小字可读 */
+  --gx-leaf-line: #DDEBCE;   /* 描边 */
+  --gx-leaf-bg: #F8FBF5;     /* 记录项底色 */
+  --gx-leaf-wash: #EAF4E4;   /* 激活项 / 滚动条轨道 */
+  --gx-leaf-ink: #2F382B;    /* 标题深色 */
+  --gx-leaf-mute: #5B6455;   /* 次要文字 */
 }
-/* 页签按钮：未激活浅青白、激活青绿渐变 */
+/* 页签按钮：未激活浅绿白、激活草绿渐变（与 v58 .gx-aa-tabs 一致） */
 .gx-sheet-assess .gx-assess-tabs button {
-  border: 1px solid var(--gx-teal-line);
-  background: #F2FCFA;
-  color: #4A6A63;
+  border: 1px solid var(--gx-leaf-line);
+  background: #FBFDF8;
+  color: #5B6455;
 }
-.gx-sheet-assess .gx-assess-tabs button:hover { background: #E4FAF3; border-color: #8FE0C8; }
+.gx-sheet-assess .gx-assess-tabs button:hover { background: #F2F8EC; border-color: #A9C48F; }
 .gx-sheet-assess .gx-assess-tabs button.active {
-  background: linear-gradient(96deg, #20CFAE, #4AD9BC);
-  border-color: #20CFAE;
+  background: linear-gradient(96deg, #5CAD6A, #7FBF78);
+  border-color: #5CAD6A;
   color: #fff;
-  box-shadow: 0 2px 8px rgba(32, 207, 174, .22);
+  box-shadow: 0 2px 8px rgba(92, 173, 106, .22);
 }
-/* 记录卡：极淡青白顶渐变，呼应报告头部的薄荷渐变 */
-.gx-sheet-assess .gx-assess-recs { background: linear-gradient(180deg, #F5FDFB 0%, #FFFFFF 132px); }
-.gx-sheet-assess .gx-assess-recs-title { color: var(--gx-teal-ink); }
-/* 记录项：米黄底 → 浅青白，激活态用报告同款浅青渐变带 */
+/* 记录卡：极淡草绿顶渐变，呼应报告长图的草绿横幅 */
+.gx-sheet-assess .gx-assess-recs { background: linear-gradient(180deg, #F6FAF2 0%, #FFFFFF 132px); }
+.gx-sheet-assess .gx-assess-recs-title { color: var(--gx-leaf-ink); }
+/* 记录项：浅草绿底，激活态用同款浅绿渐变带 */
 .gx-sheet-assess .gx-arec {
-  border: 1px solid #D8F0E8;
-  background: var(--gx-teal-bg);
+  border: 1px solid #E2EED8;
+  background: var(--gx-leaf-bg);
 }
-.gx-sheet-assess .gx-arec:hover { border-color: #8FE0C8; background: #EFFCF8; }
+.gx-sheet-assess .gx-arec:hover { border-color: #A9C48F; background: #F2F8EC; }
 .gx-sheet-assess .gx-arec.active {
-  border-color: var(--gx-teal);
-  background: linear-gradient(100deg, var(--gx-teal-wash) 0%, var(--gx-teal-bg) 100%);
-  box-shadow: 0 2px 10px rgba(32, 207, 174, .18);
+  border-color: var(--gx-leaf);
+  background: linear-gradient(100deg, var(--gx-leaf-wash) 0%, var(--gx-leaf-bg) 100%);
+  box-shadow: 0 2px 10px rgba(92, 173, 106, .18);
 }
-.gx-sheet-assess .gx-arec-head b { color: var(--gx-teal-ink); }
-/* 蓝色类型徽章 / 橄榄绿状态徽章 → 青绿系 */
-.gx-sheet-assess .gx-arec-badge { color: var(--gx-teal-deep); background: #DCF7EF; }
-.gx-sheet-assess .gx-arec-status { color: var(--gx-teal-deep); background: #DCF7EF; }
-.gx-sheet-assess .gx-arec-traits { color: var(--gx-teal-mute); }
-.gx-sheet-assess .gx-arec-time { color: #93AFA9; }
+.gx-sheet-assess .gx-arec-head b { color: var(--gx-leaf-ink); }
+/* 蓝色类型徽章 / 状态徽章 → 统一草绿系 */
+.gx-sheet-assess .gx-arec-badge { color: var(--gx-leaf-deep); background: #E7F1E0; }
+.gx-sheet-assess .gx-arec-status { color: var(--gx-leaf-deep); background: #E7F1E0; }
+.gx-sheet-assess .gx-arec-traits { color: var(--gx-leaf-mute); }
+.gx-sheet-assess .gx-arec-time { color: #9AA491; }
 /* 列表内头像插画（SVG presentation attribute 可被 CSS 覆盖，不影响 gxFullReport 回滚路径） */
-.gx-sheet-assess .gx-arec-illu svg circle:first-child { fill: #DCF7EF; }
+.gx-sheet-assess .gx-arec-illu svg circle:first-child { fill: #E7F1E0; }
 .gx-sheet-assess .gx-arec-illu svg circle:nth-child(2),
-.gx-sheet-assess .gx-arec-illu svg path { fill: #7FD9BE; }
-/* 细滚动条与报告卡同款青绿 */
-.gx-sheet-assess .gx-arec-list { scrollbar-width: thin; scrollbar-color: #7FD9BE var(--gx-teal-wash); }
+.gx-sheet-assess .gx-arec-illu svg path { fill: #A9C48F; }
+/* 细滚动条与 v58 详情页同款草绿 */
+.gx-sheet-assess .gx-arec-list { scrollbar-width: thin; scrollbar-color: #A9C48F var(--gx-leaf-wash); }
 .gx-sheet-assess .gx-arec-list::-webkit-scrollbar { width: 8px; }
-.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-track { background: var(--gx-teal-wash); border-radius: 4px; }
-.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb { background: #7FD9BE; border-radius: 4px; }
-.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb:hover { background: var(--gx-teal); }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-track { background: var(--gx-leaf-wash); border-radius: 4px; }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+.gx-sheet-assess .gx-arec-list::-webkit-scrollbar-thumb:hover { background: var(--gx-leaf); }
 
 /* 测评报告卡 */
 .gx-assess-report {

@@ -270,7 +270,10 @@
            若拿到 >=1120px 的高清原图，替换 src 后需按新图像素重新测量补丁坐标。
            删掉本 designImage 字段即可回退到 gxFullReport() 的纯 HTML 矢量长报告。 */
         designImage: {
-          src: 'assets/enfp-assessment-report-design-4x.jpg',
+          /* v59：改用草绿配色版（只旋转青绿色相，图片尺寸 / 内容位置 / 清晰度不变，
+             故 w/h 与 patch 坐标全部沿用）。原 enfp-assessment-report-design-4x.jpg
+             保留在 assets，改回此 src 即可回滚到 v35 的青绿口径。 */
+          src: 'assets/enfp-assessment-report-design-4x-grass.jpg',
           w: 344, h: 1920,
           patch: { rect: [80, 49, 135, 28], text: [89, 68], fontSize: 12, fill: '#2F382B' }
         },
@@ -353,7 +356,8 @@
     '职业倾向测评': [
       { title: '传统型 · 研究型 · 艺术型', type: '职业倾向测评', traits: '条理、探索、创造并存', time: '2025-04-11 14:06', status: '已生成',
         designImage: {
-          src: 'assets/career-tendency-assessment-report-design.jpg',
+          /* v59：同上，草绿配色版；原 career-tendency-assessment-report-design.jpg 保留可回滚。 */
+          src: 'assets/career-tendency-assessment-report-design-grass.jpg',
           w: 1190, h: 5840,
           patch: { rect: [277, 170, 467, 97], text: [308, 235], fontSize: 41.5, fill: '#2F382B' }
         },
