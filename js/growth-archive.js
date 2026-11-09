@@ -1730,7 +1730,266 @@
     });
   }
 
+  /* ==========================================================================
+     v51 · 「线上课」详情页下方：学生个人课程学习档案
+     --------------------------------------------------------------------------
+     产品判断（20 年教育行业 PM）：
+       红框里原本是「模块说明 + 暂无相关记录」，那是平台运营语言，不是学生档案；
+       而且 gxModuleCard() 按 activeArchiveGrade 过滤，第四年没有课程记录就显示空态，
+       与上方 AI 卡「累计完成 3 门课、30 节课时」直接冲突 —— 数据口径断裂。
+     改法：这一块归位为「我自己的课程学习记录」，守三条口径：
+       1) 个人视角：我选了什么课 / 学到哪一章 / 测验多少分 / 留下什么证据；
+       2) 跨学年汇总：不看左栏年级筛选，第一年到第三年 3 门课全部呈现；
+       3) 证据链可核验：章节级明细 + 学年课时分布 + 能力关联 + 成果清单，
+          把 AI 结论里的「3 门 / 30 节 / 均分 86 / 第四年学习断层」用数据坐实。
+     数字自洽（与 ca.gradeRecords / ca.onlineCourseSummary 严格对齐）：
+       第一年《大学生职业生涯规划》12 节 / 均分 88（2023-03-22 归档）
+       第二年《行业认知与职业选择》10 节 / 均分 86（2024-04-08 归档）
+       第三年《职场礼仪与形象管理》 8 节 / 均分 83（2025-03-10 归档）
+       加权 (88*12 + 86*10 + 83*8) / 30 = 86 分；第四年 0 节 → 学习断层。
+     顶部 AI 卡完全沿用 v50 的 gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course')，
+     一个字未改；本区块所有类名带 gx-oc 前缀，删本块 + 去掉 gxSheet 的线上课分支即可回滚。
+     ========================================================================== */
+  ca.onlineCourseRecord = {
+    kpi: { courses: 3, lessons: 30, avg: 86, finish: 100 },
+    grades: [
+      { k: 'all', n: '全部学年' },
+      { k: '第一年', n: '第一年' },
+      { k: '第二年', n: '第二年' },
+      { k: '第三年', n: '第三年' },
+      { k: '第四年', n: '第四年' }
+    ],
+    courses: [
+      {
+        id: 'c1', name: '大学生职业生涯规划', category: '职业规划类',
+        grade: '第一年', term: '2022—2023学年 · 第二学期', teacher: '李慧敏',
+        archived: '2023-03-22', lessons: 12, done: 12, avg: 88,
+        notes: 6, homeworks: 3, hours: '14.5 小时', ability: '职业规划能力',
+        cert: '课程结业证书 · 已归档',
+        insight: '从自我认知到职业目标设定，完成 1 份个人职业规划书，是毕业意向的最早依据。',
+        chapters: [
+          { n: '第1章 大学与职业发展导论', lessons: 3, min: 46, score: 90, date: '2023-03-02', work: '笔记 · 职业期待清单' },
+          { n: '第2章 自我认知与职业兴趣', lessons: 3, min: 52, score: 86, date: '2023-03-09', work: '作业 · 霍兰德兴趣自评' },
+          { n: '第3章 职业世界与岗位地图', lessons: 3, min: 49, score: 89, date: '2023-03-16', work: '笔记 · 目标岗位清单' },
+          { n: '第4章 职业生涯规划书撰写', lessons: 3, min: 58, score: 87, date: '2023-03-22', work: '作业 · 个人职业规划书' }
+        ]
+      },
+      {
+        id: 'c2', name: '行业认知与职业选择', category: '行业认知类',
+        grade: '第二年', term: '2023—2024学年 · 第二学期', teacher: '周立新',
+        archived: '2024-04-08', lessons: 10, done: 10, avg: 86,
+        notes: 5, homeworks: 2, hours: '12.2 小时', ability: '职业认知能力',
+        cert: '课程结业证书 · 已归档',
+        insight: '由通识规划转向行业与岗位判断，结论可直接用于复核 AI 面试和简历记录。',
+        chapters: [
+          { n: '第1章 行业分类与产业链认知', lessons: 3, min: 44, score: 88, date: '2024-03-14', work: '笔记 · 行业地图' },
+          { n: '第2章 岗位能力模型拆解', lessons: 3, min: 41, score: 84, date: '2024-03-22', work: '作业 · 岗位能力对照表' },
+          { n: '第3章 职业选择决策方法', lessons: 2, min: 38, score: 87, date: '2024-03-30', work: '笔记 · 决策平衡单' },
+          { n: '第4章 数字媒体行业专题', lessons: 2, min: 35, score: 85, date: '2024-04-08', work: '笔记 · 目标行业访谈提纲' }
+        ]
+      },
+      {
+        id: 'c3', name: '职场礼仪与形象管理', category: '职业素养类',
+        grade: '第三年', term: '2024—2025学年 · 第一学期', teacher: '陈 曦',
+        archived: '2025-03-10', lessons: 8, done: 8, avg: 83,
+        notes: 3, homeworks: 1, hours: '9.6 小时', ability: '职业素养能力',
+        cert: '课程结业证书 · 已归档',
+        insight: '补齐求职场景的仪容与沟通规范，但尚未覆盖内容运营、数据分析等岗位技能课。',
+        chapters: [
+          { n: '第1章 职场形象与仪容规范', lessons: 3, min: 40, score: 85, date: '2025-02-20', work: '笔记 · 面试着装清单' },
+          { n: '第2章 商务沟通与会议礼仪', lessons: 3, min: 43, score: 82, date: '2025-02-28', work: '作业 · 模拟会议记录' },
+          { n: '第3章 求职场景礼仪实战', lessons: 2, min: 36, score: 82, date: '2025-03-10', work: '笔记 · 面试礼仪自查表' }
+        ]
+      }
+    ],
+    yearBars: [
+      { g: '第一年', v: 12 }, { g: '第二年', v: 10 },
+      { g: '第三年', v: 8 }, { g: '第四年', v: 0 }
+    ],
+    abilities: [
+      { name: '职业规划能力', v: 88 }, { name: '职业认知能力', v: 76 },
+      { name: '职业素养能力', v: 70 }, { name: '求职准备能力', v: 42 }
+    ],
+    evidences: [
+      { name: '课程结业证书', from: '3 门课程均已完课', tag: '3 份' },
+      { name: '章节测验记录', from: '每章 1 次 · 均分 86 分', tag: '30 次' },
+      { name: '学习笔记', from: '含职业期待清单、行业地图等', tag: '14 篇' },
+      { name: '课程作业', from: '职业规划书、岗位能力对照表等', tag: '6 份' }
+    ]
+  };
+  var activeOcGrade = 'all';
+  var activeOcCourse = 'c1';
+
+  function gxOcTabs() {
+    return '<div class="gx-oc-tabs">' + ca.onlineCourseRecord.grades.map(function (o) {
+      return '<button type="button" class="' + (activeOcGrade === o.k ? 'active' : '') +
+        '" data-oc-grade="' + o.k + '">' + o.n + '</button>';
+    }).join('') + '</div>';
+  }
+
+  function gxOcKpis() {
+    var k = ca.onlineCourseRecord.kpi;
+    var items = [
+      { v: k.courses, u: '门', n: '累计选课' },
+      { v: k.lessons, u: '节', n: '完成课时' },
+      { v: k.avg, u: '分', n: '章节测验均分' },
+      { v: k.finish, u: '%', n: '课程完课率' }
+    ];
+    return '<div class="gx-oc-kpis">' + items.map(function (x) {
+      return '<div class="gx-oc-kpi"><b>' + x.v + '</b><i>' + x.u + '</i><span>' + x.n + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function gxOcChapters(c) {
+    return '<div class="gx-oc-chapters">' +
+      '<div class="gx-oc-chapters-head"><span>章节</span><span>课时</span><span>学习时长</span><span>测验</span><span>完成日期</span></div>' +
+      c.chapters.map(function (ch) {
+        return '<div class="gx-oc-chapter">' +
+          '<span class="gx-oc-ch-name"><b>' + gxEsc(ch.n) + '</b><em>' + gxEsc(ch.work) + '</em></span>' +
+          '<span>' + ch.lessons + ' 节</span>' +
+          '<span>' + ch.min + ' 分钟</span>' +
+          '<span class="gx-oc-ch-score">' + ch.score + ' 分</span>' +
+          '<span>' + ch.date + '</span>' +
+          '</div>';
+      }).join('') + '</div>';
+  }
+
+  function gxOcCourseCard(c) {
+    var open = activeOcCourse === c.id;
+    var pct = Math.round(c.done / c.lessons * 100);
+    return '<article class="gx-oc-course' + (open ? ' open' : '') + '">' +
+      '<button type="button" class="gx-oc-course-main" data-oc-course="' + c.id + '">' +
+        '<div class="gx-oc-course-top">' +
+          '<div class="gx-oc-course-title"><h4>' + gxEsc(c.name) + '</h4>' +
+            '<em class="gx-oc-st">已完课</em></div>' +
+          '<span class="gx-oc-toggle">' + (open ? '收起明细' : '展开明细') + '</span>' +
+        '</div>' +
+        '<p class="gx-oc-meta">' + gxEsc(c.grade) + ' · ' + gxEsc(c.term) + ' · 主讲 ' + gxEsc(c.teacher) + ' · 归档 ' + c.archived + '</p>' +
+        '<div class="gx-oc-tags"><span>' + gxEsc(c.category) + '</span><span>' + gxEsc(c.ability) + '</span></div>' +
+        '<div class="gx-oc-progress"><div class="gx-oc-progress-track"><i style="width:' + pct + '%"></i></div>' +
+          '<b>' + c.done + ' / ' + c.lessons + ' 节</b></div>' +
+        '<div class="gx-oc-metrics">' +
+          '<span>测验均分 <b>' + c.avg + '</b> 分</span>' +
+          '<span>学习笔记 <b>' + c.notes + '</b> 篇</span>' +
+          '<span>课程作业 <b>' + c.homeworks + '</b> 份</span>' +
+          '<span>累计学习 <b>' + c.hours + '</b></span>' +
+        '</div>' +
+        '<p class="gx-oc-insight">' + gxEsc(c.insight) + '</p>' +
+        '<div class="gx-oc-cert">' + gxEsc(c.cert) + '</div>' +
+      '</button>' +
+      (open ? gxOcChapters(c) : '') +
+      '</article>';
+  }
+
+  /* 毕业学年的「学习断层」提示：让 AI 结论里的短板在下方记录里也能被看见 */
+  function gxOcGapCard() {
+    return '<div class="gx-oc-gap">' +
+      '<div class="gx-oc-gap-ico">!</div>' +
+      '<div class="gx-oc-gap-txt"><b>第四年（毕业学年）暂无课程学习记录</b>' +
+      '<p>上方 AI 结论提到的「学习断层」即指此处。建议补选 1—2 门岗位技能类课程，' +
+      '并同步归档章节测验、笔记与作业，形成「学习—练习—沉淀」证据链。</p></div>' +
+      '</div>';
+  }
+
+  function gxOcCourseList() {
+    var list = ca.onlineCourseRecord.courses.filter(function (c) {
+      return activeOcGrade === 'all' || c.grade === activeOcGrade;
+    });
+    var cards = list.map(gxOcCourseCard).join('');
+    var gap = (activeOcGrade === 'all' || activeOcGrade === '第四年') ? gxOcGapCard() : '';
+    if (!cards) {
+      return '<div class="gx-oc-list">' +
+        '<div class="gx-oc-empty">该学年暂无课程学习记录</div>' + gap + '</div>';
+    }
+    return '<div class="gx-oc-list">' + cards + gap + '</div>';
+  }
+
+  function gxOcYearBars() {
+    var max = 12;
+    return ca.onlineCourseRecord.yearBars.map(function (y) {
+      var zero = y.v === 0;
+      return '<div class="gx-oc-year' + (zero ? ' zero' : '') + '">' +
+        '<span>' + y.g + '</span>' +
+        '<div class="gx-oc-year-track"><i style="width:' + (y.v / max * 100) + '%"></i></div>' +
+        '<b>' + y.v + ' 节</b>' + (zero ? '<em>断层</em>' : '') + '</div>';
+    }).join('');
+  }
+
+  function gxOcProfile() {
+    var r = ca.onlineCourseRecord;
+    var bars = r.abilities.map(function (a) {
+      return '<div class="gx-oc-bar"><span>' + a.name + '</span>' +
+        '<div class="gx-oc-bar-track"><i style="width:' + a.v + '%"></i></div>' +
+        '<b>' + a.v + '</b></div>';
+    }).join('');
+    var works = r.evidences.map(function (w) {
+      return '<li title="' + gxEsc(w.from) + '"><span>' + gxEsc(w.name) + '</span>' +
+        '<em>' + gxEsc(w.tag) + '</em></li>';
+    }).join('');
+    return '<div class="gx-oc-profile">' +
+      '<h4 class="gx-oc-sec-title">学年课时分布</h4>' +
+      '<div class="gx-oc-years">' + gxOcYearBars() + '</div>' +
+      '<h4 class="gx-oc-sec-title">关联能力维度</h4>' +
+      '<div class="gx-oc-bars">' + bars + '</div>' +
+      '<h4 class="gx-oc-sec-title">学习成果证据</h4>' +
+      '<ul class="gx-oc-works">' + works + '</ul>' +
+      '<p class="gx-oc-note">证据以完课课时与测验为主，笔记、作业偏少；' +
+      '补齐后可与 AI 面试、简历记录交叉验证。</p>' +
+      '</div>';
+  }
+
+  function gxOcSheet() {
+    return '<div class="gx-sheet gx-sheet-oc">' +
+      gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course') +
+      '<section class="gx-card gx-oc-panel">' +
+        '<div class="gx-oc-head">' +
+          '<div class="gx-oc-heading"><h3>我的课程学习档案</h3>' +
+          '<p>跨学年汇总 3 门课程 · 不受左栏年级筛选影响 · 数据来自云生涯平台线上课程学习记录</p></div>' +
+          gxOcTabs() +
+        '</div>' +
+        gxOcKpis() +
+        '<div class="gx-oc-body">' +
+          '<div class="gx-oc-records"><h4 class="gx-oc-sec-title">课程学习记录 <i>点击课程可展开章节明细</i></h4>' +
+            gxOcCourseList() + '</div>' +
+          gxOcProfile() +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindOc() {
+    document.querySelectorAll('[data-oc-grade]').forEach(function (b) {
+      b.onclick = function () {
+        activeOcGrade = b.getAttribute('data-oc-grade');
+        /* 切换学年后自动展开该学年的第一门课，避免出现「筛出了课程却没有任何明细」 */
+        var first = ca.onlineCourseRecord.courses.filter(function (c) {
+          return activeOcGrade === 'all' || c.grade === activeOcGrade;
+        })[0];
+        activeOcCourse = first ? first.id : '';
+        render();
+      };
+    });
+    document.querySelectorAll('[data-oc-course]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-oc-course');
+        activeOcCourse = activeOcCourse === id ? '' : id;
+        render();
+        /* 展开第 2/3 门课时把该卡滚到左栏顶部，避免章节明细藏在折叠线以下。
+           只改内层容器的 scrollTop，不带动 16:10 画布或整页。 */
+        if (activeOcCourse) {
+          var rec = document.querySelector('.gx-oc-records');
+          var el = document.querySelector('.gx-oc-course.open');
+          if (rec && el) {
+            var r = rec.getBoundingClientRect(), e = el.getBoundingClientRect();
+            rec.scrollTop += (e.top - r.top) - 4;
+          }
+        }
+      };
+    });
+  }
+
   function gxSheet() {
+    if (activeSideTag === '线上课') return gxOcSheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -1740,9 +1999,11 @@
     return gxModuleSheet();
   }
 
-  /* 其余 16 个普通模块标签（线上课 / 微视频 / 线上咨询 / 预约咨询 / 生涯体验周 /
-     生涯活动 / AI简历 / 职业礼仪 / 职场沟通技巧 / 就业活动 / 大学生职业规划大赛 /
-     大学生创新大赛 / 毕业意向 / 宣讲会 / 双选会 / AI助理）统一走这套版式：
+  /* v51：其余 15 个普通模块标签（微视频 / 线上咨询 / 预约咨询 / 生涯活动 /
+     AI简历 / 职业礼仪 / 职场沟通技巧 / 就业活动 / 大学生职业规划大赛 /
+     大学生创新大赛 / 毕业意向 / 宣讲会 / 双选会 / AI助理 等）统一走这套版式。
+     「线上课」已升级为专属课程学习档案（gxOcSheet），本函数里的线上课分支保留为
+     回滚路径：删掉 gxSheet 的线上课分支即可回到通用模板，不影响其它模块。
      与职业测评详情页同分布 —— 顶部整宽「AI总结及建议」（直接复用 gxAssessAi，
      高度共用 --gx-ai-card-h=306px），下方左「模块记录」/ 右「模块说明」两栏。
      原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。 */
@@ -1757,8 +2018,9 @@
       '<h4>' + activeSideTag + '模块</h4>' +
       '<p>该模块沿用云生涯Max现有功能页面，成长档案仅做统一归档与展示，点击左侧其他标签可切换查看。</p>' +
       '</div></div>';
-    /* v50：线上课的 AI 卡换成「线上课程学习」语义（文案 + 环形图均来自
-       ca.onlineCourseSummary）；其余 15 个通用模块标签仍走默认测评 summary。 */
+    /* v50（v51 起仅作回滚路径）：线上课的 AI 卡换成「线上课程学习」语义
+       （文案 + 环形图均来自 ca.onlineCourseSummary）；其余通用模块走默认 summary。
+       v51 的 gxOcSheet() 顶部 AI 卡同样复用这一份数据，口径完全一致。 */
     var ai = activeSideTag === '线上课'
       ? gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course')
       : gxAssessAi();
@@ -1805,6 +2067,7 @@
       gxBindAssess();
       gxBindEw();
       gxBindIv2();
+      gxBindOc();
       syncUrl();
       return;
     }
