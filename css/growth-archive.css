@@ -2248,3 +2248,77 @@
     border-top: 1px solid #EDF1E8; padding-top: 12px;
   }
 }
+
+/* ==========================================================================
+   v55 · 生涯活动 AI 总结卡：按「活动大类」聚合口径重写，右上角换成两张关联图：
+     ①「活动类型分布」5 条横条 —— 统计图，宽度按 count/14，右侧标真实场次
+     ②「活动类型 → 能力维度」3 行关联 —— 分析图，色点与上图类别一一对应
+   与线上课 / 微视频 / 线上咨询 / 预约咨询的单一功能口径区分，数据来自 ca.gradeRecords。
+   作用域仅 .gx-ai--activity，其余专属页、通用模块、三个专属详情页均不受影响。
+   ========================================================================== */
+.gx-ai--activity .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--activity .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.56;
+  margin-bottom: 6px;
+}
+.gx-ai--activity .gx-assess-ai-text { padding-right: 4px; }
+
+.gx-ai--activity .gx-assess-ai-viz.gx-ac-viz {
+  display: block;
+  width: 296px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 17px;
+  box-sizing: border-box;
+}
+/* 密度经过实测收紧：图表面板总高需 ≤ 266px（306px 卡高 − 上下 40px padding），
+   初版 289px 会被 .gx-card 的 overflow:hidden 裁掉底部 3px。 */
+.gx-ac-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 7px;
+}
+.gx-ac-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-ac-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-ac-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.gx-ac-bar {
+  display: grid; grid-template-columns: 68px minmax(0, 1fr) 34px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-ac-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-ac-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-ac-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-ac-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; white-space: nowrap; }
+
+/* 关联分析区：色点沿用上方活动类型色，解释「大类 → 能力维度」的归属关系 */
+.gx-ac-links-box { margin-top: 8px; padding-top: 7px; border-top: 1px dashed #E3EADB; }
+.gx-ac-links-box h4 { margin: 0 0 2px; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-ac-links-note { margin: 0 0 5px; font-size: 10px; color: #9AA491; line-height: 1.2; }
+.gx-ac-links {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.gx-ac-link {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 2px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-ac-link > i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-ac-link-topic { color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-ac-link em { font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center; }
+.gx-ac-link b { color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--activity .gx-assess-ai-viz.gx-ac-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}

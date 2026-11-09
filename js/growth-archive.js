@@ -2230,6 +2230,83 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v55 · 「生涯活动」顶部 AI 总结及建议：按「活动大类」口径重写（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：生涯活动**是一个大类**，所有活动性质的记录都归属到它下面；
+               AI 总结与建议必须和「这个大类」相关，右上角图也要有关联关系，
+               可以统计图 / 分析图。
+     原实现：与其余通用模块共用 gxAssessAi() → ca.assessmentSummary，
+             文案是「历次职业测评 / 职业锚 / 人才星图」，环形图是 6 项测评维度。
+     做法：不改通用 gxAssessAi()，新增 gxActAi()。文案不再总结「某一场活动」，
+           而是把跨学年、跨业务标签的全部活动性质记录聚合起来做**结构分析**：
+             ①「活动类型分布」5 条横条 —— 统计图，横条宽度按 count/14，右侧标真实场次
+             ②「活动类型 → 能力维度」3 行关联 —— 分析图，色点与上图类别一一对应，
+                解释这个大类为什么存在：把分散活动归到 3 个能力维度下
+     数据自洽（与 ca.gradeRecords 逐条对齐，不另造示例数据）：
+           14 场 = 校招活动 8 + 生涯活动 2 + 学科竞赛 2 + 生涯体验周 1 + 就业活动 1；
+           学科竞赛 = 大学生职业规划大赛 + 大学生创新大赛；
+           能力维度 = 求职表现能力（校招活动 / 就业活动）、职业认知能力（生涯活动 / 体验周）、
+                     竞赛成长能力（两项大赛），共 3 个。
+     注意：下方模块明细仍按 activeArchiveGrade + 单业务标签过滤（第四年为空态），
+           与 AI 卡的跨学年大类汇总属于「汇总 vs 明细」两层口径；文案把
+           「明细按业务标签分散、大类视角缺统一清单」本身写进短板，不假装下方有 14 条。
+           是否把下方也改成大类聚合视图，留作待决，本次不擅改结构。
+     ========================================================================== */
+  ca.activitySummary = {
+    diag: '平台生涯活动记录：生涯活动是活动大类，把校友分享会、企业参访、行业体验周、双选洽谈会、宣讲会与双选会、职业规划大赛、创新大赛等所有活动性质记录统一归档，跨四个学年累计 14 场，覆盖校招活动 8 场、生涯活动 2 场、学科竞赛 2 场、生涯体验周与就业活动各 1 场，关联职业认知、竞赛成长、求职表现 3 个能力维度。前三年以认知与竞赛类为主（分享会、企业参访、行业体验周、两项大赛校级奖项），毕业学年转为 8 场校招报名。短板有三：广度够但深度浅，8 场校招活动只记录「报名了宣讲会」，签到与成果未归档；竞赛奖项未关联作品到能力维度；明细按业务标签分散，大类视角缺统一活动清单与参与状态。',
+    advice: '建议按大类补齐每次活动的三段记录：参与凭证（报名 / 签到）、过程沉淀（岗位观察、参访笔记、竞赛作品）、成果结论（对应能力维度）；毕业学年的 8 场校招活动优先补投递与沟通结果，把两项大赛作品回填竞赛成长能力。院校侧统一「活动大类 → 子类 → 能力维度」归档口径，对只有报名无签到的活动做提醒，按年级均衡推送活动类型，并把参与广度、深度与成果接入档案能力画像。',
+    stats: {
+      total: 14,
+      categories: [
+        { name: '校招活动', count: 8, pct: 57, color: '#5CAD6A' },
+        { name: '生涯活动', count: 2, pct: 14, color: '#7FA8D0' },
+        { name: '学科竞赛', count: 2, pct: 14, color: '#E7B84B' },
+        { name: '生涯体验周', count: 1, pct: 7, color: '#8FBF5A' },
+        { name: '就业活动', count: 1, pct: 7, color: '#B9C4B0' }
+      ],
+      links: [
+        { topic: '校招活动', dim: '求职表现能力', color: '#5CAD6A' },
+        { topic: '生涯活动', dim: '职业认知能力', color: '#7FA8D0' },
+        { topic: '学科竞赛', dim: '竞赛成长能力', color: '#E7B84B' }
+      ]
+    }
+  };
+
+  function gxActAi() {
+    var a = ca.activitySummary, s = a.stats;
+    var bars = s.categories.map(function (c) {
+      return '<li class="gx-ac-bar" title="' + gxEsc(c.name) + ' ' + c.count + ' 场">' +
+        '<span class="gx-ac-bar-name">' + gxEsc(c.name) + '</span>' +
+        '<div class="gx-ac-bar-track"><i style="width:' + c.pct + '%;background:' + c.color + '"></i></div>' +
+        '<b>' + c.count + ' 场</b></li>';
+    }).join('');
+    var links = s.links.map(function (l) {
+      return '<li class="gx-ac-link"><i style="background:' + l.color + '"></i>' +
+        '<span class="gx-ac-link-topic">' + gxEsc(l.topic) + '</span>' +
+        '<em>→</em><b>' + gxEsc(l.dim) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--activity">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-ac-viz">' +
+        '<div class="gx-ac-chart">' +
+          '<div class="gx-ac-chart-head"><h4>活动类型分布</h4>' +
+            '<span>共 ' + s.total + ' 场 · 5 类</span></div>' +
+          '<ul class="gx-ac-bars">' + bars + '</ul>' +
+          '<div class="gx-ac-links-box">' +
+            '<h4>活动类型 → 能力维度</h4>' +
+            '<p class="gx-ac-links-note">5 类活动 → 3 个能力维度</p>' +
+            '<ul class="gx-ac-links">' + links + '</ul>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2244,15 +2321,17 @@
     /* v50（v51 起仅作回滚路径）：线上课的 AI 卡换成「线上课程学习」语义
        （文案 + 环形图均来自 ca.onlineCourseSummary）；其余通用模块走默认 summary。
        v51 的 gxOcSheet() 顶部 AI 卡同样复用这一份数据，口径完全一致。 */
-    /* v52 微视频 / v53 线上咨询 / v54 预约咨询各用专属 AI 卡；v50 的线上课分支保留为
-       回滚路径（当前已由 gxOcSheet 接管）；其余通用模块仍走默认测评 summary，行为与 v36 一致。
-       四个专属分支都只是替换顶部 AI 卡，下方「模块记录 + 模块说明」本次均未改动。
-       注意线上咨询（小程序线上沟通）与预约咨询（线下一对一面询）是两条不同链路，
-       各自的数据、文案与图独立，不互相复用。 */
+    /* v52 微视频 / v53 线上咨询 / v54 预约咨询 / v55 生涯活动各用专属 AI 卡；
+       v50 的线上课分支保留为回滚路径（当前已由 gxOcSheet 接管）；其余通用模块仍走
+       默认测评 summary，行为与 v36 一致。五个专属分支都只是替换顶部 AI 卡，
+       下方「模块记录 + 模块说明」本次均未改动。
+       注意：线上咨询（小程序线上沟通）、预约咨询（线下一对一面询）、生涯活动（活动大类聚合）
+       三条口径各自独立，数据、文案与图互不复用。 */
     var ai;
     if (activeSideTag === '微视频') ai = gxVideoAi();
     else if (activeSideTag === '线上咨询') ai = gxConsultAi();
     else if (activeSideTag === '预约咨询') ai = gxApptAi();
+    else if (activeSideTag === '生涯活动') ai = gxActAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
