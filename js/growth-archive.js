@@ -45,7 +45,11 @@
       { created_at: '2023年06月18日 10:24:31', business_type: '职业测评', ability_dimension: '自我认知能力', description: '完成【霍兰德职业兴趣测评】测评，测评结果是：艺术型、社会型、研究型' },
       { created_at: '2023年05月09日 15:02:47', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【优秀校友职场分享会】生涯活动' },
       { created_at: '2023年03月22日 20:11:06', business_type: '线上课', ability_dimension: '职业规划能力', description: '完成【大学生职业生涯规划】线上课学习，累计课时 12 节' },
-      { created_at: '2022年12月05日 14:38:20', business_type: '预约咨询', ability_dimension: '自我认知能力', description: '预约了【一对一生涯咨询】，咨询主题：专业方向与职业选择' },
+      /* v54：产品口径对齐 —— 预约咨询是「线下查看咨询师列表 → 选预约类别 → 选咨询师
+         → 老师接受预约 → 线下一对一咨询」。原记录只写「预约了【一对一生涯咨询】」，
+         补上选类别、选咨询师、老师接受与面询完成，使 AI 卡、转化分析图、归档记录三处口径一致。
+         本次不改日期 / business_type / ability_dimension，避免影响年级时间轴。 */
+      { created_at: '2022年12月05日 14:38:20', business_type: '预约咨询', ability_dimension: '自我认知能力', description: '在咨询师列表选择「生涯规划」类别的咨询师预约【线下一对一生涯咨询】，老师已接受预约并完成面询，咨询主题：专业方向与职业选择' },
       { created_at: '2022年10月14日 09:27:52', business_type: '职业测评', ability_dimension: '自我认知能力', description: '完成【职业性格测评】测评，测评结果是：内向、直觉、情感、知觉' }
     ],
     '第二年': [
@@ -2150,6 +2154,82 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v54 · 「预约咨询」顶部 AI 总结及建议：按产品链路重写（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：预约咨询 = 学生**线下查看咨询师列表** → 选择需要预约咨询的**类别**
+               → **选择咨询师**提交预约 → **老师接受预约** → **线下一对一线下咨询**。
+               右侧图要「对应」，可以是统计图 / 分析图。
+     原实现：与其余通用模块共用 gxAssessAi() → ca.assessmentSummary，
+             文案是「历次职业测评 / 职业锚 / 人才星图」，环形图是 6 项测评维度。
+     做法：不改通用 gxAssessAi()，新增 gxApptAi()，右侧换成两张与链路一一对应的图：
+           ①「预约咨询类别分布」5 条横条 —— 统计图，对应学生「选类别」动作
+           ②「预约 → 老师接受 → 线下面询」3 行转化 —— 分析图，对应「老师接受预约
+              后才能线下一对一」这条预约咨询独有链路，与线上咨询的线上沟通明确区分
+           文案中的 6 / 5 / 4 次与转化图逐项对应，图文强关联。
+     数据自洽：6 次 = 2+1+1+1+1，占比 33+17+17+17+16 = 100；
+           转化 6 → 5（老师未接受 1 次）→ 4（接受后未完成 1 次）；
+           最早一次 2022-12-05「专业方向与职业选择」与 ca.gradeRecords 第一年那条记录、
+           「毕业学年未再发起预约」与第四年空态，三处口径一致。
+     注意：预约咨询 ≠ 线上咨询。前者是线下看咨询师列表、选类别选人、老师接受后一对一面询；
+           后者是云生涯Max 小程序选老师类别后线上沟通。两页文案与图不得互相套用。
+     ========================================================================== */
+  ca.appointmentSummary = {
+    diag: '平台预约咨询记录：累计发起 6 次线下预约，均由学生先在咨询师列表中查看咨询师，再选预约类别并指定咨询师提交；老师接受 5 次、完成线下一对一咨询 4 次。类别以「生涯规划」2 次为主，就业指导、学业发展、心理调适与其他各 1 次；最早一次是 2022 年 12 月 5 日就「专业方向与职业选择」进行的一对一面询，与下方归档记录一致。短板有三：预约集中在低年级方向判断类，面向「直接就业 · 数字媒体运营类岗位」毕业意向的岗位匹配、简历面试与 offer 抉择类面询为 0；1 次未被老师接受、1 次接受后未完成面询，毕业学年未再发起预约，线下咨询断层；档案只记录「预约了咨询」，面询结论与行动清单未归档，效果无法复核。',
+    advice: '建议学生到咨询师列表按「就业指导」「行业导师」类别筛选咨询师，围绕数字媒体运营岗位要求、简历面试与 offer 比较预约 1—2 次线下一对一咨询，关注老师接受状态，面询后把结论整理成行动清单回填档案；对未接受、未完成的预约及时改约。院校侧可把「预约类别 → 咨询师」做成列表推荐，设置接受时效提醒与爽约跟进，按年级和毕业意向推送咨询师，并把预约次数、接受率、面询完成率与结论关联到档案能力维度。',
+    stats: {
+      total: 6,
+      categories: [
+        { name: '生涯规划', value: 33, count: 2, color: '#5CAD6A' },
+        { name: '就业指导', value: 17, count: 1, color: '#7FA8D0' },
+        { name: '学业发展', value: 17, count: 1, color: '#8FBF5A' },
+        { name: '心理调适', value: 17, count: 1, color: '#E7B84B' },
+        { name: '其他类别', value: 16, count: 1, color: '#B9C4B0' }
+      ],
+      steps: [
+        { name: '发起预约', value: 6, pct: 100, color: '#5CAD6A' },
+        { name: '老师接受', value: 5, pct: 83, color: '#7FA8D0' },
+        { name: '线下一对一面询', value: 4, pct: 67, color: '#E7B84B' }
+      ]
+    }
+  };
+
+  function gxApptAi() {
+    var a = ca.appointmentSummary, s = a.stats;
+    var bars = s.categories.map(function (c) {
+      return '<li class="gx-ap-bar" title="' + gxEsc(c.name) + ' ' + c.count + ' 次">' +
+        '<span class="gx-ap-bar-name">' + gxEsc(c.name) + '</span>' +
+        '<div class="gx-ap-bar-track"><i style="width:' + c.value + '%;background:' + c.color + '"></i></div>' +
+        '<b>' + c.value + '%</b></li>';
+    }).join('');
+    var steps = s.steps.map(function (x) {
+      return '<li class="gx-ap-step">' +
+        '<i class="gx-ap-step-dot" style="background:' + x.color + '"></i>' +
+        '<span class="gx-ap-step-name">' + gxEsc(x.name) + '</span>' +
+        '<div class="gx-ap-step-track"><i style="width:' + x.pct + '%;background:' + x.color + '"></i></div>' +
+        '<b>' + x.value + ' 次</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--appt">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-ap-viz">' +
+        '<div class="gx-ap-chart">' +
+          '<div class="gx-ap-chart-head"><h4>预约咨询类别分布</h4>' +
+            '<span>共 ' + s.total + ' 次 · 线下预约</span></div>' +
+          '<ul class="gx-ap-bars">' + bars + '</ul>' +
+          '<div class="gx-ap-steps-box">' +
+            '<h4>预约 → 老师接受 → 线下面询</h4>' +
+            '<p class="gx-ap-steps-note">选类别 → 选咨询师 → 线下一对一</p>' +
+            '<ul class="gx-ap-steps">' + steps + '</ul>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2164,12 +2244,15 @@
     /* v50（v51 起仅作回滚路径）：线上课的 AI 卡换成「线上课程学习」语义
        （文案 + 环形图均来自 ca.onlineCourseSummary）；其余通用模块走默认 summary。
        v51 的 gxOcSheet() 顶部 AI 卡同样复用这一份数据，口径完全一致。 */
-    /* v52 微视频 / v53 线上咨询各用专属 AI 卡；v50 的线上课分支保留为回滚路径
-       （当前已由 gxOcSheet 接管）；其余通用模块仍走默认测评 summary，行为与 v36 完全一致。
-       三个专属分支都只是替换顶部 AI 卡，下方「模块记录 + 模块说明」本次均未改动。 */
+    /* v52 微视频 / v53 线上咨询 / v54 预约咨询各用专属 AI 卡；v50 的线上课分支保留为
+       回滚路径（当前已由 gxOcSheet 接管）；其余通用模块仍走默认测评 summary，行为与 v36 一致。
+       四个专属分支都只是替换顶部 AI 卡，下方「模块记录 + 模块说明」本次均未改动。
+       注意线上咨询（小程序线上沟通）与预约咨询（线下一对一面询）是两条不同链路，
+       各自的数据、文案与图独立，不互相复用。 */
     var ai;
     if (activeSideTag === '微视频') ai = gxVideoAi();
     else if (activeSideTag === '线上咨询') ai = gxConsultAi();
+    else if (activeSideTag === '预约咨询') ai = gxApptAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +

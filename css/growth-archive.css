@@ -2175,3 +2175,76 @@
     border-top: 1px solid #EDF1E8; padding-top: 12px;
   }
 }
+
+/* ==========================================================================
+   v54 · 预约咨询 AI 总结卡：按「线下查看咨询师列表 → 选预约类别 → 选咨询师
+   → 老师接受预约 → 线下一对一咨询」语义重写，右上角换成两张与链路对应的图：
+     ①「预约咨询类别分布」5 条横条 —— 统计图，对应学生「选类别」动作
+     ②「预约 → 老师接受 → 线下面询」3 行转化 —— 分析图，对应履约链路
+   与线上咨询（小程序线上沟通）明确区分，两页数据、文案、图互不复用。
+   作用域仅 .gx-ai--appt，微视频 / 线上咨询 / 线上课 / 通用模块 / 专属页均不受影响。
+   ========================================================================== */
+.gx-ai--appt .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--appt .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.56;
+  margin-bottom: 6px;
+}
+.gx-ai--appt .gx-assess-ai-text { padding-right: 4px; }
+
+/* 右侧图表面板与 v53 同宽（296px），把宽度让给约 500 字文案，306px 卡高内不滚动 */
+.gx-ai--appt .gx-assess-ai-viz.gx-ap-viz {
+  display: block;
+  width: 296px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 17px;
+  box-sizing: border-box;
+}
+.gx-ap-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 10px;
+}
+.gx-ap-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-ap-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-ap-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.gx-ap-bar {
+  display: grid; grid-template-columns: 60px minmax(0, 1fr) 30px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-ap-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-ap-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-ap-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-ap-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; }
+
+/* 履约链路：把「老师接受预约」这一必经环节画出来，与线上咨询的线上沟通区分 */
+.gx-ap-steps-box { margin-top: 10px; padding-top: 9px; border-top: 1px dashed #E3EADB; }
+.gx-ap-steps-box h4 { margin: 0 0 3px; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-ap-steps-note { margin: 0 0 9px; font-size: 10px; color: #9AA491; }
+.gx-ap-steps {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.gx-ap-step {
+  display: grid; grid-template-columns: 7px 80px minmax(0, 1fr) 30px;
+  gap: 5px; align-items: center; font-size: 10.5px;
+}
+.gx-ap-step-dot { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-ap-step-name { color: #5B6556; white-space: nowrap; }
+.gx-ap-step-track { height: 7px; border-radius: 4px; background: #EEF3E6; overflow: hidden; }
+.gx-ap-step-track i { display: block; height: 100%; border-radius: 4px; }
+.gx-ap-step b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--appt .gx-assess-ai-viz.gx-ap-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
