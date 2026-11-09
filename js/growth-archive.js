@@ -52,7 +52,10 @@
       { created_at: '2024年06月25日 16:45:12', business_type: '生涯体验周', ability_dimension: '职业认知能力', description: '参加了【行业体验周 · 互联网产品经理岗位】生涯体验周活动' },
       { created_at: '2024年05月16日 10:08:33', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【企业开放日 · 数字创意产业园区参访】生涯活动' },
       { created_at: '2024年04月08日 21:19:44', business_type: '线上课', ability_dimension: '职业规划能力', description: '完成【行业认知与职业选择】线上课学习，累计课时 10 节' },
-      { created_at: '2023年11月20日 19:52:07', business_type: '微视频', ability_dimension: '职业认知能力', description: '学习了【数字媒体行业岗位解读】微视频课程' },
+      /* v52：产品口径对齐 —— 微视频是「职场礼仪 / 职场问题处理」短视频，学生可点赞、转发。
+         原记录写的是「数字媒体行业岗位解读」，与产品定义不符，改为职场礼仪主题并带上互动动作，
+         使 AI 总结、档案时间轴、微视频模块记录三处口径一致。 */
+      { created_at: '2023年11月20日 19:52:07', business_type: '微视频', ability_dimension: '职业素养能力', description: '观看了【会议礼仪与商务着装】系列微视频 6 条，点赞 4 条、转发 1 条' },
       { created_at: '2023年09月12日 11:03:58', business_type: '职业测评', ability_dimension: '自我认知能力', description: '完成【职业价值观测评】测评，测评结果是：成就、独立、认同' }
     ],
     '第三年': [
@@ -66,7 +69,11 @@
     '第四年': [
       { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
       { created_at: '2024年10月08日 15:22:47', business_type: '大学生创新大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生创新大赛】，项目名称：基于AIGC的校园文创设计平台，获校级三等奖' },
-      { created_at: '2024年09月25日 20:06:13', business_type: '线上咨询', ability_dimension: '自我认知能力', description: '完成【线上生涯咨询】，咨询主题：就业与考研的权衡选择' },
+      /* v53：产品口径对齐 —— 线上咨询发生在云生涯Max 小程序（学生移动端），
+         核心动作是「自主选择老师类别 → 线上沟通」。原记录只写「完成线上生涯咨询」，
+         补上渠道与老师类别，使 AI 卡、关联分析图、下方归档记录三处口径一致。
+         本次不改日期 / business_type / ability_dimension，避免影响年级时间轴。 */
+      { created_at: '2024年09月25日 20:06:13', business_type: '线上咨询', ability_dimension: '自我认知能力', description: '通过云生涯Max小程序选择「生涯规划师」完成【线上生涯咨询】，咨询主题：就业与考研的权衡选择' },
       { created_at: '2024年09月22日 00:46:58', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中建西部建设湖南有限公司】宣讲会' },
       { created_at: '2024年09月18日 16:39:02', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【长沙理工大学2025届毕业生秋季综合双选会（第一场）暨第八届校友企业专场招聘会】双选会' },
       { created_at: '2024年09月18日 15:39:57', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【安克创新科技股份有限公司深圳分公司】宣讲会' },
@@ -2007,6 +2014,142 @@
      与职业测评详情页同分布 —— 顶部整宽「AI总结及建议」（直接复用 gxAssessAi，
      高度共用 --gx-ai-card-h=306px），下方左「模块记录」/ 右「模块说明」两栏。
      原先是纵向两张整宽大白卡且没有 AI 总结区域；内容全部复用，未新增示意数据。 */
+  /* ==========================================================================
+     v52 · 「微视频」顶部 AI 总结及建议：按产品功能与学生动作重写（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：微视频 = 提供学生学习「职场礼仪 / 处理职场相关问题」的短视频产品，
+               学生可以「点赞喜欢」和「转发」视频；AI 总结与建议必须围绕这些功能与动作，
+               右上角配图要换成与之相关的分析图 / 统计图，不能沿用职业测评的 6 维环形图。
+     原实现：微视频走 gxModuleSheet() → gxAssessAi() → ca.assessmentSummary，
+             文案是「历次职业测评 / 职业锚 / 人才星图 / 测评结论」，环形图是 6 项测评维度，
+             与产品语义完全无关，且原文案末行被截。
+     做法：不改动通用 gxAssessAi()（其余 14 个模块零风险），新增 gxVideoAi() 复用
+           .gx-assess-ai 外框与 306px 高度，仅把右侧 viz 换成专属统计图：
+           ① 观看主题分布横条（5 类，紧扣职场礼仪 / 职场问题）
+           ② 学习互动统计（点赞 / 转发 / 完播，紧扣学生能做的动作）
+     数据自洽：42 条 = 16+11+8+5+2；百分比 38/26/19/12/5 = 100；
+           「第四年暂无新增观看记录」与下方按年级过滤后的空态一致（同 v50 处理）。
+     ========================================================================== */
+  ca.microVideoSummary = {
+    diag: '平台微视频学习记录：近一学年累计观看职场类短视频 42 条、有效学习 6.2 小时，完播率 78%。观看以职场礼仪规范 16 条、沟通表达技巧 11 条为主，职场冲突处理 8 条、面试与求职应对 5 条偏少。互动上点赞 27 次、转发 9 次：点赞集中在可照做的礼仪规范类，转发却多来自冲突处理与面试应对类，说明对情境判断型内容有分享意愿但缺少练习。短板有三：第四年暂无新增观看记录，毕业学年出现学习断层；互动仅停留在点赞转发，未沉淀笔记或情景演练等过程证据；观看与互动数据尚未关联档案「职业素养能力」维度。',
+    advice: '建议按转发偏好补看职场冲突、跨部门协作与求职应对类短视频，每条用「一句笔记 + 一次情景演练」沉淀，把点赞清单整理成个人职场素养专题，用于 AI 面试与简历佐证；毕业学年保持每周 2—3 条短时学习，补齐断层。院校侧可依据点赞、转发、完播三类信号优化选题与推荐（高转发低完播宜拆短或补情境说明），把观看与互动关联到职业素养能力维度，并对第四年零观看设置提醒。',
+    stats: {
+      total: 42, hours: '6.2 小时',
+      topics: [
+        { name: '职场礼仪规范', value: 38, count: 16, color: '#5CAD6A' },
+        { name: '沟通表达技巧', value: 26, count: 11, color: '#7FBF86' },
+        { name: '职场冲突处理', value: 19, count: 8, color: '#A8CA7E' },
+        { name: '面试与求职应对', value: 12, count: 5, color: '#C9D99B' },
+        { name: '其他职场话题', value: 5, count: 2, color: '#DDE6C9' }
+      ],
+      actions: [
+        { n: '点赞喜欢', v: 27, u: '次', color: '#5CAD6A' },
+        { n: '转发分享', v: 9, u: '次', color: '#D8923F' },
+        { n: '完播率', v: 78, u: '%', color: '#7FA8D0' }
+      ]
+    }
+  };
+
+  function gxVideoAi() {
+    var a = ca.microVideoSummary, s = a.stats;
+    var bars = s.topics.map(function (t) {
+      return '<li class="gx-vd-bar" title="' + t.name + ' ' + t.count + ' 条">' +
+        '<span class="gx-vd-bar-name">' + t.name + '</span>' +
+        '<div class="gx-vd-bar-track"><i style="width:' + t.value + '%;background:' + t.color + '"></i></div>' +
+        '<b>' + t.value + '%</b></li>';
+    }).join('');
+    var acts = s.actions.map(function (x) {
+      return '<div class="gx-vd-act"><b style="color:' + x.color + '">' + x.v + '</b>' +
+        '<i>' + x.u + '</i><span>' + x.n + '</span></div>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--video">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-vd-viz">' +
+        '<div class="gx-vd-chart">' +
+          '<div class="gx-vd-chart-head"><h4>观看主题分布</h4>' +
+            '<span>共 ' + s.total + ' 条 · ' + s.hours + '</span></div>' +
+          '<ul class="gx-vd-bars">' + bars + '</ul>' +
+          '<div class="gx-vd-actions"><h4>学习互动统计</h4>' +
+            '<div class="gx-vd-acts">' + acts + '</div></div>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  /* ==========================================================================
+     v53 · 「线上咨询」顶部 AI 总结及建议：按产品语义重写（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：线上咨询 = 学生在「云生涯Max」小程序（学生移动端）上，
+               自主选择需要咨询的**老师类别**进行**线上咨询沟通**，了解想咨询的信息；
+               右上角配图要「对应有关联关系」，可以是统计图 / 分析图。
+     原实现：与微视频、其余通用模块共用 gxAssessAi() → ca.assessmentSummary，
+             文案是「历次职业测评 / 职业锚 / 人才星图」，环形图是 6 项测评维度。
+     做法：不改通用 gxAssessAi()，新增 gxConsultAi()（复用 306px 卡高与文字区结构），
+           右侧换成两张互相关联的图：
+             ①「咨询老师类别分布」5 条横条 —— 统计图，对应学生「选老师类别」动作
+             ②「咨询主题 → 老师类别」3 行关联 —— 分析图，色点与上图类别一一对应
+           文案里的 8 次 / 3 次 / 2 次 / 2024-09-25 均可在图中与下方记录中找到，图文强关联。
+     数据自洽：8 次 = 3+2+1+1+1，占比 38+25+13+12+12 = 100；
+           「最近一次 2024 年 9 月 25 日选择生涯规划师咨询就业与考研权衡」
+           与 ca.gradeRecords 第四年那条记录、下方模块记录区逐字对应。
+           注意：线上咨询页第四年**有记录**（不同于线上课 / 微视频的空态），
+           因此文案绝不能套用「第四年暂无记录」口径。
+     ========================================================================== */
+  ca.onlineConsultSummary = {
+    diag: '平台线上咨询记录：8 次咨询均通过云生涯Max 小程序（学生移动端）发起，由学生自主选择老师类别后线上沟通。类别分布为生涯规划师 3 次、就业指导老师 2 次，行业导师、专业导师、心理咨询师各 1 次；主题从低年级「专业方向确认」、中年级「行业与岗位认知」，走到最近一次 2024 年 9 月 25 日选择「生涯规划师」咨询「就业与考研的权衡选择」，与下方归档记录一致。短板有三：咨询以方向判断类为主，面向具体岗位匹配与 offer 抉择的落地类咨询仅 2 次，与「直接就业 · 数字媒体运营类岗位」的毕业意向不匹配；档案只记录「完成咨询」，沟通结论与行动清单未同步归档；最近一次咨询后未再发起，毕业学年缺少跟进。',
+    advice: '建议在小程序里补选「就业指导老师」与「行业导师」，围绕数字媒体运营岗位要求、简历面试与 offer 比较做 2—3 次针对性咨询，每次把结论整理成行动清单并归档，用于复核 AI 面试与简历；把「就业与考研权衡」的结论回填毕业意向，形成闭环。院校侧可建立「咨询主题 → 老师类别」推荐关系，按年级与毕业意向推送对应老师，对高年级设置落地类咨询提醒，并把咨询次数、类别与结论关联到档案职业规划、求职表现能力维度。',
+    stats: {
+      total: 8,
+      categories: [
+        { name: '生涯规划师', value: 38, count: 3, color: '#5CAD6A' },
+        { name: '就业指导老师', value: 25, count: 2, color: '#7FA8D0' },
+        { name: '行业导师', value: 13, count: 1, color: '#8FBF5A' },
+        { name: '专业导师', value: 12, count: 1, color: '#E7B84B' },
+        { name: '心理咨询师', value: 12, count: 1, color: '#B9C4B0' }
+      ],
+      links: [
+        { topic: '就业与考研权衡', cat: '生涯规划师', color: '#5CAD6A' },
+        { topic: '简历与面试准备', cat: '就业指导老师', color: '#7FA8D0' },
+        { topic: '行业与岗位认知', cat: '行业导师', color: '#8FBF5A' }
+      ]
+    }
+  };
+
+  function gxConsultAi() {
+    var a = ca.onlineConsultSummary, s = a.stats;
+    var bars = s.categories.map(function (c) {
+      return '<li class="gx-cs-bar" title="' + gxEsc(c.name) + ' ' + c.count + ' 次">' +
+        '<span class="gx-cs-bar-name">' + gxEsc(c.name) + '</span>' +
+        '<div class="gx-cs-bar-track"><i style="width:' + c.value + '%;background:' + c.color + '"></i></div>' +
+        '<b>' + c.value + '%</b></li>';
+    }).join('');
+    var links = s.links.map(function (l) {
+      return '<li class="gx-cs-link"><i style="background:' + l.color + '"></i>' +
+        '<span class="gx-cs-link-topic">' + gxEsc(l.topic) + '</span>' +
+        '<em>→</em><b>' + gxEsc(l.cat) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--consult">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-cs-viz">' +
+        '<div class="gx-cs-chart">' +
+          '<div class="gx-cs-chart-head"><h4>咨询老师类别分布</h4>' +
+            '<span>共 ' + s.total + ' 次 · 小程序发起</span></div>' +
+          '<ul class="gx-cs-bars">' + bars + '</ul>' +
+          '<div class="gx-cs-links-box"><h4>咨询主题 → 老师类别</h4>' +
+            '<ul class="gx-cs-links">' + links + '</ul></div>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2021,9 +2164,14 @@
     /* v50（v51 起仅作回滚路径）：线上课的 AI 卡换成「线上课程学习」语义
        （文案 + 环形图均来自 ca.onlineCourseSummary）；其余通用模块走默认 summary。
        v51 的 gxOcSheet() 顶部 AI 卡同样复用这一份数据，口径完全一致。 */
-    var ai = activeSideTag === '线上课'
-      ? gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course')
-      : gxAssessAi();
+    /* v52 微视频 / v53 线上咨询各用专属 AI 卡；v50 的线上课分支保留为回滚路径
+       （当前已由 gxOcSheet 接管）；其余通用模块仍走默认测评 summary，行为与 v36 完全一致。
+       三个专属分支都只是替换顶部 AI 卡，下方「模块记录 + 模块说明」本次均未改动。 */
+    var ai;
+    if (activeSideTag === '微视频') ai = gxVideoAi();
+    else if (activeSideTag === '线上咨询') ai = gxConsultAi();
+    else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
+    else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
       ai +
       '<section class="gx-card gx-module-panel">' +

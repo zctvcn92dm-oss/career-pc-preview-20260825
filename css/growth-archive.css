@@ -2035,3 +2035,143 @@
   .gx-oc-records, .gx-oc-profile { overflow: visible; }
   .gx-oc-profile { border-left: 0; border-top: 1px solid #EDF1E8; padding-top: 14px; }
 }
+
+/* ==========================================================================
+   v52 · 微视频 AI 总结卡：文案按「职场礼仪短视频 + 点赞/转发」语义重写，
+   右上角换成「观看主题分布 + 学习互动统计」两张统计图，不再是测评 6 维环形图。
+   作用域仅 .gx-ai--video，线上课 / 其余 14 个通用模块 / 三个专属页均不受影响。
+   ========================================================================== */
+.gx-ai--video .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--video .gx-assess-ai-p {
+  font-size: 12px;
+  line-height: 1.58;
+  margin-bottom: 7px;
+}
+.gx-ai--video .gx-assess-ai-text { padding-right: 4px; }
+
+/* 右侧统计图容器：覆盖通用 .gx-assess-ai-viz 的 flex 居中，改为定宽图表面板。
+   宽度 300px 是刻意的：比 v50 的 donut+图例（322px）略窄，把宽度让给左侧文字，
+   保证 450 字文案在 306px 卡高内不出现滚动。 */
+.gx-ai--video .gx-assess-ai-viz.gx-vd-viz {
+  display: block;
+  width: 300px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 18px;
+  box-sizing: border-box;
+}
+.gx-vd-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 10px;
+}
+.gx-vd-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-vd-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-vd-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.gx-vd-bar {
+  display: grid; grid-template-columns: 84px minmax(0, 1fr) 32px;
+  gap: 7px; align-items: center; font-size: 10.5px;
+}
+.gx-vd-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-vd-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-vd-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-vd-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; }
+
+.gx-vd-actions { margin-top: 13px; padding-top: 11px; border-top: 1px dashed #E3EADB; }
+.gx-vd-actions h4 { margin: 0 0 9px; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-vd-acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.gx-vd-act {
+  text-align: center; padding: 7px 3px;
+  border: 1px solid #E7EBDD; border-radius: 9px; background: #FAFCF7;
+}
+.gx-vd-act b { font-size: 19px; font-weight: 800; line-height: 1; }
+.gx-vd-act i { font-style: normal; font-size: 10.5px; color: #6B7566; margin-left: 1px; }
+.gx-vd-act span {
+  display: block; margin-top: 4px; font-size: 10.5px; color: #8A9187; white-space: nowrap;
+}
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--video .gx-assess-ai-viz.gx-vd-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
+
+/* ==========================================================================
+   v53 · 线上咨询 AI 总结卡：按「云生涯Max 小程序（学生移动端）自主选择老师类别
+   → 线上咨询沟通」语义重写，右上角换成两张互相关联的图：
+     ①「咨询老师类别分布」5 条横条  —— 统计图，对应学生「选老师类别」动作
+     ②「咨询主题 → 老师类别」3 行关联 —— 分析图，色点与上图类别一一对应
+   文案里的 8 次 / 3 次 / 2 次 / 2024-09-25 都能在两图与下方归档记录中找到。
+   作用域仅 .gx-ai--consult，微视频 / 线上课 / 其余通用模块 / 三个专属页均不受影响。
+   ========================================================================== */
+.gx-ai--consult .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--consult .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.56;
+  margin-bottom: 6px;
+}
+.gx-ai--consult .gx-assess-ai-text { padding-right: 4px; }
+
+/* 右侧图表面板：与 v52 同宽（296px），把宽度让给约 450 字文案，306px 卡高内不滚动 */
+.gx-ai--consult .gx-assess-ai-viz.gx-cs-viz {
+  display: block;
+  width: 296px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 17px;
+  box-sizing: border-box;
+}
+.gx-cs-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 10px;
+}
+.gx-cs-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-cs-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-cs-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.gx-cs-bar {
+  display: grid; grid-template-columns: 76px minmax(0, 1fr) 30px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-cs-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-cs-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-cs-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-cs-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; }
+
+/* 关联分析区：色点沿用上方类别色，形成「类别 → 主题」的对应关系 */
+.gx-cs-links-box { margin-top: 11px; padding-top: 10px; border-top: 1px dashed #E3EADB; }
+.gx-cs-links-box h4 { margin: 0 0 8px; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-cs-links {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.gx-cs-link {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 5px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-cs-link > i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-cs-link-topic { color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-cs-link em { font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center; }
+.gx-cs-link b { color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--consult .gx-assess-ai-viz.gx-cs-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
