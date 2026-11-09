@@ -2007,6 +2007,9 @@
     /* v57：微视频的下方详情区升级为「我的微视频学习档案」（主题系列 + 学习沉淀闭环）。
        回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
     if (activeSideTag === '微视频') return gxMvSheet();
+    /* v58：生涯活动的下方改成「活动大类统一归档」，解决 v55 留下的第四年空态待决项。
+       回滚：删掉这一行，即回到 gxModuleSheet() 的单业务标签过滤。 */
+    if (activeSideTag === '生涯活动') return gxAaSheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -2257,7 +2260,9 @@
      注意：下方模块明细仍按 activeArchiveGrade + 单业务标签过滤（第四年为空态），
            与 AI 卡的跨学年大类汇总属于「汇总 vs 明细」两层口径；文案把
            「明细按业务标签分散、大类视角缺统一清单」本身写进短板，不假装下方有 14 条。
-           是否把下方也改成大类聚合视图，留作待决，本次不擅改结构。
+           是否把下方也改成大类聚合视图，v55 留作待决、本次不擅改结构。
+           **v58 已解决**：下方由 gxAaSheet() 接管为活动大类统一归档（14 场 / 5 子类 /
+           3 能力维度），本段注释保留为 v55 当时的决策记录，不再描述当前行为。
      ========================================================================== */
   ca.activitySummary = {
     diag: '平台生涯活动记录：生涯活动是活动大类，把校友分享会、企业参访、行业体验周、双选洽谈会、宣讲会与双选会、职业规划大赛、创新大赛等所有活动性质记录统一归档，跨四个学年累计 14 场，覆盖校招活动 8 场、生涯活动 2 场、学科竞赛 2 场、生涯体验周与就业活动各 1 场，关联职业认知、竞赛成长、求职表现 3 个能力维度。前三年以认知与竞赛类为主（分享会、企业参访、行业体验周、两项大赛校级奖项），毕业学年转为 8 场校招报名。短板有三：广度够但深度浅，8 场校招活动只记录「报名了宣讲会」，签到与成果未归档；竞赛奖项未关联作品到能力维度；明细按业务标签分散，大类视角缺统一活动清单与参与状态。',
@@ -3145,6 +3150,341 @@
     });
   }
 
+  /* ==========================================================================
+     v58 · 「生涯活动」详情页下方：我的生涯活动档案（大聚合一，独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：生涯活动是**活动大类**，所有活动性质记录都归属到它下面；用教育行业
+               产品经理的判断把红框那块（通用模块记录 + 第四年空态）补充设计好。
+     这正是 v55 留下的待决项：v55 只把顶部 AI 卡改成大类结构分析，下方仍按
+       activeArchiveGrade + 单业务标签过滤，第四年没有叫「生涯活动」的标签记录 → 空态。
+       **空态不是没数据，是归档口径把大类拆散了。**
+     已确认边界（AskUserQuestion，三项全选推荐）：
+       ① 主线 = 活动子类 + 逐场明细；② 补「三段记录」可补齐闭环；
+       ③ 8 场校招同质记录默认收起、可展开全部。
+     教育产品判断：大类视图不能是 14 条流水账，要回答「参与了什么 / 参与到什么程度 /
+       沉淀了什么能力证据」。v55 AI 卡的建议已给出模型：参与凭证（报名/签到）→
+       过程沉淀（岗位观察/参访笔记/竞赛作品）→ 成果结论（能力维度），并点出
+       「8 场校招只记录报名」「竞赛奖项未关联作品」。下方把这条「广度够、深度浅」
+       的差距做成可补齐结构，而不是再堆一遍活动清单。
+     数据唯一来源：直接遍历 ca.gradeRecords 提取活动性质记录，**不另造一份活动数据**，
+       因此 14 场 / 5 子类 / 3 能力维度 / 4 学年与 v55 AI 卡天然一致：
+         校招活动参与情况 8 → campus；生涯活动 2 → career；生涯体验周 1 → week；
+         大学生职业规划大赛 1 + 大学生创新大赛 1 → contest；就业活动 1 → employ。
+         学年按 gradeRecords 的 key：第一年 1 / 第二年 2 / 第三年 2 / 第四年 9 = 14。
+         能力维度取记录原有 ability_dimension，不重新指派。
+     不编造成果：签到、笔记、作品、能力归因平台目前无数据，初始一律「未归档」；
+       点「补录活动沉淀」才写入示意的过程沉淀与成果结论，并同步 KPI / 右栏深度进度。
+       签到始终标注「未归档（需平台对接签到数据）」——签到是现场数据，学生不能自补。
+     类名避开 v55 已占用的 .gx-ac-*（AI 卡皮肤），统一用 .gx-aa-*。
+     顶部 gxActAi() 一字未改；通用 gxModuleSheet() 保留为回滚路径。
+     ========================================================================== */
+  /* 活动性质业务标签 → 大类子类；其余标签（职业测评 / 线上课 / 微视频 / 咨询等）不进大类。 */
+  var AA_TYPE_MAP = {
+    '校招活动参与情况': 'campus',
+    '生涯活动': 'career',
+    '生涯体验周': 'week',
+    '大学生职业规划大赛': 'contest',
+    '大学生创新大赛': 'contest',
+    '就业活动': 'employ'
+  };
+
+  ca.activityArchive = {
+    title: '我的生涯活动档案',
+    subtitle: '活动大类统一归档 · 跨四个学年 14 场 · 5 个子类 · 不受左栏年级筛选影响',
+    types: [
+      { k: 'campus', name: '校招活动', ability: '求职表现能力', color: '#5CAD6A',
+        insight: '8 场均只记录「报名了宣讲会 / 双选会」，签到、岗位观察与投递结果未归档',
+        note: '记录该企业岗位要求、宣讲要点与投递进度，整理成岗位对比表。',
+        result: '求职表现能力 · 岗位筛选与求职沟通' },
+      { k: 'career', name: '生涯活动', ability: '职业认知能力', color: '#7FA8D0',
+        insight: '2 场认知类活动有参与记录，参访笔记与岗位观察未沉淀',
+        note: '整理校友分享或企业参访的三点观察，写成一页参访笔记。',
+        result: '职业认知能力 · 行业与岗位认知' },
+      { k: 'contest', name: '学科竞赛', ability: '竞赛成长能力', color: '#E7B84B',
+        insight: '2 场赛事均获校级奖项，但参赛作品与承担分工未关联到能力维度',
+        note: '上传参赛作品与获奖说明，写清本人承担的分工与方法。',
+        result: '竞赛成长能力 · 作品与项目实践' },
+      { k: 'week', name: '生涯体验周', ability: '职业认知能力', color: '#8FBF5A',
+        insight: '1 场岗位体验，缺少体验小结与能力要求对照',
+        note: '记录体验岗位的一天流程与能力要求，形成岗位体验小结。',
+        result: '职业认知能力 · 岗位体验' },
+      { k: 'employ', name: '就业活动', ability: '求职表现能力', color: '#B9C4B0',
+        insight: '1 场双选洽谈会仅记录参加，沟通企业与跟进结果未归档',
+        note: '记录洽谈企业、沟通岗位与后续跟进动作。',
+        result: '求职表现能力 · 求职沟通与跟进' }
+    ],
+    abilities: [
+      { name: '求职表现能力', color: '#5CAD6A' },
+      { name: '职业认知能力', color: '#7FA8D0' },
+      { name: '竞赛成长能力', color: '#E7B84B' }
+    ],
+    gap: '14 场活动中 8 场校招仅记录报名，签到与投递结果未归档；2 项竞赛奖项未关联参赛作品；过程沉淀与成果结论普遍缺失。大类视角能看清参与广度，却还证明不了能力成长。',
+    consistency: '与顶部 AI 卡一致：14 场 = 校招活动 8 + 生涯活动 2 + 学科竞赛 2 + 生涯体验周 1 + 就业活动 1，归到求职表现、职业认知、竞赛成长 3 个能力维度；两个大赛业务标签合并为「学科竞赛」子类，故 6 个业务标签对应 5 个活动子类。',
+    fields: ['活动子类与业务标签', '参与时间 / 所在学年', '参与凭证（报名 / 签到）',
+      '过程沉淀（观察 / 笔记 / 作品）', '成果结论（奖项 / 能力维度）', '能力维度归因']
+  };
+
+  var activeAaFilter = 'all';
+  var activeAaOpen = 'campus';
+  var activeAaExpandAll = false;
+  var activeAaNotes = {};
+  var activeAaArchive = false;
+
+  function gxAaDate(s) {
+    var m = /^(\d{4})年(\d{2})月(\d{2})日/.exec(s || '');
+    return m ? m[1] + '-' + m[2] + '-' + m[3] : (s || '');
+  }
+
+  /* 每次渲染实时从 gradeRecords 提取，保证「大类清单」与档案时间轴永远同源。 */
+  function gxAaRecords() {
+    var out = [], n = 0;
+    Object.keys(ca.gradeRecords).forEach(function (grade) {
+      ca.gradeRecords[grade].forEach(function (r) {
+        var k = AA_TYPE_MAP[r.business_type];
+        if (!k) return;
+        var desc = r.description || '';
+        var m = /【([^】]+)】/.exec(desc);
+        var name = m ? m[1] : r.business_type;
+        if (k === 'campus') {
+          var tail = /】(.+)$/.exec(desc);
+          name = name + ' · ' + (tail ? tail[1] : '校招活动');
+        }
+        var pm = /(校级[^，。]*|一等奖|二等奖|三等奖)/.exec(desc);
+        out.push({
+          id: 'a' + (++n), grade: grade, type: k,
+          date: gxAaDate(r.created_at), name: name,
+          ability: r.ability_dimension, desc: desc,
+          joinLabel: /报名了/.test(desc) ? '已报名' : '已参与',
+          prize: pm ? pm[1] : ''
+        });
+      });
+    });
+    return out;
+  }
+
+  function gxAaStats() {
+    var recs = gxAaRecords(), byType = {}, byGrade = {}, byAbility = {}, done = 0;
+    ca.activityArchive.types.forEach(function (t) { byType[t.k] = []; });
+    ['第一年', '第二年', '第三年', '第四年'].forEach(function (g) { byGrade[g] = 0; });
+    recs.forEach(function (r) {
+      if (byType[r.type]) byType[r.type].push(r);
+      if (byGrade[r.grade] !== undefined) byGrade[r.grade]++;
+      byAbility[r.ability] = (byAbility[r.ability] || 0) + 1;
+      if (activeAaNotes[r.id]) done++;
+    });
+    return { recs: recs, byType: byType, byGrade: byGrade, byAbility: byAbility, done: done };
+  }
+
+  function gxAaTabs(st) {
+    var tabs = [{ k: 'all', label: '全部', n: st.recs.length }].concat(
+      ca.activityArchive.types.map(function (t) {
+        return { k: t.k, label: t.name, n: st.byType[t.k].length };
+      })
+    );
+    return '<div class="gx-aa-tabs">' + tabs.map(function (t) {
+      return '<button type="button" class="' + (activeAaFilter === t.k ? 'active' : '') +
+        '" data-aa-filter="' + t.k + '">' + gxEsc(t.label) + ' <i>' + t.n + '</i></button>';
+    }).join('') + '</div>';
+  }
+
+  function gxAaKpis(st) {
+    var items = [
+      { v: String(st.recs.length), u: '场', label: '累计参与' },
+      { v: '5', u: '类', label: '活动子类' },
+      { v: '3', u: '个', label: '关联能力维度' },
+      { v: String(st.done), u: ' / ' + st.recs.length, label: '已补录深度证据', warn: st.done === 0 }
+    ];
+    return '<div class="gx-aa-kpis">' + items.map(function (k) {
+      return '<div class="gx-aa-kpi' + (k.warn ? ' warn' : '') + '">' +
+        '<b>' + gxEsc(k.v) + '</b><i>' + gxEsc(k.u) + '</i>' +
+        '<span>' + gxEsc(k.label) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  /* 逐场明细：三段记录是教育闭环的核心，签到明确标注需平台对接、不让学生自补。 */
+  function gxAaRecordRow(r, t) {
+    var filled = !!activeAaNotes[r.id];
+    return '<div class="gx-aa-row' + (filled ? ' filled' : '') + '">' +
+      '<div class="gx-aa-row-top">' +
+        '<span class="gx-aa-row-name" title="' + gxEsc(r.name) + '">' + gxEsc(r.name) + '</span>' +
+        '<span class="gx-aa-row-date">' + gxEsc(r.date) + ' · ' + gxEsc(r.grade) + '</span>' +
+      '</div>' +
+      '<div class="gx-aa-stages">' +
+        '<span class="gx-aa-stage"><label>参与凭证</label>' + gxEsc(r.joinLabel) + ' · 签到未归档</span>' +
+        '<span class="gx-aa-stage' + (filled ? ' ok' : '') + '"><label>过程沉淀</label>' + (filled ? '已补录' : '未归档') + '</span>' +
+        '<span class="gx-aa-stage' + (filled ? ' ok' : '') + '"><label>成果结论</label>' +
+          (filled ? '已关联能力维度' : (r.prize ? gxEsc(r.prize) + ' · 作品未关联' : '未归档')) + '</span>' +
+        '<button type="button" class="gx-aa-note-btn" data-aa-note="' + r.id + '">' +
+          (filled ? '撤销补录' : '补录活动沉淀') + '</button>' +
+      '</div>' +
+      (filled
+        ? '<p class="gx-aa-note-txt"><label>过程沉淀</label>' + gxEsc(t.note) + '</p>' +
+          '<p class="gx-aa-note-txt"><label>成果结论</label>' + gxEsc(t.result) + '</p>'
+        : '') +
+      '</div>';
+  }
+
+  function gxAaTypeCard(t, st) {
+    var list = st.byType[t.k] || [];
+    var open = activeAaOpen === t.k;
+    var collapsed = t.k === 'campus' && !activeAaExpandAll;
+    var shown = collapsed ? list.slice(0, 3) : list;
+    var done = list.filter(function (r) { return !!activeAaNotes[r.id]; }).length;
+    var grades = [];
+    list.forEach(function (r) { if (grades.indexOf(r.grade) < 0) grades.push(r.grade); });
+    return '<article class="gx-aa-type' + (open ? ' open' : '') + '" style="--aa-color:' + t.color + '">' +
+      '<button type="button" class="gx-aa-type-head" data-aa-open="' + t.k + '">' +
+        '<i class="gx-aa-type-dot"></i>' +
+        '<span class="gx-aa-type-name">' + gxEsc(t.name) + '</span>' +
+        '<em class="gx-aa-type-count">' + list.length + ' 场</em>' +
+        '<span class="gx-aa-type-ability">' + gxEsc(t.ability) + '</span>' +
+        '<span class="gx-aa-type-toggle">' + (open ? '收起明细' : '查看明细') + '</span>' +
+      '</button>' +
+      '<div class="gx-aa-type-summary">' +
+        '<span>覆盖 <b>' + grades.length + '</b> 个学年</span>' +
+        '<span>已有成果 <b>' + list.filter(function (r) { return !!r.prize; }).length + '</b> 项</span>' +
+        '<span class="gx-aa-type-done' + (done ? ' ok' : '') + '">已补录 ' + done + '/' + list.length + '</span>' +
+      '</div>' +
+      '<p class="gx-aa-type-insight">' + gxEsc(t.insight) + '</p>' +
+      (open
+        ? '<div class="gx-aa-detail">' +
+            '<div class="gx-aa-detail-head"><h5>逐场活动记录</h5>' +
+              '<i>三段记录：参与凭证 → 过程沉淀 → 成果结论</i></div>' +
+            shown.map(function (r) { return gxAaRecordRow(r, t); }).join('') +
+            (collapsed
+              ? '<button type="button" class="gx-aa-expand-btn" data-aa-expand="1">展开全部 ' + list.length +
+                  ' 场校招活动（另有 ' + (list.length - shown.length) + ' 场）</button>'
+              : (t.k === 'campus'
+                  ? '<button type="button" class="gx-aa-expand-btn ghost" data-aa-expand="0">收起，只看前 3 场</button>'
+                  : '')) +
+          '</div>'
+        : '') +
+      '</article>';
+  }
+
+  /* 右栏：学年分布 + 能力维度归因 + 参与深度 + 大类口径说明 */
+  function gxAaProfile(st) {
+    var d = ca.activityArchive, total = st.recs.length;
+    var years = ['第一年', '第二年', '第三年', '第四年'].map(function (g) {
+      var n = st.byGrade[g] || 0, pct = Math.round(n / total * 100);
+      return '<div class="gx-aa-bar"><span>' + g + '</span>' +
+        '<div class="gx-aa-bar-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + n + ' 场</b></div>';
+    }).join('');
+    var maps = d.abilities.map(function (a) {
+      return '<div class="gx-aa-map"><i style="background:' + a.color + '"></i>' +
+        '<span>' + gxEsc(a.name) + '</span><b>' + (st.byAbility[a.name] || 0) + ' 场</b></div>';
+    }).join('');
+    var pct = Math.round(st.done / total * 100);
+    return '<div class="gx-aa-profile-inner">' +
+      '<h4 class="gx-aa-sec-title">学年参与分布</h4>' +
+      '<div class="gx-aa-bars">' + years + '</div>' +
+      '<h4 class="gx-aa-sec-title">子类 → 能力维度</h4>' +
+      '<div class="gx-aa-maps">' + maps + '</div>' +
+      '<h4 class="gx-aa-sec-title">参与深度</h4>' +
+      '<div class="gx-aa-progress"><div class="gx-aa-progress-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + st.done + ' / ' + total + '</b></div>' +
+      '<p class="gx-aa-progress-note">8 场校招只记录报名；补录沉淀与结论后才能关联能力维度。' +
+        '签到属现场数据，需平台对接。</p>' +
+      '</div>';
+  }
+
+  function gxAaArchiveView(st) {
+    var d = ca.activityArchive;
+    var groups = ['第一年', '第二年', '第三年', '第四年'].map(function (g) {
+      var rs = st.recs.filter(function (r) { return r.grade === g; });
+      return '<div class="gx-aa-arch-group"><h5>' + g + '<i>' + rs.length + ' 场</i></h5>' +
+        '<ul>' + rs.map(function (r) {
+          return '<li><time>' + gxEsc(r.date) + '</time><span title="' + gxEsc(r.name) + '">' +
+            gxEsc(r.name) + '</span></li>';
+        }).join('') + '</ul></div>';
+    }).join('');
+    return '<div class="gx-aa-profile-inner">' +
+      '<h4 class="gx-aa-sec-title">活动档案摘要</h4>' +
+      '<p class="gx-aa-arch-sub">跨学年 ' + st.recs.length + ' 场 · 5 个子类 · 与顶部 AI 卡口径一致</p>' +
+      '<div class="gx-aa-gap"><b>广度够、深度浅</b><p>' + gxEsc(d.gap) + '</p></div>' +
+      '<div class="gx-aa-consistency"><b>档案一致性</b><p>' + gxEsc(d.consistency) + '</p></div>' +
+      '<div class="gx-aa-scope"><b>大类归档口径</b><p>14 场来自 6 个业务标签，归并为 5 个活动子类，' +
+        '跨四个学年汇总，不随左栏年级切换而过滤；签到等现场数据需平台对接后自动归档。</p></div>' +
+      groups +
+      '<h4 class="gx-aa-sec-title">归档字段</h4>' +
+      '<ul class="gx-aa-arch-fields">' + d.fields.map(function (x) {
+        return '<li>' + gxEsc(x) + '</li>';
+      }).join('') + '</ul>' +
+      '</div>';
+  }
+
+  function gxAaSheet() {
+    var d = ca.activityArchive, st = gxAaStats();
+    var types = d.types.filter(function (t) {
+      return activeAaFilter === 'all' || t.k === activeAaFilter;
+    });
+    return '<div class="gx-sheet gx-sheet-aa">' +
+      gxActAi() +
+      '<section class="gx-card gx-aa-panel">' +
+        '<div class="gx-aa-head">' +
+          '<div class="gx-aa-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+          gxAaTabs(st) +
+        '</div>' +
+        gxAaKpis(st) +
+        '<div class="gx-aa-body">' +
+          '<div class="gx-aa-records">' +
+            '<h4 class="gx-aa-sec-title">活动子类与逐场明细' +
+              ' <i>共 ' + types.length + ' 个子类 · ' + st.recs.length + ' 场 · 点击子类展开</i></h4>' +
+            '<div class="gx-aa-list">' + types.map(function (t) { return gxAaTypeCard(t, st); }).join('') + '</div>' +
+          '</div>' +
+          '<div class="gx-aa-profile">' +
+            '<div class="gx-aa-profile-scroll">' +
+              (activeAaArchive ? gxAaArchiveView(st) : gxAaProfile(st)) +
+            '</div>' +
+            '<div class="gx-aa-profile-foot">' +
+              (activeAaArchive
+                ? '<button type="button" class="gx-aa-archive-btn ghost" data-aa-archive="0">返回活动画像</button>'
+                : '<button type="button" class="gx-aa-archive-btn" data-aa-archive="1">查看活动档案</button>') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindAa() {
+    document.querySelectorAll('[data-aa-filter]').forEach(function (b) {
+      b.onclick = function () {
+        activeAaFilter = b.getAttribute('data-aa-filter');
+        if (activeAaFilter !== 'all' && activeAaFilter !== activeAaOpen) activeAaOpen = activeAaFilter;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-aa-open]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-aa-open');
+        activeAaOpen = activeAaOpen === id ? '' : id;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-aa-expand]').forEach(function (b) {
+      b.onclick = function () {
+        activeAaExpandAll = b.getAttribute('data-aa-expand') === '1';
+        render();
+      };
+    });
+    document.querySelectorAll('[data-aa-note]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-aa-note');
+        if (activeAaNotes[id]) delete activeAaNotes[id];
+        else activeAaNotes[id] = true;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-aa-archive]').forEach(function (b) {
+      b.onclick = function () {
+        activeAaArchive = b.getAttribute('data-aa-archive') === '1';
+        render();
+      };
+    });
+  }
+
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
      不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchiveEmbedded() {
@@ -3183,6 +3523,7 @@
       gxBindOc();
       gxBindCr();
       gxBindMv();
+      gxBindAa();
       syncUrl();
       return;
     }
