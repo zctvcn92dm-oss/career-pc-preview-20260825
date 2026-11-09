@@ -2004,6 +2004,9 @@
     /* v56：线上咨询 / 预约咨询的下方详情记录区升级为专属咨询记录档案。
        回滚：删掉这一行，两页即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
     if (activeSideTag === '线上咨询' || activeSideTag === '预约咨询') return gxCrSheet();
+    /* v57：微视频的下方详情区升级为「我的微视频学习档案」（主题系列 + 学习沉淀闭环）。
+       回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
+    if (activeSideTag === '微视频') return gxMvSheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -2328,6 +2331,8 @@
        v50 的线上课分支保留为回滚路径（当前已由 gxOcSheet 接管）；其余通用模块仍走
        默认测评 summary，行为与 v36 一致。五个专属分支都只是替换顶部 AI 卡，
        下方「模块记录 + 模块说明」本次均未改动。
+       v56 起线上咨询 / 预约咨询、v57 起微视频已由 gxCrSheet / gxMvSheet 整体接管，
+       本函数里这三个 AI 分支与通用下方结构均降级为回滚路径，正常路由不会走到。
        注意：线上咨询（小程序线上沟通）、预约咨询（线下一对一面询）、生涯活动（活动大类聚合）
        三条口径各自独立，数据、文案与图互不复用。 */
     var ai;
@@ -2776,6 +2781,370 @@
     });
   }
 
+  /* ==========================================================================
+     v57 · 「微视频」详情页下方：我的微视频学习档案（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：用教育行业产品经理的判断，把红框那块通用「模块记录 + 模块说明」
+               （第四年空态）补充设计好；有问题先沟通。
+     已确认的三个边界（AskUserQuestion）：
+       ① 主线 = 主题系列 + 逐条明细；② 补「学习沉淀与能力证据」闭环；
+       ③ 跨学年完整档案，不受左栏 activeArchiveGrade 过滤影响。
+     教育产品判断：微视频是碎片化、低门槛的轻学习，档案页不能只做「42 条观看流水」
+       ——那与顶部 AI 卡重复，也证明不了成长。下方要回答三件事：学了什么主题、
+       学得怎样（完播/互动）、沉淀成什么能力证据。v52 AI 卡已点出三条短板：
+       第四年无新增观看、只有点赞转发没有笔记与情景演练、观看数据未关联
+       「职业素养能力」维度。本版把三条短板分别做成：右栏学年断层、逐条「补录学习
+       沉淀」入口、主题→能力维度映射，而不是再堆一遍统计。
+     数据自洽（与 v52 ca.microVideoSummary 逐项对齐，不另造口径）：
+       42 条 / 6.2 小时 / 完播 78% / 点赞 27 / 转发 9；
+       系列条数 16+11+8+5+2=42，时长 2.3+1.5+1.2+0.8+0.4=6.2，
+       点赞 12+7+4+3+1=27，转发 2+2+3+2+0=9；
+       系列完播 84/80/72/68/70 按条数加权 = 78.1% ≈ 78%；
+       学年 10+18+14+0=42，第四年 0 对应 AI 卡「毕业学年学习断层」；
+       能力维度 24+11+5+2=42。
+       ca.gradeRecords 第二年那条「【会议礼仪与商务着装】系列微视频 6 条，点赞 4 条、
+       转发 1 条 · 2023-11-20」在 s1 代表视频与右栏「档案一致性」中逐字对应。
+     关于「不编造成果」：笔记与情景演练平台目前没有数据，初始一律显示「未回填」；
+       点「补录学习沉淀」才当场写入示意笔记 / 演练并计入 KPI，属于原型演示的
+       **补齐路径**，不是伪造历史学习成果。
+     顶部 gxVideoAi() 一字未改；通用 gxModuleSheet() 保留为回滚路径。
+     ========================================================================== */
+  ca.microVideoRecord = {
+    title: '我的微视频学习档案',
+    subtitle: '云生涯平台微视频学习记录 · 跨学年汇总 42 条 · 不受左栏年级筛选影响',
+    total: 42, hours: '6.2 小时', finish: 78, likes: 27, shares: 9,
+    tabs: [
+      { k: 'all', label: '全部', n: 42 },
+      { k: 'etiquette', label: '职场礼仪规范', n: 16 },
+      { k: 'comm', label: '沟通表达技巧', n: 11 },
+      { k: 'conflict', label: '职场冲突处理', n: 8 },
+      { k: 'other', label: '其他主题', n: 7 }
+    ],
+    years: [
+      { name: '第一年', count: 10 },
+      { name: '第二年', count: 18 },
+      { name: '第三年', count: 14 },
+      { name: '第四年', count: 0 }
+    ],
+    ability: [
+      { name: '职业素养能力', count: 24, color: '#5CAD6A' },
+      { name: '沟通协作能力', count: 11, color: '#7FBF86' },
+      { name: '求职表现能力', count: 5, color: '#A8CA7E' },
+      { name: '职业认知能力', count: 2, color: '#C9D99B' }
+    ],
+    gap: '第四年暂无新增观看记录，毕业学年出现学习断层；42 条视频的笔记与情景演练均未回填，观看与互动数据也尚未关联档案能力维度。',
+    consistency: '与第二年归档记录一致：2023-11-20 观看【会议礼仪与商务着装】系列微视频 6 条，点赞 4 条、转发 1 条。',
+    series: [
+      {
+        id: 's1', group: 'etiquette', name: '职场礼仪规范', count: 16,
+        hours: '2.3 小时', finish: 84, likes: 12, shares: 2,
+        ability: '职业素养能力', color: '#5CAD6A',
+        insight: '可照做、完成度最高，但笔记与情景演练未沉淀，暂不能作为能力证据',
+        videos: [
+          { id: 'v11', name: '会议礼仪与商务着装（6 条合集）', date: '2023-11-20', grade: '第二年', dur: '25 分钟', finish: 100, likes: 4, shares: 1,
+            note: '会前 5 分钟到场、按职级引导入座；商务着装按场合分正式与商务休闲两档。',
+            drill: '模拟一次部门周会的入座与介绍顺序，并说出三条着装判断依据。' },
+          { id: 'v12', name: '职场邮件与称呼规范', date: '2023-10-08', grade: '第二年', dur: '6 分钟', finish: 100, likes: 2, shares: 0,
+            note: '邮件标题写「结论 + 截止日」，正文先说事再补背景；称呼先职务后姓名。',
+            drill: '把一封实习申请邮件改写成结论先行版本。' },
+          { id: 'v13', name: '名片交换与握手礼仪', date: '2023-09-16', grade: '第二年', dur: '5 分钟', finish: 92, likes: 1, shares: 0,
+            note: '双手递接、字面朝向对方；握手由位高者先伸手。',
+            drill: '与同学互练一次初次见面的递名片与寒暄。' },
+          { id: 'v14', name: '办公场景仪容与举止', date: '2023-05-22', grade: '第一年', dur: '7 分钟', finish: 88, likes: 1, shares: 0,
+            note: '仪容按「干净、合场、不抢戏」三条自查，会议中不打断发言。',
+            drill: '对照清单给自己的一次课程汇报做仪容自查。' }
+        ]
+      },
+      {
+        id: 's2', group: 'comm', name: '沟通表达技巧', count: 11,
+        hours: '1.5 小时', finish: 80, likes: 7, shares: 2,
+        ability: '沟通协作能力', color: '#7FBF86',
+        insight: '观看量第二，但多为单向输入，缺少输出型练习记录',
+        videos: [
+          { id: 'v21', name: '三分钟结构化表达', date: '2024-04-18', grade: '第二年', dur: '8 分钟', finish: 92, likes: 2, shares: 1,
+            note: '先结论、再三点理由、最后一句行动请求；每点不超过 30 秒。',
+            drill: '用三分钟向辅导员说清一次活动改期方案。' },
+          { id: 'v22', name: '跨部门协作的沟通话术', date: '2024-03-06', grade: '第二年', dur: '7 分钟', finish: 85, likes: 1, shares: 1,
+            note: '先对齐共同目标，再说明己方约束，最后给两个可选时间点。',
+            drill: '写一段向设计同学借用素材的协作请求。' },
+          { id: 'v23', name: '汇报中的结论先行', date: '2023-12-14', grade: '第二年', dur: '6 分钟', finish: 80, likes: 1, shares: 0,
+            note: '第一页只放结论与所需决策，过程数据放附录。',
+            drill: '把课程项目汇报首页改成一页结论式。' }
+        ]
+      },
+      {
+        id: 's3', group: 'conflict', name: '职场冲突处理', count: 8,
+        hours: '1.2 小时', finish: 72, likes: 4, shares: 3,
+        ability: '职业素养能力', color: '#A8CA7E',
+        insight: '转发最多但完播最低——有分享意愿、缺情境练习，宜拆短并补演练',
+        videos: [
+          { id: 'v31', name: '意见分歧时的降温话术', date: '2024-05-23', grade: '第二年', dur: '9 分钟', finish: 78, likes: 1, shares: 2,
+            note: '先复述对方诉求再表态，把「你不对」换成「我们目标一致、路径不同」。',
+            drill: '两人一组演练一次小组作业分歧的降温对话。' },
+          { id: 'v32', name: '被否定后的复盘与回应', date: '2024-05-09', grade: '第二年', dur: '8 分钟', finish: 72, likes: 1, shares: 1,
+            note: '把否定拆成事实、标准、情绪三层，只回应事实与标准。',
+            drill: '复盘一次被退回的作品，写出三条可改项。' },
+          { id: 'v33', name: '任务优先级冲突怎么谈', date: '2024-04-02', grade: '第二年', dur: '7 分钟', finish: 68, likes: 0, shares: 0,
+            note: '把两个任务摆到同一张表上，请对方定优先级而非自己硬扛。',
+            drill: '列出本周三项任务并向组长确认排序。' }
+        ]
+      },
+      {
+        id: 's4', group: 'other', name: '面试与求职应对', count: 5,
+        hours: '0.8 小时', finish: 68, likes: 3, shares: 2,
+        ability: '求职表现能力', color: '#C9D99B',
+        insight: '直接服务「直接就业 · 数字媒体运营岗」毕业意向，但仅 5 条、完播最低',
+        videos: [
+          { id: 'v41', name: '面试自我介绍的 90 秒', date: '2025-03-11', grade: '第三年', dur: '6 分钟', finish: 70, likes: 1, shares: 1,
+            note: '按「我是谁 / 做过什么 / 为什么匹配」三段，去掉无关证书。',
+            drill: '录一遍 90 秒自我介绍并对照 AI 面试评分复核。' },
+          { id: 'v42', name: '行为面试题的 STAR 答法', date: '2025-02-26', grade: '第三年', dur: '7 分钟', finish: 68, likes: 1, shares: 1,
+            note: '结果必须量化；没有数据时用「交付物 + 反馈」代替。',
+            drill: '用 STAR 重写一段课程项目经历，回填到 AI 简历。' },
+          { id: 'v43', name: '薪资谈判的常见误区', date: '2024-11-19', grade: '第三年', dur: '6 分钟', finish: 65, likes: 0, shares: 0,
+            note: '先问清结构与试用期规则，不先报数字。',
+            drill: '整理三道要问 HR 的薪资结构问题。' }
+        ]
+      },
+      {
+        id: 's5', group: 'other', name: '其他职场话题', count: 2,
+        hours: '0.4 小时', finish: 70, likes: 1, shares: 0,
+        ability: '职业认知能力', color: '#DDE6C9',
+        insight: '零散观看，尚未形成可归档的主题线索',
+        videos: [
+          { id: 'v51', name: '职场时间管理与精力分配', date: '2023-06-08', grade: '第一年', dur: '6 分钟', finish: 75, likes: 1, shares: 0,
+            note: '按精力峰值排难任务，把碎片时间留给短内容学习。',
+            drill: '给下周排一张按精力分层的任务表。' },
+          { id: 'v52', name: '试用期如何快速建立信任', date: '2023-04-13', grade: '第一年', dur: '5 分钟', finish: 65, likes: 0, shares: 0,
+            note: '前两周先交付小而确定的结果，主动同步进度。',
+            drill: '写一份实习首两周的交付清单。' }
+        ]
+      }
+    ]
+  };
+
+  /* v57 交互状态：补录在同一会话内保留，切走再回来不丢，符合演示直觉。 */
+  var activeMvFilter = 'all';
+  var activeMvOpen = 's1';
+  var activeMvNotes = {};
+  var activeMvArchive = false;
+
+  function gxMvAllVideos() {
+    var out = [];
+    ca.microVideoRecord.series.forEach(function (s) {
+      s.videos.forEach(function (v) { out.push(v); });
+    });
+    return out;
+  }
+
+  function gxMvNoteCount() {
+    var vids = gxMvAllVideos();
+    return vids.filter(function (v) { return !!activeMvNotes[v.id]; }).length;
+  }
+
+  function gxMvTabs() {
+    var d = ca.microVideoRecord;
+    return '<div class="gx-mv-tabs">' + d.tabs.map(function (t) {
+      return '<button type="button" class="' + (activeMvFilter === t.k ? 'active' : '') +
+        '" data-mv-filter="' + t.k + '">' + gxEsc(t.label) + ' <i>' + t.n + '</i></button>';
+    }).join('') + '</div>';
+  }
+
+  function gxMvKpis() {
+    var d = ca.microVideoRecord, done = gxMvNoteCount(), total = gxMvAllVideos().length;
+    var items = [
+      { v: '42', u: '条', label: '累计观看' },
+      { v: '6.2', u: '小时', label: '有效学习' },
+      { v: '78', u: '%', label: '平均完播率' },
+      { v: String(done), u: ' / ' + total, label: '已沉淀视频', warn: done === 0 }
+    ];
+    return '<div class="gx-mv-kpis">' + items.map(function (k) {
+      return '<div class="gx-mv-kpi' + (k.warn ? ' warn' : '') + '">' +
+        '<b>' + gxEsc(k.v) + '</b><i>' + gxEsc(k.u) + '</i>' +
+        '<span>' + gxEsc(k.label) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function gxMvFiltered() {
+    return ca.microVideoRecord.series.filter(function (s) {
+      return activeMvFilter === 'all' || s.group === activeMvFilter;
+    });
+  }
+
+  /* 逐条代表视频：观看 / 完播 / 互动是平台已有数据，笔记与演练是待补录的过程证据。 */
+  function gxMvVideoRow(v) {
+    var filled = !!activeMvNotes[v.id];
+    return '<div class="gx-mv-video' + (filled ? ' filled' : '') + '">' +
+      '<div class="gx-mv-video-main">' +
+        '<span class="gx-mv-video-name">' + gxEsc(v.name) + '</span>' +
+        '<span class="gx-mv-video-date">' + gxEsc(v.date) + ' · ' + gxEsc(v.grade) + '</span>' +
+      '</div>' +
+      '<div class="gx-mv-video-metrics">' +
+        '<span>' + gxEsc(v.dur) + '</span>' +
+        '<span class="gx-mv-fin"><i style="width:' + v.finish + '%"></i></span>' +
+        '<b>' + v.finish + '%</b>' +
+        '<span class="gx-mv-act">赞 ' + v.likes + ' · 转 ' + v.shares + '</span>' +
+      '</div>' +
+      '<div class="gx-mv-video-note">' +
+        (filled
+          ? '<p class="gx-mv-note-txt"><label>一句笔记</label>' + gxEsc(v.note) + '</p>' +
+            '<p class="gx-mv-note-txt"><label>情景演练</label>' + gxEsc(v.drill) + '</p>'
+          : '<p class="gx-mv-note-empty">一句笔记 / 情景演练：未回填，暂不能作为能力证据</p>') +
+        '<button type="button" class="gx-mv-note-btn" data-mv-note="' + v.id + '">' +
+          (filled ? '撤销补录' : '补录学习沉淀') + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function gxMvSeriesCard(s) {
+    var open = activeMvOpen === s.id;
+    var rest = s.count - s.videos.length;
+    var filled = s.videos.filter(function (v) { return !!activeMvNotes[v.id]; }).length;
+    return '<article class="gx-mv-series' + (open ? ' open' : '') + '" style="--mv-color:' + s.color + '">' +
+      '<button type="button" class="gx-mv-series-head" data-mv-open="' + s.id + '">' +
+        '<i class="gx-mv-series-dot"></i>' +
+        '<span class="gx-mv-series-name">' + gxEsc(s.name) + '</span>' +
+        '<em class="gx-mv-series-count">' + s.count + ' 条</em>' +
+        '<span class="gx-mv-series-ability">' + gxEsc(s.ability) + '</span>' +
+        '<span class="gx-mv-series-toggle">' + (open ? '收起明细' : '查看明细') + '</span>' +
+      '</button>' +
+      '<div class="gx-mv-series-summary">' +
+        '<span>有效学习 <b>' + gxEsc(s.hours) + '</b></span>' +
+        '<span>点赞 <b>' + s.likes + '</b> · 转发 <b>' + s.shares + '</b></span>' +
+        '<span class="gx-mv-series-fin">完播 <b>' + s.finish + '%</b>' +
+          '<i class="gx-mv-fin-track"><i style="width:' + s.finish + '%"></i></i></span>' +
+        '<span class="gx-mv-series-done' + (filled ? ' ok' : '') + '">已沉淀 ' + filled + '/' + s.videos.length + '</span>' +
+      '</div>' +
+      '<p class="gx-mv-series-insight">' + gxEsc(s.insight) + '</p>' +
+      (open
+        ? '<div class="gx-mv-detail">' +
+            '<div class="gx-mv-detail-head"><h5>代表视频明细</h5>' +
+              '<i>展示 ' + s.videos.length + ' 条 / 该系列共 ' + s.count + ' 条</i></div>' +
+            s.videos.map(gxMvVideoRow).join('') +
+            '<p class="gx-mv-detail-more">另有 ' + rest + ' 条同系列观看记录按平台汇总计入，逐条明细可在云生涯微视频模块查看。</p>' +
+          '</div>'
+        : '') +
+      '</article>';
+  }
+
+  /* 右栏：学年分布（断层）+ 主题→能力维度映射 + 沉淀进度 + 归档一致性说明 */
+  function gxMvProfile() {
+    var d = ca.microVideoRecord;
+    var years = d.years.map(function (y) {
+      var pct = Math.round(y.count / d.total * 100);
+      return '<div class="gx-mv-bar' + (y.count ? '' : ' zero') + '"><span>' + y.name + '</span>' +
+        '<div class="gx-mv-bar-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + y.count + ' 条</b></div>';
+    }).join('');
+    var ability = d.ability.map(function (a) {
+      return '<div class="gx-mv-map"><i style="background:' + a.color + '"></i>' +
+        '<span>' + gxEsc(a.name) + '</span><b>' + a.count + ' 条</b></div>';
+    }).join('');
+    var done = gxMvNoteCount(), total = gxMvAllVideos().length;
+    var pct = Math.round(done / total * 100);
+    return '<div class="gx-mv-profile-inner">' +
+      '<h4 class="gx-mv-sec-title">学年观看分布</h4>' +
+      '<div class="gx-mv-bars">' + years + '</div>' +
+      '<h4 class="gx-mv-sec-title">主题 → 能力维度</h4>' +
+      '<div class="gx-mv-maps">' + ability + '</div>' +
+      '<h4 class="gx-mv-sec-title">学习沉淀进度</h4>' +
+      '<div class="gx-mv-progress"><div class="gx-mv-progress-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + done + ' / ' + total + '</b></div>' +
+      '<p class="gx-mv-progress-note">平台只归档观看与互动；补录「一句笔记 + 一次情景演练」后，' +
+        '该系列才能关联能力维度，用于 AI 面试与简历佐证。</p>' +
+      '</div>';
+  }
+
+  function gxMvArchiveView() {
+    var d = ca.microVideoRecord, order = ['第一年', '第二年', '第三年', '第四年'];
+    var vids = gxMvAllVideos();
+    var groups = order.map(function (g) {
+      var rs = vids.filter(function (v) { return v.grade === g; });
+      return '<div class="gx-mv-arch-group"><h5>' + g + '<i>' + (rs.length ? rs.length + ' 条代表' : '0 条') + '</i></h5>' +
+        (rs.length
+          ? '<ul>' + rs.map(function (v) {
+              return '<li><time>' + gxEsc(v.date) + '</time><span>' + gxEsc(v.name) + '</span></li>';
+            }).join('') + '</ul>'
+          : '<p class="gx-mv-arch-empty">该学年暂无新增观看记录，毕业学年出现学习断层</p>') +
+        '</div>';
+    }).join('');
+    return '<div class="gx-mv-profile-inner">' +
+      '<h4 class="gx-mv-sec-title">学习档案摘要</h4>' +
+      '<p class="gx-mv-arch-sub">跨学年 ' + d.total + ' 条 · 5 个主题系列 · 与顶部 AI 卡口径一致</p>' +
+      '<div class="gx-mv-gap"><b>毕业学年学习断层</b><p>' + gxEsc(d.gap) + '</p></div>' +
+      '<div class="gx-mv-consistency"><b>档案一致性</b><p>' + gxEsc(d.consistency) + '</p></div>' +
+      groups +
+      '<h4 class="gx-mv-sec-title">归档字段</h4>' +
+      '<ul class="gx-mv-arch-fields">' +
+        '<li>主题系列与单条视频</li><li>观看日期 / 时长 / 完播率</li><li>点赞 / 转发互动</li>' +
+        '<li>一句笔记（待补录）</li><li>情景演练（待补录）</li><li>关联能力维度（待关联）</li>' +
+      '</ul>' +
+      '</div>';
+  }
+
+  function gxMvSheet() {
+    var d = ca.microVideoRecord, list = gxMvFiltered();
+    return '<div class="gx-sheet gx-sheet-mv">' +
+      gxVideoAi() +
+      '<section class="gx-card gx-mv-panel">' +
+        '<div class="gx-mv-head">' +
+          '<div class="gx-mv-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+          gxMvTabs() +
+        '</div>' +
+        gxMvKpis() +
+        '<div class="gx-mv-body">' +
+          '<div class="gx-mv-records">' +
+            '<h4 class="gx-mv-sec-title">主题系列与观看明细' +
+              ' <i>共 ' + list.length + ' 个系列 · 点击系列展开代表视频</i></h4>' +
+            '<div class="gx-mv-list">' + list.map(gxMvSeriesCard).join('') + '</div>' +
+          '</div>' +
+          '<div class="gx-mv-profile">' +
+            '<div class="gx-mv-profile-scroll">' +
+              (activeMvArchive ? gxMvArchiveView() : gxMvProfile()) +
+            '</div>' +
+            '<div class="gx-mv-profile-foot">' +
+              (activeMvArchive
+                ? '<button type="button" class="gx-mv-archive-btn ghost" data-mv-archive="0">返回学习画像</button>'
+                : '<button type="button" class="gx-mv-archive-btn" data-mv-archive="1">查看学习档案</button>') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindMv() {
+    document.querySelectorAll('[data-mv-filter]').forEach(function (b) {
+      b.onclick = function () {
+        activeMvFilter = b.getAttribute('data-mv-filter');
+        var ids = gxMvFiltered().map(function (s) { return s.id; });
+        if (ids.indexOf(activeMvOpen) < 0) activeMvOpen = ids[0] || '';
+        render();
+      };
+    });
+    document.querySelectorAll('[data-mv-open]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-mv-open');
+        activeMvOpen = activeMvOpen === id ? '' : id;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-mv-note]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-mv-note');
+        if (activeMvNotes[id]) delete activeMvNotes[id];
+        else activeMvNotes[id] = true;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-mv-archive]').forEach(function (b) {
+      b.onclick = function () {
+        activeMvArchive = b.getAttribute('data-mv-archive') === '1';
+        render();
+      };
+    });
+  }
+
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
      不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchiveEmbedded() {
@@ -2813,6 +3182,7 @@
       gxBindIv2();
       gxBindOc();
       gxBindCr();
+      gxBindMv();
       syncUrl();
       return;
     }
