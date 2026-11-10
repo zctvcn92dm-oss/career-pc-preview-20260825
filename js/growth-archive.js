@@ -4710,7 +4710,7 @@
     versions: [
       {
         code: '20240318-1', name: '实习初版', date: '2024-03-18', grade: '第二年',
-        jobShort: '暑期实习', completeness: 52, thumbColor: '#5B84B8',
+        jobShort: '暑期实习', completeness: 52, usage: '7/35', thumbColor: '#5B84B8',
         summary: '第一份简历，为暑期实习通用投递而建，自我评价与模块组织都未对准具体岗位。',
         modules: [
           { k: 'basic', name: '基本信息', count: 1, status: 'warn',
@@ -4749,7 +4749,7 @@
           main: {
             name: '杨强',
             summary: '本人性格开朗，认真负责，积极向上，对新媒体运营有浓厚兴趣，参与过校园公众号运营和短视频拍摄剪辑，希望获得一份暑期实习机会，认真负责地完成各项工作，积极学习，不断提升自己。',
-            intent: { type: '实习', city: '不限', job: '暑期实习（通用）', exp: '无经验', salary: '面议' },
+            intent: { job: '暑期实习（通用）', salary: '4-5K', city: '长沙', avail: '暑期到岗' },
             edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：数字媒体基础、网页设计、视听语言' }],
             work: [],
             proj: [
@@ -4763,7 +4763,7 @@
       },
       {
         code: '20240620-2', name: '岗位定向版', date: '2024-06-20', grade: '第三年',
-        jobShort: '运营实习', completeness: 65, thumbColor: '#8FBF5A',
+        jobShort: '运营实习', completeness: 65, usage: '4/35', thumbColor: '#8FBF5A',
         summary: '线下面询后按岗位 JD 重构，意向聚焦到数字媒体运营实习生，待改项收敛到 3 处。',
         modules: [
           { k: 'basic', name: '基本信息', count: 1, status: 'ok',
@@ -4802,7 +4802,7 @@
           main: {
             name: '杨强',
             summary: '数字媒体技术专业在读，熟悉公众号运营与短视频剪辑流程，正在学习新媒体数据分析，希望在小规模内容团队中积累运营经验。',
-            intent: { type: '实习', city: '不限', job: '数字媒体运营实习生', exp: '无经验', salary: '面议' },
+            intent: { job: '数字媒体运营实习生', salary: '5-7K', city: '长沙', avail: '一周内到岗' },
             edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：新媒体数据分析、数字营销、视听语言' }],
             work: [],
             proj: [
@@ -4816,7 +4816,7 @@
       },
       {
         code: '20250417-3', name: '求职现行版', date: '2025-04-17', grade: '第四年',
-        jobShort: '数字媒体运营', completeness: 78, thumbColor: '#5CAD6A',
+        jobShort: '数字媒体运营', completeness: 78, usage: '12/35', thumbColor: '#5CAD6A',
         summary: '当前主投版本：竞赛奖项与校内职务已入档、经历对准运营岗，仍剩 2 处待补齐。',
         modules: [
           { k: 'basic', name: '基本信息', count: 1, status: 'ok',
@@ -4855,7 +4855,7 @@
           main: {
             name: '杨强',
             summary: '数字媒体技术专业在读，6 周短视频运营实践经历，熟悉选题、脚本、数据周报全流程；有竞赛项目协作经验，能在内容团队中承担策划与执行。',
-            intent: { type: '全职', city: '待补', job: '数字媒体运营（内容运营方向）', exp: '6 周实践', salary: '面议' },
+            intent: { job: '数字媒体运营（内容运营方向）', salary: '6-8K', city: '长沙', avail: '随时到岗' },
             edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：新媒体数据分析、数字营销、视听语言' }],
             work: [{ t: '校企合作短视频运营项目', s: '2025-03 · 6 周', d: '承担脚本撰写与账号数据周报' }],
             proj: [
@@ -4904,6 +4904,7 @@
               gxEsc(v.jobShort) + ' - ' + v.code + '</span>' +
             '<span class="gx-rv-item-done">完成度 <b style="color:' + v.thumbColor + '">' + v.completeness +
               '%</b>' + (i === activeRvIdx ? '<em>当前查看</em>' : '') + '</span>' +
+            '<span class="gx-rv-item-usage">使用次数 <b>' + gxEsc(v.usage || '-') + '</b></span>' +
             '<span class="gx-rv-item-date">创建时间：' + gxEsc(v.date) + '</span>' +
           '</span>' +
         '</button>';
@@ -4963,11 +4964,10 @@
       { name: '自我评价', body: '<p class="gx-rv-paper-sum">' + gxEsc(mn.summary) + '</p>' },
       { name: '意向岗位', body:
         '<div class="gx-rv-intent-grid">' +
-          '<span><b>' + gxEsc(it.type) + '</b><i>工作类型</i></span>' +
-          '<span><b>' + gxEsc(it.city) + '</b><i>意向城市</i></span>' +
-          '<span><b>' + gxEsc(it.job) + '</b><i>意向岗位</i></span>' +
-          '<span><b>' + gxEsc(it.exp) + '</b><i>工作经验</i></span>' +
+          '<span><b>' + gxEsc(it.job) + '</b><i>期望职位</i></span>' +
           '<span><b>' + gxEsc(it.salary) + '</b><i>期望薪资</i></span>' +
+          '<span><b>' + gxEsc(it.city) + '</b><i>期望城市</i></span>' +
+          '<span><b>' + gxEsc(it.avail) + '</b><i>到岗状态</i></span>' +
         '</div>' },
       { name: '教育经历', body: gxRvItems(mn.edu) },
       { name: '工作经历', body: gxRvItems(mn.work, '暂无工作经历') },
