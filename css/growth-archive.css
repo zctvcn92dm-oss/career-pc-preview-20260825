@@ -2476,6 +2476,79 @@
 }
 
 /* ==========================================================================
+   v62 · 职场沟通技巧专属 AI 总结卡：右上角换成两张与「历史情景对话实训」强关联的图
+     ①「历次沟通实训」3 条横条 —— 统计图，宽度按 68 / 76 / 84 分
+     ②「沟通维度 → 待补齐」3 行关联 —— 分析图，色点对应短板维度
+   作用域仅 .gx-ai--comms；类名用 .gx-cm-*，避开 .gx-et-*(v61) / .gx-rs-*(v60) /
+   .gx-cs-*(v53) / .gx-ap-*(v54) / .gx-ac-*(v55) / .gx-vd-*(v52) 等已有皮肤。
+   密度沿用 v61 已验证的 290px / ≤266px 面板，仅底部多一行示意数据声明。
+   ========================================================================== */
+.gx-ai--comms .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--comms .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.54;
+  margin-bottom: 6px;
+}
+.gx-ai--comms .gx-assess-ai-text { padding-right: 4px; }
+
+.gx-ai--comms .gx-assess-ai-viz.gx-cm-viz {
+  display: block;
+  width: 290px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+.gx-cm-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 7px;
+}
+.gx-cm-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-cm-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-cm-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.gx-cm-bar {
+  display: grid; grid-template-columns: 78px minmax(0, 1fr) 34px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-cm-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-cm-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-cm-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-cm-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; white-space: nowrap; }
+
+.gx-cm-gaps-box { margin-top: 9px; padding-top: 7px; border-top: 1px dashed #E3EADB; }
+.gx-cm-gaps-box h4 { margin: 0 0 2px; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-cm-gaps-note { margin: 0 0 6px; font-size: 10px; color: #9AA491; line-height: 1.2; }
+.gx-cm-gaps {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.gx-cm-gap {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 2px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-cm-gap > i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-cm-gap-module { color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-cm-gap em { font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center; }
+.gx-cm-gap b { color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.gx-cm-disclaimer { margin: 7px 0 0; font-size: 9.5px; line-height: 1.3; color: #A6B09C; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--comms .gx-assess-ai-viz.gx-cm-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
+
+/* ==========================================================================
    v56 · 「线上咨询 / 预约咨询」详情页下方：学生咨询记录档案（独立皮肤，删本区块即回滚）
    --------------------------------------------------------------------------
    版式沿用 v46/v48/v51：顶部整宽 AI 卡（--gx-ai-card-h=306px，一字未改）+

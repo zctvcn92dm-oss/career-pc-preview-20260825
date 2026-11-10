@@ -54,6 +54,12 @@
     ],
     '第二年': [
       { created_at: '2024年06月25日 16:45:12', business_type: '生涯体验周', ability_dimension: '职业认知能力', description: '参加了【行业体验周 · 互联网产品经理岗位】生涯体验周活动' },
+      /* v62：职场沟通技巧 = AI 情景对话实训工具（AskUserQuestion 已确认口径）：
+         选职场沟通场景 → 与 AI 扮演的对象对话演练 → 按表达清晰度 / 逻辑结构 /
+         倾听回应 / 情绪管理四维评分 → 输出一份实训报告。原型里没有该工具的独立页面，
+         此处按用户给的产品定义补 3 次历史实训；第三年原有的「训练营，累计课时 8 节」
+         记录保持不动，作为课程基础证据。四维与综合分为原型示意，需接真实实训报告。 */
+      { created_at: '2024年06月12日 15:20:18', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成第 1 次【职场沟通技巧】AI 情景对话实训：向上汇报场景，与 AI 扮演的上级对话演练，输出《职场沟通实训报告》，综合 68 分（表达 72 / 逻辑 64 / 倾听 66 / 情绪 70）' },
       /* v61：职业礼仪产品口径 = 「AI形象礼仪」——上传上半身形象照、选择服装 / 岗位名称 /
          着装场景，AI 解析形象与仪态后输出一份测评报告（见 js/ai-tool-redirect.js
          etiquetteDemoPage）。这里补 3 次历史测评的第 1 次；第三年原有的
@@ -78,6 +84,9 @@
          与 ca.etiquetteSummary.stats.rounds 逐条对应；仪容仪态 79 为当前最低项。 */
       { created_at: '2025年06月18日 16:12:09', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 3 次【AI形象礼仪】测评：面试场景 · 数字媒体运营岗，输出《求职形象定稿报告》，综合 82 分（着装 86 / 仪态 79 / 岗位 82 / 场景 81）' },
       { created_at: '2025年05月21日 20:41:35', business_type: 'AI面试', ability_dimension: '求职表现能力', description: '完成【AI模拟面试】训练，岗位：数字媒体运营，综合评分 82 分' },
+      /* v62：3 次实训的第 3 次（客户沟通 84 分）。四维 88/84/82/82 均值 = 84 分，
+         与 ca.commsSummary.stats.rounds 逐条对应；逻辑结构起步最低、表达清晰度提升最快。 */
+      { created_at: '2025年05月08日 16:42:11', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成第 3 次【职场沟通技巧】AI 情景对话实训：客户沟通场景，与 AI 扮演的客户对话演练，输出《职场沟通实训报告》，综合 84 分（表达 88 / 逻辑 84 / 倾听 82 / 情绪 82）' },
       /* v60：3 版迭代的第 3 版（现行版）。只补版本名与目标岗位，
          日期 / business_type / ability_dimension / 匹配度均保持原值，避免影响年级时间轴。 */
       { created_at: '2025年04月17日 13:55:28', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '使用【AI简历】优化为「求职现行版」简历，锁定数字媒体运营岗，岗位匹配度 78%' },
@@ -85,6 +94,9 @@
          又在 04-17 简历改版之前，形成「学课程 → 做形象测评 → 改简历」的可追溯链。 */
       { created_at: '2025年03月24日 14:08:52', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 2 次【AI形象礼仪】测评：面试场景 · 数字媒体运营实习生，按初评报告调整着装后复测，输出《面试形象与仪态测评报告》，综合 73 分（着装 78 / 仪态 70 / 岗位 72 / 场景 72）' },
       { created_at: '2025年03月10日 15:14:03', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成【职场礼仪与形象管理】线上课学习，累计课时 8 节' },
+      /* v62：3 次实训的第 2 次。时间上承接 2024-12-03《职场沟通技巧》8 节训练营，
+         形成「学课程 → 情景演练 → AI 面试」的可追溯链，早于 2025-05-21 AI 面试。 */
+      { created_at: '2025年01月08日 10:35:42', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成第 2 次【职场沟通技巧】AI 情景对话实训：跨部门协作场景，与 AI 扮演的协作方对话演练，输出《职场沟通实训报告》，综合 76 分（表达 80 / 逻辑 74 / 倾听 76 / 情绪 74）' },
       { created_at: '2024年12月03日 18:33:41', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成【职场沟通技巧】训练营，累计课时 8 节' },
       { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' },
       /* v60：3 版迭代的第 2 版，对应同年预约面询 ap1（2024-06-18）
@@ -2479,6 +2491,74 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v62 · 「职场沟通技巧」顶部 AI 总结及建议：围绕学生做过的历史 AI 情景对话实训
+     --------------------------------------------------------------------------
+     产品口径（AskUserQuestion 已确认）：这是「实训工具」，不是课程也不是测评 ——
+       选职场沟通场景 → 与 AI 扮演的对象对话演练 → 按 4 个维度评分 → 输出实训报告。
+     原型里没有该工具的独立页面（ai-tool-redirect.js 只有简历 / 面试 / 礼仪三个工具），
+     故按用户给的定义建模；原「训练营 8 节」记录保留作为课程基础，不牵动任何已上线页面
+     （v50 线上课 3 门课、v58 活动大类均不含此业务标签）。
+     数据口径：补 3 次历史实训（向上汇报 / 跨部门协作 / 客户沟通），综合 68→76→84；
+       四维（表达清晰度 / 逻辑结构 / 倾听回应 / 情绪管理）均值严格等于综合分；
+       得分为原型示意，图上与文案均标注需接真实实训报告。
+     不编造成果：对话逐轮原文、AI 反馈、面试反馈平台暂无数据，只写「未沉淀 / 未复训」。
+     类名 .gx-ai--comms / .gx-cm-*，避开 .gx-et-*(v61) / .gx-rs-*(v60) /
+       .gx-cs-*(v53) / .gx-ap-*(v54) / .gx-ac-*(v55) / .gx-vd-*(v52)。
+     回滚：删掉 gxModuleSheet 里的这一行分支即可回到通用测评卡。
+     ========================================================================== */
+  ca.commsSummary = {
+    diag: '平台归档了学生自己做过的 3 次职场沟通技巧 AI 情景对话实训：第二年 6 月「向上汇报」68 分，第三年 1 月完成 8 节训练营后做「跨部门协作」76 分，同年 5 月「客户沟通」84 分。每次选场景与 AI 对象对话演练，按表达清晰度、逻辑结构、倾听回应、情绪管理四维评分并输出实训报告。表达清晰度 72→88 提升最快，逻辑结构 64→84 起步最低。短板有三：实训集中在第二、第三年，第四年 AI 面试 82 分、8 场校招、投递 3 家却未再演练；只覆盖 3 类场景，冲突处理未测；归档只有分数与结论，对话记录、AI 反馈与改进动作未沉淀。总体判断：已从「不敢开口」走到「按场景组织表达」，但「演练→反馈→求职验证」未闭环。',
+    advice: '以 84 分报告为基线，毕业学年补一次「数字媒体运营岗 · 跨部门提案」实训，针对逻辑结构 84 分做结论先行的逐轮对照，并补测冲突处理场景。把每次的场景、对话、AI 反馈与改进动作归档，关联 AI 面试 82 分、求职现行版简历和 8 场校招，检验表达训练是否转化为面试表现。院校侧可把「有课时、无实训」「超过一学年未复训」设为提醒，把四维得分接入就业指导。得分为原型示意，需接真实实训报告；对话原文与面试反馈暂无数据，未作成果推断。',
+    stats: {
+      rounds: [
+        { name: '向上汇报', scene: '第 1 次 · 与 AI 上级对话', score: 68, color: '#C9D8B8', dims: '表达 72 / 逻辑 64 / 倾听 66 / 情绪 70' },
+        { name: '跨部门协作', scene: '第 2 次 · 与 AI 协作方对话', score: 76, color: '#8FBF5A', dims: '表达 80 / 逻辑 74 / 倾听 76 / 情绪 74' },
+        { name: '客户沟通', scene: '第 3 次 · 与 AI 客户对话', score: 84, color: '#5CAD6A', dims: '表达 88 / 逻辑 84 / 倾听 82 / 情绪 82' }
+      ],
+      gaps: [
+        { module: '逻辑结构 84', action: '结论先行复训', color: '#E7B84B' },
+        { module: '倾听回应 82', action: '追问与复述', color: '#7FA8D0' },
+        { module: '冲突处理场景', action: '尚未覆盖', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxCommsAi() {
+    var a = ca.commsSummary, s = a.stats;
+    var bars = s.rounds.map(function (v) {
+      return '<li class="gx-cm-bar" title="' + gxEsc(v.name + ' · ' + v.scene + ' · ' + v.dims) + '">' +
+        '<span class="gx-cm-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-cm-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-cm-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-cm-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--comms">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-cm-viz">' +
+        '<div class="gx-cm-chart">' +
+          '<div class="gx-cm-chart-head"><h4>历次沟通实训</h4>' +
+            '<span>3 次 · 68 → 84 分</span></div>' +
+          '<ul class="gx-cm-bars">' + bars + '</ul>' +
+          '<div class="gx-cm-gaps-box">' +
+            '<h4>沟通维度 → 待补齐</h4>' +
+            '<p class="gx-cm-gaps-note">3 处未形成闭环</p>' +
+            '<ul class="gx-cm-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-cm-disclaimer">* 得分为原型示意，需接平台真实实训报告</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2510,6 +2590,8 @@
     else if (activeSideTag === 'AI简历') ai = gxResumeAi();
     /* v61：职业礼仪改用「历史 AI形象礼仪测评 + 报告」专属 AI 卡；删掉这一行即回滚。 */
     else if (activeSideTag === '职业礼仪') ai = gxEtiquetteAi();
+    /* v62：职场沟通技巧改用「历史 AI 情景对话实训 + 报告」专属 AI 卡；删掉这一行即回滚。 */
+    else if (activeSideTag === '职场沟通技巧') ai = gxCommsAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
