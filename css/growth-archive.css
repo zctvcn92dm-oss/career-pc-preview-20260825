@@ -4213,3 +4213,88 @@
   .gx-ea-sec-title, .gx-ea-list-tip { flex-basis: 100%; }
   .gx-ea-report-scroll { overflow-y: visible; }
 }
+
+/* ==========================================================================
+   v68 · 「宣讲会」下方：历史宣讲会档案 + 最近学校宣讲会推荐（.gx-tk2-*，v64 AI 卡已占用 .gx-tk-*）
+   复用 v67 的 .gx-ea-head / .gx-ea-heading / .gx-ea-sec-title / .gx-ea-list-tip / .gx-ea-consistency
+   ========================================================================== */
+.gx-tk2-panel {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  margin: 0 18px 14px; padding: 0; overflow: hidden;
+}
+.gx-tk2-body {
+  flex: 1; min-height: 0; display: grid;
+  grid-template-columns: 1.05fr 0.95fr; gap: 0;
+}
+.gx-tk2-col { min-height: 0; display: flex; flex-direction: column; }
+.gx-tk2-history { padding: 12px 14px; border-right: 1px solid #EDF1E8; }
+.gx-tk2-upcoming { padding: 12px 14px; }
+
+/* 左栏 · 历史宣讲会卡 */
+.gx-tk2-rec-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+.gx-tk2-rec {
+  border: 1px solid #E3EAD9; border-radius: 9px; background: #FFFFFF;
+  padding: 9px 11px;
+}
+.gx-tk2-rec-top { display: flex; align-items: center; gap: 6px; }
+.gx-tk2-rec-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-tk2-ind {
+  flex: none; font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 20px;
+}
+.gx-tk2-ind--off { color: #8A6D2F; background: #F6EED9; }
+.gx-tk2-rec-meta { margin: 3px 0 6px; font-size: 9.8px; color: #8A9187; }
+.gx-tk2-steps { list-style: none; margin: 0; padding: 6px 0 0; border-top: 1px dashed #EDF1E8; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.gx-tk2-step { display: flex; align-items: center; gap: 4px; font-size: 9.6px; }
+.gx-tk2-step i {
+  flex: none; width: 13px; height: 13px; border-radius: 50%; font-style: normal;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 8.5px; font-weight: 700;
+}
+.gx-tk2-step.ok i { background: #5CAD6A; color: #FFFFFF; }
+.gx-tk2-step.ok em { font-style: normal; color: #3E8C4D; font-weight: 700; }
+.gx-tk2-step.miss i { background: #E7B84B; color: #FFFFFF; }
+.gx-tk2-step.miss em { font-style: normal; color: #A9883A; font-weight: 600; }
+.gx-tk2-step span { color: #5A655A; }
+
+/* 右栏 · 最近宣讲会 */
+.gx-tk2-kpi {
+  flex: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 8px 0 10px;
+}
+.gx-tk2-kpi-item {
+  border: 1px solid #E3EAD9; border-radius: 9px; background: #FBFDF9;
+  padding: 7px 6px 6px; text-align: center;
+}
+.gx-tk2-kpi-item b { display: block; font-size: 17px; font-weight: 800; color: #2F382B; line-height: 1.2; }
+.gx-tk2-kpi-item.hot b { color: #3E8C4D; }
+.gx-tk2-kpi-item span { display: block; margin-top: 1px; font-size: 9.3px; color: #8A9187; }
+.gx-tk2-up-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+.gx-tk2-up {
+  border: 1px solid #E3EAD9; border-radius: 10px; background: #FFFFFF; padding: 9px 11px;
+}
+.gx-tk2-up.is-match { border-color: #A8CA7E; background: linear-gradient(180deg, #F7FBF2, #FFFFFF); }
+.gx-tk2-up-top { display: flex; align-items: center; gap: 6px; }
+.gx-tk2-up-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-tk2-badge { flex: none; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+.gx-tk2-badge--ai { color: #FFFFFF; background: #5CAD6A; }
+.gx-tk2-badge--off { color: #8A9187; background: #EFF2EA; }
+.gx-tk2-up-theme { margin: 3px 0 4px; font-size: 10.8px; font-weight: 600; color: #4A554A; }
+.gx-tk2-up-meta { margin: 0 0 2px; font-size: 9.8px; color: #8A9187; display: flex; align-items: center; gap: 5px; }
+.gx-tk2-up-meta i { font-style: normal; flex: none; font-size: 9.5px; }
+.gx-tk2-btn {
+  display: block; width: 100%; margin-top: 7px; padding: 5px 0;
+  border: 0; border-radius: 8px; cursor: pointer;
+  font-size: 11px; font-weight: 700; color: #FFFFFF; background: #5CAD6A;
+}
+.gx-tk2-btn:hover { background: #4E9C5C; }
+.gx-tk2-btn.is-done { background: #EAF4E3; color: #3E8C4D; cursor: default; }
+
+@media (max-height: 860px) {
+  .gx-tk2-body {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .gx-tk2-col { display: block; flex: none; }
+  .gx-tk2-history { border-right: 0; border-bottom: 1px solid #EDF1E8; padding-bottom: 4px; }
+  .gx-tk2-rec-list, .gx-tk2-up-list { overflow-y: visible; flex: none; }
+  .gx-tk2-up-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); align-items: start; }
+}

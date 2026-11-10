@@ -2110,6 +2110,8 @@
        解决下方仍是通用「模块记录 + 模块说明」、与 v61 礼仪专属 AI 卡语义脱节的问题。
        回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
     if (activeSideTag === '职业礼仪') return gxEaSheet();
+    /* v68：宣讲会改用「历史宣讲会档案 + 最近学校宣讲会推荐」专属下方结构；删掉这一行即回滚。 */
+    if (activeSideTag === '宣讲会') return gxTk2Sheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -5255,6 +5257,153 @@
     });
   }
 
+
+  /* ==========================================================================
+     v68 · 「宣讲会」下方：历史宣讲会档案 + 最近学校宣讲会推荐（.gx-tk2-*，v64 AI 卡已占用 .gx-tk-*）
+     --------------------------------------------------------------------------
+     用户口径：宣讲会详情记录页应展示学生参加过的宣讲会历史记录详情，并提供最近
+               的学校宣讲会列表（AskUserQuestion 四项确认：左右两栏 / 5 场含 AI
+               对口标记 / 报名可点击联动 KPI / 历史卡含三段状态）。
+     数据自洽：
+       历史记录动态提取 gradeRecords（business_type='校招活动参与情况' 且
+       description 含「宣讲会」），双选会 2 条排除（归双选会页），共 6 场时间正序。
+       行业标注 6 场全部非数字媒体对口 → 与 v64 AI 卡「行业对口 0/6」逐字呼应；
+       三段状态（报名✓ / 签到未归档 / 要点未沉淀）与 v64 漏斗「停在报名」一致。
+       upcoming 5 场为最近学校宣讲会示意：3 场 AI 对口推荐（文化传媒 / 互联网 /
+       广电传媒，对应数字媒体运营方向）+ 2 场不对口（建筑工程 / 装备制造，照应
+       学生此前的报名习惯），AI 推荐徽章 + 报名按钮点击变已报名并联动 KPI。
+       本页为跨学年汇总档案，不受左栏 activeArchiveGrade 过滤影响（同 v51/v56）。
+     ========================================================================== */
+  ca.talkArchive = {
+    title: '宣讲会参与档案',
+    subtitle: '历史报名记录 · 三段留存状态 · 最近学校宣讲会推荐',
+    industries: {
+      '中建西部建设湖南有限公司': '建筑工程',
+      '安克创新科技股份有限公司深圳分公司': '消费电子',
+      '中石化湖南石油化工有限公司': '石油化工',
+      '中广核集团': '清洁能源',
+      '广州市海康电梯技术开发有限公司': '电梯制造',
+      '美的集团股份有限公司': '智能家电'
+    },
+    statSteps: [
+      { k: '报名凭证', ok: '已报名', note: '平台已归档' },
+      { k: '现场签到', ok: '已签到', miss: '未归档' },
+      { k: '宣讲要点', ok: '已沉淀', miss: '未沉淀' }
+    ],
+    gap: '6 场宣讲会全部停在「报名」环节：签到凭证未归档、宣讲要点未沉淀，且 6 家企业均为建筑工程 / 制造类行业，与数字媒体运营意向不对口（行业对口 0/6）。',
+    consistency: '口径说明：历史记录 6 场动态提取自成长记录「校招活动参与情况」（双选会 2 场归双选会页）；行业对口结论与顶部 AI 卡一致；下方最近宣讲会为院校就业网示意排期，需接平台真实数据。'
+  };
+
+  ca.talkUpcoming = [
+    { id: 'u1', company: '星芒文化传媒', theme: '数字媒体运营专场', date: '2024-09-26', time: '14:00', place: '大学生活动中心报告厅', industry: '文化传媒', match: true },
+    { id: 'u2', company: '蓝湾网络科技', theme: '内容运营与新媒体', date: '2024-09-28', time: '19:00', place: '线上直播（腾讯会议）', industry: '互联网', match: true },
+    { id: 'u3', company: '湖南广电金鹰卡通', theme: '动画与短视频方向', date: '2024-10-09', time: '15:30', place: '图书馆报告厅', industry: '广电传媒', match: true },
+    { id: 'u4', company: '中建三局', theme: '建筑工程技术与管理', date: '2024-09-27', time: '10:00', place: '工科楼 B201', industry: '建筑工程', match: false },
+    { id: 'u5', company: '湘江重工', theme: '装备制造管培生', date: '2024-10-11', time: '14:30', place: '就业指导中心多功能厅', industry: '装备制造', match: false }
+  ];
+
+  var activeTkSignups = {};
+
+  function gxTk2Records() {
+    var ind = ca.talkArchive.industries;
+    var all = [];
+    /* 跨年级汇总（同 v56/v58 口径）：gradeRecords 是按年级分组的对象 */
+    Object.keys(ca.gradeRecords).forEach(function (grade) {
+      (ca.gradeRecords[grade] || []).forEach(function (g) { all.push(g); });
+    });
+    var rows = all.filter(function (g) {
+      return g.business_type === '校招活动参与情况' && (g.description || '').indexOf('宣讲会') >= 0;
+    }).map(function (g) {
+      var m = (g.description || '').match(/【(.+?)】/);
+      var t = (g.created_at || '').match(/(\d{4})年(\d{2})月(\d{2})日\s+(\d{2}):(\d{2})/);
+      return {
+        company: m ? m[1] : g.description,
+        date: t ? t[1] + '-' + t[2] + '-' + t[3] : '',
+        time: t ? t[4] + ':' + t[5] : '',
+        key: t ? t[1] + t[2] + t[3] + t[4] + t[5] : ''
+      };
+    }).sort(function (a, b) { return a.key < b.key ? -1 : 1; });
+    return rows.map(function (r, i) {
+      var indName = ind[r.company] || '综合行业';
+      var steps = ca.talkArchive.statSteps.map(function (s, si) {
+        if (si === 0) return '<li class="gx-tk2-step ok"><i>✓</i><span>' + s.k + '</span><em>' + s.ok + '</em></li>';
+        return '<li class="gx-tk2-step miss"><i>!</i><span>' + s.k + '</span><em>' + s.miss + '</em></li>';
+      }).join('');
+      return '<article class="gx-tk2-rec">' +
+        '<div class="gx-tk2-rec-top">' +
+          '<b class="gx-tk2-rec-name">' + gxEsc(r.company) + '</b>' +
+          '<span class="gx-tk2-ind gx-tk2-ind--off">非对口 · ' + gxEsc(indName) + '</span>' +
+        '</div>' +
+        '<p class="gx-tk2-rec-meta">报名于 ' + gxEsc(r.date) + ' ' + gxEsc(r.time) + ' · 第 ' + (i + 1) + ' 场</p>' +
+        '<ul class="gx-tk2-steps">' + steps + '</ul>' +
+      '</article>';
+    }).join('');
+  }
+
+  function gxTk2Upcoming() {
+    var d = ca.talkArchive;
+    var signed = Object.keys(activeTkSignups).length;
+    var matchN = ca.talkUpcoming.filter(function (u) { return u.match; }).length;
+    var kpi = '<div class="gx-tk2-kpi">' +
+      '<div class="gx-tk2-kpi-item"><b>' + ca.talkUpcoming.length + '</b><span>最近宣讲会</span></div>' +
+      '<div class="gx-tk2-kpi-item hot"><b>' + matchN + '</b><span>AI 推荐对口</span></div>' +
+      '<div class="gx-tk2-kpi-item"><b id="gx-tk2-signed-n">' + signed + '</b><span>已报名</span></div>' +
+    '</div>';
+    var cards = ca.talkUpcoming.map(function (u) {
+      var signedU = !!activeTkSignups[u.id];
+      return '<article class="gx-tk2-up' + (u.match ? ' is-match' : '') + '">' +
+        '<div class="gx-tk2-up-top">' +
+          '<b class="gx-tk2-up-name">' + gxEsc(u.company) + '</b>' +
+          (u.match
+            ? '<span class="gx-tk2-badge gx-tk2-badge--ai">AI 推荐 · 对口</span>'
+            : '<span class="gx-tk2-badge gx-tk2-badge--off">行业不对口</span>') +
+        '</div>' +
+        '<p class="gx-tk2-up-theme">' + gxEsc(u.theme) + '</p>' +
+        '<p class="gx-tk2-up-meta"><i>⏱</i>' + gxEsc(u.date) + ' ' + gxEsc(u.time) + '</p>' +
+        '<p class="gx-tk2-up-meta"><i>📍</i>' + gxEsc(u.place) + '</p>' +
+        '<p class="gx-tk2-up-meta"><i>🏷</i>' + gxEsc(u.industry) + '</p>' +
+        (signedU
+          ? '<button class="gx-tk2-btn is-done" disabled>✓ 已报名</button>'
+          : '<button class="gx-tk2-btn" data-tk2-signup="' + gxEsc(u.id) + '">报名宣讲会</button>') +
+      '</article>';
+    }).join('');
+    return '<aside class="gx-tk2-col gx-tk2-upcoming">' +
+      '<p class="gx-ea-sec-title">最近学校宣讲会<i>按就业网排期 · AI 已标注对口度</i></p>' +
+      kpi +
+      '<div class="gx-tk2-up-list">' + cards + '</div>' +
+    '</aside>';
+  }
+
+  function gxTk2Sheet() {
+    var d = ca.talkArchive;
+    return '<div class="gx-sheet gx-sheet-tk2">' +
+      gxTalkAi() +
+      '<section class="gx-card gx-tk2-panel">' +
+        '<div class="gx-ea-head"><div class="gx-ea-heading">' +
+          '<h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p>' +
+        '</div></div>' +
+        '<div class="gx-tk2-body">' +
+          '<aside class="gx-tk2-col gx-tk2-history">' +
+            '<p class="gx-ea-sec-title">历史宣讲会记录<i>6 场 · 时间正序 · 全部停在报名</i></p>' +
+            '<div class="gx-tk2-rec-list">' + gxTk2Records() + '</div>' +
+            '<div class="gx-ea-list-tip">' + gxEsc(d.gap) + '</div>' +
+          '</aside>' +
+          gxTk2Upcoming() +
+        '</div>' +
+        '<p class="gx-ea-consistency">' + gxEsc(d.consistency) + '</p>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindTk2() {
+    document.querySelectorAll('[data-tk2-signup]').forEach(function (b) {
+      b.onclick = function () {
+        activeTkSignups[b.getAttribute('data-tk2-signup')] = true;
+        render();
+      };
+    });
+  }
+
   var gxOriginalRender = render;
   render = function () {
     // 能力画像已并入成长档案（成长档案包含全部学生基础数据），ability 路由统一落到档案页
@@ -5282,6 +5431,7 @@
       gxBindEm();
       gxBindRv();
       gxBindEa();
+      gxBindTk2();
       syncUrl();
       return;
     }
