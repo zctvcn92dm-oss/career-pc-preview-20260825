@@ -66,6 +66,12 @@
          《职场礼仪与形象管理》8 节线上课记录保持不动，v50 线上课「3 门 30 节」口径不受影响。
          四维得分与综合分为原型示意，需接平台真实 AI 解析报告；本次不改其它记录。 */
       { created_at: '2024年05月28日 10:26:41', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 1 次【AI形象礼仪】测评：日常办公场景，上传形象照由 AI 解析着装与仪态，输出《职业形象初评报告》，综合 61 分（着装 64 / 仪态 58 / 岗位 55 / 场景 67）' },
+      /* v64：毕业意向 = 意向决策的演变轨迹，不是只有最终填报结果。按用户口径补 2 条，
+         与原有的第四年 2024-10-12「直接就业 · 数字媒体运营类岗位」形成
+         「双向准备（2024-05）→ 倾向就业（2024-08）→ 正式填报（2024-10）」三段演变，
+         与 ca.intentionSummary.stats.rounds 逐条对应。毕业意向不在 v58 AA_TYPE_MAP，
+         生涯活动 21 场口径不受影响；基本信息页成长时间线会多出这两条（预期内）。 */
+      { created_at: '2024年05月20日 19:26:33', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报毕业意向初稿：考研与就业双向准备，专业方向为数字媒体技术' },
       { created_at: '2024年05月16日 10:08:33', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【企业开放日 · 数字创意产业园区参访】生涯活动' },
       /* v63：就业活动 = 毕业生就业相关活动的揽括（就业实训 / 就业讲座 / 就业实践 /
          双选洽谈 / 政策宣讲等），不是单一场次。按用户口径补到 4 场，跨第二、第三年，
@@ -82,6 +88,11 @@
          原记录写的是「数字媒体行业岗位解读」，与产品定义不符，改为职场礼仪主题并带上互动动作，
          使 AI 总结、档案时间轴、微视频模块记录三处口径一致。 */
       { created_at: '2023年11月20日 19:52:07', business_type: '微视频', ability_dimension: '职业素养能力', description: '观看了【会议礼仪与商务着装】系列微视频 6 条，点赞 4 条、转发 1 条' },
+      /* v64：AI助理 = 学生向 AI 生涯助理（小云同学）提问的记录，按 3 次有代表性的提问建模：
+         职业方向 → 简历写法 → 宣讲会挑选，时间与咨询 / 简历 / 校招记录呼应，
+         与 ca.assistSummary.stats.rounds 逐条对应。AI助理不在 v58 AA_TYPE_MAP，
+         生涯活动 21 场口径不受影响。 */
+      { created_at: '2023年10月15日 20:42:19', business_type: 'AI助理', ability_dimension: '自我认知能力', description: '向 AI 生涯助理提问「数字媒体技术专业的就业方向有哪些」，获得岗位方向与能力要求梳理' },
       { created_at: '2023年09月12日 11:03:58', business_type: '职业测评', ability_dimension: '自我认知能力', description: '完成【职业价值观测评】测评，测评结果是：成就、独立、认同' }
     ],
     '第三年': [
@@ -121,7 +132,11 @@
       { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' },
       /* v60：3 版迭代的第 2 版，对应同年预约面询 ap1（2024-06-18）
          「简历里的项目经历怎么写，才更匹配数字媒体运营岗？」。 */
-      { created_at: '2024年06月20日 16:08:41', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '根据线下面询建议优化为「岗位定向版」简历，对准数字媒体运营实习生岗，岗位匹配度 65%' }
+      { created_at: '2024年06月20日 16:08:41', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '根据线下面询建议优化为「岗位定向版」简历，对准数字媒体运营实习生岗，岗位匹配度 65%' },
+      /* v64：毕业意向演变第 2 段 —— 承接 2024-06-20 简历「岗位定向版」，早于第四年 2024-10-12 正式填报。 */
+      { created_at: '2024年08月30日 15:47:12', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '更新毕业意向：结合简历岗位定向优化与暑期实习准备，倾向直接就业 · 数字媒体方向' },
+      /* v64：AI助理第 2 次提问（简历写法）—— 直接催生 2024-06-20 之后简历继续迭代与 AI 面试训练。 */
+      { created_at: '2024年07月06日 21:18:44', business_type: 'AI助理', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「数字媒体运营岗的简历应该怎么写」，获得简历模块建议后转向 AI 简历继续优化' }
     ],
     '第四年': [
       { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
@@ -137,6 +152,9 @@
          本次不改日期 / business_type / ability_dimension，避免影响年级时间轴。 */
       { created_at: '2024年09月25日 20:06:13', business_type: '线上咨询', ability_dimension: '自我认知能力', description: '通过云生涯Max小程序选择「生涯规划师」完成【线上生涯咨询】，咨询主题：就业与考研的权衡选择' },
       { created_at: '2024年09月22日 00:46:58', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中建西部建设湖南有限公司】宣讲会' },
+      /* v64：AI助理第 3 次提问（宣讲会挑选）—— 呼应 9 月集中报名的 6 家不对口宣讲会，
+         提问在报名之后发生，AI 卡用它点出「行业筛选建议未被应用」这一断层。 */
+      { created_at: '2024年09月20日 19:15:27', business_type: 'AI助理', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「9 月的宣讲会这么多，怎么挑跟数字媒体运营岗对口的」，获得行业筛选建议' },
       { created_at: '2024年09月18日 16:39:02', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【长沙理工大学2025届毕业生秋季综合双选会（第一场）暨第八届校友企业专场招聘会】双选会' },
       { created_at: '2024年09月18日 15:39:57', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【安克创新科技股份有限公司深圳分公司】宣讲会' },
       { created_at: '2024年09月16日 13:11:22', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中石化湖南石油化工有限公司】宣讲会' },
@@ -2773,6 +2791,246 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v64 · 「毕业意向 / 宣讲会 / 双选会 / AI助理」四页专属 AI 总结及建议
+     --------------------------------------------------------------------------
+     用户口径（AskUserQuestion 四项全选推荐）：
+       ① 毕业意向补 2 条演变（双向准备 → 倾向就业 → 正式填报）；
+       ② 宣讲会 / 双选会不补记录，直接基于现有 6+2 条校招记录做分析 ——
+          避免再动生涯活动 21 场口径（同一批 business_type='校招活动参与情况'）；
+       ③ AI助理补 3 次提问（职业方向 → 简历写法 → 宣讲会挑选）；
+       ④ 本轮只换顶部 AI 卡与右侧图，下方保持通用「模块记录 + 模块说明」。
+     原实现：四页共用 gxAssessAi() → 职业测评文案 + 6 维环形图，且 aiScroll=112px 被裁。
+     四张卡与右侧图设计（均与该页业务强关联）：
+       毕业意向  ①「直接就业方向 · 支撑证据」4 条横条 —— 数据全部取自既有模块示意口径
+                 （简历 78% / AI 面试 82 / 就业实践 76 / 双选洽谈 40），不另造分数；
+                 ②「意向 → 待补齐」意向城市 / 期望薪资 / 考研备选未留档
+       宣讲会    ①「宣讲会参与漏斗」4 条 —— 报名 6/6（100%）→ 签到未归档 → 要点未沉淀
+                 → 投递 0/6，只有第一条有宽度，「广度停在报名」正是诊断结论；
+                 ② 行业对口 0/6 / 签到要点 / 投递转化
+       双选会    ①「双选会参与漏斗」4 条 —— 报名 2/2 → 到场未归档 → 沟通未记录 → 投递 0/2
+                 ② 目标清单 / 现场沟通 / 投递反馈
+       AI助理    ①「提问 → 行动转化」3 条 —— 前两次 100%（简历定向 / 3 版迭代）、
+                 第三次 0%（行业筛选建议未应用），与 6 场不对口宣讲会形成呼应；
+                 ②「提问 → 产生的行动」3 行关联
+     关键叙事联动：AI助理第三问（2024-09-20 行业筛选）→ 宣讲会页「对口 0/6」→
+       双选会页「停在报名」→ 毕业意向页「方向已定但参数未补」，四页互相引用、口径一致。
+     不编造成果：签到、到场、沟通、投递平台暂无数据，一律「未归档 / 未记录 / 0」。
+     类名 .gx-in-* / .gx-tk-* / .gx-fw-* / .gx-ax-*，避开 v63 已占用的
+       .gx-em- / .gx-ep- / .gx-ct- / .gx-ct2- 与更早的 .gx-cs-* 等。
+     回滚：删掉 gxModuleSheet 里对应四行分支 + 本数据块 + CSS 区块即可。
+     ========================================================================== */
+  ca.intentionSummary = {
+    diag: '平台归档了学生的毕业意向演变：第二年 5 月填报初稿「考研与就业双向准备」，第三年 8 月结合简历岗位定向优化更新为「倾向直接就业 · 数字媒体方向」，第四年 10 月正式填报「直接就业 · 数字媒体运营类岗位」。三段演变与求职主线同步：意向确定后简历 3 版迭代至 78%、AI 面试 82 分、6 周就业实践 76 分，全部对准数字媒体运营岗。短板有三：意向里没有意向城市、期望薪资等求职参数；「考研」备选路径未留档，无法回看当时的权衡依据；10 月填报后意向未再更新，毕业学年求职进展没有回写到意向档案。总体判断：方向已定且执行到位，但意向档案还只是一句话，撑不起求职决策。',
+    advice: '补齐意向档案的求职参数：意向城市、期望薪资、到岗时间，与求职现行版简历保持一致；把「考研 vs 就业」的权衡依据（家庭意见、行业判断、能力匹配）补成一段记录，让当时的决策可回看。毕业学年每完成一次面试或投递，把进展回写意向档案，形成「意向 → 行动 → 结果」闭环。院校侧可把「有课程与测评、无意向填报」「意向填报后长期未更新」设为提醒。支撑得分为各模块示意口径。',
+    stats: {
+      rounds: [
+        { name: 'AI 模拟面试', scene: '2025-05 · 数字媒体运营岗', score: 82, color: '#5CAD6A' },
+        { name: '求职现行版简历', scene: '2025-04 · 岗位匹配度', score: 78, color: '#8FBF5A' },
+        { name: '就业实践深度', scene: '2025-03 · 6 周短视频运营', score: 76, color: '#8FBF5A' },
+        { name: '双选洽谈深度', scene: '2024-10 · 只到场未跟进', score: 40, color: '#B9C4B0' }
+      ],
+      gaps: [
+        { module: '意向城市', action: '未填写', color: '#E7B84B' },
+        { module: '期望薪资', action: '未填写', color: '#7FA8D0' },
+        { module: '考研备选', action: '未留档', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxIntentionAi() {
+    var a = ca.intentionSummary, s = a.stats;
+    var bars = s.rounds.map(function (v) {
+      return '<li class="gx-in-bar" title="' + gxEsc(v.scene + ' · ' + v.score) + '">' +
+        '<span class="gx-in-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-in-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-in-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-in-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--intention">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-in-viz">' +
+        '<div class="gx-in-chart">' +
+          '<div class="gx-in-chart-head"><h4>直接就业方向 · 支撑证据</h4>' +
+            '<span>4 项 · 全对准运营岗</span></div>' +
+          '<ul class="gx-in-bars">' + bars + '</ul>' +
+          '<div class="gx-in-gaps-box">' +
+            '<h4>意向 → 待补齐</h4>' +
+            '<p class="gx-in-gaps-note">3 项求职参数未归档</p>' +
+            '<ul class="gx-in-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-in-disclaimer">* 得分沿用各模块示意口径</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  ca.talkSummary = {
+    diag: '平台归档了学生报名的 6 场企业宣讲会（第四年 9 月）：中建西部建设、中广核、中石化、海康电梯属基建与制造，美的属家电制造，安克创新属消费电子，集中在 9 月上中旬 5 天内报名。诊断要点：6 家里没有一家是数字媒体、互联网或文创内容行业，与毕业意向「数字媒体运营类岗位」明显错位；6 场都只记录「报名了」，签到、宣讲要点、现场沟通与投递结果未归档；9 月 20 日已向 AI 助理问过「怎么挑对口的宣讲会」，但筛选建议没有应用到已报名场次。总体判断：报名动作快、筛选动作缺，广度没有转化为对口机会。',
+    advice: '用 AI 助理的行业筛选结论先做一轮过滤：毕业学年优先参加数字媒体、互联网、电商内容、文创行业的宣讲；已有 6 场报名里确实想去的 1-2 场补签到与宣讲要点，其余不强求到场；每场结束记录岗位要求与投递方式，与求职现行版简历版本对应。院校侧可把「报名行业与意向方向不符」「报名后无签到」设为提醒，并按意向方向推送对口宣讲。漏斗数据为原型示意，需接平台真实签到数据。',
+    stats: {
+      funnel: [
+        { name: '已报名', val: '6 场', pct: 100, color: '#5CAD6A' },
+        { name: '已签到', val: '未归档', pct: 0, color: '#8FBF5A' },
+        { name: '宣讲要点', val: '未沉淀', pct: 0, color: '#E7B84B' },
+        { name: '投递转化', val: '0 场', pct: 0, color: '#B9C4B0' }
+      ],
+      gaps: [
+        { module: '行业对口 0/6', action: '按 AI 建议筛', color: '#E7B84B' },
+        { module: '签到与要点', action: '每场补记', color: '#7FA8D0' },
+        { module: '投递转化 0', action: '跟进目标岗', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxTalkAi() {
+    var a = ca.talkSummary, s = a.stats;
+    var bars = s.funnel.map(function (v) {
+      return '<li class="gx-tk-bar" title="' + gxEsc(v.name + ' · ' + v.val) + '">' +
+        '<span class="gx-tk-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-tk-bar-track"><i style="width:' + v.pct + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.val + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-tk-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-tk-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--talk">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-tk-viz">' +
+        '<div class="gx-tk-chart">' +
+          '<div class="gx-tk-chart-head"><h4>宣讲会参与漏斗</h4>' +
+            '<span>6 场 · 停在报名</span></div>' +
+          '<ul class="gx-tk-bars">' + bars + '</ul>' +
+          '<div class="gx-tk-gaps-box">' +
+            '<h4>环节 → 待补齐</h4>' +
+            '<p class="gx-tk-gaps-note">6 场无一转化到投递</p>' +
+            '<ul class="gx-tk-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-tk-disclaimer">* 漏斗为原型示意，需接平台真实签到数据</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  ca.fairSummary = {
+    diag: '平台归档了学生报名的 2 场双选会：第四年 9 月「长沙理工大学2025届秋季综合双选会（第一场）暨第八届校友企业专场招聘会」与「全国重点高校2025届秋季巡回招聘会长沙理工大学站」，都是大规模综合类招聘会，企业数量多、行业杂，与数字媒体运营岗的匹配要靠现场筛选。两场均只记录「报名了」，到场凭证、现场沟通企业清单、投递与反馈全部未归档；与 6 场宣讲会合计，第四年 8 场校招活动无一记录到报名之后的动作。总体判断：报名了最大的两次机会，但没有留下任何到场与转化证据。',
+    advice: '下一场双选会前用 AI 助理列一份目标企业清单（数字媒体运营对口），现场按清单沟通并当场记录企业、岗位与联系人；会后 3 天内整理投递结果，标注使用的简历版本，与求职现行版简历对应。综合类双选会人流量大，建议把有限时间留给清单上的目标展位。院校侧可把「报名后无到场记录」设为提醒，并在双选会页面提供目标清单工具。漏斗数据为原型示意，需接平台真实签到数据。',
+    stats: {
+      funnel: [
+        { name: '已报名', val: '2 场', pct: 100, color: '#5CAD6A' },
+        { name: '已到场', val: '未归档', pct: 0, color: '#8FBF5A' },
+        { name: '现场沟通', val: '未记录', pct: 0, color: '#E7B84B' },
+        { name: '投递结果', val: '0 场', pct: 0, color: '#B9C4B0' }
+      ],
+      gaps: [
+        { module: '目标清单', action: '会前用 AI 列', color: '#E7B84B' },
+        { module: '现场沟通', action: '当场记录企业', color: '#7FA8D0' },
+        { module: '投递反馈', action: '3 天内整理', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxFairAi() {
+    var a = ca.fairSummary, s = a.stats;
+    var bars = s.funnel.map(function (v) {
+      return '<li class="gx-fw-bar" title="' + gxEsc(v.name + ' · ' + v.val) + '">' +
+        '<span class="gx-fw-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-fw-bar-track"><i style="width:' + v.pct + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.val + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-fw-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-fw-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--fair">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-fw-viz">' +
+        '<div class="gx-fw-chart">' +
+          '<div class="gx-fw-chart-head"><h4>双选会参与漏斗</h4>' +
+            '<span>2 场 · 停在报名</span></div>' +
+          '<ul class="gx-fw-bars">' + bars + '</ul>' +
+          '<div class="gx-fw-gaps-box">' +
+            '<h4>环节 → 待补齐</h4>' +
+            '<p class="gx-fw-gaps-note">与 6 场宣讲会同样停在报名</p>' +
+            '<ul class="gx-fw-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-fw-disclaimer">* 漏斗为原型示意，需接平台真实签到数据</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  ca.assistSummary = {
+    diag: '平台归档了学生与 AI 生涯助理（小云同学）的 3 次提问：第二年 10 月问「数字媒体技术专业的就业方向有哪些」，获得岗位方向与能力要求梳理；第三年 7 月问「数字媒体运营岗的简历应该怎么写」，获得简历模块建议后转向 AI 简历继续优化；第四年 9 月问「9 月的宣讲会这么多，怎么挑跟数字媒体运营岗对口的」，获得行业筛选建议。提问节奏与成长主线吻合：方向问题出在探索期，方法问题出在准备期，筛选问题出在校招季。短板是前两次提问都转化成了行动（简历定向、3 版迭代），第三次行业筛选建议却没有落地——6 场已报名宣讲会里仍无一家数字媒体对口。总体判断：AI 助理已在关键节点给出方向，但建议到行动的最后一公里没走完。',
+    advice: '把第三次提问的建议补落地：对 6 场已报名宣讲会做一轮对口过滤，决定去哪 1-2 场；毕业学年把「每场宣讲会、双选会先列目标清单」变成习惯动作，先问 AI 助理再报名。每次提问后把 AI 给出的建议要点存进档案，与后续行动（简历版本、面试训练、投递）关联，让「问了什么 → 做了什么」可回看。院校侧可把「提问后长期无对应行动」设为提醒。',
+    stats: {
+      rounds: [
+        { name: '职业方向提问', scene: '2023-10 · 已转化为简历定向', score: 100, color: '#8FBF5A' },
+        { name: '简历写法提问', scene: '2024-07 · 已转化为 3 版迭代', score: 100, color: '#5CAD6A' },
+        { name: '宣讲会挑选提问', scene: '2024-09 · 建议未应用', score: 0, color: '#E7B84B' }
+      ],
+      gaps: [
+        { module: '专业方向', action: '简历「岗位定向版」', color: '#E7B84B' },
+        { module: '简历写法', action: '3 版迭代至 78%', color: '#7FA8D0' },
+        { module: '行业筛选', action: '待应用到 6 场', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxAssistAi() {
+    var a = ca.assistSummary, s = a.stats;
+    var bars = s.rounds.map(function (v) {
+      return '<li class="gx-ax-bar" title="' + gxEsc(v.scene + ' · 转化 ' + v.score + '%') + '">' +
+        '<span class="gx-ax-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-ax-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '%</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-ax-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-ax-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--assist">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-ax-viz">' +
+        '<div class="gx-ax-chart">' +
+          '<div class="gx-ax-chart-head"><h4>提问 → 行动转化</h4>' +
+            '<span>3 次 · 2 次已转化</span></div>' +
+          '<ul class="gx-ax-bars">' + bars + '</ul>' +
+          '<div class="gx-ax-gaps-box">' +
+            '<h4>提问 → 产生的行动</h4>' +
+            '<p class="gx-ax-gaps-note">第三次建议尚未落地</p>' +
+            '<ul class="gx-ax-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-ax-disclaimer">* 转化率为原型示意，需接平台真实行动数据</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2813,6 +3071,13 @@
     else if (activeSideTag === '就业活动') ai = gxEmployAi();
     else if (activeSideTag === '大学生职业规划大赛') ai = gxContestAi('career');
     else if (activeSideTag === '大学生创新大赛') ai = gxContestAi('innov');
+    /* v64：毕业意向 / 宣讲会 / 双选会 / AI助理 各用专属 AI 卡（四项口径 AskUserQuestion 已确认）；
+       宣讲会 / 双选会不补记录、直接基于现有校招数据做分析，生涯活动 21 场口径不受影响；
+       删掉对应行即回到通用测评卡。 */
+    else if (activeSideTag === '毕业意向') ai = gxIntentionAi();
+    else if (activeSideTag === '宣讲会') ai = gxTalkAi();
+    else if (activeSideTag === '双选会') ai = gxFairAi();
+    else if (activeSideTag === 'AI助理') ai = gxAssistAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +

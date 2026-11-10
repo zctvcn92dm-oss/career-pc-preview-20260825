@@ -3734,3 +3734,121 @@
   .gx-ct2-profile { border-left: 0; border-top: 1px solid #EDF1E8; padding-top: 14px; margin-top: 4px; }
 }
 
+
+/* ==========================================================================
+   v64 · 「毕业意向 / 宣讲会 / 双选会 / AI助理」四页专属 AI 总结卡
+   --------------------------------------------------------------------------
+   四张卡右侧 viz 完全同构（290px 面板 + 横条组 + 关联组 + 声明行），
+   故用组合选择器写一份共用皮肤；每页用自己的类名前缀，互不串味：
+     毕业意向 .gx-ai--intention / .gx-in-*   支撑证据 4 横条
+     宣讲会   .gx-ai--talk      / .gx-tk-*   参与漏斗 4 横条
+     双选会   .gx-ai--fair      / .gx-fw-*   参与漏斗 4 横条
+     AI助理   .gx-ai--assist    / .gx-ax-*   行动转化 3 横条
+   密度沿用 v61/v62/v63 已验证的 290px / ≤266px 面板。删本区块 + 对应 JS
+   数据与函数 + gxModuleSheet 分支行即整块回滚。
+   ========================================================================== */
+.gx-ai--intention .gx-assess-ai-title,
+.gx-ai--talk .gx-assess-ai-title,
+.gx-ai--fair .gx-assess-ai-title,
+.gx-ai--assist .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--intention .gx-assess-ai-p,
+.gx-ai--talk .gx-assess-ai-p,
+.gx-ai--fair .gx-assess-ai-p,
+.gx-ai--assist .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.54;
+  margin-bottom: 6px;
+}
+.gx-ai--intention .gx-assess-ai-text,
+.gx-ai--talk .gx-assess-ai-text,
+.gx-ai--fair .gx-assess-ai-text,
+.gx-ai--assist .gx-assess-ai-text { padding-right: 4px; }
+
+.gx-ai--intention .gx-assess-ai-viz.gx-in-viz,
+.gx-ai--talk .gx-assess-ai-viz.gx-tk-viz,
+.gx-ai--fair .gx-assess-ai-viz.gx-fw-viz,
+.gx-ai--assist .gx-assess-ai-viz.gx-ax-viz {
+  display: block;
+  width: 290px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+.gx-in-chart-head, .gx-tk-chart-head, .gx-fw-chart-head, .gx-ax-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 7px;
+}
+.gx-in-chart-head h4, .gx-tk-chart-head h4, .gx-fw-chart-head h4, .gx-ax-chart-head h4 {
+  margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap;
+}
+.gx-in-chart-head span, .gx-tk-chart-head span, .gx-fw-chart-head span, .gx-ax-chart-head span {
+  font-size: 10.5px; color: #9AA491; white-space: nowrap;
+}
+
+.gx-in-bars, .gx-tk-bars, .gx-fw-bars, .gx-ax-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.gx-in-bar, .gx-tk-bar, .gx-fw-bar, .gx-ax-bar {
+  display: grid; grid-template-columns: 88px minmax(0, 1fr) 42px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-in-bar-name, .gx-tk-bar-name, .gx-fw-bar-name, .gx-ax-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-in-bar-track, .gx-tk-bar-track, .gx-fw-bar-track, .gx-ax-bar-track {
+  height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden;
+}
+.gx-in-bar-track i, .gx-tk-bar-track i, .gx-fw-bar-track i, .gx-ax-bar-track i {
+  display: block; height: 100%; border-radius: 5px;
+}
+.gx-in-bar b, .gx-tk-bar b, .gx-fw-bar b, .gx-ax-bar b {
+  color: #4A9A5B; font-size: 10px; text-align: right; font-weight: 700; white-space: nowrap;
+}
+
+.gx-in-gaps-box, .gx-tk-gaps-box, .gx-fw-gaps-box, .gx-ax-gaps-box {
+  margin-top: 9px; padding-top: 7px; border-top: 1px dashed #E3EADB;
+}
+.gx-in-gaps-box h4, .gx-tk-gaps-box h4, .gx-fw-gaps-box h4, .gx-ax-gaps-box h4 {
+  margin: 0 0 2px; font-size: 12px; font-weight: 700; color: #2F382B;
+}
+.gx-in-gaps-note, .gx-tk-gaps-note, .gx-fw-gaps-note, .gx-ax-gaps-note {
+  margin: 0 0 6px; font-size: 10px; color: #9AA491; line-height: 1.2;
+}
+.gx-in-gaps, .gx-tk-gaps, .gx-fw-gaps, .gx-ax-gaps {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.gx-in-gap, .gx-tk-gap, .gx-fw-gap, .gx-ax-gap {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 2px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-in-gap > i, .gx-tk-gap > i, .gx-fw-gap > i, .gx-ax-gap > i {
+  display: block; width: 7px; height: 7px; border-radius: 50%;
+}
+.gx-in-gap-module, .gx-tk-gap-module, .gx-fw-gap-module, .gx-ax-gap-module {
+  color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gx-in-gap em, .gx-tk-gap em, .gx-fw-gap em, .gx-ax-gap em {
+  font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center;
+}
+.gx-in-gap b, .gx-tk-gap b, .gx-fw-gap b, .gx-ax-gap b {
+  color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap;
+}
+.gx-in-disclaimer, .gx-tk-disclaimer, .gx-fw-disclaimer, .gx-ax-disclaimer {
+  margin: 7px 0 0; font-size: 9.5px; line-height: 1.3; color: #A6B09C;
+}
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--intention .gx-assess-ai-viz.gx-in-viz,
+  .gx-ai--talk .gx-assess-ai-viz.gx-tk-viz,
+  .gx-ai--fair .gx-assess-ai-viz.gx-fw-viz,
+  .gx-ai--assist .gx-assess-ai-viz.gx-ax-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
