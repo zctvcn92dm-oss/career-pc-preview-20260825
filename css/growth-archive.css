@@ -4232,7 +4232,7 @@
 }
 .gx-tk2-body {
   flex: 1; min-height: 0; display: grid;
-  grid-template-columns: 1.05fr 0.95fr; gap: 0;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 0;
 }
 .gx-tk2-col { min-height: 0; display: flex; flex-direction: column; }
 .gx-tk2-history { padding: 12px 14px; border-right: 1px solid #EDF1E8; }
@@ -4296,15 +4296,14 @@
 .gx-tk2-btn:hover { background: #4E9C5C; }
 .gx-tk2-btn.is-done { background: #EAF4E3; color: #3E8C4D; cursor: default; }
 
+/* v80 · 始终保持左右两栏（历史记录 / 最近宣讲会），不做单列折叠，避免整页上下滑动。
+   矮屏只收紧间距与内边距，左右结构不变；各栏内部 overflow 仅作安全兜底。 */
 @media (max-height: 860px) {
-  .gx-tk2-body {
-    grid-template-columns: minmax(0, 1fr);
-    overflow-y: auto; display: flex; flex-direction: column;
-  }
-  .gx-tk2-col { display: block; flex: none; }
-  .gx-tk2-history { border-right: 0; border-bottom: 1px solid #EDF1E8; padding-bottom: 4px; }
-  .gx-tk2-rec-list, .gx-tk2-up-list { overflow-y: visible; flex: none; }
-  .gx-tk2-up-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); align-items: start; }
+  .gx-tk2-panel { margin: 0 12px 10px; }
+  .gx-tk2-history, .gx-tk2-upcoming { padding: 10px 12px; }
+  .gx-tk2-rec { padding: 7px 9px; }
+  .gx-tk2-up { padding: 7px 9px; }
+  .gx-tk2-rec-list, .gx-tk2-up-list { gap: 6px; }
 }
 
 /* v69 · 简历列表卡「使用次数」独立行（仿产品参考图，usage 口径：现行版最高） */
