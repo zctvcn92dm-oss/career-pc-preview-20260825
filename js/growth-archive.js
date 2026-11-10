@@ -2106,6 +2106,10 @@
        解决下方仍是通用「模块记录 + 模块说明」、与顶部 v60 简历专属 AI 卡语义脱节的问题。
        回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
     if (activeSideTag === 'AI简历') return gxRvSheet();
+    /* v67：职业礼仪的下方改成「我的职业礼仪测评报告」（测评列表 + 完整报告展示），
+       解决下方仍是通用「模块记录 + 模块说明」、与 v61 礼仪专属 AI 卡语义脱节的问题。
+       回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
+    if (activeSideTag === '职业礼仪') return gxEaSheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -5030,6 +5034,227 @@
     });
   }
 
+  /* ==========================================================================
+     v67 · 「职业礼仪」详情页下方：我的职业礼仪测评报告（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：下方展示学生做过的职业礼仪历史记录详情 —— 左侧历史记录列表，
+       右侧一个区域展示所选中的记录的报告，报告结构按参考图（AI形象礼仪测评报告）：
+       报告总结（现场照片）→ 着装评价与改进建议（一、着装评价：1.1 环境分析 /
+       1.2 着装分析；二、改进建议：2.1 着装建议 / 2.2 社交礼仪 / 2.3 面试事项）
+       → AI 生成提示。
+     AskUserQuestion 已确认（三项全选推荐）：
+       ① 列表只列 3 次【AI形象礼仪】测评（2024-05-28 日常办公 61 分 /
+          2025-03-24 面试实习 73 分 / 2025-06-18 面试定稿 82 分）；
+          「职场礼仪与形象管理」线上课记录不是测评、无报告语义，不入列表；
+       ② 报告头用杨强已有字段（专业 数字媒体技术 / 年级 2022 级），
+          不照搬参考图「测试学生 / 软件技术」示例；
+       ③ 现场照片用场景占位图块（虚线框 + 场景名 + tint），正式版接平台上传图。
+     报告分数与 gradeRecords 三条测评记录逐字对应（综合 61/73/82，
+       四维 64/58/55/67 → 78/70/72/72 → 86/79/82/81），与顶部 v61 AI 卡同源。
+     报告叙事与既有页呼应：第 2 次「按初评报告调整」、第 3 次仪态 79 为最低项
+       （v61 AI 卡已点名）、定稿版建议「保持即可」。
+     默认选中第一条；列表点击切换右侧报告；报告区内部滚动（max-width 居中，报告比例）。
+     类名统一用 .gx-ea-*（v61 AI 卡已占用 .gx-et-*）+ .gx-sheet-ea；
+     回滚：删掉 gxSheet 里这一行分支即可。
+     ========================================================================== */
+  ca.etiquetteArchive = {
+    title: '我的职业礼仪测评报告',
+    subtitle: 'AI 形象礼仪测评归档 · 3 次测评 · 时间正序 · 默认选中第一次 · 点击列表切换报告',
+    student: { name: '杨强', major: '数字媒体技术', gradeYear: '2022 级' },
+    aiTip: '报告内容由 AI 生成，不能完全确保正确，仅供参考',
+    reports: [
+      {
+        n: 1, scene: '日常办公场景', sceneShort: '日常办公', date: '2024-05-28', grade: '第二年',
+        reportName: '职业形象初评报告', total: 61, tint: '#7FA8D0',
+        dims: [{ k: '着装', v: 64 }, { k: '仪态', v: 58 }, { k: '岗位', v: 55 }, { k: '场景', v: 67 }],
+        photoNote: '现场照片 · 日常办公场景 · 上传形象照',
+        env: {
+          bg: '图片中显示的是一个室内办公环境，桌面摆放电脑与文件，光线充足，是典型的日常学习办公场景。',
+          match: '日常办公场合对着装要求宽松，当前休闲装扮基本匹配；但作为求职期的形象管理记录，与「职业感」尚有距离。'
+        },
+        dress: {
+          style: '图中人物穿着休闲卫衣，整体偏日常，与办公场景不冲突，但缺少职业感的正式元素。',
+          color: '浅灰 + 白色为主，干净清爽，但缺少低饱和的深色锚点，视觉重心偏弱。',
+          reasonable: '整体协调，未见明显失误；作为日常办公可以接受，正式场合仍需升级。'
+        },
+        advice: {
+          style: '建议选择更挺括的上装（衬衫、休闲西装），向商务休闲风格过渡，为面试场景做准备。',
+          color: '加入深蓝、藏青等低饱和主色作为主基调，降低休闲感。',
+          acc: '可佩戴简洁手表或无配饰，避免夸张配饰分散注意力。'
+        },
+        social: {
+          manner: '坐姿略有塌肩，注意挺背与镜头前的眼神交流，肩线放平。',
+          speech: '初评未涉及语音表达，建议日常练习 1 分钟结构化自我介绍，养成结论先行的习惯。',
+          respect: '会议与小组讨论场合注意倾听、轮流发言，不抢话不打断。'
+        },
+        interview: {
+          prep: '提前了解目标公司的文化与岗位要求，按岗位调整着装与展示重点。',
+          intro: '准备 1 分钟自我介绍版本，突出专业背景、项目经历与岗位相关的亮点。',
+          ask: '准备 2—3 个与岗位相关的问题，展示对职位的兴趣与思考。',
+          summary: '本次为职业形象初评（综合 61 分），着装 64 / 仪态 58 / 岗位 55 / 场景 67；仪态与岗位贴合是当前最弱项，按建议调整后可在复测中重点观察。'
+        }
+      },
+      {
+        n: 2, scene: '面试场景 · 数字媒体运营实习生', sceneShort: '面试实习', date: '2025-03-24', grade: '第四年',
+        reportName: '面试形象与仪态测评报告', total: 73, tint: '#8FBF5A',
+        dims: [{ k: '着装', v: 78 }, { k: '仪态', v: 70 }, { k: '岗位', v: 72 }, { k: '场景', v: 72 }],
+        photoNote: '现场照片 · 面试场景 · 数字媒体运营实习生',
+        env: {
+          bg: '图片中显示的是一个简洁的室内面试环境（模拟会议室），背景无杂物，光线均匀。',
+          match: '正式面试场合，本次着装较初评明显正式，已基本达到实习生面试的达标线，专业感仍可加强。'
+        },
+        dress: {
+          style: '白衬衫 + 深色长裤，按初评报告完成调整，正式度明显提升。',
+          color: '白 + 深灰的组合安全稳妥；与运营岗的「内容感」相比略素，可加入浅色内搭层次。',
+          reasonable: '整体协调；衬衫熨烫平整度与领口细节可再注意。'
+        },
+        advice: {
+          style: '保持衬衫基础上加入薄针织或休闲西装外套，增加层次感。',
+          color: '深蓝外套 + 白衬衫是面试安全组合，建议作为复测方案。',
+          acc: '简约手表即可，避免过多配饰分散面试官注意力。'
+        },
+        social: {
+          manner: '坐姿较初评挺拔，手部动作自然；回答问题时保持肩线放松。',
+          speech: '回答语速平稳，继续练习结构化表达（先结论后展开）。',
+          respect: '模拟面试中注意目光轮流覆盖面试官，结束致谢。'
+        },
+        interview: {
+          prep: '已按初评报告落实着装调整（3 处）并完成复测，改进习惯初步形成。',
+          intro: '突出「校园公众号运营 + 剪辑技能」，与实习生岗位要求直接对应。',
+          ask: '可围绕岗位的日常内容节奏与团队分工提问。',
+          summary: '综合 73 分（着装 78 / 仪态 70 / 岗位 72 / 场景 72），较初评提升 12 分；仪态（70）与岗位贴合（72）仍是下一轮重点。'
+        }
+      },
+      {
+        n: 3, scene: '面试场景 · 数字媒体运营岗', sceneShort: '面试定稿', date: '2025-06-18', grade: '第四年',
+        reportName: '求职形象定稿报告', total: 82, tint: '#5CAD6A',
+        dims: [{ k: '着装', v: 86 }, { k: '仪态', v: 79 }, { k: '岗位', v: 82 }, { k: '场景', v: 81 }],
+        photoNote: '现场照片 · 面试场景 · 数字媒体运营岗',
+        env: {
+          bg: '图片中显示的是一个整洁的室内面试环境，背景简洁无杂物，适合正式求职拍摄。',
+          match: '正式求职面试场合，整体形象已匹配数字媒体运营岗的要求，定稿版本无明显短板。'
+        },
+        dress: {
+          style: '深蓝西装外套 + 白衬衫 + 深色长裤，正式度与岗位匹配度高。',
+          color: '深蓝主色 + 白色内搭，层次清晰、专业感强，是面试安全组合的落地版。',
+          reasonable: '各单项协调统一，着装 86 分为三项测评中的最高分。'
+        },
+        advice: {
+          style: '本版可作为求职形象定稿，日常保持即可，无需频繁调整。',
+          color: '正式场合维持当前深蓝 + 白组合，不再改动。',
+          acc: '保持简约配饰；面试当天避免佩戴新配饰带来的不适感。'
+        },
+        social: {
+          manner: '坐姿、手势与眼神交流自然；仪态 79 分仍是四维中最低项，可在模拟面试中继续打磨。',
+          speech: '结构化表达稳定，「结论先行」的习惯已形成。',
+          respect: '线下面询与模拟面试反馈均表现良好，保持即可。'
+        },
+        interview: {
+          prep: '三轮形象迭代闭环（初评 61 → 复测 73 → 定稿 82），前期报告的改进项全部落实。',
+          intro: '结合「基于AIGC的校园文创设计平台」项目与短视频运营实践，重点明确、证据充分。',
+          ask: '保持围绕岗位数据与内容节奏提问的习惯。',
+          summary: '综合 82 分（着装 86 / 仪态 79 / 岗位 82 / 场景 81），求职形象准备已达标，后续保持即可。'
+        }
+      }
+    ],
+    gap: '3 次测评形成完整的形象迭代闭环：综合分 61 → 73 → 82，四维中「仪态」始终是最低项（58 → 70 → 79），下一阶段可在模拟面试中继续打磨仪态表达；着装已到定稿水平。',
+    consistency: '与顶部 AI 卡一致：3 次测评 = 初评（2024-05）+ 复测（2025-03）+ 定稿（2025-06），综合分与四维分逐条对应 gradeRecords 记录；「职场礼仪与形象管理」线上课是学习记录、不是测评，不计入本列表。'
+  };
+
+  var activeEaIdx = 0;
+
+  function gxEaList() {
+    var d = ca.etiquetteArchive;
+    return '<aside class="gx-ea-list">' +
+      '<h4 class="gx-ea-sec-title">历史测评记录 <i>' + d.reports.length + ' 次 · 时间正序</i></h4>' +
+      d.reports.map(function (r, i) {
+        return '<button type="button" class="gx-ea-item' + (i === activeEaIdx ? ' active' : '') +
+          '" data-ea-pick="' + i + '">' +
+          '<span class="gx-ea-item-name">第 ' + r.n + ' 次 · ' + gxEsc(r.sceneShort) +
+            (i === activeEaIdx ? '<em>当前查看</em>' : '') + '</span>' +
+          '<span class="gx-ea-item-meta">' + gxEsc(r.date) + ' · ' + gxEsc(r.grade) + '</span>' +
+          '<span class="gx-ea-item-score">综合 <b style="color:' + r.tint + '">' + r.total + '</b>' +
+          '<i>着装 ' + r.dims[0].v + ' / 仪态 ' + r.dims[1].v + '</i></span>' +
+        '</button>';
+      }).join('') +
+      '<div class="gx-ea-list-tip">' + gxEsc(d.gap) + '</div>' +
+    '</aside>';
+  }
+
+  function gxEaEntry(k, v) {
+    if (!v) return '';
+    return '<p class="gx-ea-entry"><b>' + gxEsc(k) + '</b>' + gxEsc(v) + '</p>';
+  }
+
+  function gxEaReport(r) {
+    var d = ca.etiquetteArchive, st = d.student;
+    return '<div class="gx-ea-report">' +
+      '<div class="gx-ea-report-banner"><h4>职业礼仪报告</h4><span>' + gxEsc(r.reportName) + '</span></div>' +
+      '<div class="gx-ea-student">' +
+        '<span class="gx-ea-avatar"><i>照</i></span>' +
+        '<div class="gx-ea-student-info">' +
+          '<b>' + gxEsc(st.name) + ' - 数字媒体运营方向</b>' +
+          '<span>专业：' + gxEsc(st.major) + '</span>' +
+          '<span>年级：' + gxEsc(st.gradeYear) + ' · 测评时间：' + gxEsc(r.date) + '</span>' +
+        '</div>' +
+        '<span class="gx-ea-total" style="background:' + r.tint + '">综合 ' + r.total + '</span>' +
+      '</div>' +
+      '<div class="gx-ea-report-scroll">' +
+        '<h5 class="gx-ea-chapter"><i>≡</i>报告总结</h5>' +
+        '<div class="gx-ea-photo" style="--tint:' + r.tint + '">' +
+          '<span>' + gxEsc(r.photoNote) + '</span>' +
+        '</div>' +
+        '<div class="gx-ea-dims">' + r.dims.map(function (x) {
+          return '<span><b>' + x.v + '</b><i>' + gxEsc(x.k) + '</i></span>';
+        }).join('') + '</div>' +
+        '<h5 class="gx-ea-chapter"><i>≡</i>着装评价与改进建议</h5>' +
+        '<div class="gx-ea-sec"><h6>一、着装评价</h6>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">1.1 环境分析</p>' +
+            gxEaEntry('背景环境', r.env.bg) + gxEaEntry('场合匹配', r.env.match) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">1.2 着装分析</p>' +
+            gxEaEntry('服装风格', r.dress.style) + gxEaEntry('颜色搭配', r.dress.color) +
+            gxEaEntry('搭配合理度', r.dress.reasonable) + '</div>' +
+        '</div>' +
+        '<div class="gx-ea-sec"><h6>二、改进建议</h6>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.1 着装建议</p>' +
+            gxEaEntry('着装风格建议', r.advice.style) + gxEaEntry('颜色搭配建议', r.advice.color) +
+            gxEaEntry('配饰选择建议', r.advice.acc) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.2 社交礼仪</p>' +
+            gxEaEntry('仪态规范', r.social.manner) + gxEaEntry('言语规范', r.social.speech) +
+            gxEaEntry('尊重他人', r.social.respect) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.3 面试事项</p>' +
+            gxEaEntry('准备充分', r.interview.prep) + gxEaEntry('自我介绍', r.interview.intro) +
+            gxEaEntry('提问环节', r.interview.ask) + gxEaEntry('小结', r.interview.summary) + '</div>' +
+        '</div>' +
+        '<p class="gx-ea-aitip">提示：' + gxEsc(d.aiTip) + '</p>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function gxEaSheet() {
+    var d = ca.etiquetteArchive;
+    var r = d.reports[activeEaIdx] || d.reports[0];
+    return '<div class="gx-sheet gx-sheet-ea">' +
+      gxEtiquetteAi() +
+      '<section class="gx-card gx-ea-panel">' +
+        '<div class="gx-ea-head">' +
+          '<div class="gx-ea-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+        '</div>' +
+        '<div class="gx-ea-body">' + gxEaList() + gxEaReport(r) + '</div>' +
+        '<p class="gx-ea-consistency">' + gxEsc(d.consistency) + '</p>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindEa() {
+    document.querySelectorAll('[data-ea-pick]').forEach(function (b) {
+      b.onclick = function () {
+        activeEaIdx = Number(b.getAttribute('data-ea-pick')) || 0;
+        render();
+      };
+    });
+  }
+
   var gxOriginalRender = render;
   render = function () {
     // 能力画像已并入成长档案（成长档案包含全部学生基础数据），ability 路由统一落到档案页
@@ -5056,6 +5281,7 @@
       gxBindAa();
       gxBindEm();
       gxBindRv();
+      gxBindEa();
       syncUrl();
       return;
     }
