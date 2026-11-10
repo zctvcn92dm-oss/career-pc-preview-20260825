@@ -323,3 +323,64 @@ body.mba-canvas[data-canvas-page="archive"] .gx-page--solo { height: 900px; }
 body.mba-canvas .gx-intro { height: 100%; }
 body.mba-canvas .modal-mask,
 body.mba-canvas .modal { position: fixed; }
+
+/* ==========================================================================
+   v76 · 赛事报名端门户（学生端菜单「竞赛成长」默认落地页）
+   结构：渐变 banner + 4 tab + 生涯赛事筛选/卡片网格 + 我的赛事/作品/证书
+   ========================================================================== */
+.ctp-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(105deg,#EAF6EF 0%,#DFF2E4 55%,#CDEBD6 100%);border-radius:16px;padding:32px 40px;margin-bottom:14px;overflow:hidden}
+.ctp-hero-text h2{margin:0 0 10px;font-size:30px;font-weight:800;color:#1F5C38;letter-spacing:1px}
+.ctp-hero-text h2 em{font-style:normal;color:#3E9E63}
+.ctp-hero-text p{margin:0;font-size:13.5px;color:#5F8A70;letter-spacing:2px}
+.ctp-hero-art{flex:none;width:84px;height:84px;display:flex;align-items:center;justify-content:center}
+.ctp-hero-art svg{width:76px;height:76px}
+.ctp-tabs{display:flex;gap:26px;padding:0 6px;border-bottom:1.5px solid #E4EBE2;margin-bottom:14px}
+.ctp-tabs button{border:0;background:transparent;font-size:14.5px;color:#5B6B5E;padding:10px 2px;cursor:pointer;border-bottom:2.5px solid transparent;font-weight:600;font-family:inherit}
+.ctp-tabs button.active{color:#1F5C38;border-bottom-color:#3E9E63}
+.ctp-panel{padding:18px 20px 22px}
+.ctp-sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ctp-sec-head i{width:4px;height:16px;border-radius:2px;background:#3E9E63}
+.ctp-sec-head h3{margin:0;font-size:16px;font-weight:700;color:#23402E}
+.ctp-filters{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ctp-filters select{height:32px;border:1px solid #D8E2D4;border-radius:8px;background:#FFFFFF;color:#3A4A3E;font-size:12.5px;padding:0 8px;font-family:inherit;cursor:pointer}
+.ctp-filters input{height:32px;width:200px;border:1px solid #D8E2D4;border-radius:8px;padding:0 10px;font-size:12.5px;color:#3A4A3E;font-family:inherit}
+.ctp-filters input:focus{outline:none;border-color:#3E9E63}
+.ctp-search-btn{height:32px;width:36px;border:1px solid #D8E2D4;border-radius:8px;background:#FFFFFF;cursor:pointer;color:#3E9E63;display:flex;align-items:center;justify-content:center;padding:0}
+.ctp-search-btn svg{width:14px;height:14px}
+.ctp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.ctp-card{border:1px solid #E4EBE2;border-radius:12px;background:#FFFFFF;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s ease}
+.ctp-card:hover{box-shadow:0 4px 16px rgba(31,92,56,.12)}
+.ctp-cover{height:92px;display:flex;align-items:center;justify-content:center;color:#FFFFFF}
+.ctp-cover svg{width:30px;height:30px;opacity:.9}
+.ctp-cover svg path{fill:#FFFFFF}
+.ctp-cover.lv-校级{background:linear-gradient(135deg,#7FB0E8,#5D94D6)}
+.ctp-cover.lv-省级{background:linear-gradient(135deg,#63C6AE,#3FA98D)}
+.ctp-cover.lv-国家级{background:linear-gradient(135deg,#E8C06A,#D9A441)}
+.ctp-body{padding:12px 13px 13px;display:flex;flex-direction:column;flex:1;min-width:0}
+.ctp-badges{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ctp-lv{font-size:10.5px;font-weight:700;border-radius:4px;padding:2px 7px;color:#FFFFFF;flex:none}
+.ctp-lv.lv-校级{background:#5D94D6}
+.ctp-lv.lv-省级{background:#3FA98D}
+.ctp-lv.lv-国家级{background:#D9A441}
+.ctp-status{font-size:10.5px;color:#4A5A4E;display:flex;align-items:center;gap:5px;flex:none}
+.ctp-status i{width:7px;height:7px;border-radius:50%}
+.ctp-status.st-on i{background:#3E9E63}
+.ctp-status.st-reg i{background:#E8A23B}
+.ctp-status.st-off i{background:#B7C2B8}
+.ctp-body h4{margin:0 0 8px;font-size:13px;line-height:1.45;color:#22352A;min-height:38px}
+.ctp-body p{margin:0 0 4px;font-size:10.5px;color:#7C8A7F;display:flex;gap:4px;min-width:0}
+.ctp-body p i{font-style:normal;color:#A5B2A7;flex:none}
+.ctp-more{margin-top:auto;border:0;background:transparent;color:#2F8C57;font-size:12px;font-weight:700;cursor:pointer;text-align:right;padding:8px 0 0;align-self:flex-end;font-family:inherit}
+.ctp-more em{font-style:normal;margin-left:3px}
+.ctp-empty{padding:46px 0;text-align:center;font-size:13px;color:#8A9A8E}
+.ctp-empty.big{padding:70px 0}
+.ctp-mine-row{display:flex;align-items:center;gap:10px;border:1px solid #E4EBE2;border-radius:10px;padding:12px 14px;margin-bottom:10px;background:#FBFDF9}
+.ctp-mine-row b{font-size:13px;color:#22352A;flex:1;min-width:0}
+.ctp-mine-row em{font-style:normal;font-size:11.5px;color:#2F8C57;flex:none}
+.ctp-mine-row button{height:26px;padding:0 12px;border:1px solid #3E9E63;border-radius:13px;background:#FFFFFF;color:#2F8C57;font-size:11.5px;cursor:pointer;font-family:inherit;flex:none}
+.ctp-note{margin:10px 0 0;font-size:11px;color:#A5B2A7}
+@media (max-width:1280px){
+  .ctp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ctp-hero{padding:24px 26px}
+  .ctp-hero-text h2{font-size:23px}
+}
