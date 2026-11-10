@@ -54,6 +54,12 @@
     ],
     '第二年': [
       { created_at: '2024年06月25日 16:45:12', business_type: '生涯体验周', ability_dimension: '职业认知能力', description: '参加了【行业体验周 · 互联网产品经理岗位】生涯体验周活动' },
+      /* v61：职业礼仪产品口径 = 「AI形象礼仪」——上传上半身形象照、选择服装 / 岗位名称 /
+         着装场景，AI 解析形象与仪态后输出一份测评报告（见 js/ai-tool-redirect.js
+         etiquetteDemoPage）。这里补 3 次历史测评的第 1 次；第三年原有的
+         《职场礼仪与形象管理》8 节线上课记录保持不动，v50 线上课「3 门 30 节」口径不受影响。
+         四维得分与综合分为原型示意，需接平台真实 AI 解析报告；本次不改其它记录。 */
+      { created_at: '2024年05月28日 10:26:41', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 1 次【AI形象礼仪】测评：日常办公场景，上传形象照由 AI 解析着装与仪态，输出《职业形象初评报告》，综合 61 分（着装 64 / 仪态 58 / 岗位 55 / 场景 67）' },
       { created_at: '2024年05月16日 10:08:33', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【企业开放日 · 数字创意产业园区参访】生涯活动' },
       { created_at: '2024年04月08日 21:19:44', business_type: '线上课', ability_dimension: '职业规划能力', description: '完成【行业认知与职业选择】线上课学习，累计课时 10 节' },
       /* v60：补齐学生自己做过的历史简历版本（3 版迭代的第 1 版）。
@@ -68,10 +74,16 @@
     ],
     '第三年': [
       { created_at: '2025年06月30日 17:26:09', business_type: '大学生职业规划大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生职业规划大赛】，获得校级二等奖' },
+      /* v61：3 次测评的第 3 次（求职定稿）。四维 86/79/82/81 均值 = 82 分，
+         与 ca.etiquetteSummary.stats.rounds 逐条对应；仪容仪态 79 为当前最低项。 */
+      { created_at: '2025年06月18日 16:12:09', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 3 次【AI形象礼仪】测评：面试场景 · 数字媒体运营岗，输出《求职形象定稿报告》，综合 82 分（着装 86 / 仪态 79 / 岗位 82 / 场景 81）' },
       { created_at: '2025年05月21日 20:41:35', business_type: 'AI面试', ability_dimension: '求职表现能力', description: '完成【AI模拟面试】训练，岗位：数字媒体运营，综合评分 82 分' },
       /* v60：3 版迭代的第 3 版（现行版）。只补版本名与目标岗位，
          日期 / business_type / ability_dimension / 匹配度均保持原值，避免影响年级时间轴。 */
       { created_at: '2025年04月17日 13:55:28', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '使用【AI简历】优化为「求职现行版」简历，锁定数字媒体运营岗，岗位匹配度 78%' },
+      /* v61：3 次测评的第 2 次。时间上承接 2025-03-10《职场礼仪与形象管理》线上课，
+         又在 04-17 简历改版之前，形成「学课程 → 做形象测评 → 改简历」的可追溯链。 */
+      { created_at: '2025年03月24日 14:08:52', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 2 次【AI形象礼仪】测评：面试场景 · 数字媒体运营实习生，按初评报告调整着装后复测，输出《面试形象与仪态测评报告》，综合 73 分（着装 78 / 仪态 70 / 岗位 72 / 场景 72）' },
       { created_at: '2025年03月10日 15:14:03', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成【职场礼仪与形象管理】线上课学习，累计课时 8 节' },
       { created_at: '2024年12月03日 18:33:41', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成【职场沟通技巧】训练营，累计课时 8 节' },
       { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' },
@@ -2401,6 +2413,72 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v61 · 「职业礼仪」顶部 AI 总结及建议：围绕学生做过的历史 AI形象礼仪测评与报告
+     --------------------------------------------------------------------------
+     产品口径（js/ai-tool-redirect.js 的 etiquetteDemoPage）：上传上半身形象照 →
+     选择服装 / 岗位名称 / 着装场景 → 拍照并解析 → AI 输出形象与仪态测评报告。
+     数据口径（AskUserQuestion 已确认）：
+       ① 补 3 次历史测评，第三年原有《职场礼仪与形象管理》8 节线上课记录保持不动，
+          避免牵动 v50 线上课 AI 卡「3 门 30 节」（用户选「补 3 次测评，课程保留」）；
+       ② 四维得分 / 综合分为原型示意，图上与文案均标注需接平台真实 AI 解析报告；
+       ③ 右侧 = 「历次形象礼仪测评」3 条横条统计图 +「测评维度 → 待补齐」关联分析图。
+     不编造成果：照片原图、服装选择参数、投递反馈平台暂无数据，只写「未沉淀 / 未复测」。
+     类名用 .gx-ai--etiquette / .gx-et-*，避开 .gx-rs-*(v60) / .gx-ac-*(v55) 等已有皮肤；
+     回滚：删掉 gxModuleSheet 里的这一行分支即可回到通用测评卡。
+     ========================================================================== */
+  ca.etiquetteSummary = {
+    diag: '平台归档了学生自己做过的 3 次 AI形象礼仪测评：第二年 5 月「日常办公」61 分，第三年 3 月学完《职场礼仪与形象管理》8 节课后「面试」复测 73 分，同年 6 月对准数字媒体运营岗再测至 82 分。每次上传形象照、选服装与岗位/着装场景，AI 解析形象与仪态后输出一份测评报告；着装规范 64→86 提升最快，仪容仪态 58→79 仍是最低项。短板有三：测评集中在第二、第三年，第四年 8 场校招、投递 3 家企业、AI 面试 82 分却未复测；场景只覆盖日常办公与面试，未测商务会议；归档只有分数与结论，照片、服装与场景参数未随报告沉淀。总体判断：已从「不知道怎么穿」走到「按岗位场景准备形象」，但「测评→修正→求职验证」未闭环。',
+    advice: '以第三次 82 分报告为基线，毕业学年补一次「数字媒体运营岗 · 面试」复测，针对仪容仪态 79 分做姿态与表情的视频回看对照，并补测商务会议场景。把岗位名称、着装场景、服装选择与报告结论一并归档，关联 AI 面试 82 分、求职现行版简历和 8 场校招。院校侧可把「有课程记录、无形象测评」「超过一学年未复测」设为提醒，将四维得分接入就业指导。得分为原型示意，需接真实 AI 解析报告；照片与投递反馈暂无数据，未作成果推断。',
+    stats: {
+      rounds: [
+        { name: '首次测评', scene: '日常办公 · 通用形象', score: 61, color: '#C9D8B8', dims: '着装 64 / 仪态 58 / 岗位 55 / 场景 67' },
+        { name: '面试复测', scene: '面试 · 数字媒体运营实习生', score: 73, color: '#8FBF5A', dims: '着装 78 / 仪态 70 / 岗位 72 / 场景 72' },
+        { name: '求职定稿', scene: '面试 · 数字媒体运营岗', score: 82, color: '#5CAD6A', dims: '着装 86 / 仪态 79 / 岗位 82 / 场景 81' }
+      ],
+      gaps: [
+        { module: '仪容仪态 79', action: '复测姿态表情', color: '#E7B84B' },
+        { module: '场景覆盖 2/3', action: '补商务会议', color: '#7FA8D0' },
+        { module: '第四年复测', action: '求职季前补测', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxEtiquetteAi() {
+    var a = ca.etiquetteSummary, s = a.stats;
+    var bars = s.rounds.map(function (v) {
+      return '<li class="gx-et-bar" title="' + gxEsc(v.name + ' · ' + v.scene + ' · ' + v.dims) + '">' +
+        '<span class="gx-et-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-et-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-et-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-et-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--etiquette">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-et-viz">' +
+        '<div class="gx-et-chart">' +
+          '<div class="gx-et-chart-head"><h4>历次形象礼仪测评</h4>' +
+            '<span>3 次 · 61 → 82 分</span></div>' +
+          '<ul class="gx-et-bars">' + bars + '</ul>' +
+          '<div class="gx-et-gaps-box">' +
+            '<h4>测评维度 → 待补齐</h4>' +
+            '<p class="gx-et-gaps-note">3 处未形成闭环</p>' +
+            '<ul class="gx-et-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-et-disclaimer">* 得分为原型示意，需接平台真实 AI 解析报告</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2430,6 +2508,8 @@
     else if (activeSideTag === '生涯活动') ai = gxActAi();
     /* v60：AI简历改用「学生历史简历版本」专属 AI 卡；删掉这一行即回到通用测评卡。 */
     else if (activeSideTag === 'AI简历') ai = gxResumeAi();
+    /* v61：职业礼仪改用「历史 AI形象礼仪测评 + 报告」专属 AI 卡；删掉这一行即回滚。 */
+    else if (activeSideTag === '职业礼仪') ai = gxEtiquetteAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
