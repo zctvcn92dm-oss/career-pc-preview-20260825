@@ -4699,223 +4699,295 @@
      ========================================================================== */
   ca.resumeArchive = {
     title: '我的简历版本档案',
-    subtitle: 'AI 简历版本归档 · 3 版迭代 · 时间正序 · 点击左侧列表切换诊断与预览',
-    tip: '默认选中最早一版；「未填写」的模块会直接拖低岗位匹配度，点击版本卡切换诊断与右侧纸面。',
+    subtitle: 'AI 简历版本归档 · 3 份迭代 · 时间正序 · 默认选中第一份 · 点击列表切换诊断与纸面',
+    shareTip: '诊断报告已生成，可分享给指导老师或就业指导中心（示意，正式版跳转分享页）',
     versions: [
       {
-        key: 'v1', name: '实习初版', date: '2024-03-18', grade: '第二年',
-        job: '暑期实习 · 通用投递', match: 52, matchColor: '#C9D8B8',
-        summary: '第一版简历，为暑期实习通用投递而建，尚未对准具体岗位，诊断问题最多。',
+        code: '20240318-1', name: '实习初版', date: '2024-03-18', grade: '第二年',
+        jobShort: '暑期实习', completeness: 52, thumbColor: '#5B84B8',
+        summary: '第一份简历，为暑期实习通用投递而建，自我评价与模块组织都未对准具体岗位。',
         modules: [
-          { k: 'basic', name: '基本信息', status: 'ok',
-            diag: '姓名、学校、学院、专业与联系方式完整，无缺项。',
-            advice: '保持即可；正式投递前记得核对手机号与邮箱有效性。' },
-          { k: 'intent', name: '意向岗位', status: 'warn',
-            diag: '只写「暑期实习通用投递」，未锁定具体岗位，AI 只能按通用口径评估匹配度。',
+          { k: 'basic', name: '基本信息', count: 1, status: 'warn',
+            diag: '自我评价存在明显语句重复（「认真负责」「积极向上」出现两次），且与意向岗位无对应。',
+            advice: '对照目标岗位改写自我评价，删掉重复表述，突出 1—2 个具体事例。' },
+          { k: 'intent', name: '意向岗位', count: 1, status: 'warn',
+            diag: '只写「暑期实习通用投递」，未锁定具体岗位，AI 只能按通用口径评估完成度。',
             advice: '先从数字媒体相关岗位里选一个方向，让后续模块都围绕它组织。' },
-          { k: 'edu', name: '教育经历', status: 'ok',
-            diag: '数字媒体技术专业与在读学年完整，主修课程已列出。',
-            advice: '可把与目标岗位相关的课程排到前面。' },
-          { k: 'honor', name: '校内荣誉', status: 'miss',
+          { k: 'honor', name: '校内荣誉', count: 0, status: 'miss',
             diag: '荣誉栏为空：当时竞赛奖项尚未产生，奖学金也未写入。',
-            advice: '后续获奖后记得回填本版或更新到新版本。' },
-          { k: 'proj', name: '项目实践经历', status: 'warn',
-            diag: '课程项目为描述性表述（「参与了」「完成了」），没有数据与结果。',
+            advice: '后续获奖后记得回填本份或更新到新版本。' },
+          { k: 'post', name: '校内职务', count: 0, status: 'miss',
+            diag: '未填写；班委、社团、学生组织经历都是招聘方看重的组织能力证据。',
+            advice: '有相关经历就补一条，写清角色与承担的事项。' },
+          { k: 'work', name: '工作经历', count: 0, status: 'miss',
+            diag: '暂无实习或工作经历条目，这一栏完全空白。',
+            advice: '课程实践、校内项目也可按经历格式补一条，别让这一栏空着。' },
+          { k: 'proj', name: '项目经历', count: 2, status: 'warn',
+            diag: '校园公众号与课程短片均为描述性表述（「参与了」「完成了」），没有数据与结果。',
             advice: '每段经历补一条可量化结果，例如更新篇数、播放量。' },
-          { k: 'skill', name: '技能证书', status: 'warn',
+          { k: 'cert', name: '资格证书', count: 5, status: 'warn',
             diag: '罗列 5 项，其中 2 项与媒体岗位无关，稀释了核心技能。',
             advice: '按目标岗位删到 3 项以内（呼应 3 月线上咨询建议）。' },
-          { k: 'folio', name: '作品集链接', status: 'miss',
-            diag: '未添加作品集入口，设计类岗位无法直观核验产出。',
+          { k: 'folio', name: '个人作品', count: 0, status: 'miss',
+            diag: '未添加作品入口，设计类岗位无法直观核验产出。',
             advice: '可先挂课程短片链接，后续替换为竞赛作品。' }
         ],
         paper: {
-          name: '杨强', headline: '数字媒体技术 · 本科在读',
-          contact: '138****0000 · yangq@stu.edu.cn',
-          intent: '求职意向：暑期实习（通用投递）',
-          sections: [
-            { k: 'edu', name: '教育经历', lines: [
-              '数字媒体技术 · 本科在读',
-              '主修：数字媒体基础、网页设计、视听语言' ] },
-            { k: 'honor', name: '校内荣誉', empty: '未填写' },
-            { k: 'proj', name: '项目实践经历', lines: [
-              '校园公众号内容运营：参与推文撰写与排版',
-              '课程作业 · 短视频拍摄：完成 2 支课程短片' ] },
-            { k: 'skill', name: '技能证书', lines: [
-              '英语四级、普通话二甲、计算机一级',
-              'Photoshop、机动车驾驶证' ] },
-            { k: 'folio', name: '作品集', empty: '未添加链接' }
-          ]
+          sidebar: {
+            basics: [
+              { k: '专业', v: '数字媒体技术' }, { k: '年级', v: '2022 级' },
+              { k: '电话', v: '138****0000' }, { k: '邮箱', v: 'yangq@stu.edu.cn' }
+            ],
+            skills: '熟练使用 Photoshop；掌握公众号排版与短视频剪辑基础。'
+          },
+          main: {
+            name: '杨强',
+            summary: '本人性格开朗，认真负责，积极向上，对新媒体运营有浓厚兴趣，参与过校园公众号运营和短视频拍摄剪辑，希望获得一份暑期实习机会，认真负责地完成各项工作，积极学习，不断提升自己。',
+            intent: { type: '实习', city: '不限', job: '暑期实习（通用）', exp: '无经验', salary: '面议' },
+            edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：数字媒体基础、网页设计、视听语言' }],
+            work: [],
+            proj: [
+              { t: '校园公众号内容运营', s: '2023 — 2024', d: '参与推文撰写与排版' },
+              { t: '课程作业 · 短视频拍摄', s: '2023', d: '完成 2 支课程短片' }
+            ],
+            honors: [], posts: [],
+            certs: ['英语四级', '普通话二甲', '计算机一级', 'Photoshop', '机动车驾驶证']
+          }
         }
       },
       {
-        key: 'v2', name: '岗位定向版', date: '2024-06-20', grade: '第三年',
-        job: '数字媒体运营实习生', match: 65, matchColor: '#8FBF5A',
-        summary: '线下面询后按岗位 JD 重构，意向聚焦到数字媒体运营实习生，待改项收敛到 3 项。',
+        code: '20240620-2', name: '岗位定向版', date: '2024-06-20', grade: '第三年',
+        jobShort: '运营实习', completeness: 65, thumbColor: '#8FBF5A',
+        summary: '线下面询后按岗位 JD 重构，意向聚焦到数字媒体运营实习生，待改项收敛到 3 处。',
         modules: [
-          { k: 'basic', name: '基本信息', status: 'ok',
-            diag: '信息完整，与上一版一致。',
-            advice: '保持即可。' },
-          { k: 'intent', name: '意向岗位', status: 'ok',
+          { k: 'basic', name: '基本信息', count: 1, status: 'ok',
+            diag: '自我评价已按运营岗改写，语句精炼、指向明确，无重复表述。',
+            advice: '保持即可；有新实践经历后同步更新。' },
+          { k: 'intent', name: '意向岗位', count: 1, status: 'ok',
             diag: '已锁定「数字媒体运营实习生」，全模块围绕岗位重新组织（呼应面询建议）。',
-            advice: '稳定后不再频繁改动意向，方便对比各版效果。' },
-          { k: 'edu', name: '教育经历', status: 'ok',
-            diag: '主修课程已按运营相关度重排，数据分析、新媒体课程靠前。',
-            advice: '保持即可。' },
-          { k: 'honor', name: '校内荣誉', status: 'miss',
-            diag: '仍未填写：本版定稿（6 月）早于创新赛获奖（10 月）。',
+            advice: '稳定后不再频繁改动意向，方便对比各份效果。' },
+          { k: 'honor', name: '校内荣誉', count: 0, status: 'miss',
+            diag: '仍未填写：本份定稿（6 月）早于创新赛获奖（10 月）。',
             advice: '下半年两项竞赛出结果后，在新版本中一并补入。' },
-          { k: 'proj', name: '项目实践经历', status: 'warn',
+          { k: 'post', name: '校内职务', count: 0, status: 'miss',
+            diag: '仍未填写。',
+            advice: '校园新媒体中心等相关职务值得写入。' },
+          { k: 'work', name: '工作经历', count: 0, status: 'miss',
+            diag: '暂无可写的工作经历。',
+            advice: '保持关注实践机会，第三学年暑期的项目可直接入档。' },
+          { k: 'proj', name: '项目经历', count: 2, status: 'warn',
             diag: '已按岗位 JD 重排项目顺序，但表述仍是描述性，缺量化数据。',
             advice: '公众号运营经历补更新频率与阅读量区间。' },
-          { k: 'skill', name: '技能证书', status: 'ok',
-            diag: '精简为岗位相关技能：Pr / AE / 剪映与新媒体数据分析。',
+          { k: 'cert', name: '资格证书', count: 3, status: 'ok',
+            diag: '已精简为 3 项，与岗位要求对应清晰。',
             advice: '保持即可。' },
-          { k: 'folio', name: '作品集链接', status: 'miss',
+          { k: 'folio', name: '个人作品', count: 0, status: 'miss',
             diag: '仍未添加。',
             advice: '课程短片已有 2 支，可先整理成在线链接。' }
         ],
         paper: {
-          name: '杨强', headline: '数字媒体技术 · 本科在读',
-          contact: '138****0000 · yangq@stu.edu.cn',
-          intent: '求职意向：数字媒体运营实习生',
-          sections: [
-            { k: 'edu', name: '教育经历', lines: [
-              '数字媒体技术 · 本科在读',
-              '主修：新媒体数据分析、数字营销、视听语言' ] },
-            { k: 'honor', name: '校内荣誉', empty: '未填写' },
-            { k: 'proj', name: '项目实践经历', lines: [
-              '校园公众号运营：负责选题策划与内容排期',
-              '课程短片 · 剪辑成片：负责后期剪辑与包装' ] },
-            { k: 'skill', name: '技能证书', lines: [
-              'Pr / AE / 剪映（熟练）',
-              '新媒体数据分析' ] },
-            { k: 'folio', name: '作品集', empty: '未添加链接' }
-          ]
+          sidebar: {
+            basics: [
+              { k: '专业', v: '数字媒体技术' }, { k: '年级', v: '2022 级' },
+              { k: '电话', v: '138****0000' }, { k: '邮箱', v: 'yangq@stu.edu.cn' }
+            ],
+            skills: '掌握 Pr / AE / 剪映剪辑流程；正在学习新媒体数据分析。'
+          },
+          main: {
+            name: '杨强',
+            summary: '数字媒体技术专业在读，熟悉公众号运营与短视频剪辑流程，正在学习新媒体数据分析，希望在小规模内容团队中积累运营经验。',
+            intent: { type: '实习', city: '不限', job: '数字媒体运营实习生', exp: '无经验', salary: '面议' },
+            edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：新媒体数据分析、数字营销、视听语言' }],
+            work: [],
+            proj: [
+              { t: '校园公众号运营', s: '2023 — 2024', d: '负责选题策划与内容排期' },
+              { t: '课程短片 · 剪辑成片', s: '2023', d: '负责后期剪辑与包装' }
+            ],
+            honors: [], posts: [],
+            certs: ['普通话二甲', '计算机一级', '英语四级']
+          }
         }
       },
       {
-        key: 'v3', name: '求职现行版', date: '2025-04-17', grade: '第四年',
-        job: '数字媒体运营', match: 78, matchColor: '#5CAD6A',
-        summary: '当前主投版本：竞赛奖项已入档、项目对准运营岗，仍剩 2 项待补齐。',
+        code: '20250417-3', name: '求职现行版', date: '2025-04-17', grade: '第四年',
+        jobShort: '数字媒体运营', completeness: 78, thumbColor: '#5CAD6A',
+        summary: '当前主投版本：竞赛奖项与校内职务已入档、经历对准运营岗，仍剩 2 处待补齐。',
         modules: [
-          { k: 'basic', name: '基本信息', status: 'ok',
-            diag: '信息完整。',
+          { k: 'basic', name: '基本信息', count: 1, status: 'ok',
+            diag: '自我评价结合短视频运营实践，具体可信，无冗余表述。',
             advice: '保持即可。' },
-          { k: 'intent', name: '意向岗位', status: 'ok',
+          { k: 'intent', name: '意向岗位', count: 1, status: 'ok',
             diag: '已明确「数字媒体运营（内容运营方向）」，与毕业意向页口径一致。',
             advice: '建议补意向城市与期望薪资（毕业意向页同样缺这两项）。' },
-          { k: 'edu', name: '教育经历', status: 'ok',
-            diag: '专业、学年与相关课程完整。',
-            advice: '保持即可。' },
-          { k: 'honor', name: '校内荣誉', status: 'ok',
+          { k: 'honor', name: '校内荣誉', count: 2, status: 'ok',
             diag: '已写入创新大赛校级三等奖（2024-10）与职规赛院级一等奖（2024-11）。',
-            advice: '职规赛 6 月校级决赛出结果后，记得更新本版荣誉。' },
-          { k: 'proj', name: '项目实践经历', status: 'warn',
-            diag: '已有 AIGC 文创平台与短视频运营实践，但仍是描述性表述，缺量化成果。',
+            advice: '职规赛 6 月校级决赛出结果后，记得更新本份荣誉。' },
+          { k: 'post', name: '校内职务', count: 1, status: 'ok',
+            diag: '校园新媒体中心编辑部成员，与意向岗位直接相关。',
+            advice: '如承担固定选题量，可补一句量化（如每周 2 篇）。' },
+          { k: 'work', name: '工作经历', count: 1, status: 'ok',
+            diag: '校企合作短视频运营（6 周）：脚本撰写 + 账号数据周报，经历真实完整。',
+            advice: '补一条周报数据量化（如周均产出 X 条、播放区间）。' },
+          { k: 'proj', name: '项目经历', count: 2, status: 'warn',
+            diag: '已有 AIGC 文创平台与公众号运营，但仍是描述性表述，缺量化成果。',
             advice: '用 STAR 重写两段经历并补数据（与顶部 AI 卡短板一致）。' },
-          { k: 'skill', name: '技能证书', status: 'ok',
-            diag: '技能与岗位要求对应清晰。',
+          { k: 'cert', name: '资格证书', count: 3, status: 'ok',
+            diag: '3 项证书与岗位要求对应清晰。',
             advice: '保持即可。' },
-          { k: 'folio', name: '作品集链接', status: 'miss',
+          { k: 'folio', name: '个人作品', count: 0, status: 'miss',
             diag: '仍未添加；两项竞赛作品是最现成的作品集素材。',
             advice: '把竞赛作品整理成在线链接挂到简历。' }
         ],
         paper: {
-          name: '杨强', headline: '数字媒体技术 · 本科在读',
-          contact: '138****0000 · yangq@stu.edu.cn',
-          intent: '求职意向：数字媒体运营（内容运营方向）',
-          sections: [
-            { k: 'edu', name: '教育经历', lines: [
-              '数字媒体技术 · 本科在读（2022 级）',
-              '主修：新媒体数据分析、数字营销、视听语言' ] },
-            { k: 'honor', name: '校内荣誉', lines: [
-              '大学生创新大赛 · 校级三等奖（2024）',
-              '大学生职业规划大赛 · 院级一等奖（2024）' ] },
-            { k: 'proj', name: '项目实践经历', lines: [
-              '《基于AIGC的校园文创设计平台》：4 人团队，负责文创内容策划',
-              '校企合作短视频运营：脚本撰写 + 账号数据周报（6 周）' ] },
-            { k: 'skill', name: '技能证书', lines: [
-              'Pr / AE / 剪映（熟练）',
-              '新媒体数据分析' ] },
-            { k: 'folio', name: '作品集', empty: '未添加链接' }
-          ]
+          sidebar: {
+            basics: [
+              { k: '专业', v: '数字媒体技术' }, { k: '年级', v: '2022 级' },
+              { k: '电话', v: '138****0000' }, { k: '邮箱', v: 'yangq@stu.edu.cn' }
+            ],
+            skills: 'Pr / AE / 剪映（熟练）；新媒体数据分析；熟悉选题、脚本、数据周报全流程。'
+          },
+          main: {
+            name: '杨强',
+            summary: '数字媒体技术专业在读，6 周短视频运营实践经历，熟悉选题、脚本、数据周报全流程；有竞赛项目协作经验，能在内容团队中承担策划与执行。',
+            intent: { type: '全职', city: '待补', job: '数字媒体运营（内容运营方向）', exp: '6 周实践', salary: '面议' },
+            edu: [{ t: '数字媒体技术 · 本科在读', s: '2022 — 2026', d: '主修：新媒体数据分析、数字营销、视听语言' }],
+            work: [{ t: '校企合作短视频运营项目', s: '2025-03 · 6 周', d: '承担脚本撰写与账号数据周报' }],
+            proj: [
+              { t: '《基于AIGC的校园文创设计平台》', s: '2024-09', d: '4 人团队，负责文创内容策划，获校级三等奖' },
+              { t: '校园公众号内容运营', s: '2023 — 2024', d: '选题策划与内容排期' }
+            ],
+            honors: [
+              { t: '大学生创新大赛 · 校级三等奖', s: '2024-10' },
+              { t: '大学生职业规划大赛 · 院级一等奖', s: '2024-11' }
+            ],
+            posts: [],
+            certs: ['普通话二甲', '计算机一级', '英语四级']
+          }
         }
       }
     ],
-    gap: '3 版简历迭代把匹配度从 52% 提到 78%，但「作品集链接」三版都未添加、「项目实践经历」始终缺量化成果 —— 两个顽固缺口正是顶部 AI 卡点名的待补齐项；荣誉与技能已经补齐，下一轮改简历应优先补这两处。',
-    consistency: '与顶部 AI 卡一致：3 版 = 实习初版（2024-03）+ 岗位定向版（2024-06）+ 求职现行版（2025-04），匹配度 52% → 65% → 78% 与右上角「历史简历 · 岗位匹配度」横条同一组数据，不重复计数。'
+    gap: '3 份简历迭代把完成度从 52% 提到 78%，但「个人作品」三份都未添加、「项目经历」始终缺量化成果 —— 两个顽固缺口正是顶部 AI 卡点名的待补齐项；荣誉、职务与证书已经补齐，下一轮改简历应优先补这两处。',
+    consistency: '与顶部 AI 卡一致：3 份 = 实习初版（2024-03）+ 岗位定向版（2024-06）+ 求职现行版（2025-04），完成度 52% → 65% → 78% 与右上角「历史简历 · 岗位匹配度」横条同一组数据，不重复计数。'
   };
 
   var activeRvIdx = 0;
+  var activeRvOpen = 'basic';
+  var activeRvShare = false;
 
-  function gxRvStatus(s) {
-    if (s === 'ok') return '<span class="gx-rv-st ok">良好</span>';
-    if (s === 'miss') return '<span class="gx-rv-st miss">未填写</span>';
-    return '<span class="gx-rv-st warn">待优化</span>';
+  function gxRvStText(s) {
+    if (s === 'ok') return '表现良好';
+    if (s === 'miss') return '待补充';
+    return '存在优化空间';
+  }
+
+  function gxRvThumb(v) {
+    return '<span class="gx-rv-thumb" style="--tint:' + v.thumbColor + '">' +
+      '<i class="t"></i><i class="l"></i><i class="l short"></i></span>';
   }
 
   function gxRvList() {
     var d = ca.resumeArchive;
     return '<aside class="gx-rv-list">' +
-      '<h4 class="gx-rv-sec-title">历史简历版本 <i>' + d.versions.length + ' 版 · 时间正序</i></h4>' +
+      '<h4 class="gx-rv-sec-title">历史简历 <i>' + d.versions.length + ' 份 · 时间正序</i></h4>' +
       d.versions.map(function (v, i) {
-        var todo = v.modules.filter(function (m) { return m.status !== 'ok'; }).length;
         return '<button type="button" class="gx-rv-item' + (i === activeRvIdx ? ' active' : '') +
           '" data-rv-pick="' + i + '">' +
-          '<span class="gx-rv-item-name">' + gxEsc(v.name) +
-            (i === activeRvIdx ? '<em>当前查看</em>' : '') + '</span>' +
-          '<span class="gx-rv-item-date">' + gxEsc(v.date) + ' · ' + gxEsc(v.grade) + '</span>' +
-          '<span class="gx-rv-item-meta"><b style="background:' + v.matchColor + '">' + v.match + '%</b>' +
-          '<i>' + (todo ? todo + ' 项待改' : '模块全良好') + '</i></span>' +
+          gxRvThumb(v) +
+          '<span class="gx-rv-item-info">' +
+            '<span class="gx-rv-item-name" title="杨强 - ' + gxEsc(v.jobShort) + ' - ' + v.code + '">杨强 - ' +
+              gxEsc(v.jobShort) + ' - ' + v.code + '</span>' +
+            '<span class="gx-rv-item-done">完成度 <b style="color:' + v.thumbColor + '">' + v.completeness +
+              '%</b>' + (i === activeRvIdx ? '<em>当前查看</em>' : '') + '</span>' +
+            '<span class="gx-rv-item-date">创建时间：' + gxEsc(v.date) + '</span>' +
+          '</span>' +
         '</button>';
       }).join('') +
-      '<div class="gx-rv-list-tip">' + gxEsc(d.tip) + '</div>' +
+      '<div class="gx-rv-list-tip">默认选中第一份；模块显示「待补充」会直接拖低完成度，点击列表切换诊断与右侧纸面。</div>' +
     '</aside>';
   }
 
-  function gxRvDiag(v) {
-    var rows = v.modules.map(function (m) {
-      return '<article class="gx-rv-mod st-' + m.status + '">' +
-        '<div class="gx-rv-mod-side"><h5>' + gxEsc(m.name) + '</h5>' + gxRvStatus(m.status) + '</div>' +
-        '<div class="gx-rv-mod-main">' +
-          '<p class="gx-rv-mod-diag"><b>诊断</b>' + gxEsc(m.diag) + '</p>' +
-          '<p class="gx-rv-mod-adv"><b>建议</b>' + gxEsc(m.advice) + '</p>' +
-        '</div>' +
-      '</article>';
-    }).join('');
-    return '<div class="gx-rv-diag">' +
-      '<div class="gx-rv-diag-head">' +
-        '<h4>' + gxEsc(v.name) + ' · AI 诊断与建议</h4>' +
-        '<span class="gx-rv-diag-match" style="background:' + v.matchColor + '">岗位匹配度 ' + v.match + '%</span>' +
-      '</div>' +
-      '<p class="gx-rv-diag-summary">' + gxEsc(v.summary) + '</p>' +
-      '<div class="gx-rv-modules">' + rows + '</div>' +
+  function gxRvSec(m) {
+    var open = activeRvOpen === m.k;
+    return '<div class="gx-rv-sec st-' + m.status + (open ? ' open' : '') + '">' +
+      '<button type="button" class="gx-rv-sec-head" data-rv-open="' + m.k + '">' +
+        '<b>' + gxEsc(m.name) + ' - ' + m.count + '条</b><i class="gx-rv-arrow"></i>' +
+      '</button>' +
+      (open
+        ? '<div class="gx-rv-sec-body">' +
+            '<span class="gx-rv-st ' + m.status + '">' + gxRvStText(m.status) + '</span>' +
+            '<p class="gx-rv-mod-diag"><b>诊断</b>' + gxEsc(m.diag) + '</p>' +
+            '<p class="gx-rv-mod-adv"><b>建议</b>' + gxEsc(m.advice) + '</p>' +
+          '</div>'
+        : '') +
     '</div>';
   }
 
-  function gxRvPaper(v) {
-    var p = v.paper;
-    var secs = p.sections.map(function (s) {
-      var body = s.empty
-        ? '<p class="gx-rv-paper-empty">' + gxEsc(s.empty) + '</p>'
-        : '<ul>' + s.lines.map(function (l) { return '<li>' + gxEsc(l) + '</li>'; }).join('') + '</ul>';
-      return '<div class="gx-rv-paper-sec"><h5>' + gxEsc(s.name) + '</h5>' + body + '</div>';
+  function gxRvDiag(v) {
+    var d = ca.resumeArchive;
+    return '<div class="gx-rv-diag">' +
+      '<div class="gx-rv-diag-head"><h4>' + gxEsc(v.name) + ' · 诊断详情</h4>' +
+        '<span class="gx-rv-diag-match" style="background:' + v.thumbColor + '">完成度 ' + v.completeness + '%</span>' +
+      '</div>' +
+      v.modules.map(gxRvSec).join('') +
+      '<div class="gx-rv-share-box">' +
+        (activeRvShare ? '<p class="gx-rv-share-tip">' + gxEsc(d.shareTip) + '</p>' : '') +
+        '<button type="button" class="gx-rv-share-btn" data-rv-share="1">分享诊断报告</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function gxRvItems(list, emptyText) {
+    if (!list || !list.length) {
+      return '<p class="gx-rv-paper-empty">' + gxEsc(emptyText || '未填写') + '</p>';
+    }
+    return list.map(function (x) {
+      if (typeof x === 'string') return '<p class="gx-rv-paper-line">' + gxEsc(x) + '</p>';
+      return '<div class="gx-rv-paper-item"><div class="l1"><b>' + gxEsc(x.t) + '</b>' +
+        (x.s ? '<span>' + gxEsc(x.s) + '</span>' : '') + '</div>' +
+        (x.d ? '<p>' + gxEsc(x.d) + '</p>' : '') + '</div>';
     }).join('');
+  }
+
+  function gxRvPaper(v) {
+    var p = v.paper, sb = p.sidebar, mn = p.main, it = mn.intent;
+    var basics = sb.basics.map(function (b) {
+      return '<li><i>' + gxEsc(b.k) + '</i>' + gxEsc(b.v) + '</li>';
+    }).join('');
+    var blocks = [
+      { name: '自我评价', body: '<p class="gx-rv-paper-sum">' + gxEsc(mn.summary) + '</p>' },
+      { name: '意向岗位', body:
+        '<div class="gx-rv-intent-grid">' +
+          '<span><b>' + gxEsc(it.type) + '</b><i>工作类型</i></span>' +
+          '<span><b>' + gxEsc(it.city) + '</b><i>意向城市</i></span>' +
+          '<span><b>' + gxEsc(it.job) + '</b><i>意向岗位</i></span>' +
+          '<span><b>' + gxEsc(it.exp) + '</b><i>工作经验</i></span>' +
+          '<span><b>' + gxEsc(it.salary) + '</b><i>期望薪资</i></span>' +
+        '</div>' },
+      { name: '教育经历', body: gxRvItems(mn.edu) },
+      { name: '工作经历', body: gxRvItems(mn.work, '暂无工作经历') },
+      { name: '项目经历', body: gxRvItems(mn.proj) },
+      { name: '校内荣誉', body: gxRvItems(mn.honors) },
+      { name: '校内职务', body: gxRvItems(mn.posts) },
+      { name: '资格证书', body: gxRvItems(mn.certs) },
+      { name: '个人作品', body: gxRvItems([], '未添加链接') }
+    ];
     return '<aside class="gx-rv-paper">' +
       '<div class="gx-rv-paper-scroll">' +
-        '<h4 class="gx-rv-sec-title">简历页面 <i>' + gxEsc(v.date) + ' 版 · 随选中版本切换</i></h4>' +
-        '<div class="gx-rv-sheet">' +
-          '<div class="gx-rv-sheet-top">' +
-            '<div><b class="gx-rv-sheet-name">' + gxEsc(p.name) + '</b>' +
-            '<span class="gx-rv-sheet-headline">' + gxEsc(p.headline) + '</span>' +
-            '<span class="gx-rv-sheet-contact">' + gxEsc(p.contact) + '</span></div>' +
-            '<span class="gx-rv-sheet-badge" style="background:' + v.matchColor + '">' + v.match + '%</span>' +
+        '<h4 class="gx-rv-sec-title">简历页面 <i>' + gxEsc(v.date) + ' 版 · 随选中简历切换</i></h4>' +
+        '<div class="gx-rv-sheet2">' +
+          '<div class="gx-rv-sheet-side">' +
+            '<span class="gx-rv-photo">照片</span>' +
+            '<h5>基本信息</h5><ul class="gx-rv-basics">' + basics + '</ul>' +
+            '<h5>专业技能</h5><p class="gx-rv-skills">' + gxEsc(sb.skills) + '</p>' +
           '</div>' +
-          '<p class="gx-rv-paper-intent">' + gxEsc(p.intent) + '</p>' +
-          secs +
+          '<div class="gx-rv-sheet-main">' +
+            '<h3 class="gx-rv-sheet-name">' + gxEsc(mn.name) + '</h3>' +
+            blocks.map(function (b) {
+              return '<div class="gx-rv-sheet-block"><h5>' + gxEsc(b.name) + '</h5>' + b.body + '</div>';
+            }).join('') +
+          '</div>' +
         '</div>' +
-        '<p class="gx-rv-paper-note">* 简历纸面为示意排版，正式预览需接平台简历版本库</p>' +
+        '<p class="gx-rv-paper-note">* 简历纸面为示意排版，照片与正式预览需接平台简历版本库</p>' +
       '</div>' +
     '</aside>';
   }
@@ -4929,8 +5001,8 @@
         '<div class="gx-rv-head">' +
           '<div class="gx-rv-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
           '<div class="gx-rv-legend">' +
-            '<span><i class="ok"></i>良好</span><span><i class="warn"></i>待优化</span>' +
-            '<span><i class="miss"></i>未填写</span>' +
+            '<span><i class="ok"></i>表现良好</span><span><i class="warn"></i>存在优化空间</span>' +
+            '<span><i class="miss"></i>待补充</span>' +
           '</div>' +
         '</div>' +
         '<div class="gx-rv-body">' + gxRvList() + gxRvDiag(v) + gxRvPaper(v) + '</div>' +
@@ -4942,8 +5014,19 @@
     document.querySelectorAll('[data-rv-pick]').forEach(function (b) {
       b.onclick = function () {
         activeRvIdx = Number(b.getAttribute('data-rv-pick')) || 0;
+        activeRvShare = false;
         render();
       };
+    });
+    document.querySelectorAll('[data-rv-open]').forEach(function (b) {
+      b.onclick = function () {
+        var k = b.getAttribute('data-rv-open');
+        activeRvOpen = activeRvOpen === k ? '' : k;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-rv-share]').forEach(function (b) {
+      b.onclick = function () { activeRvShare = true; render(); };
     });
   }
 
