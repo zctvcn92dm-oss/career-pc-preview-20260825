@@ -2120,6 +2120,8 @@
        解决下方仍是通用「模块记录 + 模块说明」、与 v61 礼仪专属 AI 卡语义脱节的问题。
        回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
     if (activeSideTag === '职业礼仪') return gxEaSheet();
+    /* v79：职场沟通技巧下方改「我的职场沟通实训报告」（实训列表 + 实训报告），对齐职业礼仪下方 */
+    if (activeSideTag === '职场沟通技巧') return gxCommsSheet();
     /* v68：宣讲会改用「历史宣讲会档案 + 最近学校宣讲会推荐」专属下方结构；删掉这一行即回滚。 */
     if (activeSideTag === '宣讲会') return gxTk2Sheet();
     if (activeSideTag === '生涯体验周') return gxEwSheet();
@@ -5272,6 +5274,169 @@
     });
   }
 
+  /* ==========================================================================
+     v79 · 「职场沟通技巧」下方：我的职场沟通实训报告（复用 .gx-ea-* 布局，与职业礼仪下方一致）
+     --------------------------------------------------------------------------
+     用户口径：职场沟通技巧详情页下方要和职业礼仪详情页下方一样——
+       左侧实训记录列表、右侧所选实训的实训报告。
+     数据自洽：3 次实训（向上汇报 68 / 跨部门协作 76 / 客户沟通 84）与
+       gxCommsAi 顶部 AI 卡 stats.rounds 逐条对应；四维（表达/逻辑/倾听/情绪）
+       均值=综合分；训练营 8 节是课程基础不计入报告列表，仅在口径说明中提及。
+     复用 .gx-ea-* 类，保证与职业礼仪下方视觉完全一致；内容改写为沟通维度。
+     回滚：删掉 gxSheet 里职场沟通技巧的分支（回到 gxModuleSheet 通用模板）即可。
+     ========================================================================== */
+  ca.commsArchive = {
+    title: '我的职场沟通实训报告',
+    subtitle: 'AI 情景对话实训归档 · 3 次实训 · 时间正序 · 默认选中第一次 · 点击列表切换报告',
+    student: { name: '杨强', major: '数字媒体技术', gradeYear: '2022 级' },
+    aiTip: '报告内容由 AI 生成，不能完全确保正确，仅供参考',
+    reports: [
+      {
+        n: 1, scene: '向上汇报场景', sceneShort: '向上汇报', date: '2024-06-12', grade: '第二年',
+        reportName: '向上汇报实训报告', total: 68, tint: '#C9D8B8',
+        dims: [{ k: '表达清晰度', v: 72 }, { k: '逻辑结构', v: 64 }, { k: '倾听回应', v: 66 }, { k: '情绪管理', v: 70 }],
+        sceneDesc: '与 AI 扮演的直属上级进行 1 对 1 周报演练：用 3 分钟汇报上周进展与下周计划，上级中途插入 2 个追问。',
+        perf: {
+          express: '表达清晰度 72：开场能点明主题，但铺垫较长，关键结论出现在汇报后段，上级需等待才抓住重点。',
+          logic: '逻辑结构 64：按时间顺序罗列事项，缺少「结论—依据—下一步」主线，两项重点任务之间的关联未讲清。',
+          listen: '倾听回应 66：对追问能接住，但复述偏少，偶有急着解释而未确认对方意图。',
+          emotion: '情绪管理 70：被追问时语速略快、声调上扬，整体平稳但仍显紧绷。'
+        },
+        advice: {
+          express: '把结论前置：首句给出「本周完成 X、下周推进 Y」，再用 1—2 句支撑，避免背景前置。',
+          logic: '采用「结论—依据—下一步」三点结构，重点任务之间用「因为…所以…」串起因果。',
+          listen: '追问后先复述对方问题（如「您是想确认交付时间？」）再作答，确认意图再展开。',
+          emotion: '被追问时停顿 1 秒、降速，用平稳语调收尾，把紧张转化为「我在思考」的信号。',
+          summary: '综合 68 分（表达 72 / 逻辑 64 / 倾听 66 / 情绪 70）；逻辑结构最弱、表达仍有提升空间，建议下一轮先练结论先行。'
+        }
+      },
+      {
+        n: 2, scene: '跨部门协作场景', sceneShort: '跨部门协作', date: '2025-01-08', grade: '第三年',
+        reportName: '跨部门协作实训报告', total: 76, tint: '#8FBF5A',
+        dims: [{ k: '表达清晰度', v: 80 }, { k: '逻辑结构', v: 74 }, { k: '倾听回应', v: 76 }, { k: '情绪管理', v: 74 }],
+        sceneDesc: '与 AI 扮演的协作方对接需求：就一次活动落地的分工与排期沟通，对方提出 3 处异议。',
+        perf: {
+          express: '表达清晰度 80：能先说结论再展开，专业术语使用得当，对方一次听懂要点。',
+          logic: '逻辑结构 74：按「目标—分工—排期」推进，但异议出现时主线被带偏，回收稍慢。',
+          listen: '倾听回应 76：对异议能复述并确认，追问频次下降，回应更有针对性。',
+          emotion: '情绪管理 74：被反驳时语速未明显加快，能保持平和，但收尾略急。'
+        },
+        advice: {
+          express: '结论先行已成型，可在开场加一句「今天希望达成 X 共识」，让协作方快速对齐目标。',
+          logic: '异议出现时用「您顾虑的是 A，我补充 B 来回应」的桥接句，把话题拉回主线。',
+          listen: '异议处先确认「您更关注成本还是周期？」再给方案，避免自顾自解释。',
+          emotion: '收尾用一句「我们按这个方向推进，细节会后再对齐」平稳收束，避免仓促。',
+          summary: '综合 76 分（表达 80 / 逻辑 74 / 倾听 76 / 情绪 74），较首次提升 8 分；逻辑结构在异议处理时仍偏弱，是下一阶段重点。'
+        }
+      },
+      {
+        n: 3, scene: '客户沟通场景', sceneShort: '客户沟通', date: '2025-05-08', grade: '第四年',
+        reportName: '客户沟通实训报告', total: 84, tint: '#5CAD6A',
+        dims: [{ k: '表达清晰度', v: 88 }, { k: '逻辑结构', v: 84 }, { k: '倾听回应', v: 82 }, { k: '情绪管理', v: 82 }],
+        sceneDesc: '与 AI 扮演的外部客户做需求沟通：客户连续提出变更并要求即时报价，沟通节奏快、信息密度高。',
+        perf: {
+          express: '表达清晰度 88：开场即给结论与推荐方案，表达简洁、用词精准，客户反馈「听懂了」。',
+          logic: '逻辑结构 84：按「现状—方案—风险—下一步」四段推进，变更出现时快速重排主线不乱。',
+          listen: '倾听回应 82：能在客户长句中抓取关键约束，复述确认后给方案，未遗漏隐含需求。',
+          emotion: '情绪管理 82：被连续追问时保持平稳，适当停顿思考，未见急躁，专业感强。'
+        },
+        advice: {
+          express: '表达已接近定稿水平，可补充一两个量化案例增强说服力（如「同类项目提效 30%」）。',
+          logic: '方案陈述后可主动给「两种路径 + 取舍建议」，把决策权交还客户、凸显专业。',
+          listen: '变更密集时每确认一项写一句小结，确保双方对排期与范围理解一致。',
+          emotion: '高压沟通下保持当前节奏即可，必要时用「我先确认下细节」争取思考时间。',
+          summary: '综合 84 分（表达 88 / 逻辑 84 / 倾听 82 / 情绪 82），沟通表现已达标；后续保持即可，并可沉淀为可复用的客户沟通话术。'
+        }
+      }
+    ],
+    gap: '3 次实训形成清晰的能力爬坡：综合分 68 → 76 → 84，四维中「逻辑结构」始终是最弱项（64 → 74 → 84），「表达清晰度」提升最快（72 → 88）；「冲突处理」场景尚未覆盖，是下一步补测重点。',
+    consistency: '与顶部 AI 卡一致：3 次实训 = 向上汇报（2024-06）+ 跨部门协作（2025-01）+ 客户沟通（2025-05），综合分与四维分逐条对应 gradeRecords 记录；「职场沟通技巧训练营」8 节是课程基础、不是实训，不计入本列表。'
+  };
+
+  var activeCommsIdx = 0;
+
+  function gxCommsList() {
+    var d = ca.commsArchive;
+    return '<aside class="gx-ea-list">' +
+      '<h4 class="gx-ea-sec-title">历史实训记录 <i>' + d.reports.length + ' 次 · 时间正序</i></h4>' +
+      d.reports.map(function (r, i) {
+        return '<button type="button" class="gx-ea-item' + (i === activeCommsIdx ? ' active' : '') +
+          '" data-cm-pick="' + i + '">' +
+          '<span class="gx-ea-item-name">第 ' + r.n + ' 次 · ' + gxEsc(r.sceneShort) +
+            (i === activeCommsIdx ? '<em>当前查看</em>' : '') + '</span>' +
+          '<span class="gx-ea-item-meta">' + gxEsc(r.date) + ' · ' + gxEsc(r.grade) + '</span>' +
+          '<span class="gx-ea-item-score">综合 <b style="color:' + r.tint + '">' + r.total + '</b>' +
+          '<i>表达 ' + r.dims[0].v + ' / 逻辑 ' + r.dims[1].v + '</i></span>' +
+        '</button>';
+      }).join('') +
+      '<div class="gx-ea-list-tip">' + gxEsc(d.gap) + '</div>' +
+    '</aside>';
+  }
+
+  function gxCommsReport(r) {
+    var d = ca.commsArchive, st = d.student;
+    return '<div class="gx-ea-report">' +
+      '<div class="gx-ea-report-banner"><h4>职场沟通报告</h4><span>' + gxEsc(r.reportName) + '</span></div>' +
+      '<div class="gx-ea-student">' +
+        '<span class="gx-ea-avatar"><i>照</i></span>' +
+        '<div class="gx-ea-student-info">' +
+          '<b>' + gxEsc(st.name) + ' - 数字媒体运营方向</b>' +
+          '<span>专业：' + gxEsc(st.major) + '</span>' +
+          '<span>年级：' + gxEsc(st.gradeYear) + ' · 实训时间：' + gxEsc(r.date) + '</span>' +
+        '</div>' +
+        '<span class="gx-ea-total" style="background:' + r.tint + '">综合 ' + r.total + '</span>' +
+      '</div>' +
+      '<div class="gx-ea-report-scroll">' +
+        '<h5 class="gx-ea-chapter"><i>≡</i>报告总结</h5>' +
+        '<div class="gx-ea-photo" style="--tint:' + r.tint + '">' +
+          '<span>' + gxEsc(r.sceneDesc) + '</span>' +
+        '</div>' +
+        '<div class="gx-ea-dims">' + r.dims.map(function (x) {
+          return '<span><b>' + x.v + '</b><i>' + gxEsc(x.k) + '</i></span>';
+        }).join('') + '</div>' +
+        '<h5 class="gx-ea-chapter"><i>≡</i>沟通表现与改进建议</h5>' +
+        '<div class="gx-ea-sec"><h6>一、沟通表现回顾</h6>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">1.1 场景描述</p>' +
+            gxEaEntry('实训场景', r.sceneDesc) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">1.2 能力分析</p>' +
+            gxEaEntry('表达清晰度', r.perf.express) + gxEaEntry('逻辑结构', r.perf.logic) +
+            gxEaEntry('倾听回应', r.perf.listen) + gxEaEntry('情绪管理', r.perf.emotion) + '</div>' +
+        '</div>' +
+        '<div class="gx-ea-sec"><h6>二、改进建议</h6>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.1 表达清晰度</p>' + gxEaEntry('结论前置', r.advice.express) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.2 逻辑结构</p>' + gxEaEntry('主线结构', r.advice.logic) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.3 倾听回应</p>' + gxEaEntry('复述确认', r.advice.listen) + '</div>' +
+          '<div class="gx-ea-sub"><p class="gx-ea-sub-t">2.4 情绪管理</p>' + gxEaEntry('平稳收尾', r.advice.emotion) + gxEaEntry('小结', r.advice.summary) + '</div>' +
+        '</div>' +
+        '<p class="gx-ea-aitip">提示：' + gxEsc(d.aiTip) + '</p>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function gxCommsSheet() {
+    var d = ca.commsArchive;
+    var r = d.reports[activeCommsIdx] || d.reports[0];
+    return '<div class="gx-sheet gx-sheet-ea gx-sheet-cm">' +
+      gxCommsAi() +
+      '<section class="gx-card gx-ea-panel">' +
+        '<div class="gx-ea-head">' +
+          '<div class="gx-ea-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+        '</div>' +
+        '<div class="gx-ea-body">' + gxCommsList() + gxCommsReport(r) + '</div>' +
+        '<p class="gx-ea-consistency">' + gxEsc(d.consistency) + '</p>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindComms() {
+    document.querySelectorAll('[data-cm-pick]').forEach(function (b) {
+      b.onclick = function () {
+        activeCommsIdx = Number(b.getAttribute('data-cm-pick')) || 0;
+        render();
+      };
+    });
+  }
+
 
   /* ==========================================================================
      v68 · 「宣讲会」下方：历史宣讲会档案 + 最近学校宣讲会推荐（.gx-tk2-*，v64 AI 卡已占用 .gx-tk-*）
@@ -5446,6 +5611,7 @@
       gxBindEm();
       gxBindRv();
       gxBindEa();
+      gxBindComms();
       gxBindTk2();
       syncUrl();
       return;
