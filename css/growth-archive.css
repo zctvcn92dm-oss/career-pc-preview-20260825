@@ -4080,8 +4080,9 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .gx-ea-body {
-  display: grid; grid-template-columns: minmax(0, 236px) minmax(0, 1fr);
-  gap: 0; min-height: 0; flex: 1;
+  /* v71：左栏保底 260px（窄视口不再被压瘪，对齐 AI面试两栏结构），gap 分隔 */
+  display: grid; grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+  gap: 10px; padding: 0 14px 12px; min-height: 0; flex: 1;
 }
 .gx-ea-list, .gx-ea-report-scroll {
   min-width: 0; min-height: 0; overflow-y: auto;
@@ -4092,7 +4093,8 @@
 
 /* ---- 左栏：历史测评列表 ---- */
 .gx-ea-list {
-  border-right: 1px solid #EDF1E8; padding: 0 12px 12px;
+  border: 1px solid #E3EAD9; border-radius: 12px;
+  padding: 10px 12px 12px;
   background: linear-gradient(160deg, #FDFEFB, #F8FBF5);
 }
 .gx-ea-item {
@@ -4192,16 +4194,10 @@
   border-top: 1px solid #EDF1E8; background: #FBFDF9;
 }
 @media (max-height: 860px) {
-  .gx-ea-body {
-    grid-template-columns: minmax(0, 1fr);
-    overflow-y: auto; display: flex; flex-direction: column;
-  }
-  .gx-ea-list {
-    border-right: 0; border-bottom: 1px solid #EDF1E8;
-    overflow-y: visible; display: flex; flex-wrap: wrap; gap: 8px;
-  }
-  .gx-ea-item { width: auto; min-width: 200px; margin-bottom: 0; }
-  .gx-ea-sec-title, .gx-ea-list-tip { flex-basis: 100%; }
+  /* v71：任何视口保持「列表左 / 报告右」两栏（对齐 AI面试详情结构），矮屏仅面板整体滚动，
+     不再堆叠——旧 flex column 在受限高度下会把列表压瘪（listH 可被压到 15px） */
+  .gx-ea-body { overflow-y: auto; }
+  .gx-ea-list { overflow-y: visible; }
   .gx-ea-report-scroll { overflow-y: visible; }
 }
 
