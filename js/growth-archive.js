@@ -4895,6 +4895,7 @@
     var d = ca.resumeArchive;
     return '<aside class="gx-rv-list">' +
       '<h4 class="gx-rv-sec-title">历史简历 <i>' + d.versions.length + ' 份 · 时间正序</i></h4>' +
+      '<div class="gx-rv-item-grid">' +
       d.versions.map(function (v, i) {
         return '<button type="button" class="gx-rv-item' + (i === activeRvIdx ? ' active' : '') +
           '" data-rv-pick="' + i + '">' +
@@ -4909,7 +4910,8 @@
           '</span>' +
         '</button>';
       }).join('') +
-      '<div class="gx-rv-list-tip">默认选中第一份；模块显示「待补充」会直接拖低完成度，点击列表切换诊断与右侧纸面。</div>' +
+      '</div>' +
+      '<div class="gx-rv-list-tip">默认选中第一份；模块显示「待补充」会直接拖低完成度，点击列表切换诊断与纸面。</div>' +
     '</aside>';
   }
 
@@ -4932,10 +4934,11 @@
   function gxRvDiag(v) {
     var d = ca.resumeArchive;
     return '<div class="gx-rv-diag">' +
+      '<p class="gx-rv-sec-title">AI 模块诊断<i>8 个模块 · 随选中简历切换</i></p>' +
       '<div class="gx-rv-diag-head"><h4>' + gxEsc(v.name) + ' · 诊断详情</h4>' +
         '<span class="gx-rv-diag-match" style="background:' + v.thumbColor + '">完成度 ' + v.completeness + '%</span>' +
       '</div>' +
-      v.modules.map(gxRvSec).join('') +
+      '<div class="gx-rv-sec-grid">' + v.modules.map(gxRvSec).join('') + '</div>' +
       '<div class="gx-rv-share-box">' +
         (activeRvShare ? '<p class="gx-rv-share-tip">' + gxEsc(d.shareTip) + '</p>' : '') +
         '<button type="button" class="gx-rv-share-btn" data-rv-share="1">分享诊断报告</button>' +
@@ -5011,7 +5014,8 @@
             '<span><i class="miss"></i>待补充</span>' +
           '</div>' +
         '</div>' +
-        '<div class="gx-rv-body">' + gxRvList() + gxRvDiag(v) + gxRvPaper(v) + '</div>' +
+        /* v70 照产品截图两段式：历史简历横向列表 → 简历页面整宽纸面 → 模块诊断整宽在下 */
+        '<div class="gx-rv-body">' + gxRvList() + gxRvPaper(v) + gxRvDiag(v) + '</div>' +
       '</section>' +
     '</div>';
   }
