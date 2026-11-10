@@ -2549,6 +2549,154 @@
 }
 
 /* ==========================================================================
+   v63 · 就业活动专属 AI 总结卡：右上角换成两张与「历史就业活动」强关联的图
+     ①「就业活动 · 参与深度」4 条横条 —— 统计图，宽度按 62/40/52/76 分（时间序）
+     ②「三段记录 → 待补齐」3 行关联 —— 分析图，与 v58 的参与凭证 / 过程沉淀 /
+        成果结论同一套模型
+   作用域仅 .gx-ai--employ；类名用 .gx-em-*，避开 .gx-ct-*(v63 赛事) /
+   .gx-cm-*(v62) / .gx-et-*(v61) / .gx-rs-*(v60) / .gx-ac-*(v55) 等已有皮肤。
+   密度沿用 v61/v62 已验证的 290px 面板；因有 4 条横条（比它们多一条），
+   横条 gap 收到 6px、gaps-box 上边距收到 8px，总高约 242px < 266px 可用高。
+   ========================================================================== */
+.gx-ai--employ .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--employ .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.54;
+  margin-bottom: 6px;
+}
+.gx-ai--employ .gx-assess-ai-text { padding-right: 4px; }
+
+.gx-ai--employ .gx-assess-ai-viz.gx-em-viz {
+  display: block;
+  width: 290px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+.gx-em-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 7px;
+}
+.gx-em-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-em-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-em-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.gx-em-bar {
+  display: grid; grid-template-columns: 60px minmax(0, 1fr) 30px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-em-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-em-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-em-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-em-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; white-space: nowrap; }
+
+.gx-em-gaps-box { margin-top: 8px; padding-top: 7px; border-top: 1px dashed #E3EADB; }
+.gx-em-gaps-box h4 { margin: 0 0 2px; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-em-gaps-note { margin: 0 0 6px; font-size: 10px; color: #9AA491; line-height: 1.2; }
+.gx-em-gaps {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.gx-em-gap {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 2px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-em-gap > i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-em-gap-module { color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-em-gap em { font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center; }
+.gx-em-gap b { color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.gx-em-disclaimer { margin: 6px 0 0; font-size: 9.5px; line-height: 1.3; color: #A6B09C; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--employ .gx-assess-ai-viz.gx-em-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
+
+/* ==========================================================================
+   v63 · 两个大赛共用的专属 AI 总结卡：右上角换成与该赛事参赛记录关联的图
+     ①「参赛阶段推进」3 条横条 —— 统计图，宽度按各阶段方案成熟度分
+     ②「赛事环节 → 待补齐」3 行关联 —— 分析图，色点对应缺证据的环节
+   作用域仅 .gx-ai--contest；类名用 .gx-ct-*，避开 .gx-em-*(v63 就业活动) /
+   .gx-cm-*(v62) / .gx-et-*(v61) / .gx-rs-*(v60) 等已有皮肤。
+   两个赛事共用同一套版式（同属「赛事」语义，视觉应一致），文案与数字各自独立。
+   ========================================================================== */
+.gx-ai--contest .gx-assess-ai-title { margin-bottom: 7px; }
+.gx-ai--contest .gx-assess-ai-p {
+  font-size: 11.8px;
+  line-height: 1.54;
+  margin-bottom: 6px;
+}
+.gx-ai--contest .gx-assess-ai-text { padding-right: 4px; }
+
+.gx-ai--contest .gx-assess-ai-viz.gx-ct-viz {
+  display: block;
+  width: 290px;
+  flex: none;
+  align-items: initial;
+  gap: 0;
+  border-left: 1px solid #EDF1E8;
+  padding-left: 16px;
+  box-sizing: border-box;
+}
+.gx-ct-chart-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 7px;
+}
+.gx-ct-chart-head h4 { margin: 0; font-size: 12.5px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-ct-chart-head span { font-size: 10.5px; color: #9AA491; white-space: nowrap; }
+
+.gx-ct-bars {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.gx-ct-bar {
+  display: grid; grid-template-columns: 74px minmax(0, 1fr) 30px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-ct-bar-name { color: #5B6556; white-space: nowrap; }
+.gx-ct-bar-track { height: 8px; border-radius: 5px; background: #EEF3E6; overflow: hidden; }
+.gx-ct-bar-track i { display: block; height: 100%; border-radius: 5px; }
+.gx-ct-bar b { color: #4A9A5B; font-size: 10.5px; text-align: right; font-weight: 700; white-space: nowrap; }
+
+.gx-ct-gaps-box { margin-top: 9px; padding-top: 7px; border-top: 1px dashed #E3EADB; }
+.gx-ct-gaps-box h4 { margin: 0 0 2px; font-size: 12px; font-weight: 700; color: #2F382B; }
+.gx-ct-gaps-note { margin: 0 0 6px; font-size: 10px; color: #9AA491; line-height: 1.2; }
+.gx-ct-gaps {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.gx-ct-gap {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr) 12px auto;
+  gap: 6px; align-items: center; font-size: 10.5px;
+  padding: 2px 7px;
+  border: 1px solid #E7EBDD; border-radius: 7px; background: #FAFCF7;
+}
+.gx-ct-gap > i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.gx-ct-gap-module { color: #5B6556; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-ct-gap em { font-style: normal; color: #A9B8A0; font-size: 11px; text-align: center; }
+.gx-ct-gap b { color: #3C453A; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.gx-ct-disclaimer { margin: 7px 0 0; font-size: 9.5px; line-height: 1.3; color: #A6B09C; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-ai--contest .gx-assess-ai-viz.gx-ct-viz {
+    width: min(100%, 360px); margin: 0 auto;
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid #EDF1E8; padding-top: 12px;
+  }
+}
+
+/* ==========================================================================
    v56 · 「线上咨询 / 预约咨询」详情页下方：学生咨询记录档案（独立皮肤，删本区块即回滚）
    --------------------------------------------------------------------------
    版式沿用 v46/v48/v51：顶部整宽 AI 卡（--gx-ai-card-h=306px，一字未改）+
@@ -3224,3 +3372,365 @@
   .gx-aa-profile-scroll { padding: 0 18px 8px; }
   .gx-aa-profile-foot { border-top: 0; background: transparent; padding-top: 2px; }
 }
+
+/* ==========================================================================
+   v63 · 「就业活动」详情页下方：我的就业活动记录（独立皮肤，删本区块即回滚）
+   --------------------------------------------------------------------------
+   版式沿用 v46/v48/v51/v56/v57/v58：顶部整宽 AI 卡（--gx-ai-card-h=306px，不动）+
+   下方唯一一张完整白卡；卡内左右分区只用一道极淡线。
+   与 v58 的结构差异（刻意的）：v58 左栏是「子类卡 → 展开逐场」两级折叠；
+   就业活动只有 4 场、分属 4 个子类、每类各 1 场，再套折叠会变成「展开只有一行」，
+   所以这里直接按**场次**铺一张卡，一场活动的子类 / 时间 / 参与动作 / 三段记录 / 能力维度
+   全部在一张卡里看全 —— 这才是用户要的「就业活动详情记录页」。
+   右栏「学年分布 → 三段记录完成度 → 归档口径」，完成度随补录实时变化。
+   类名刻意用 .gx-ep-*，避开同版本 AI 卡已占用的 .gx-em-*，两套皮肤互不串味。
+   四张卡沿用顶部 AI 卡参与深度横条的四个色值，图文强关联。
+   ========================================================================== */
+.gx-sheet-em {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-sheet-em > .gx-assess-ai { height: var(--gx-ai-card-h); box-sizing: border-box; }
+
+.gx-ep-panel {
+  display: flex; flex-direction: column;
+  padding: 0; min-width: 0; min-height: 0; overflow: hidden;
+}
+.gx-ep-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 20px 8px; flex: none;
+}
+.gx-ep-heading { min-width: 0; }
+.gx-ep-heading h3 { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: #2F382B; }
+.gx-ep-heading p {
+  margin: 0; font-size: 11px; color: #8A9187;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gx-ep-tabs { display: flex; flex-wrap: nowrap; gap: 4px; flex: none; }
+.gx-ep-tabs button {
+  height: 28px; padding: 0 8px; border: 1px solid #DFE8D6; border-radius: 14px;
+  background: #F7FAF4; color: #4A554A; font-size: 10.5px; font-family: inherit;
+  cursor: pointer; white-space: nowrap; transition: background .15s ease, border-color .15s ease;
+}
+.gx-ep-tabs button:hover { background: #EAF4E3; border-color: #A8CA7E; }
+.gx-ep-tabs button i { font-style: normal; font-size: 10px; color: #9AA491; margin-left: 2px; }
+.gx-ep-tabs button.active {
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B);
+  border-color: #5CAD6A; color: #FFFFFF; font-weight: 600;
+  box-shadow: 0 2px 8px rgba(92, 173, 106, .22);
+}
+.gx-ep-tabs button.active i { color: #E7F5E4; }
+
+.gx-ep-kpis {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 20px 8px; padding: 8px 0; border-radius: 12px;
+  background: linear-gradient(100deg, #F6FAF2, #EDF5E7); flex: none;
+}
+.gx-ep-kpi { display: flex; align-items: baseline; justify-content: center; gap: 4px; flex-wrap: wrap; }
+.gx-ep-kpi + .gx-ep-kpi { border-left: 1px solid #DDE9D3; }
+.gx-ep-kpi b { font-size: 23px; font-weight: 800; color: #4A9A5B; line-height: 1; }
+.gx-ep-kpi i { font-style: normal; font-size: 11.5px; color: #5B7A4E; }
+.gx-ep-kpi span { flex-basis: 100%; text-align: center; font-size: 11px; color: #6B7566; margin-top: 3px; }
+.gx-ep-kpi.warn b { color: #C08A3E; }
+
+.gx-ep-body {
+  display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.58fr);
+  gap: 0; min-height: 0; flex: 1;
+}
+.gx-ep-records, .gx-ep-profile-scroll {
+  min-width: 0; min-height: 0; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6;
+}
+.gx-ep-records { padding: 0 20px 12px; }
+.gx-ep-profile {
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  overflow: hidden; border-left: 1px solid #EDF1E8;
+  background: linear-gradient(160deg, #FDFEFB, #F8FBF5);
+}
+.gx-ep-profile-scroll { flex: 1; padding: 0 18px 8px; }
+.gx-ep-profile-foot {
+  flex: none; padding: 7px 18px 11px;
+  border-top: 1px solid #EDF1E8; background: #FBFDF8;
+}
+.gx-ep-records::-webkit-scrollbar, .gx-ep-profile-scroll::-webkit-scrollbar { width: 7px; }
+.gx-ep-records::-webkit-scrollbar-track, .gx-ep-profile-scroll::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-ep-records::-webkit-scrollbar-thumb, .gx-ep-profile-scroll::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+
+.gx-ep-sec-title { margin: 1px 0 6px; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-ep-sec-title i { font-style: normal; font-weight: 400; font-size: 11px; color: #9AA491; margin-left: 8px; }
+.gx-ep-list { display: flex; flex-direction: column; gap: 8px; }
+.gx-ep-empty { padding: 26px 12px; text-align: center; }
+.gx-ep-empty p { margin: 0; font-size: 11.5px; color: #9AA491; }
+
+/* 一场活动一张卡：子类标签 + 活动名 + 参与动作 + 三段记录 + 能力维度 */
+.gx-ep-card {
+  border: 1px solid #E7EBDD; border-radius: 12px; background: #FFFFFF;
+  padding: 9px 12px 8px; position: relative; overflow: hidden;
+}
+.gx-ep-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--ep-color);
+}
+.gx-ep-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gx-ep-type {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10.5px; line-height: 17px; padding: 0 7px;
+  border-radius: 9px; background: #F1F6EC; color: #4A7A3E; white-space: nowrap;
+}
+.gx-ep-type i { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--ep-color); }
+.gx-ep-date { flex: none; font-size: 10px; color: #9AA491; white-space: nowrap; }
+.gx-ep-name {
+  margin: 5px 0 0; font-size: 13px; font-weight: 700; color: #2F382B;
+  line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gx-ep-action { margin: 4px 0 0; font-size: 11px; line-height: 1.5; color: #5B6556; }
+.gx-ep-action b { color: #9AA491; font-weight: 400; margin-right: 6px; }
+.gx-ep-stages {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+  margin-top: 5px; padding-top: 5px; border-top: 1px dashed #EDF1E8;
+}
+.gx-ep-stage { font-size: 10px; color: #8A9187; white-space: nowrap; }
+.gx-ep-stage label { color: #9AA491; margin-right: 3px; }
+.gx-ep-stage.ok { color: #3F7D4C; }
+.gx-ep-note {
+  margin: 4px 0 0; padding: 3px 8px; border-left: 2px solid #A8CA7E;
+  background: #FAFCF7; border-radius: 0 6px 6px 0;
+  font-size: 10.5px; line-height: 1.45; color: #5B6556;
+}
+.gx-ep-note label { color: #9AA491; margin-right: 5px; }
+.gx-ep-card-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-top: 6px;
+}
+.gx-ep-ability {
+  font-size: 10.5px; line-height: 17px; padding: 0 7px;
+  border-radius: 9px; background: #F4F7F1; color: #6B7566; white-space: nowrap;
+}
+.gx-ep-note-btn {
+  flex: none; height: 20px; padding: 0 8px;
+  border: 1px solid #DFE8D6; border-radius: 10px; background: #F7FAF4;
+  color: #4A9A5B; font-size: 10.5px; font-family: inherit; cursor: pointer;
+}
+.gx-ep-note-btn:hover { background: #EAF4E3; }
+
+/* 右栏：学年分布 / 三段记录完成度 / 归档口径 */
+.gx-ep-profile .gx-ep-sec-title:not(:first-child) { margin-top: 8px; }
+.gx-ep-bars { display: flex; flex-direction: column; gap: 2px; }
+.gx-ep-bar {
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) 38px;
+  gap: 6px; align-items: center; font-size: 10.5px;
+}
+.gx-ep-bar > span { color: #6B7566; white-space: nowrap; }
+.gx-ep-bar-track { height: 6px; border-radius: 4px; background: #E7EDDF; overflow: hidden; }
+.gx-ep-bar-track i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #8FCB7C, #5CAD6A); }
+.gx-ep-bar b { color: #4A9A5B; text-align: right; font-size: 10.5px; white-space: nowrap; }
+
+.gx-ep-stages-list { display: flex; flex-direction: column; gap: 3px; }
+.gx-ep-stage-row {
+  display: grid; grid-template-columns: 66px minmax(0, 1fr) 32px;
+  gap: 6px; align-items: center; font-size: 10.5px; position: relative;
+}
+.gx-ep-stage-row > span { display: inline-flex; align-items: center; gap: 5px; color: #6B7566; white-space: nowrap; }
+.gx-ep-stage-row > span i { display: block; width: 6px; height: 6px; border-radius: 50%; }
+.gx-ep-stage-row b { color: #4A9A5B; text-align: right; white-space: nowrap; font-size: 10.5px; }
+.gx-ep-stage-row em {
+  grid-column: 1 / -1; font-style: normal; font-size: 9.5px;
+  color: #A6B09C; padding-left: 11px; margin-top: -2px;
+}
+.gx-ep-stages-note {
+  margin: 5px 0 0; padding: 4px 8px; border-left: 2px solid #A8CA7E;
+  background: #F4F8EF; border-radius: 0 6px 6px 0;
+  font-size: 10px; line-height: 1.4; color: #6B7566;
+}
+.gx-ep-scope {
+  margin: 0; padding: 6px 9px; border: 1px solid #DDEBCE; border-radius: 9px;
+  background: #F6FAF2; font-size: 10.5px; line-height: 1.45; color: #5B7A4E;
+}
+
+/* 参与档案视图 */
+.gx-ep-archive-btn {
+  display: block; width: 100%; height: 30px; border: 0; border-radius: 15px;
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B); color: #FFFFFF;
+  font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(92, 173, 106, .22);
+}
+.gx-ep-archive-btn.ghost { background: #F7FAF4; border: 1px solid #DFE8D6; color: #4A9A5B; box-shadow: none; }
+.gx-ep-arch-sub { margin: 0 0 6px; font-size: 10.5px; color: #8A9187; }
+.gx-ep-arch-kpis {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 6px 0; border-radius: 10px; background: #F6FAF2; margin-bottom: 7px;
+}
+.gx-ep-arch-kpis > div { text-align: center; }
+.gx-ep-arch-kpis > div + div { border-left: 1px solid #DDE9D3; }
+.gx-ep-arch-kpis b { font-size: 18px; font-weight: 800; color: #4A9A5B; line-height: 1; }
+.gx-ep-arch-kpis i { font-style: normal; font-size: 10px; color: #5B7A4E; margin-left: 2px; }
+.gx-ep-arch-kpis span { display: block; font-size: 10px; color: #8A9187; margin-top: 2px; }
+.gx-ep-gap { padding: 6px 9px; border: 1px dashed #E4C98A; border-radius: 9px; background: #FFFBF1; margin-bottom: 6px; }
+.gx-ep-gap b { display: block; font-size: 11px; color: #8A6320; margin-bottom: 2px; }
+.gx-ep-gap p { margin: 0; font-size: 10.5px; line-height: 1.4; color: #9C8863; }
+.gx-ep-consistency { padding: 6px 9px; border: 1px solid #DDEBCE; border-radius: 9px; background: #F6FAF2; margin-bottom: 7px; }
+.gx-ep-consistency b { display: block; font-size: 11px; color: #4A7A3E; margin-bottom: 2px; }
+.gx-ep-consistency p { margin: 0; font-size: 10.5px; line-height: 1.4; color: #5B7A4E; }
+.gx-ep-arch-group { margin-bottom: 6px; }
+.gx-ep-arch-group h5 { margin: 0 0 2px; font-size: 11px; font-weight: 700; color: #3A4436; }
+.gx-ep-arch-group h5 i { font-style: normal; font-size: 10px; font-weight: 400; color: #9AA491; margin-left: 6px; }
+.gx-ep-arch-group ul { list-style: none; margin: 0; padding: 0; }
+.gx-ep-arch-group li { display: flex; gap: 6px; font-size: 10.5px; line-height: 1.5; color: #5B6556; }
+.gx-ep-arch-group li time { flex: none; font-size: 10px; color: #9AA491; }
+.gx-ep-arch-group li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-ep-arch-group li.empty { color: #A6B09C; font-style: italic; }
+.gx-ep-arch-fields { margin: 0; padding: 0 0 0 15px; }
+.gx-ep-arch-fields li { font-size: 10.5px; line-height: 1.6; color: #5B6556; }
+.gx-ep-arch-fields li::marker { color: #5CAD6A; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-em { display: block; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-em > .gx-assess-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
+  .gx-ep-head { flex-wrap: wrap; }
+  .gx-ep-heading p { white-space: normal; }
+  .gx-ep-tabs { flex-wrap: wrap; }
+  .gx-ep-body { display: block; }
+  .gx-ep-records, .gx-ep-profile-scroll, .gx-ep-profile { overflow: visible; }
+  .gx-ep-profile {
+    display: block; border-left: 0; border-top: 1px solid #EDF1E8; padding-top: 14px;
+  }
+  .gx-ep-profile-scroll { padding: 0 18px 8px; }
+  .gx-ep-profile-foot { border-top: 0; background: transparent; padding-top: 2px; }
+}
+
+/* ==========================================================================
+   v63 · 「大学生职业规划大赛 / 大学生创新大赛」详情页下方：参赛记录档案
+   --------------------------------------------------------------------------
+   版式同 v63 就业活动（顶部整宽 AI 卡 + 下方唯一一张白卡 + 左右一道极淡线）。
+   左栏改为**纵向时间线**：圆点带序号 + 竖线串起院赛 → 校赛 → 决赛，
+   每段显示阶段名、晋级 / 获奖标记、日期学年、记录原文、三段证据状态（作品 / 分工 / 反馈）。
+   用时间线而非卡片，是因为赛事的核心语义就是「阶段推进」，纵向串起来能一眼看出
+   「从院赛走到决赛」；就业活动是「同类活动的平行记录」，才用并排卡片。
+   两个赛事共用本皮肤，靠 gxCtSheet(kind) 的参数区分文案与数据。
+   类名 .gx-ct2-*，避开 v53 线上咨询已占用的 .gx-cs-* 与 v63 AI 卡的 .gx-ct-*。
+   ========================================================================== */
+.gx-sheet-ct2 {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  gap: 12px;
+}
+.gx-sheet-ct2 > .gx-assess-ai { height: var(--gx-ai-card-h); box-sizing: border-box; }
+
+.gx-ct2-panel {
+  display: flex; flex-direction: column;
+  padding: 0; min-width: 0; min-height: 0; overflow: hidden;
+}
+.gx-ct2-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 20px 8px; flex: none;
+}
+.gx-ct2-heading { min-width: 0; }
+.gx-ct2-heading h3 { margin: 0 0 3px; font-size: 16px; font-weight: 700; color: #2F382B; }
+.gx-ct2-heading p {
+  margin: 0; font-size: 11px; color: #8A9187;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gx-ct2-badges { display: flex; gap: 6px; flex: none; }
+.gx-ct2-badges span {
+  font-size: 10.5px; line-height: 22px; padding: 0 9px; border-radius: 11px;
+  background: #F1F6EC; color: #4A7A3E; white-space: nowrap;
+}
+.gx-ct2-badges span:first-child { background: linear-gradient(96deg, #5CAD6A, #4A9A5B); color: #FFFFFF; }
+
+.gx-ct2-body-wrap {
+  display: grid; grid-template-columns: minmax(0, 1.52fr) minmax(0, 0.48fr);
+  gap: 0; min-height: 0; flex: 1;
+}
+.gx-ct2-records, .gx-ct2-profile { min-width: 0; min-height: 0; overflow-y: auto; }
+.gx-ct2-records { padding: 0 20px 12px; }
+.gx-ct2-profile {
+  border-left: 1px solid #EDF1E8; padding: 0 18px 12px;
+  background: linear-gradient(160deg, #FDFEFB, #F8FBF5);
+}
+.gx-ct2-records::-webkit-scrollbar, .gx-ct2-profile::-webkit-scrollbar { width: 7px; }
+.gx-ct2-records::-webkit-scrollbar-track, .gx-ct2-profile::-webkit-scrollbar-track { background: #EEF3E6; border-radius: 4px; }
+.gx-ct2-records::-webkit-scrollbar-thumb, .gx-ct2-profile::-webkit-scrollbar-thumb { background: #A9C48F; border-radius: 4px; }
+
+.gx-ct2-sec-title { margin: 1px 0 8px; font-size: 12.5px; font-weight: 700; color: #2F382B; }
+.gx-ct2-sec-title i { font-style: normal; font-weight: 400; font-size: 11px; color: #9AA491; margin-left: 8px; }
+.gx-ct2-profile .gx-ct2-sec-title:not(:first-child) { margin-top: 10px; }
+.gx-ct2-list { display: flex; flex-direction: column; }
+
+/* 纵向时间线：序号圆点 + 连接竖线 */
+.gx-ct2-stage { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; }
+.gx-ct2-rail { position: relative; display: flex; justify-content: center; }
+.gx-ct2-rail::after {
+  content: ''; position: absolute; top: 24px; bottom: 2px; left: 50%;
+  width: 1px; margin-left: -.5px; background: #DDE9D3;
+}
+.gx-ct2-stage:last-child .gx-ct2-rail::after { display: none; }
+.gx-ct2-rail i {
+  position: relative; z-index: 1; flex: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: linear-gradient(96deg, #5CAD6A, #4A9A5B);
+  color: #FFFFFF; font-style: normal; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(92, 173, 106, .24);
+}
+.gx-ct2-body {
+  border: 1px solid #E7EBDD; border-radius: 11px; background: #FFFFFF;
+  padding: 8px 11px 7px; margin-bottom: 8px; min-width: 0;
+}
+.gx-ct2-stage-head { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.gx-ct2-stage-name { font-size: 13px; font-weight: 700; color: #2F382B; white-space: nowrap; }
+.gx-ct2-mark {
+  font-style: normal; font-size: 10px; line-height: 16px; padding: 0 6px;
+  border-radius: 8px; background: #F2F5EF; color: #6B7566; white-space: nowrap;
+}
+.gx-ct2-mark.up { background: #EFF5E9; color: #4A7A3E; }
+.gx-ct2-mark.win { background: #FFF7E6; color: #A9702A; }
+.gx-ct2-stage-date { margin-left: auto; font-size: 10px; color: #9AA491; white-space: nowrap; }
+.gx-ct2-desc { margin: 5px 0 0; font-size: 11px; line-height: 1.5; color: #5B6556; }
+.gx-ct2-evid {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px;
+  margin-top: 5px; padding-top: 5px; border-top: 1px dashed #EDF1E8;
+  font-size: 10px; color: #8A9187;
+}
+.gx-ct2-evid label { color: #9AA491; margin-right: 3px; }
+.gx-ct2-evid b {
+  margin-left: auto; font-size: 10.5px; color: #4A9A5B;
+  padding: 0 7px; line-height: 17px; border-radius: 9px; background: #F1F6EC;
+}
+
+.gx-ct2-bars { display: flex; flex-direction: column; gap: 5px; }
+.gx-ct2-bar-row {
+  display: grid; grid-template-columns: 70px minmax(0, 1fr) 30px;
+  gap: 6px; align-items: center; font-size: 10.5px; position: relative;
+}
+.gx-ct2-bar-row > span { display: inline-flex; align-items: center; gap: 5px; color: #6B7566; white-space: nowrap; }
+.gx-ct2-bar-row > span i { display: block; width: 6px; height: 6px; border-radius: 50%; }
+.gx-ct2-bar-track { height: 6px; border-radius: 4px; background: #E7EDDF; overflow: hidden; }
+.gx-ct2-bar-track i { display: block; height: 100%; border-radius: 4px; }
+.gx-ct2-bar-row b { color: #4A9A5B; text-align: right; white-space: nowrap; font-size: 10.5px; }
+.gx-ct2-bar-row em {
+  grid-column: 1 / -1; font-style: normal; font-size: 9.5px;
+  color: #A6B09C; padding-left: 11px; margin-top: -3px;
+}
+.gx-ct2-note {
+  margin-top: 10px; padding: 7px 9px; border: 1px dashed #E4C98A;
+  border-radius: 9px; background: #FFFBF1;
+}
+.gx-ct2-note b { display: block; font-size: 11px; color: #8A6320; margin-bottom: 2px; }
+.gx-ct2-note p { margin: 0; font-size: 10.5px; line-height: 1.45; color: #9C8863; }
+.gx-ct2-fields { margin: 0; padding: 0 0 0 15px; }
+.gx-ct2-fields li { font-size: 10.5px; line-height: 1.6; color: #5B6556; }
+.gx-ct2-fields li::marker { color: #5CAD6A; }
+
+@media (max-width: 1280px), (max-height: 760px) {
+  .gx-sheet-ct2 { display: block; height: auto; max-height: 100%; overflow-y: auto; }
+  .gx-sheet-ct2 > .gx-assess-ai { height: auto; min-height: var(--gx-ai-card-h); margin-bottom: 12px; }
+  .gx-ct2-head { flex-wrap: wrap; }
+  .gx-ct2-heading p { white-space: normal; }
+  .gx-ct2-body-wrap { display: block; }
+  .gx-ct2-records, .gx-ct2-profile { overflow: visible; }
+  .gx-ct2-profile { border-left: 0; border-top: 1px solid #EDF1E8; padding-top: 14px; margin-top: 4px; }
+}
+

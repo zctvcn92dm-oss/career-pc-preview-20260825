@@ -67,6 +67,12 @@
          四维得分与综合分为原型示意，需接平台真实 AI 解析报告；本次不改其它记录。 */
       { created_at: '2024年05月28日 10:26:41', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 1 次【AI形象礼仪】测评：日常办公场景，上传形象照由 AI 解析着装与仪态，输出《职业形象初评报告》，综合 61 分（着装 64 / 仪态 58 / 岗位 55 / 场景 67）' },
       { created_at: '2024年05月16日 10:08:33', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【企业开放日 · 数字创意产业园区参访】生涯活动' },
+      /* v63：就业活动 = 毕业生就业相关活动的揽括（就业实训 / 就业讲座 / 就业实践 /
+         双选洽谈 / 政策宣讲等），不是单一场次。按用户口径补到 4 场，跨第二、第三年，
+         与 ca.employSummary.stats.rounds 的参与深度逐条对应；第三年原有的
+         「2025届实习生双选洽谈会」（2024-10-28）保持不动，作为第 2 场。
+         参与深度为原型示意，需接平台真实签到与成果数据；本次不改其它记录。 */
+      { created_at: '2024年04月19日 16:32:05', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【就业实训 · 简历与面试实战工作坊】就业实训，为期 3 天，含简历诊断、模拟群面与一对一复盘' },
       { created_at: '2024年04月08日 21:19:44', business_type: '线上课', ability_dimension: '职业规划能力', description: '完成【行业认知与职业选择】线上课学习，累计课时 10 节' },
       /* v60：补齐学生自己做过的历史简历版本（3 版迭代的第 1 版）。
          时间与同年线上咨询 ol3「实习简历里该突出哪些经历？」（2024-03-12）对应。
@@ -84,6 +90,11 @@
          与 ca.etiquetteSummary.stats.rounds 逐条对应；仪容仪态 79 为当前最低项。 */
       { created_at: '2025年06月18日 16:12:09', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 3 次【AI形象礼仪】测评：面试场景 · 数字媒体运营岗，输出《求职形象定稿报告》，综合 82 分（着装 86 / 仪态 79 / 岗位 82 / 场景 81）' },
       { created_at: '2025年05月21日 20:41:35', business_type: 'AI面试', ability_dimension: '求职表现能力', description: '完成【AI模拟面试】训练，岗位：数字媒体运营，综合评分 82 分' },
+      /* v63：大学生职业规划大赛 = 记录学生参赛全过程（院赛 → 校赛初赛 → 校赛决赛），
+         不是只有一条获奖记录。补 2 条前置阶段，原有的 2025-06-30「校级二等奖」保持不动
+         作为决赛结果，三条与 ca.contestSummary.career.rounds 逐条对应。
+         描述括号内带「阶段」，使生涯活动归档（v58 AA_TYPE_MAP → 学科竞赛）能区分同名赛事。 */
+      { created_at: '2025年05月16日 15:47:38', business_type: '大学生职业规划大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生职业规划大赛 · 校级初赛】，完成 8 分钟生涯规划陈述与答辩，晋级校级决赛' },
       /* v62：3 次实训的第 3 次（客户沟通 84 分）。四维 88/84/82/82 均值 = 84 分，
          与 ca.commsSummary.stats.rounds 逐条对应；逻辑结构起步最低、表达清晰度提升最快。 */
       { created_at: '2025年05月08日 16:42:11', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成第 3 次【职场沟通技巧】AI 情景对话实训：客户沟通场景，与 AI 扮演的客户对话演练，输出《职场沟通实训报告》，综合 84 分（表达 88 / 逻辑 84 / 倾听 82 / 情绪 82）' },
@@ -93,11 +104,20 @@
       /* v61：3 次测评的第 2 次。时间上承接 2025-03-10《职场礼仪与形象管理》线上课，
          又在 04-17 简历改版之前，形成「学课程 → 做形象测评 → 改简历」的可追溯链。 */
       { created_at: '2025年03月24日 14:08:52', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成第 2 次【AI形象礼仪】测评：面试场景 · 数字媒体运营实习生，按初评报告调整着装后复测，输出《面试形象与仪态测评报告》，综合 73 分（着装 78 / 仪态 70 / 岗位 72 / 场景 72）' },
+      /* v63：就业活动的第 4 场（就业实践），也是 4 场里参与最深的一场：
+         校企合作项目、连续 6 周、有明确分工与产出。与 ca.employSummary 的 76 分对应。 */
+      { created_at: '2025年03月14日 17:08:26', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【校企合作短视频运营项目】就业实践，承担脚本撰写与账号数据周报，累计 6 周' },
       { created_at: '2025年03月10日 15:14:03', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成【职场礼仪与形象管理】线上课学习，累计课时 8 节' },
       /* v62：3 次实训的第 2 次。时间上承接 2024-12-03《职场沟通技巧》8 节训练营，
          形成「学课程 → 情景演练 → AI 面试」的可追溯链，早于 2025-05-21 AI 面试。 */
       { created_at: '2025年01月08日 10:35:42', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成第 2 次【职场沟通技巧】AI 情景对话实训：跨部门协作场景，与 AI 扮演的协作方对话演练，输出《职场沟通实训报告》，综合 76 分（表达 80 / 逻辑 74 / 倾听 76 / 情绪 74）' },
       { created_at: '2024年12月03日 18:33:41', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成【职场沟通技巧】训练营，累计课时 8 节' },
+      /* v63：职业规划大赛第 1 阶段（院级选拔赛）—— 三条记录形成
+         「院赛晋级 → 校赛初赛晋级 → 校赛决赛获奖」的完整参赛链。
+         与 v63 补的 2025-05-16 校级初赛、原有 2025-06-30 校级二等奖构成三段。 */
+      { created_at: '2024年11月21日 10:24:57', business_type: '大学生职业规划大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生职业规划大赛 · 院级选拔赛】，提交《数字媒体运营方向职业生涯规划书》，获院级一等奖并晋级校赛' },
+      /* v63：就业活动第 3 场（就业讲座）—— 校招季配套的行业形势与岗位需求宣讲。 */
+      { created_at: '2024年11月08日 14:19:33', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【数字创意行业就业形势与岗位需求】就业讲座，主讲人为校企合作企业 HR，会后提交 3 条岗位疑问' },
       { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' },
       /* v60：3 版迭代的第 2 版，对应同年预约面询 ap1（2024-06-18）
          「简历里的项目经历怎么写，才更匹配数字媒体运营岗？」。 */
@@ -106,6 +126,11 @@
     '第四年': [
       { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
       { created_at: '2024年10月08日 15:22:47', business_type: '大学生创新大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生创新大赛】，项目名称：基于AIGC的校园文创设计平台，获校级三等奖' },
+      /* v63：大学生创新大赛 = 记录学生参赛全过程（项目申报 → 院级初评 → 校级决赛），
+         不是只有一条获奖记录。补 2 条前置阶段，原有的 2024-10-08「校级三等奖」保持不动
+         作为决赛结果，三条与 ca.contestSummary.innov.rounds 逐条对应。
+         描述括号内带「阶段」，使生涯活动归档能区分同名赛事。 */
+      { created_at: '2024年09月26日 11:14:09', business_type: '大学生创新大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生创新大赛 · 院级初评】，完成 6 分钟项目路演与答辩，晋级校级决赛' },
       /* v53：产品口径对齐 —— 线上咨询发生在云生涯Max 小程序（学生移动端），
          核心动作是「自主选择老师类别 → 线上沟通」。原记录只写「完成线上生涯咨询」，
          补上渠道与老师类别，使 AI 卡、关联分析图、下方归档记录三处口径一致。
@@ -115,6 +140,9 @@
       { created_at: '2024年09月18日 16:39:02', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【长沙理工大学2025届毕业生秋季综合双选会（第一场）暨第八届校友企业专场招聘会】双选会' },
       { created_at: '2024年09月18日 15:39:57', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【安克创新科技股份有限公司深圳分公司】宣讲会' },
       { created_at: '2024年09月16日 13:11:22', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中石化湖南石油化工有限公司】宣讲会' },
+      /* v63：创新大赛第 1 阶段（项目申报）—— 4 人团队、明确项目名，
+         为后续院级初评与校级获奖提供可追溯的参赛起点。 */
+      { created_at: '2024年09月12日 19:03:41', business_type: '大学生创新大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生创新大赛 · 项目申报】，组建 4 人团队并提交《基于AIGC的校园文创设计平台》项目计划书' },
       { created_at: '2024年09月11日 08:10:07', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中广核集团】宣讲会' },
       { created_at: '2024年09月09日 22:41:59', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【全国重点高校2025届毕业生秋季巡回招聘会长沙理工大学站】双选会' },
       { created_at: '2024年09月09日 22:36:58', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【广州市海康电梯技术开发有限公司】宣讲会' },
@@ -2047,6 +2075,15 @@
     /* v58：生涯活动的下方改成「活动大类统一归档」，解决 v55 留下的第四年空态待决项。
        回滚：删掉这一行，即回到 gxModuleSheet() 的单业务标签过滤。 */
     if (activeSideTag === '生涯活动') return gxAaSheet();
+    /* v63：就业活动的下方改成「我的就业活动记录」逐场详情档案，
+       解决「第三年以外学年空态」+ 用户要求的「就业活动详情记录页」。
+       回滚：删掉这一行，即回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。 */
+    if (activeSideTag === '就业活动') return gxEmSheet();
+    /* v63：两个大赛的下方改成「参赛记录档案」（院赛 → 校赛 → 决赛时间线），
+       解决补到 3 条记录后、默认第四年打开职规赛页仍是空态的问题。
+       回滚：删掉这两行，即回到 gxModuleSheet() 的单业务标签过滤。 */
+    if (activeSideTag === '大学生职业规划大赛') return gxCtSheet('career');
+    if (activeSideTag === '大学生创新大赛') return gxCtSheet('innov');
     if (activeSideTag === '生涯体验周') return gxEwSheet();
     if (activeSideTag === 'AI面试') return gxIv2Sheet();
     if (activeSideTag === '职业测评') return gxAssessSheet();
@@ -2294,6 +2331,9 @@
            学科竞赛 = 大学生职业规划大赛 + 大学生创新大赛；
            能力维度 = 求职表现能力（校招活动 / 就业活动）、职业认知能力（生涯活动 / 体验周）、
                      竞赛成长能力（两项大赛），共 3 个。
+           **v63 更新**：就业活动 1→4、两个大赛各 1→3（补院赛 / 校赛阶段），
+           故 21 场 = 校招 8 + 学科竞赛 6 + 就业活动 4 + 生涯活动 2 + 体验周 1。
+           本卡的数字与 v58 下方归档（gxAaStats 动态统计）必须同步改，否则两处打架。
      注意：下方模块明细仍按 activeArchiveGrade + 单业务标签过滤（第四年为空态），
            与 AI 卡的跨学年大类汇总属于「汇总 vs 明细」两层口径；文案把
            「明细按业务标签分散、大类视角缺统一清单」本身写进短板，不假装下方有 14 条。
@@ -2302,16 +2342,16 @@
            3 能力维度），本段注释保留为 v55 当时的决策记录，不再描述当前行为。
      ========================================================================== */
   ca.activitySummary = {
-    diag: '平台生涯活动记录：生涯活动是活动大类，把校友分享会、企业参访、行业体验周、双选洽谈会、宣讲会与双选会、职业规划大赛、创新大赛等所有活动性质记录统一归档，跨四个学年累计 14 场，覆盖校招活动 8 场、生涯活动 2 场、学科竞赛 2 场、生涯体验周与就业活动各 1 场，关联职业认知、竞赛成长、求职表现 3 个能力维度。前三年以认知与竞赛类为主（分享会、企业参访、行业体验周、两项大赛校级奖项），毕业学年转为 8 场校招报名。短板有三：广度够但深度浅，8 场校招活动只记录「报名了宣讲会」，签到与成果未归档；竞赛奖项未关联作品到能力维度；明细按业务标签分散，大类视角缺统一活动清单与参与状态。',
-    advice: '建议按大类补齐每次活动的三段记录：参与凭证（报名 / 签到）、过程沉淀（岗位观察、参访笔记、竞赛作品）、成果结论（对应能力维度）；毕业学年的 8 场校招活动优先补投递与沟通结果，把两项大赛作品回填竞赛成长能力。院校侧统一「活动大类 → 子类 → 能力维度」归档口径，对只有报名无签到的活动做提醒，按年级均衡推送活动类型，并把参与广度、深度与成果接入档案能力画像。',
+    diag: '平台生涯活动记录：生涯活动是活动大类，把分享会、参访、体验周、双选会与宣讲会、就业活动、两项大赛等活动性质记录统一归档，跨四个学年累计 21 场，覆盖校招活动 8 场、学科竞赛 6 场、就业活动 4 场、生涯活动 2 场、生涯体验周 1 场，关联求职表现、竞赛成长、职业认知 3 个能力维度。前三年以认知、竞赛与就业准备为主，毕业学年转为 8 场校招报名。两项大赛各记录院赛、校赛与决赛三阶段；就业活动覆盖实训、实践、讲座与双选洽谈。短板有三：广度够但深度浅，8 场校招只记录「报名了宣讲会」，签到与投递结果未归档；6 场赛事只有阶段与奖项，参赛作品与承担分工未关联能力维度；21 场里仅 1 场有过程沉淀。',
+    advice: '建议按大类补齐每次活动的三段记录：参与凭证（报名 / 签到）、过程沉淀（岗位观察、参访笔记、竞赛作品）、成果结论（对应能力维度）；毕业学年 8 场校招优先补投递与沟通结果，把两项大赛的规划书、项目计划书与获奖说明回填竞赛成长能力，就业实训与项目实践的产出整理成可展示作品。院校侧统一「活动大类 → 子类 → 能力维度」归档口径，对只有报名无签到的活动做提醒，按年级均衡推送活动类型，并把参与广度、深度与成果接入档案能力画像。',
     stats: {
-      total: 14,
+      total: 21,
       categories: [
-        { name: '校招活动', count: 8, pct: 57, color: '#5CAD6A' },
-        { name: '生涯活动', count: 2, pct: 14, color: '#7FA8D0' },
-        { name: '学科竞赛', count: 2, pct: 14, color: '#E7B84B' },
-        { name: '生涯体验周', count: 1, pct: 7, color: '#8FBF5A' },
-        { name: '就业活动', count: 1, pct: 7, color: '#B9C4B0' }
+        { name: '校招活动', count: 8, pct: 38, color: '#5CAD6A' },
+        { name: '生涯活动', count: 2, pct: 10, color: '#7FA8D0' },
+        { name: '学科竞赛', count: 6, pct: 28, color: '#E7B84B' },
+        { name: '就业活动', count: 4, pct: 19, color: '#B9C4B0' },
+        { name: '生涯体验周', count: 1, pct: 5, color: '#8FBF5A' }
       ],
       links: [
         { topic: '校招活动', dim: '求职表现能力', color: '#5CAD6A' },
@@ -2559,6 +2599,180 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v63 · 「就业活动」顶部 AI 总结及建议：围绕学生参加过的历史就业活动
+     --------------------------------------------------------------------------
+     用户口径：就业活动 = 毕业生就业相关活动的**揽括**（就业实训 / 就业讲座 /
+       就业实践 / 双选洽谈 / 政策宣讲等），不是一个单一场次；
+       AI 总结要根据学生参加的就业活动数据分析，右侧图要与总结关联。
+     原实现：与其余通用模块共用 gxAssessAi() → ca.assessmentSummary，
+       文案是「历次职业测评 / 职业锚 / 人才星图」，环形图是 6 项测评维度，与就业活动无关。
+     做法：不改通用 gxAssessAi()，新增 gxEmployAi()。右上角换成
+       ①「就业活动 · 参与深度」4 条横条 —— 统计图，宽度按 62/40/52/76 分（时间序）
+       ②「三段记录 → 待补齐」3 行关联 —— 分析图，与 v58 的参与凭证 / 过程沉淀 /
+          成果结论同一套模型，色点一一对应
+     数据自洽（v63 已把 4 场写进 ca.gradeRecords，与时间轴、v58 归档三处同源）：
+       2024-04 就业实训 62 分（第二年）/ 2024-10 双选洽谈 40 分（第三年，原有记录）/
+       2024-11 就业讲座 52 分 / 2025-03 就业实践 76 分（第三年）
+       双选会 40 分是 4 场最低 —— 只到场未跟进，正好被文案点成短板，不做美化。
+     参与深度为原型示意（平台暂无签到与成果数据），图上与文案均标注；
+       不编造投递结果、企业反馈等成果。
+     类名 .gx-ai--employ / .gx-em-*，避开 .gx-cm-*(v62) / .gx-et-*(v61) /
+       .gx-rs-*(v60) / .gx-ac-*(v55) 等已有皮肤。
+     回滚：删掉 gxModuleSheet 里这一行分支即可回到通用测评卡。
+     ========================================================================== */
+  ca.employSummary = {
+    diag: '平台归档了学生参加的 4 场就业活动：第二年 4 月「简历与面试实战工作坊」就业实训 3 天，参与深度 62 分；第三年 10 月「2025届实习生双选洽谈会」沟通 6 家企业，40 分；同年 11 月「行业形势与岗位需求」讲座，会后提 3 条岗位疑问，52 分；第三年 3 月「校企合作短视频运营项目」6 周实践，承担脚本与数据周报，76 分。覆盖面较好：四类齐全，从第二年第 2 学期延伸到第三年春季，与 AI 简历 3 版迭代、AI 面试 82 分在同一条求职主线上。短板有三：4 场都只记录「参加了」，签到、沟通企业与投递结果未归档；实训与项目产出没回填；双选会只到场未跟进，是最浅的一场。总体判断：已从「被动参加」走到「主动进项目」，但「参与→产出→投递结果」未闭环。',
+    advice: '以 6 周项目实践做样板，补齐产出清单：脚本作品、账号数据周报、带教评语，回填求职表现能力；把双选会沟通的 6 家企业整理成跟进表（岗位、联系人、投递状态）。毕业学年优先参加与数字媒体运营岗对口的实训与宣讲，每场结束 3 天内补一段过程沉淀，并与求职现行版简历、8 场校招投递串成链。院校侧可把「只报名未签到」「参加后无产出」设为提醒。参与深度为原型示意，需接平台真实签到与成果数据。',
+    stats: {
+      rounds: [
+        { name: '就业实训', scene: '2024-04 · 简历与面试工作坊', score: 62, color: '#C9D8B8', dims: '3 天 · 简历诊断 + 模拟群面' },
+        { name: '双选洽谈', scene: '2024-10 · 2025届实习生双选会', score: 40, color: '#B9C4B0', dims: '沟通 6 家企业 · 未跟进' },
+        { name: '就业讲座', scene: '2024-11 · 行业形势与岗位需求', score: 52, color: '#8FBF5A', dims: '会后提交 3 条岗位疑问' },
+        { name: '就业实践', scene: '2025-03 · 校企合作短视频运营', score: 76, color: '#5CAD6A', dims: '6 周 · 脚本与数据周报' }
+      ],
+      gaps: [
+        { module: '参与凭证 4/4', action: '签到未归档', color: '#E7B84B' },
+        { module: '过程沉淀 1/4', action: '补实训产出', color: '#7FA8D0' },
+        { module: '成果结论 0/4', action: '关联能力维度', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxEmployAi() {
+    var a = ca.employSummary, s = a.stats;
+    var bars = s.rounds.map(function (v) {
+      return '<li class="gx-em-bar" title="' + gxEsc(v.scene + ' · ' + v.dims + ' · 参与深度 ' + v.score) + '">' +
+        '<span class="gx-em-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-em-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-em-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-em-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--employ">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-em-viz">' +
+        '<div class="gx-em-chart">' +
+          '<div class="gx-em-chart-head"><h4>就业活动 · 参与深度</h4>' +
+            '<span>4 场 · 40 → 76 分</span></div>' +
+          '<ul class="gx-em-bars">' + bars + '</ul>' +
+          '<div class="gx-em-gaps-box">' +
+            '<h4>三段记录 → 待补齐</h4>' +
+            '<p class="gx-em-gaps-note">4 场仅 1 场有过程沉淀</p>' +
+            '<ul class="gx-em-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-em-disclaimer">* 参与深度为原型示意，需接平台真实签到与成果数据</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
+  /* ==========================================================================
+     v63 · 「大学生职业规划大赛 / 大学生创新大赛」顶部 AI 总结及建议
+     --------------------------------------------------------------------------
+     用户口径：这两个成长档案详情页**就是为了记录学生参与过的赛事信息**；
+       AI 总结要和学生参赛记录相关，右侧图要与该赛事参赛记录关联。
+     原实现：两个赛事都走 gxAssessAi() → 职业测评文案 + 6 维环形图，与赛事完全无关。
+     做法：不改通用 gxAssessAi()，新增参数化 gxContestAi(kind)，
+       kind = 'career' | 'innov'，数据取 ca.contestSummary[kind]。
+       两赛共用同一套版式（同属「赛事」产品语义，视觉应一致），但文案、数字、
+       阶段名、短板各自独立，不互相复用。右上角：
+       ①「参赛阶段推进」3 条横条 —— 统计图，宽度按各阶段方案成熟度分
+       ②「赛事环节 → 待补齐」3 行关联 —— 分析图，色点对应缺证据的环节
+     数据自洽（v63 已把各 3 条阶段写进 ca.gradeRecords，与时间轴、v58 学科竞赛子类同源）：
+       职规赛 = 2024-11 院级选拔赛 62 → 2025-05 校级初赛 74 → 2025-06 校级决赛 86（二等奖）
+       创新赛 = 2024-09 项目申报 58 → 2024-09 院级初评 71 → 2024-10 校级决赛 80（三等奖）
+       决赛阶段与两条原有记录（2025-06-30 / 2024-10-08）逐字对应，未改原记录。
+     成熟度为原型示意（平台暂无评审数据），图上与文案均标注；
+       作品原文、团队分工、评委反馈平台暂无数据，只写「未归档 / 未关联」，不编造成果。
+     类名 .gx-ai--contest / .gx-ct-*，避开 .gx-em-*(v63 就业活动) 等已有皮肤。
+     回滚：删掉 gxModuleSheet 里这两行分支即可回到通用测评卡。
+     ========================================================================== */
+  ca.contestSummary = {
+    career: {
+      name: '大学生职业规划大赛',
+      diag: '平台归档了学生参加大学生职业规划大赛的完整参赛链：第三年 11 月院级选拔赛，提交《数字媒体运营方向职业生涯规划书》，获院级一等奖晋级，成熟度 62 分；第三年 5 月校级初赛完成 8 分钟陈述与答辩晋级，74 分；同年 6 月校级决赛获二等奖，86 分。从院赛到决赛约 7 个月，规划方案随 AI 简历 3 版迭代、职业礼仪 82 分、AI 面试 82 分收敛到数字媒体运营岗。短板有三：三条记录只有阶段与奖项，规划书原文、答辩 PPT 与评委反馈未归档；个人参赛还是团队、本人承担哪部分未写明；62 分到 86 分的提升原因未沉淀成方法。总体判断：参赛链完整、结果可查，但「作品→分工→复盘」缺证据。',
+      advice: '把三版规划书（院赛稿 / 初赛稿 / 决赛稿）与答辩 PPT 上传归档，标注本人承担的部分（自我认知、岗位调研、路径设计）；整理评委提问与自己的应答写成复盘，解释 62 分到 86 分的关键改动。毕业学年把该赛事成果与创新大赛项目、求职现行版简历并列，作为竞赛成长能力的对外证据。院校侧建议赛事模块统一「报名 → 晋级 → 作品 → 奖项 → 复盘」五段归档，把院赛与校赛关联为同一条参赛链。方案成熟度为原型示意，需接平台真实评审数据。',
+      head: '参赛阶段推进',
+      sub: '3 阶段 · 62 → 86 分',
+      gapTitle: '赛事环节 → 待补齐',
+      gapNote: '3 处未形成证据',
+      disclaimer: '* 成熟度为原型示意，需接平台真实评审数据',
+      rounds: [
+        { name: '院级选拔赛', scene: '2024-11 · 规划书院级一等奖', score: 62, color: '#C9D8B8', dims: '提交规划书 · 晋级校赛' },
+        { name: '校级初赛', scene: '2025-05 · 陈述与答辩晋级', score: 74, color: '#8FBF5A', dims: '8 分钟陈述 · 晋级决赛' },
+        { name: '校级决赛', scene: '2025-06 · 校级二等奖', score: 86, color: '#5CAD6A', dims: '决赛答辩 · 二等奖' }
+      ],
+      gaps: [
+        { module: '规划书原文', action: '三版归档', color: '#E7B84B' },
+        { module: '承担分工', action: '未写明', color: '#7FA8D0' },
+        { module: '评委反馈', action: '未沉淀复盘', color: '#B9A0D0' }
+      ]
+    },
+    innov: {
+      name: '大学生创新大赛',
+      diag: '平台归档了学生参加大学生创新大赛的完整参赛链：第四年 9 月项目申报，组建 4 人团队提交《基于AIGC的校园文创设计平台》计划书，成熟度 58 分；同月院级初评完成 6 分钟路演答辩晋级，71 分；10 月校级决赛获三等奖，80 分。从申报到决赛约 1 个月，创意来自数字媒体技术专业课程，与求职现行版简历的作品集可打通。短板有三：三条记录只有阶段与奖项，项目计划书、路演 PPT 与原型 Demo 未归档；团队里本人承担什么角色（产品设计 / 视觉 / 技术）未写明；58 分到 80 分的关键改动未沉淀成方法论。总体判断：参赛链完整、结果可查，但「作品→分工→复盘」缺证据。',
+      advice: '把项目计划书、路演 PPT 与「基于AIGC的校园文创设计平台」原型 Demo 上传归档，标注本人承担的产品设计与视觉部分；整理评委提问写成复盘，说明 58 分到 80 分补了哪些内容（用户调研、商业模式、技术可行性）。把项目产出与职业规划大赛奖项、求职现行版简历的作品集链接打通，作为竞赛成长能力与产品能力的双重证据。院校侧建议赛事模块统一「报名 → 晋级 → 作品 → 奖项 → 复盘」五段归档，并把团队分工设为必填。方案成熟度为原型示意，需接平台真实评审数据。',
+      head: '参赛阶段推进',
+      sub: '3 阶段 · 58 → 80 分',
+      gapTitle: '赛事环节 → 待补齐',
+      gapNote: '3 处未形成证据',
+      disclaimer: '* 成熟度为原型示意，需接平台真实评审数据',
+      rounds: [
+        { name: '项目申报', scene: '2024-09 · 4 人团队提交计划书', score: 58, color: '#C9D8B8', dims: '计划书 · 项目立项' },
+        { name: '院级初评', scene: '2024-09 · 路演答辩晋级', score: 71, color: '#8FBF5A', dims: '6 分钟路演 · 晋级决赛' },
+        { name: '校级决赛', scene: '2024-10 · 校级三等奖', score: 80, color: '#5CAD6A', dims: '决赛答辩 · 三等奖' }
+      ],
+      gaps: [
+        { module: '项目计划书', action: '原文未归档', color: '#E7B84B' },
+        { module: '团队分工', action: '本人角色未写明', color: '#7FA8D0' },
+        { module: '路演与 Demo', action: '原型未关联', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxContestAi(kind) {
+    var a = ca.contestSummary[kind] || ca.contestSummary.career;
+    var bars = a.rounds.map(function (v) {
+      return '<li class="gx-ct-bar" title="' + gxEsc(v.scene + ' · ' + v.dims + ' · 成熟度 ' + v.score) + '">' +
+        '<span class="gx-ct-bar-name">' + gxEsc(v.name) + '</span>' +
+        '<div class="gx-ct-bar-track"><i style="width:' + v.score + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.score + '</b></li>';
+    }).join('');
+    var gaps = a.gaps.map(function (g) {
+      return '<li class="gx-ct-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-ct-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--contest">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-ct-viz">' +
+        '<div class="gx-ct-chart">' +
+          '<div class="gx-ct-chart-head"><h4>' + gxEsc(a.head) + '</h4>' +
+            '<span>' + gxEsc(a.sub) + '</span></div>' +
+          '<ul class="gx-ct-bars">' + bars + '</ul>' +
+          '<div class="gx-ct-gaps-box">' +
+            '<h4>' + gxEsc(a.gapTitle) + '</h4>' +
+            '<p class="gx-ct-gaps-note">' + gxEsc(a.gapNote) + '</p>' +
+            '<ul class="gx-ct-gaps">' + gaps + '</ul>' +
+          '</div>' +
+          '<p class="gx-ct-disclaimer">' + gxEsc(a.disclaimer) + '</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2592,6 +2806,13 @@
     else if (activeSideTag === '职业礼仪') ai = gxEtiquetteAi();
     /* v62：职场沟通技巧改用「历史 AI 情景对话实训 + 报告」专属 AI 卡；删掉这一行即回滚。 */
     else if (activeSideTag === '职场沟通技巧') ai = gxCommsAi();
+    /* v63：就业活动改用「历史就业活动参与深度」专属 AI 卡；删掉这一行即回滚。
+       两个大赛共用参数化的 gxContestAi(kind)，文案与数据各自独立、版式一致；
+       删掉对应行即回到通用测评卡。注意：生涯活动页（v58 归档）会统计这三类记录，
+       改记录条数时必须同步 ca.activitySummary / ca.activityArchive 的场次口径。 */
+    else if (activeSideTag === '就业活动') ai = gxEmployAi();
+    else if (activeSideTag === '大学生职业规划大赛') ai = gxContestAi('career');
+    else if (activeSideTag === '大学生创新大赛') ai = gxContestAi('innov');
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
@@ -3437,7 +3658,7 @@
 
   ca.activityArchive = {
     title: '我的生涯活动档案',
-    subtitle: '活动大类统一归档 · 跨四个学年 14 场 · 5 个子类 · 不受左栏年级筛选影响',
+    subtitle: '活动大类统一归档 · 跨四个学年 21 场 · 5 个子类 · 不受左栏年级筛选影响',
     types: [
       { k: 'campus', name: '校招活动', ability: '求职表现能力', color: '#5CAD6A',
         insight: '8 场均只记录「报名了宣讲会 / 双选会」，签到、岗位观察与投递结果未归档',
@@ -3448,7 +3669,7 @@
         note: '整理校友分享或企业参访的三点观察，写成一页参访笔记。',
         result: '职业认知能力 · 行业与岗位认知' },
       { k: 'contest', name: '学科竞赛', ability: '竞赛成长能力', color: '#E7B84B',
-        insight: '2 场赛事均获校级奖项，但参赛作品与承担分工未关联到能力维度',
+        insight: '6 场覆盖两项大赛的院赛、校赛与决赛阶段，参赛作品与承担分工未关联到能力维度',
         note: '上传参赛作品与获奖说明，写清本人承担的分工与方法。',
         result: '竞赛成长能力 · 作品与项目实践' },
       { k: 'week', name: '生涯体验周', ability: '职业认知能力', color: '#8FBF5A',
@@ -3456,7 +3677,7 @@
         note: '记录体验岗位的一天流程与能力要求，形成岗位体验小结。',
         result: '职业认知能力 · 岗位体验' },
       { k: 'employ', name: '就业活动', ability: '求职表现能力', color: '#B9C4B0',
-        insight: '1 场双选洽谈会仅记录参加，沟通企业与跟进结果未归档',
+        insight: '4 场覆盖就业实训、讲座、实践与双选洽谈，分别只记录参加，实训产出与跟进结果未归档',
         note: '记录洽谈企业、沟通岗位与后续跟进动作。',
         result: '求职表现能力 · 求职沟通与跟进' }
     ],
@@ -3465,8 +3686,8 @@
       { name: '职业认知能力', color: '#7FA8D0' },
       { name: '竞赛成长能力', color: '#E7B84B' }
     ],
-    gap: '14 场活动中 8 场校招仅记录报名，签到与投递结果未归档；2 项竞赛奖项未关联参赛作品；过程沉淀与成果结论普遍缺失。大类视角能看清参与广度，却还证明不了能力成长。',
-    consistency: '与顶部 AI 卡一致：14 场 = 校招活动 8 + 生涯活动 2 + 学科竞赛 2 + 生涯体验周 1 + 就业活动 1，归到求职表现、职业认知、竞赛成长 3 个能力维度；两个大赛业务标签合并为「学科竞赛」子类，故 6 个业务标签对应 5 个活动子类。',
+    gap: '21 场活动中 8 场校招仅记录报名，签到与投递结果未归档；6 场赛事有阶段与奖项，参赛作品与承担分工未关联；21 场里仅 1 场补录了过程沉淀。大类视角能看清参与广度，却还证明不了能力成长。',
+    consistency: '与顶部 AI 卡一致：21 场 = 校招活动 8 + 学科竞赛 6 + 就业活动 4 + 生涯活动 2 + 生涯体验周 1，归到求职表现、职业认知、竞赛成长 3 个能力维度；两个大赛业务标签合并为「学科竞赛」子类，故 6 个业务标签对应 5 个活动子类。',
     fields: ['活动子类与业务标签', '参与时间 / 所在学年', '参与凭证（报名 / 签到）',
       '过程沉淀（观察 / 笔记 / 作品）', '成果结论（奖项 / 能力维度）', '能力维度归因']
   };
@@ -3651,7 +3872,7 @@
       '<p class="gx-aa-arch-sub">跨学年 ' + st.recs.length + ' 场 · 5 个子类 · 与顶部 AI 卡口径一致</p>' +
       '<div class="gx-aa-gap"><b>广度够、深度浅</b><p>' + gxEsc(d.gap) + '</p></div>' +
       '<div class="gx-aa-consistency"><b>档案一致性</b><p>' + gxEsc(d.consistency) + '</p></div>' +
-      '<div class="gx-aa-scope"><b>大类归档口径</b><p>14 场来自 6 个业务标签，归并为 5 个活动子类，' +
+      '<div class="gx-aa-scope"><b>大类归档口径</b><p>' + st.recs.length + ' 场来自 6 个业务标签，归并为 5 个活动子类，' +
         '跨四个学年汇总，不随左栏年级切换而过滤；签到等现场数据需平台对接后自动归档。</p></div>' +
       groups +
       '<h4 class="gx-aa-sec-title">归档字段</h4>' +
@@ -3732,6 +3953,438 @@
     });
   }
 
+  /* ==========================================================================
+     v63 · 「就业活动」详情页下方：我的就业活动记录（独立，可整块删除回滚）
+     --------------------------------------------------------------------------
+     用户口径：就业活动是毕业生就业相关活动的**揽括**（就业实训 / 就业讲座 /
+       就业实践 / 双选洽谈 / 政策宣讲……）；「底下的就是学生参加就业活动的
+       详情记录页」。AskUserQuestion 已确认：下方要做成**详情记录档案**，不是只留空态。
+     原实现：就业活动走 gxModuleSheet() → 下方按 activeArchiveGrade + 单业务标签过滤，
+       第三年以外的学年一律空态（用户截图里红框就是「暂无相关记录」）。
+     做法：新增 gxEmSheet() 整体接管下方，与 v56/v57/v58 同构（顶部 AI 卡不动，只换下方）。
+       ① 左侧 = 逐场活动卡（4 场，含子类标签 / 参与动作 / 三段记录状态 / 补录按钮）
+          —— 与 v58 的「子类卡片 + 展开明细」不同：就业活动 4 场分属 4 个子类、
+             每类只有 1 场，再套子类折叠会变成「展开一行」，对详情记录页没有价值，
+             所以按**场次**直铺，一个活动的信息在一张卡里看全。
+       ② 右侧 = 参与画像（学年分布 / 三段记录完成度 / 归档口径），可切「参与档案」视图
+     数据唯一来源：遍历 ca.gradeRecords 中 business_type === '就业活动' 的记录，
+       **不另造一份活动数据**，因此 4 场 / 4 子类 / 2 学年与顶部 AI 卡、v58 归档天然一致：
+         2024-04 就业实训 → train；2024-10 双选洽谈会 → fair；
+         2024-11 就业讲座 → lecture；2025-03 就业实践 → practice。
+       子类靠 description 关键词判定（实训 / 实践 / 讲座 / 双选 | 洽谈会），
+       顺序上「实训」先于「实践」，「实战」不会被误判成「实践」。
+     补充信息（参与动作、过程沉淀文案、成果结论文案、参与深度分）按 **日期** 从
+       ca.employArchive.detail 取，不按活动名（活动名可能重复）；日期是 gxAaDate 归一后的
+       yyyy-mm-dd，与 gradeRecords 一一对应。参与深度只在标题 tooltip 里用，不重做图。
+     不编造成果：签到、投递结果、企业反馈平台暂无数据，初始一律「未归档」；
+       点「补录过程沉淀」才写入示意的沉淀与结论，并同步 KPI / 右栏完成度。
+       签到始终标注需平台对接 —— 签到是现场数据，学生不能自补（同 v58 口径）。
+     类名避开 AI 卡的 .gx-em-*（v63 同版本、同一业务标签），下方统一用 .gx-ep-*。
+     回滚：删掉 gxSheet 里这一行分支即可回到 gxModuleSheet() 的通用「模块记录 + 模块说明」。
+     ========================================================================== */
+  var EM_TYPE_MAP = [
+    { k: 'train', name: '就业实训', color: '#5CAD6A', re: /实训/ },
+    { k: 'practice', name: '就业实践', color: '#8FBF5A', re: /实践/ },
+    { k: 'lecture', name: '就业讲座', color: '#7FA8D0', re: /讲座/ },
+    { k: 'fair', name: '双选洽谈', color: '#B9C4B0', re: /双选|洽谈会/ }
+  ];
+
+  ca.employArchive = {
+    title: '我的就业活动记录',
+    subtitle: '毕业生就业活动归集 · 跨第二、第三学年 4 场 · 4 个子类 · 不受左栏年级筛选影响',
+    types: EM_TYPE_MAP.map(function (t) { return { k: t.k, name: t.name, color: t.color }; }),
+    /* key = gxAaDate(created_at)，与 gradeRecords 逐条对应；未命中的场次按空值降级渲染。 */
+    detail: {
+      '2024-04-19': {
+        action: '3 天集训 · 简历诊断 + 模拟群面 + 一对一复盘', depth: 62,
+        note: '整理简历诊断报告与模拟群面反馈，列出 5 处待改问题',
+        result: '求职表现能力 · 简历与面试准备'
+      },
+      '2024-10-28': {
+        action: '现场沟通 6 家企业 · 实习生岗位', depth: 40,
+        note: '整理 6 家企业的岗位、联系人与投递状态，形成跟进表',
+        result: '求职表现能力 · 求职沟通与跟进'
+      },
+      '2024-11-08': {
+        action: '行业形势宣讲 · 会后提交 3 条岗位疑问', depth: 52,
+        note: '整理行业用人需求与岗位能力要求，写成一页要点笔记',
+        result: '求职表现能力 · 行业与岗位认知'
+      },
+      '2025-03-14': {
+        action: '6 周项目 · 脚本撰写 + 账号数据周报', depth: 76,
+        note: '汇总脚本作品、账号数据周报与带教反馈评语',
+        result: '求职表现能力 · 内容运营实战'
+      }
+    },
+    gap: '4 场覆盖实训、实践、讲座、双选洽谈四类，数量不多但类型齐全；问题在深度：4 场都只有「参加了」，签到与投递结果未归档，实训与项目产出没回填，双选会只到场未跟进。参与类型齐、能力证据缺。',
+    consistency: '与顶部 AI 卡一致：4 场 = 就业实训 1 + 就业实践 1 + 就业讲座 1 + 双选洽谈 1，全部归到求职表现能力；时间落在第二年（1 场）与第三年（3 场），与生涯活动大类归档里的「就业活动 4 场」同一批记录，不重复计数。',
+    fields: ['活动子类（实训 / 实践 / 讲座 / 双选）', '参与时间 / 所在学年',
+      '参与凭证（报名 / 签到）', '过程沉淀（报告 / 笔记 / 作品）',
+      '成果结论（能力维度归因）', '跟进状态（投递 / 企业反馈）']
+  };
+
+  var activeEmFilter = 'all';
+  var activeEmNotes = {};
+  var activeEmArchive = false;
+
+  /* 每次渲染实时从 gradeRecords 提取，保证「详情记录」与档案时间轴永远同源。 */
+  function gxEmRecords() {
+    var out = [], n = 0;
+    Object.keys(ca.gradeRecords).forEach(function (grade) {
+      ca.gradeRecords[grade].forEach(function (r) {
+        if (r.business_type !== '就业活动') return;
+        var desc = r.description || '';
+        var t = null;
+        EM_TYPE_MAP.forEach(function (m) { if (!t && m.re.test(desc)) t = m; });
+        if (!t) t = EM_TYPE_MAP[0];
+        var mm = /【([^】]+)】/.exec(desc);
+        var raw = mm ? mm[1] : r.business_type;
+        /* 子类已由标签单独展示；活动名里若带「就业实训 / 就业讲座」这类重复前缀，
+           去掉前缀让标题更短，避免和标签撞词。 */
+        var name = raw.replace(/^就业(实训|实践|讲座)\s*·\s*/, '').trim() || raw;
+        var d = gxAaDate(r.created_at);
+        var det = ca.employArchive.detail[d] || {};
+        out.push({
+          id: 'e' + (++n), grade: grade, type: t.k,
+          typeName: t.name, color: t.color,
+          date: d, year: d.slice(0, 4), name: name, raw: raw,
+          ability: r.ability_dimension, desc: desc,
+          action: det.action || '', depth: det.depth || 0,
+          note: det.note || '补充本场的过程记录（笔记 / 报告 / 作品）。',
+          result: det.result || '求职表现能力 · 就业活动参与'
+        });
+      });
+    });
+    /* 时间正序：与顶部 AI 卡横条顺序、档案时间轴一致，阅读连贯。 */
+    out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+    return out;
+  }
+
+  function gxEmDone(r) { return !!activeEmNotes[r.id]; }
+
+  function gxEmTabs(list) {
+    var tabs = [{ k: 'all', label: '全部', n: list.length }].concat(
+      ca.employArchive.types.map(function (t) {
+        return { k: t.k, label: t.name, n: list.filter(function (r) { return r.type === t.k; }).length };
+      })
+    );
+    return '<div class="gx-ep-tabs">' + tabs.map(function (t) {
+      return '<button type="button" class="' + (activeEmFilter === t.k ? 'active' : '') +
+        '" data-ep-filter="' + t.k + '">' + gxEsc(t.label) + ' <i>' + t.n + '</i></button>';
+    }).join('') + '</div>';
+  }
+
+  function gxEpKpis(list) {
+    var done = list.filter(gxEmDone).length;
+    var grades = [];
+    list.forEach(function (r) { if (grades.indexOf(r.grade) < 0) grades.push(r.grade); });
+    var items = [
+      { v: String(list.length), u: '场', label: '累计参与' },
+      { v: String(ca.employArchive.types.filter(function (t) {
+        return list.some(function (r) { return r.type === t.k; });
+      }).length), u: '类', label: '活动类型' },
+      { v: String(grades.length), u: '个', label: '覆盖学年' },
+      { v: String(done), u: ' / ' + list.length, label: '已补录深度证据', warn: done === 0 }
+    ];
+    return '<div class="gx-ep-kpis">' + items.map(function (k) {
+      return '<div class="gx-ep-kpi' + (k.warn ? ' warn' : '') + '">' +
+        '<b>' + gxEsc(k.v) + '</b><i>' + gxEsc(k.u) + '</i>' +
+        '<span>' + gxEsc(k.label) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  /* 一张卡 = 一场活动：子类 + 活动名 + 时间 + 参与动作 + 三段记录。 */
+  function gxEpCard(r) {
+    var filled = gxEmDone(r);
+    return '<article class="gx-ep-card" style="--ep-color:' + r.color + '">' +
+      '<div class="gx-ep-card-head">' +
+        '<span class="gx-ep-type"><i></i>' + gxEsc(r.typeName) + '</span>' +
+        '<span class="gx-ep-date">' + gxEsc(r.date) + ' · ' + gxEsc(r.grade) + '</span>' +
+      '</div>' +
+      '<h5 class="gx-ep-name" title="' + gxEsc(r.raw + ' · 参与深度 ' + r.depth) + '">' + gxEsc(r.name) + '</h5>' +
+      '<p class="gx-ep-action"><b>参与动作</b>' + gxEsc(r.action || r.desc) + '</p>' +
+      '<div class="gx-ep-stages">' +
+        '<span class="gx-ep-stage"><label>参与凭证</label>已参加 · 签到未归档</span>' +
+        '<span class="gx-ep-stage' + (filled ? ' ok' : '') + '"><label>过程沉淀</label>' +
+          (filled ? '已补录' : '未归档') + '</span>' +
+        '<span class="gx-ep-stage' + (filled ? ' ok' : '') + '"><label>成果结论</label>' +
+          (filled ? '已关联能力维度' : '未归档') + '</span>' +
+      '</div>' +
+      (filled
+        ? '<p class="gx-ep-note"><label>过程沉淀</label>' + gxEsc(r.note) + '</p>' +
+          '<p class="gx-ep-note"><label>成果结论</label>' + gxEsc(r.result) + '</p>'
+        : '') +
+      '<div class="gx-ep-card-foot">' +
+        '<span class="gx-ep-ability">' + gxEsc(r.ability) + '</span>' +
+        '<button type="button" class="gx-ep-note-btn" data-ep-note="' + r.id + '">' +
+          (filled ? '撤销补录' : '补录过程沉淀') + '</button>' +
+      '</div>' +
+      '</article>';
+  }
+
+  /* 右栏：学年分布 + 三段记录完成度（随补录实时变化）+ 归档口径。 */
+  function gxEpProfile(list) {
+    var total = list.length;
+    var years = ['第一年', '第二年', '第三年', '第四年'].map(function (g) {
+      var n = list.filter(function (r) { return r.grade === g; }).length;
+      var pct = total ? Math.round(n / total * 100) : 0;
+      return '<div class="gx-ep-bar"><span>' + g + '</span>' +
+        '<div class="gx-ep-bar-track"><i style="width:' + pct + '%"></i></div>' +
+        '<b>' + n + ' 场</b></div>';
+    }).join('');
+    var done = list.filter(gxEmDone).length;
+    var stages = [
+      { name: '参与凭证', n: total, color: '#5CAD6A', hint: '报名 / 签到' },
+      { name: '过程沉淀', n: done, color: '#8FBF5A', hint: '笔记 / 报告 / 作品' },
+      { name: '成果结论', n: done, color: '#7FA8D0', hint: '能力维度归因' }
+    ].map(function (s) {
+      var pct = total ? Math.round(s.n / total * 100) : 0;
+      return '<div class="gx-ep-stage-row"><span><i style="background:' + s.color + '"></i>' + s.name + '</span>' +
+        '<div class="gx-ep-bar-track"><i style="width:' + pct + '%;background:' + s.color + '"></i></div>' +
+        '<b>' + s.n + '/' + total + '</b><em>' + s.hint + '</em></div>';
+    }).join('');
+    return '<div class="gx-ep-profile-inner">' +
+      '<h4 class="gx-ep-sec-title">学年分布</h4>' +
+      '<div class="gx-ep-bars">' + years + '</div>' +
+      '<h4 class="gx-ep-sec-title">三段记录完成度</h4>' +
+      '<div class="gx-ep-stages-list">' + stages + '</div>' +
+      '<p class="gx-ep-stages-note">参与凭证由平台打卡或报名数据自动生成；' +
+        '过程沉淀与成果结论可由学生补录后关联能力维度。签到属现场数据，需平台对接。</p>' +
+      '<h4 class="gx-ep-sec-title">归档口径</h4>' +
+      '<p class="gx-ep-scope">就业活动按子类（实训 / 实践 / 讲座 / 双选）归集，' +
+        '跨学年汇总，不随左栏年级切换而过滤；同一批记录也计入「生涯活动」大类的' +
+        '就业活动子类，两处口径一致、不重复计数。</p>' +
+      '</div>';
+  }
+
+  function gxEpArchiveView(list) {
+    var d = ca.employArchive;
+    var groups = ['第一年', '第二年', '第三年', '第四年'].map(function (g) {
+      var rs = list.filter(function (r) { return r.grade === g; });
+      return '<div class="gx-ep-arch-group"><h5>' + g + '<i>' + rs.length + ' 场</i></h5>' +
+        '<ul>' + (rs.length ? rs.map(function (r) {
+          return '<li><time>' + gxEsc(r.date) + '</time><span title="' + gxEsc(r.name) + '">' +
+            gxEsc(r.name) + '</span></li>';
+        }).join('') : '<li class="empty">本学年暂无就业活动记录</li>') + '</ul></div>';
+    }).join('');
+    var deepest = list.slice().sort(function (a, b) { return b.depth - a.depth; })[0];
+    return '<div class="gx-ep-profile-inner">' +
+      '<h4 class="gx-ep-sec-title">参与画像摘要</h4>' +
+      '<p class="gx-ep-arch-sub">跨学年 ' + list.length + ' 场 · 4 个子类 · 与顶部 AI 卡口径一致</p>' +
+      '<div class="gx-ep-arch-kpis">' +
+        '<div><b>' + list.length + '</b><i>场</i><span>累计参与</span></div>' +
+        '<div><b>4</b><i>类</i><span>活动类型</span></div>' +
+        '<div><b>' + (deepest ? deepest.depth : 0) + '</b><i>分</i><span>最高参与深度</span></div>' +
+      '</div>' +
+      '<div class="gx-ep-gap"><b>类型齐、证据缺</b><p>' + gxEsc(d.gap) + '</p></div>' +
+      '<div class="gx-ep-consistency"><b>档案一致性</b><p>' + gxEsc(d.consistency) + '</p></div>' +
+      groups +
+      '<h4 class="gx-ep-sec-title">归档字段</h4>' +
+      '<ul class="gx-ep-arch-fields">' + d.fields.map(function (x) {
+        return '<li>' + gxEsc(x) + '</li>';
+      }).join('') + '</ul>' +
+      '</div>';
+  }
+
+  function gxEmSheet() {
+    var d = ca.employArchive, all = gxEmRecords();
+    var list = activeEmFilter === 'all' ? all
+      : all.filter(function (r) { return r.type === activeEmFilter; });
+    return '<div class="gx-sheet gx-sheet-em">' +
+      gxEmployAi() +
+      '<section class="gx-card gx-ep-panel">' +
+        '<div class="gx-ep-head">' +
+          '<div class="gx-ep-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
+          gxEmTabs(all) +
+        '</div>' +
+        gxEpKpis(all) +
+        '<div class="gx-ep-body">' +
+          '<div class="gx-ep-records">' +
+            '<h4 class="gx-ep-sec-title">逐场活动详情记录' +
+              ' <i>共 ' + list.length + ' 场 · 时间正序 · 三段记录可补录</i></h4>' +
+            '<div class="gx-ep-list">' +
+              (list.length ? list.map(gxEpCard).join('')
+                : '<div class="gx-ep-empty"><p>该子类下暂无就业活动记录。</p></div>') +
+            '</div>' +
+          '</div>' +
+          '<div class="gx-ep-profile">' +
+            '<div class="gx-ep-profile-scroll">' +
+              (activeEmArchive ? gxEpArchiveView(list) : gxEpProfile(list)) +
+            '</div>' +
+            '<div class="gx-ep-profile-foot">' +
+              (activeEmArchive
+                ? '<button type="button" class="gx-ep-archive-btn ghost" data-ep-archive="0">返回参与画像</button>'
+                : '<button type="button" class="gx-ep-archive-btn" data-ep-archive="1">查看参与档案</button>') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
+  function gxBindEm() {
+    document.querySelectorAll('[data-ep-filter]').forEach(function (b) {
+      b.onclick = function () {
+        activeEmFilter = b.getAttribute('data-ep-filter');
+        render();
+      };
+    });
+    document.querySelectorAll('[data-ep-note]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.getAttribute('data-ep-note');
+        if (activeEmNotes[id]) delete activeEmNotes[id];
+        else activeEmNotes[id] = true;
+        render();
+      };
+    });
+    document.querySelectorAll('[data-ep-archive]').forEach(function (b) {
+      b.onclick = function () {
+        activeEmArchive = b.getAttribute('data-ep-archive') === '1';
+        render();
+      };
+    });
+  }
+
+  /* ==========================================================================
+     v63 · 「大学生职业规划大赛 / 大学生创新大赛」详情页下方：参赛记录档案
+     --------------------------------------------------------------------------
+     为什么必须做：用户口径是「这两个成长档案的详情页，其实就是为了记录学生参与过的
+       赛事的相关信息」。补到 3 条记录后，职规赛 3 条全在第三年、创新赛 3 条全在第四年，
+       而档案默认打开是第四年 —— 不做这一步，默认进职规赛页下方就是「暂无相关记录」空态，
+       与「详情页就是记录参赛信息」的定位直接矛盾。
+     做法：新增参数化 gxCtSheet(kind)，kind = 'career' | 'innov'，与 gxContestAi(kind)
+       共用同一份 ca.contestSummary[kind]。两个赛事版式完全一致（同属「赛事」语义），
+       数据各自独立。gxSheet() 加两行路由，删掉即回滚到 gxModuleSheet()。
+       ① 左栏 = 参赛阶段时间线（纵向），每段：阶段名 + 晋级/获奖标记 + 日期学年 +
+          记录原文 + 三段证据状态（作品 / 分工 / 评委反馈）
+       ② 右栏 = 赛事画像（获奖与晋级统计 / 阶段完成度 / 证据完整度 / 归档口径）
+     数据同源：
+       阶段名、成熟度、三段证据状态取自 ca.contestSummary[kind].rounds（按时间正序与
+       记录一一对应）；日期、学年、记录原文取自 ca.gradeRecords（business_type 精确匹配）。
+       两条来源的条数必须相等 —— 不等时按记录实际条数渲染并降级阶段名为「第 N 阶段」，
+       不静默丢记录。成熟度为原型示意，图上与文案均已标注。
+     不编造成果：参赛作品、团队分工、评委反馈平台暂无数据，一律「未归档 / 未写明」。
+     类名 .gx-ct2-*（避开 v53 线上咨询已占用的 .gx-cs-* 与 v63 AI 卡的 .gx-ct-*）。
+     ========================================================================== */
+  ca.contestArchive = {
+    title: '我的参赛记录',
+    career: {
+      subtitle: '大学生职业规划大赛 · 院赛 → 校赛 → 决赛 3 个阶段 · 不受左栏年级筛选影响',
+      ability: '竞赛成长能力',
+      note: '参赛链由院级选拔赛、校级初赛、校级决赛三段组成；三段均只有阶段与奖项，' +
+        '规划书原文、答辩 PPT、本人承担的分工与评委反馈未随记录归档。'
+    },
+    innov: {
+      subtitle: '大学生创新大赛 · 申报 → 院评 → 决赛 3 个阶段 · 不受左栏年级筛选影响',
+      ability: '竞赛成长能力',
+      note: '参赛链由项目申报、院级初评、校级决赛三段组成；三段均只有阶段与奖项，' +
+        '项目计划书、路演 PPT、原型 Demo、团队分工与评委反馈未随记录归档。'
+    },
+    fields: ['参赛阶段（院赛 / 校赛 / 决赛）', '参赛时间 / 所在学年',
+      '晋级情况与奖项', '参赛作品（规划书 / 计划书 / PPT / Demo）',
+      '本人承担的分工', '评委反馈与复盘']
+  };
+
+  /* 从 gradeRecords 抽该赛事的参赛记录（按时间正序），与 rounds 按索引对齐。 */
+  function gxCtRecords(kind) {
+    var bt = kind === 'innov' ? '大学生创新大赛' : '大学生职业规划大赛';
+    var out = [];
+    Object.keys(ca.gradeRecords).forEach(function (grade) {
+      ca.gradeRecords[grade].forEach(function (r) {
+        if (r.business_type !== bt) return;
+        var desc = r.description || '';
+        var d = gxAaDate(r.created_at);
+        var pm = /获(?:得)?([^，。；]+)/.exec(desc);
+        out.push({
+          grade: grade, date: d, desc: desc,
+          promoted: /晋级/.test(desc),
+          prize: pm ? pm[1].trim() : ''
+        });
+      });
+    });
+    out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+    return out;
+  }
+
+  function gxCtSheet(kind) {
+    var a = ca.contestSummary[kind] || ca.contestSummary.career;
+    var meta = ca.contestArchive[kind] || ca.contestArchive.career;
+    var recs = gxCtRecords(kind);
+    var rounds = a.rounds || [];
+    var prizes = recs.filter(function (r) { return !!r.prize; }).length;
+    var promoted = recs.filter(function (r) { return r.promoted; }).length;
+
+    var timeline = recs.map(function (r, i) {
+      var rd = rounds[i] || {};
+      var name = rd.name || ('第 ' + (i + 1) + ' 阶段');
+      var marks = '';
+      if (r.promoted) marks += '<em class="gx-ct2-mark up">晋级</em>';
+      if (r.prize) marks += '<em class="gx-ct2-mark win">' + gxEsc(r.prize) + '</em>';
+      if (!marks) marks = '<em class="gx-ct2-mark">已参加</em>';
+      return '<article class="gx-ct2-stage">' +
+        '<div class="gx-ct2-rail"><i>' + (i + 1) + '</i></div>' +
+        '<div class="gx-ct2-body">' +
+          '<div class="gx-ct2-stage-head">' +
+            '<span class="gx-ct2-stage-name">' + gxEsc(name) + '</span>' +
+            marks +
+            '<span class="gx-ct2-stage-date">' + gxEsc(r.date) + ' · ' + gxEsc(r.grade) + '</span>' +
+          '</div>' +
+          '<p class="gx-ct2-desc">' + gxEsc(r.desc) + '</p>' +
+          '<div class="gx-ct2-evid">' +
+            '<span><label>参赛作品</label>未归档</span>' +
+            '<span><label>本人分工</label>未写明</span>' +
+            '<span><label>评委反馈</label>未沉淀</span>' +
+            (rd.score ? '<b>成熟度 ' + rd.score + '</b>' : '') +
+          '</div>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    var stages = [
+      { name: '阶段完成度', n: recs.length, total: rounds.length || recs.length, color: '#5CAD6A', hint: '院赛 → 校赛 → 决赛' },
+      { name: '晋级或获奖', n: recs.filter(function (r) { return r.promoted || r.prize; }).length, total: recs.length, color: '#E7B84B', hint: '有阶段结果，证书材料未归档' },
+      { name: '作品与分工', n: 0, total: recs.length, color: '#7FA8D0', hint: '作品原文与分工待补' }
+    ].map(function (s) {
+      var pct = s.total ? Math.round(s.n / s.total * 100) : 0;
+      return '<div class="gx-ct2-bar-row"><span><i style="background:' + s.color + '"></i>' + s.name + '</span>' +
+        '<div class="gx-ct2-bar-track"><i style="width:' + pct + '%;background:' + s.color + '"></i></div>' +
+        '<b>' + s.n + '/' + s.total + '</b><em>' + s.hint + '</em></div>';
+    }).join('');
+
+    return '<div class="gx-sheet gx-sheet-ct2">' +
+      gxContestAi(kind) +
+      '<section class="gx-card gx-ct2-panel">' +
+        '<div class="gx-ct2-head">' +
+          '<div class="gx-ct2-heading"><h3>' + gxEsc(ca.contestArchive.title) + '</h3>' +
+            '<p>' + gxEsc(meta.subtitle) + '</p></div>' +
+          '<div class="gx-ct2-badges">' +
+            '<span>' + recs.length + ' 个阶段</span>' +
+            '<span>' + promoted + ' 次晋级</span>' +
+            '<span>' + prizes + ' 项奖项</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="gx-ct2-body-wrap">' +
+          '<div class="gx-ct2-records">' +
+            '<h4 class="gx-ct2-sec-title">参赛阶段推进' +
+              ' <i>共 ' + recs.length + ' 段 · 时间正序 · 与顶部 AI 卡逐段对应</i></h4>' +
+            '<div class="gx-ct2-list">' + (timeline || '<div class="gx-ep-empty"><p>暂无参赛记录。</p></div>') + '</div>' +
+          '</div>' +
+          '<div class="gx-ct2-profile">' +
+            '<div class="gx-ct2-profile-inner">' +
+              '<h4 class="gx-ct2-sec-title">赛事画像</h4>' +
+              '<div class="gx-ct2-bars">' + stages + '</div>' +
+              '<div class="gx-ct2-note"><b>证据缺口</b><p>' + gxEsc(meta.note) + '</p></div>' +
+              '<h4 class="gx-ct2-sec-title">归档字段</h4>' +
+              '<ul class="gx-ct2-fields">' + ca.contestArchive.fields.map(function (x) {
+                return '<li>' + gxEsc(x) + '</li>';
+              }).join('') + '</ul>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+    '</div>';
+  }
+
   /* 内嵌详情模式：纸张风档案放进全局菜单壳内（保留全局侧栏与顶栏），整页自然滚动，
      不再整屏占满；导航底部保留「重新打开档案 / 返回」操作，Esc 同样可返回 */
   function gxArchiveEmbedded() {
@@ -3771,6 +4424,7 @@
       gxBindCr();
       gxBindMv();
       gxBindAa();
+      gxBindEm();
       syncUrl();
       return;
     }
