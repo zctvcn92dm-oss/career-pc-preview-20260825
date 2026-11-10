@@ -3879,9 +3879,10 @@
 .gx-rv-legend i.warn { background: #E7B84B; }
 .gx-rv-legend i.miss { background: #C9D2C0; }
 .gx-rv-body {
-  /* v70 两段式：纵向段落，面板整体滚动 */
-  display: block; min-height: 0; flex: 1; overflow-y: auto;
-  scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6;
+  /* v73 恢复左中右三栏：历史列表 / AI 诊断 / 简历纸面，各栏独立滚动 */
+  display: grid; grid-template-columns: minmax(0, 218px) minmax(0, 302px) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0; flex: 1;
 }
 .gx-rv-list, .gx-rv-diag, .gx-rv-paper-scroll {
   min-width: 0; min-height: 0; overflow-y: auto;
@@ -3892,10 +3893,11 @@
 
 /* ---- 左栏：简历列表卡 ---- */
 .gx-rv-list {
-  padding: 0 16px 4px;
+  padding: 0 14px 6px 16px; border-right: 1px solid #EDF1E8;
 }
 .gx-rv-list .gx-rv-sec-title { margin: 10px 0 8px; }
-.gx-rv-item-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.gx-rv-item-grid { display: block; }
+.gx-rv-item-grid .gx-rv-item { margin-bottom: 8px; }
 .gx-rv-item {
   display: flex; gap: 9px; width: 100%; text-align: left; align-items: flex-start;
   border: 1px solid #DFE8D6; border-radius: 10px; background: #F7FAF4;
@@ -3935,9 +3937,9 @@
   background: #F2F6EC; border-radius: 8px; padding: 7px 9px;
 }
 
-/* ---- 模块诊断：整宽 2 列折叠（v70 移到纸面下方） ---- */
-.gx-rv-diag { padding: 2px 16px 14px; }
-.gx-rv-sec-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; align-items: start; }
+/* ---- 中栏：AI 模块诊断单列折叠（v73 恢复三栏） ---- */
+.gx-rv-diag { padding: 2px 14px 12px; border-right: 1px solid #EDF1E8; }
+.gx-rv-sec-grid { display: block; }
 .gx-rv-diag-head {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   margin: 9px 0 6px;
@@ -3994,25 +3996,28 @@
 }
 .gx-rv-share-btn:hover { filter: brightness(1.05); }
 
-/* ---- 简历页面：整宽大纸面（v70） ---- */
+/* ---- 简历页面：右栏大纸面（v73 三栏下侧栏收窄） ---- */
 .gx-rv-paper {
   background: linear-gradient(160deg, #FDFEFB, #F8FBF5);
-  padding: 0 16px 10px;
+  padding: 0 14px 10px 14px;
+  display: flex; flex-direction: column; min-height: 0;
 }
+.gx-rv-paper .gx-rv-sec-title { flex: none; }
+.gx-rv-paper-scroll { flex: 1; min-height: 0; }
 .gx-rv-sheet2 {
-  display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+  display: grid; grid-template-columns: minmax(0, 128px) minmax(0, 1fr);
   border-radius: 6px; overflow: hidden;
   box-shadow: 0 3px 14px rgba(47, 56, 43, .12);
   font-size: 10px; color: #3A4438; background: #FFFFFF;
 }
 .gx-rv-sheet-side {
-  background: #2D6A4F; color: #E7F2EB; padding: 12px 11px 14px;
+  background: #2D6A4F; color: #E7F2EB; padding: 10px 9px 12px;
 }
 .gx-rv-photo {
   display: flex; align-items: center; justify-content: center;
-  width: 108px; height: 138px; margin: 4px auto 14px;
+  width: 80px; height: 102px; margin: 2px auto 12px;
   border: 1.5px dashed rgba(231, 242, 235, .5); border-radius: 4px;
-  font-size: 11px; color: rgba(231, 242, 235, .6);
+  font-size: 10px; color: rgba(231, 242, 235, .6);
 }
 .gx-rv-sheet-side h5 {
   margin: 0 0 6px; font-size: 10.5px; font-weight: 700; color: #FFFFFF;
@@ -4026,7 +4031,7 @@
 .gx-rv-skills { margin: 0; font-size: 9.5px; line-height: 1.55; color: rgba(231, 242, 235, .92); }
 .gx-rv-sheet-main { padding: 12px 14px 12px; min-width: 0; }
 .gx-rv-sheet-name {
-  margin: 0 0 9px; font-size: 22px; font-weight: 800; color: #2F382B; letter-spacing: 4px;
+  margin: 0 0 9px; font-size: 19px; font-weight: 800; color: #2F382B; letter-spacing: 3px;
   padding-bottom: 7px; border-bottom: 2.5px solid #2D6A4F;
 }
 .gx-rv-sheet-block { margin-bottom: 9px; }
@@ -4057,8 +4062,15 @@
 .gx-rv-paper-empty { margin: 0; color: #A9B3A2; font-size: 9.5px; }
 .gx-rv-paper-note { margin: 8px 0 0; font-size: 9.5px; color: #A9B3A2; }
 @media (max-height: 860px) {
-  /* v70：body 已是 block 整体滚动，矮屏仅需收窄诊断两列 */
-  .gx-rv-sec-grid { grid-template-columns: minmax(0, 1fr); }
+  /* v73 矮屏：改回块级堆叠、面板整体滚动（v70 模式，行为可预期，不会压瘪栏内容） */
+  .gx-rv-body {
+    display: block;
+    overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: #A9C48F #EEF3E6;
+  }
+  .gx-rv-list, .gx-rv-diag, .gx-rv-paper-scroll { overflow: visible; }
+  .gx-rv-list { border-right: 0; border-bottom: 1px solid #EDF1E8; padding-bottom: 10px; }
+  .gx-rv-diag { border-right: 0; border-bottom: 1px solid #EDF1E8; padding-bottom: 14px; }
 }
 
 /* ==========================================================================

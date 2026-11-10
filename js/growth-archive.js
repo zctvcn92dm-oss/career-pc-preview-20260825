@@ -5014,8 +5014,8 @@
             '<span><i class="miss"></i>待补充</span>' +
           '</div>' +
         '</div>' +
-        /* v70 照产品截图两段式：历史简历横向列表 → 简历页面整宽纸面 → 模块诊断整宽在下 */
-        '<div class="gx-rv-body">' + gxRvList() + gxRvPaper(v) + gxRvDiag(v) + '</div>' +
+        /* v73 恢复左中右三栏：历史简历列表 | AI 模块诊断 | 简历纸面大图（学生少滚动，切换即三区联动） */
+        '<div class="gx-rv-body">' + gxRvList() + gxRvDiag(v) + gxRvPaper(v) + '</div>' +
       '</section>' +
     '</div>';
   }
