@@ -56,6 +56,10 @@
       { created_at: '2024年06月25日 16:45:12', business_type: '生涯体验周', ability_dimension: '职业认知能力', description: '参加了【行业体验周 · 互联网产品经理岗位】生涯体验周活动' },
       { created_at: '2024年05月16日 10:08:33', business_type: '生涯活动', ability_dimension: '职业认知能力', description: '参加了【企业开放日 · 数字创意产业园区参访】生涯活动' },
       { created_at: '2024年04月08日 21:19:44', business_type: '线上课', ability_dimension: '职业规划能力', description: '完成【行业认知与职业选择】线上课学习，累计课时 10 节' },
+      /* v60：补齐学生自己做过的历史简历版本（3 版迭代的第 1 版）。
+         时间与同年线上咨询 ol3「实习简历里该突出哪些经历？」（2024-03-12）对应。
+         版本明细为示意数据，需接平台真实简历版本库；本次不改其它记录。 */
+      { created_at: '2024年03月18日 14:22:06', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '使用【AI简历】创建「实习初版」简历，面向暑期实习通用投递，岗位匹配度 52%' },
       /* v52：产品口径对齐 —— 微视频是「职场礼仪 / 职场问题处理」短视频，学生可点赞、转发。
          原记录写的是「数字媒体行业岗位解读」，与产品定义不符，改为职场礼仪主题并带上互动动作，
          使 AI 总结、档案时间轴、微视频模块记录三处口径一致。 */
@@ -65,10 +69,15 @@
     '第三年': [
       { created_at: '2025年06月30日 17:26:09', business_type: '大学生职业规划大赛', ability_dimension: '竞赛成长能力', description: '参加了【大学生职业规划大赛】，获得校级二等奖' },
       { created_at: '2025年05月21日 20:41:35', business_type: 'AI面试', ability_dimension: '求职表现能力', description: '完成【AI模拟面试】训练，岗位：数字媒体运营，综合评分 82 分' },
-      { created_at: '2025年04月17日 13:55:28', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '使用【AI简历】生成并优化了个人简历，岗位匹配度 78%' },
+      /* v60：3 版迭代的第 3 版（现行版）。只补版本名与目标岗位，
+         日期 / business_type / ability_dimension / 匹配度均保持原值，避免影响年级时间轴。 */
+      { created_at: '2025年04月17日 13:55:28', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '使用【AI简历】优化为「求职现行版」简历，锁定数字媒体运营岗，岗位匹配度 78%' },
       { created_at: '2025年03月10日 15:14:03', business_type: '职业礼仪', ability_dimension: '职业素养能力', description: '完成【职场礼仪与形象管理】线上课学习，累计课时 8 节' },
       { created_at: '2024年12月03日 18:33:41', business_type: '职场沟通技巧', ability_dimension: '职业素养能力', description: '完成【职场沟通技巧】训练营，累计课时 8 节' },
-      { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' }
+      { created_at: '2024年10月28日 09:47:16', business_type: '就业活动', ability_dimension: '求职表现能力', description: '参加了【2025届实习生双选洽谈会】就业活动' },
+      /* v60：3 版迭代的第 2 版，对应同年预约面询 ap1（2024-06-18）
+         「简历里的项目经历怎么写，才更匹配数字媒体运营岗？」。 */
+      { created_at: '2024年06月20日 16:08:41', business_type: 'AI简历', ability_dimension: '求职表现能力', description: '根据线下面询建议优化为「岗位定向版」简历，对准数字媒体运营实习生岗，岗位匹配度 65%' }
     ],
     '第四年': [
       { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
@@ -2322,6 +2331,76 @@
     '</section>';
   }
 
+  /* ==========================================================================
+     v60 · 「AI简历」专属 AI 总结卡：按学生自己做过的「历史简历版本」做总结 / 建议
+     --------------------------------------------------------------------------
+     用户口径：AI 总结及建议要和学生自己做过的历史简历相关，右上角图也要与总结关联，
+              可以统计图或分析图。
+     原实现：与其余通用模块共用 gxAssessAi() → ca.assessmentSummary，
+             文案是「历次职业测评 / 职业锚 / 人才星图」，环形图是 6 项测评维度，与简历无关。
+     做法：不改通用 gxAssessAi()，新增 gxResumeAi()。右上角换成
+       ①「历史简历 · 岗位匹配度」3 条横条 —— 统计图，宽度按 52/65/78%
+       ②「简历模块 → 待补齐」3 行关联 —— 分析图，色点与短板模块一一对应
+     数据自洽（v60 已把 3 版写进 ca.gradeRecords 时间轴，三处口径一致）：
+       实习初版 2024-03-18 / 52%（对应第二年线上咨询 ol3「实习简历该突出哪些经历」）
+       岗位定向版 2024-06-20 / 65%（对应第三年预约面询 ap1「项目经历怎么匹配运营岗」）
+       求职现行版 2025-04-17 / 78%（原有记录，只补版本名与目标岗位，未改日期与维度）
+     版本明细属示意数据，需接平台真实简历版本库；投递结果 / 面试反馈平台暂无数据，
+     文案只写「未记录 / 未闭环」，不编造成果。
+     类名避开 .gx-ac-*(v55) / .gx-cs-*(v53) / .gx-ap-*(v54) / .gx-vd-*(v52)，
+     统一用 .gx-ai--resume / .gx-rs-*；回滚：删掉 gxModuleSheet 中这一行分支即可。
+     ========================================================================== */
+  ca.resumeSummary = {
+    diag: '平台归档了学生自己做过的 3 版简历：第二年 3 月「实习初版」面向暑期实习通用投递，第三年 6 月面询后改为「岗位定向版」对准数字媒体运营实习生，2025 年 4 月「求职现行版」锁定数字媒体运营岗，匹配度 52% → 65% → 78%。迭代脉络可追溯：两次咨询分别问「实习简历该突出哪些经历」「项目经历怎么写更匹配运营岗」，AI 面试 82 分与毕业意向共同收窄方向，两项校级奖项提供素材。短板有三：三版都停在「改简历」，未记录投给哪些岗位与反馈；第四年投递 3 家企业、报名 8 场校招后简历未再更新；现行版项目经历仍是描述性表述，缺量化成果与作品集链接。总体判断：已从「堆经历」走到「按岗位 JD 组织内容」，但「改动 → 投递 → 结果」未闭环。',
+    advice: '以现行版为基线，按目标岗位 JD 拆出内容策划、数据复盘、视觉表达三项能力，用 STAR 重写两段项目经历并补量化结果；关联「基于AIGC的校园文创设计平台」作品集与两项校级奖项。每次投递记录所用版本、岗位与面试反馈，形成「版本 → 岗位 → 结果」闭环，毕业学年 8 场校招优先补投递结果。院校侧统一简历版本管理，对只有生成记录、无反馈的版本做提醒，并把岗位关键词与量化成果校验接入 AI 简历诊断，让档案能回答「哪一版更有效」。',
+    stats: {
+      versions: [
+        { name: '实习初版', date: '2024-03', job: '暑期实习 · 通用投递', match: 52, color: '#C9D8B8' },
+        { name: '岗位定向版', date: '2024-06', job: '数字媒体运营实习生', match: 65, color: '#8FBF5A' },
+        { name: '求职现行版', date: '2025-04', job: '数字媒体运营', match: 78, color: '#5CAD6A' }
+      ],
+      gaps: [
+        { module: '项目经历', action: 'STAR 重写 + 量化', color: '#E7B84B' },
+        { module: '作品集链接', action: '关联竞赛作品', color: '#7FA8D0' },
+        { module: '投递闭环', action: '版本→岗位→结果', color: '#B9A0D0' }
+      ]
+    }
+  };
+
+  function gxResumeAi() {
+    var a = ca.resumeSummary, s = a.stats;
+    var bars = s.versions.map(function (v) {
+      return '<li class="gx-rs-bar" title="' + gxEsc(v.name + ' · ' + v.job + ' · ' + v.match + '%') + '">' +
+        '<span class="gx-rs-bar-name">' + gxEsc(v.name) + '<i>' + v.date + '</i></span>' +
+        '<div class="gx-rs-bar-track"><i style="width:' + v.match + '%;background:' + v.color + '"></i></div>' +
+        '<b>' + v.match + '%</b></li>';
+    }).join('');
+    var gaps = s.gaps.map(function (g) {
+      return '<li class="gx-rs-gap"><i style="background:' + g.color + '"></i>' +
+        '<span class="gx-rs-gap-module">' + gxEsc(g.module) + '</span>' +
+        '<em>→</em><b>' + gxEsc(g.action) + '</b></li>';
+    }).join('');
+    return '<section class="gx-card gx-assess-ai gx-ai--resume">' +
+      '<div class="gx-assess-ai-text">' +
+        '<h3 class="gx-assess-ai-title">AI总结及建议</h3>' +
+        '<p class="gx-assess-ai-p"><b>诊断总结：</b>' + a.diag + '</p>' +
+        '<p class="gx-assess-ai-p"><b>后续建议：</b>' + a.advice + '</p>' +
+      '</div>' +
+      '<div class="gx-assess-ai-viz gx-rs-viz">' +
+        '<div class="gx-rs-chart">' +
+          '<div class="gx-rs-chart-head"><h4>历史简历 · 岗位匹配度</h4>' +
+            '<span>3 版 · 52% → 78%</span></div>' +
+          '<ul class="gx-rs-bars">' + bars + '</ul>' +
+          '<div class="gx-rs-gaps-box">' +
+            '<h4>简历模块 → 待补齐</h4>' +
+            '<p class="gx-rs-gaps-note">现行版仍有 3 处未形成证据</p>' +
+            '<ul class="gx-rs-gaps">' + gaps + '</ul>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function gxModuleSheet() {
     /* v46：下方「模块记录 + 模块说明」合成「一张卡」。
        原来 hint 自带 .gx-card.gx-bottom、与 gxModuleCard() 的 .gx-card.gx-module
@@ -2349,6 +2428,8 @@
     else if (activeSideTag === '线上咨询') ai = gxConsultAi();
     else if (activeSideTag === '预约咨询') ai = gxApptAi();
     else if (activeSideTag === '生涯活动') ai = gxActAi();
+    /* v60：AI简历改用「学生历史简历版本」专属 AI 卡；删掉这一行即回到通用测评卡。 */
+    else if (activeSideTag === 'AI简历') ai = gxResumeAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
