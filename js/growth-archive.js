@@ -1726,19 +1726,29 @@
     var list = d.records.filter(function (r) {
       return activeIv2Status === 'all' || r.st === activeIv2Status;
     });
+    /* v74 状态徽章统一映射：已完成绿 / 未结束灰 / 生成中黄 / 失败红 */
+    var stMap = {
+      done: ['已完成', 'ok'], undone: ['面试未结束', 'mut'],
+      generating: ['报告生成中', 'warn'], failed: ['报告生成失败', 'bad']
+    };
     var items = list.length ? list.map(function (r) {
-      var right = r.report ?
-        '<span class="gx-iv2-rec-score">' + r.score + '</span><span class="gx-iv2-rec-badge">不及格</span>' +
-        '<button type="button" class="gx-iv2-rec-view" data-iv2-report="' + r.score + '">查看报告</button>' :
-        '<span class="gx-iv2-rec-state">' + r.state + '</span>';
-      var dims = d.dims.map(function (n, i) {
-        return '<span class="gx-iv2-dim">' + n + ' <i>' + r.dims[i] + '</i></span>';
-      }).join('');
+      var st = stMap[r.st] || [r.state || '未完成', 'mut'];
+      /* v74 信息分层：日期+状态 → 维度 chips（仅已完成，未完成不再误导性展示 0 分）→ 分数行独立 */
+      var body = r.report
+        ? '<div class="gx-iv2-dims">' + d.dims.map(function (n, i) {
+            return '<span class="gx-iv2-dim">' + n + ' <i>' + r.dims[i] + '</i></span>';
+          }).join('') + '</div>' +
+          '<div class="gx-iv2-rec-foot">' +
+            '<span class="gx-iv2-rec-score' + (r.pass ? ' pass' : '') + '">' + r.score + '<i>分</i></span>' +
+            '<span class="gx-iv2-rec-badge' + (r.pass ? ' pass' : '') + '">' + (r.pass ? '及格' : '不及格') + '</span>' +
+            '<button type="button" class="gx-iv2-rec-view" data-iv2-report="' + r.score + '">查看报告</button>' +
+          '</div>'
+        : '<p class="gx-iv2-rec-hint">完成面试后将自动生成四维能力得分与 AI 改进建议</p>';
       return '<article class="gx-iv2-rec"><span class="gx-iv2-dot"></span>' +
         '<div class="gx-iv2-rec-box">' +
           '<div class="gx-iv2-rec-top"><div class="gx-iv2-rec-date"><b>' + r.date + '</b><em>' + r.time + '</em></div>' +
-          '<div class="gx-iv2-rec-right">' + right + '</div></div>' +
-          '<div class="gx-iv2-dims">' + dims + '</div>' +
+          '<span class="gx-iv2-rec-state st-' + st[1] + '">' + st[0] + '</span></div>' +
+          body +
         '</div></article>';
     }).join('') : '<div class="gx-iv2-empty">暂无符合条件的面试记录</div>';
     return '<section class="gx-card gx-iv2-records">' +
