@@ -5016,17 +5016,18 @@
     var v = d.versions[activeRvIdx] || d.versions[0];
     return '<div class="gx-sheet gx-sheet-rv">' +
       gxResumeAi() +
-      '<section class="gx-card gx-rv-panel">' +
-        '<div class="gx-rv-head">' +
-          '<div class="gx-rv-heading"><h3>' + gxEsc(d.title) + '</h3><p>' + gxEsc(d.subtitle) + '</p></div>' +
-          '<div class="gx-rv-legend">' +
-            '<span><i class="ok"></i>表现良好</span><span><i class="warn"></i>存在优化空间</span>' +
-            '<span><i class="miss"></i>待补充</span>' +
-          '</div>' +
+      /* v78：按 AI 面试「左窄列表 + 右宽报告」两栏骨架重排。
+         左栏 = 历史简历列表 + AI 模块诊断（各自成卡，整体滚动）；
+         右栏 = 简历纸面（作为报告区，内部滚动）。顶层 gxResumeAi（AI 总结卡）保持不变。 */
+      '<div class="gx-rv-bottom">' +
+        '<div class="gx-rv-left">' +
+          gxRvList() +
+          gxRvDiag(v) +
         '</div>' +
-        /* v73 恢复左中右三栏：历史简历列表 | AI 模块诊断 | 简历纸面大图（学生少滚动，切换即三区联动） */
-        '<div class="gx-rv-body">' + gxRvList() + gxRvDiag(v) + gxRvPaper(v) + '</div>' +
-      '</section>' +
+        '<div class="gx-rv-right">' +
+          gxRvPaper(v) +
+        '</div>' +
+      '</div>' +
     '</div>';
   }
 
