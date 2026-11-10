@@ -19,8 +19,8 @@
   ca.sideTagGroups = [
     { stage: '', icon: 1, tags: ['基本信息'] },
     { stage: '职业探索', icon: 1, tags: ['线上课', '微视频', '线上咨询', '预约咨询', '职业测评'] },
-    /* v72：「AI助理」改名「AI智能助手」并移入职业规划组（用户口径） */
-    { stage: '职业规划', icon: 0, tags: ['生涯体验周', '生涯活动', 'AI智能助手'] },
+    /* v72：「AI助理」改名「生涯助理」并移入职业规划组（用户口径） */
+    { stage: '职业规划', icon: 0, tags: ['生涯体验周', '生涯活动', '生涯助理'] },
     { stage: '职业实训', icon: 1, tags: ['AI简历', 'AI面试', '职业礼仪', '职场沟通技巧', '就业活动'] },
     { stage: '竞赛成长', icon: 0, tags: ['大学生职业规划大赛', '大学生创新大赛'] },
     { stage: '就业实习', icon: 1, tags: ['毕业意向', '宣讲会', '双选会'] }
@@ -92,7 +92,7 @@
          职业方向 → 简历写法 → 宣讲会挑选，时间与咨询 / 简历 / 校招记录呼应，
          与 ca.assistSummary.stats.rounds 逐条对应。AI助理不在 v58 AA_TYPE_MAP，
          生涯活动 21 场口径不受影响。 */
-      { created_at: '2023年10月15日 20:42:19', business_type: 'AI智能助手', ability_dimension: '自我认知能力', description: '向 AI 生涯助理提问「数字媒体技术专业的就业方向有哪些」，获得岗位方向与能力要求梳理' },
+      { created_at: '2023年10月15日 20:42:19', business_type: '生涯助理', ability_dimension: '自我认知能力', description: '向 AI 生涯助理提问「数字媒体技术专业的就业方向有哪些」，获得岗位方向与能力要求梳理' },
       { created_at: '2023年09月12日 11:03:58', business_type: '职业测评', ability_dimension: '自我认知能力', description: '完成【职业价值观测评】测评，测评结果是：成就、独立、认同' }
     ],
     '第三年': [
@@ -136,7 +136,7 @@
       /* v64：毕业意向演变第 2 段 —— 承接 2024-06-20 简历「岗位定向版」，早于第四年 2024-10-12 正式填报。 */
       { created_at: '2024年08月30日 15:47:12', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '更新毕业意向：结合简历岗位定向优化与暑期实习准备，倾向直接就业 · 数字媒体方向' },
       /* v64：AI助理第 2 次提问（简历写法）—— 直接催生 2024-06-20 之后简历继续迭代与 AI 面试训练。 */
-      { created_at: '2024年07月06日 21:18:44', business_type: 'AI智能助手', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「数字媒体运营岗的简历应该怎么写」，获得简历模块建议后转向 AI 简历继续优化' }
+      { created_at: '2024年07月06日 21:18:44', business_type: '生涯助理', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「数字媒体运营岗的简历应该怎么写」，获得简历模块建议后转向 AI 简历继续优化' }
     ],
     '第四年': [
       { created_at: '2024年10月12日 09:35:21', business_type: '毕业意向', ability_dimension: '职业规划能力', description: '填报了毕业意向，意向方向为：直接就业 · 数字媒体运营类岗位' },
@@ -154,7 +154,7 @@
       { created_at: '2024年09月22日 00:46:58', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中建西部建设湖南有限公司】宣讲会' },
       /* v64：AI助理第 3 次提问（宣讲会挑选）—— 呼应 9 月集中报名的 6 家不对口宣讲会，
          提问在报名之后发生，AI 卡用它点出「行业筛选建议未被应用」这一断层。 */
-      { created_at: '2024年09月20日 19:15:27', business_type: 'AI智能助手', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「9 月的宣讲会这么多，怎么挑跟数字媒体运营岗对口的」，获得行业筛选建议' },
+      { created_at: '2024年09月20日 19:15:27', business_type: '生涯助理', ability_dimension: '求职表现能力', description: '向 AI 生涯助理提问「9 月的宣讲会这么多，怎么挑跟数字媒体运营岗对口的」，获得行业筛选建议' },
       { created_at: '2024年09月18日 16:39:02', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【长沙理工大学2025届毕业生秋季综合双选会（第一场）暨第八届校友企业专场招聘会】双选会' },
       { created_at: '2024年09月18日 15:39:57', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【安克创新科技股份有限公司深圳分公司】宣讲会' },
       { created_at: '2024年09月16日 13:11:22', business_type: '校招活动参与情况', ability_dimension: '求职表现能力', description: '报名了【中石化湖南石油化工有限公司】宣讲会' },
@@ -3097,7 +3097,7 @@
     else if (activeSideTag === '毕业意向') ai = gxIntentionAi();
     else if (activeSideTag === '宣讲会') ai = gxTalkAi();
     else if (activeSideTag === '双选会') ai = gxFairAi();
-    else if (activeSideTag === 'AI智能助手') ai = gxAssistAi();
+    else if (activeSideTag === '生涯助理') ai = gxAssistAi();
     else if (activeSideTag === '线上课') ai = gxAssessAi(ca.onlineCourseSummary, 'gx-ai--course');
     else ai = gxAssessAi();
     return '<div class="gx-sheet gx-sheet-module">' +
